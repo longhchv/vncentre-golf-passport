@@ -34,7 +34,8 @@
     "copy": "Chép",
     "copied": "Đã chép",
     "remove": "Gỡ",
-    "search": "Tìm"
+    "search": "Tìm",
+    "cancel": "Huỷ"
   },
   "landing": {
     "headline": "Hồ sơ golf chính thức của con",
@@ -474,5 +475,101 @@
       "duplicate_in_file": "Trùng với dòng {{row}} trong file.",
       "duplicate_existing": "Nghi trùng với học viên đã có trong hệ thống."
     }
+  },
+  "codes": {
+    "invalidChars": "Mã không hợp lệ. Lưu ý mã không có số 0, số 1, chữ I và chữ O.",
+    "wrongLength": "Mã chưa đủ ký tự. Mã sổ có 8 ký tự, dạng XXXX-XXXX.",
+    "hint": "Gõ chữ thường hay có gạch đều được."
+  },
+  "scanner": {
+    "hint": "Đưa mã QR trên sổ vào khung vàng.",
+    "denied": "Bạn chưa cho phép dùng camera. Hãy bật quyền camera cho trình duyệt rồi thử lại, hoặc chọn Gõ mã.",
+    "noCamera": "Không tìm thấy camera trên thiết bị này. Hãy chọn Gõ mã.",
+    "failed": "Không mở được camera. Hãy chọn Gõ mã."
+  },
+  "passportStatus": {
+    "unassigned": "Chưa gán",
+    "assigned": "Đã gán",
+    "active": "Đang dùng",
+    "lost": "Báo mất",
+    "void": "Đã huỷ",
+    "retired": "Sổ cấp trước"
+  },
+  "passports": {
+    "assign": "Gán sổ",
+    "assigned": "Đã gán sổ {{code}} cho {{name}}",
+    "alreadyAssigned": "Sổ {{code}} đã được gán cho {{name}} từ trước",
+    "mode": {
+      "scan": "Quét QR",
+      "type": "Gõ mã"
+    },
+    "code": "Mã sổ",
+    "student": "Học viên",
+    "batch": "Lô",
+    "issuedAt": "Ngày cấp",
+    "expiresAt": "Hạn",
+    "activatedAt": "Ngày kích hoạt",
+    "voidReason": "Lý do huỷ",
+    "history": "Lịch sử thay đổi",
+    "created": "Tạo mã",
+    "void": "Huỷ sổ",
+    "confirmVoid": "Xác nhận huỷ sổ",
+    "voided": "Đã huỷ sổ",
+    "errors": {
+      "passport_not_found": "Không tìm thấy mã sổ này.",
+      "passport_not_available": "Sổ này không gán được (trạng thái: {{status}}).",
+      "student_has_passport": "Học viên đã có sổ cùng cấp ({{status}}). Nếu mất sổ, hãy dùng quy trình báo mất.",
+      "student_not_found": "Không tìm thấy học viên.",
+      "reason_required": "Hãy nhập lý do.",
+      "passport_not_voidable": "Không huỷ được sổ ở trạng thái {{status}}.",
+      "batch_not_found": "Không tìm thấy lô mã."
+    },
+    "createBatch": "Tạo lô mã",
+    "findByCode": "Tìm sổ theo mã (XXXX-XXXX)",
+    "noBatches": "Chưa có lô mã nào. Bấm \"Tạo lô mã\" để bắt đầu.",
+    "printMethod": {
+      "decal": "Decal dán",
+      "variable_print": "In trực tiếp"
+    },
+    "printMethodLabel": "Cách in",
+    "total": "{{count}} sổ",
+    "exported": "Đã xuất file",
+    "notExported": "Chưa xuất file",
+    "quantityRange": "Số lượng từ 1 đến 5.000.",
+    "batchName": "Tên lô",
+    "batchNameHint": "Ví dụ: Decal CLB Tô Vĩnh Diện 09/2026",
+    "quantity": "Số lượng",
+    "generate": "Sinh mã",
+    "qrPointsTo": "QR trỏ tới {{url}}",
+    "exportCsv": "CSV cho nhà in",
+    "exportPdf": "PDF tờ decal",
+    "bulkAssign": "Gán hàng loạt theo lớp",
+    "pdfSummary": "{{count}} tem · {{pages}} trang · {{perPage}} tem/trang (khổ A4)",
+    "layout": {
+      "columns": "Số cột",
+      "rows": "Số hàng",
+      "width": "Rộng tem (mm)",
+      "height": "Cao tem (mm)",
+      "marginLeft": "Lề trái (mm)",
+      "marginTop": "Lề trên (mm)",
+      "gapX": "Khoảng cách ngang (mm)",
+      "gapY": "Khoảng cách dọc (mm)",
+      "cutLines": "Vẽ viền tem (để căn chỉnh khi in thử)",
+      "hint": "Nên in thử 1 trang trên giấy thường, đặt lên tờ decal để kiểm tra rồi mới in hàng loạt.",
+      "too_small": "Kích thước tem quá nhỏ.",
+      "too_big": "Bố cục vượt khổ A4 (210 × 297 mm). Hãy giảm số cột/hàng hoặc lề."
+    },
+    "downloadPdf": "Tải PDF",
+    "bulkHint": "Hệ thống gán lần lượt theo danh sách lớp (tên A→Z), bỏ qua em đã có sổ cùng cấp. Sau đó tải danh sách đối chiếu để dán đúng sổ.",
+    "bulkRun": "Gán sổ",
+    "bulkDone": "Đã gán {{count}} sổ",
+    "bulkResult": {
+      "assigned": "Vừa gán",
+      "already_has": "Đã có sổ",
+      "batch_empty": "Lô hết sổ"
+    },
+    "downloadList": "Tải danh sách đối chiếu",
+    "studentSection": "Sổ Passport",
+    "none": "Chưa có sổ."
   }
 }

@@ -34,7 +34,8 @@
     "copy": "Copy",
     "copied": "Copied",
     "remove": "Remove",
-    "search": "Search"
+    "search": "Search",
+    "cancel": "Cancel"
   },
   "landing": {
     "headline": "Your child's official golf record",
@@ -474,5 +475,101 @@
       "duplicate_in_file": "Duplicates row {{row}} in the file.",
       "duplicate_existing": "Possible duplicate of a student already in the system."
     }
+  },
+  "codes": {
+    "invalidChars": "Invalid code. Note that codes never contain the digits 0 or 1, or the letters I or O.",
+    "wrongLength": "The code is too short. Passport codes have 8 characters, like XXXX-XXXX.",
+    "hint": "Lowercase and dashes are fine."
+  },
+  "scanner": {
+    "hint": "Place the passport QR code inside the gold frame.",
+    "denied": "Camera access was not allowed. Enable camera permission for your browser and try again, or choose Type code.",
+    "noCamera": "No camera found on this device. Please choose Type code.",
+    "failed": "Could not open the camera. Please choose Type code."
+  },
+  "passportStatus": {
+    "unassigned": "Unassigned",
+    "assigned": "Assigned",
+    "active": "Active",
+    "lost": "Reported lost",
+    "void": "Void",
+    "retired": "Previous passport"
+  },
+  "passports": {
+    "assign": "Assign passport",
+    "assigned": "Passport {{code}} assigned to {{name}}",
+    "alreadyAssigned": "Passport {{code}} was already assigned to {{name}}",
+    "mode": {
+      "scan": "Scan QR",
+      "type": "Type code"
+    },
+    "code": "Passport code",
+    "student": "Student",
+    "batch": "Batch",
+    "issuedAt": "Issued",
+    "expiresAt": "Expires",
+    "activatedAt": "Activated",
+    "voidReason": "Void reason",
+    "history": "Change history",
+    "created": "Code created",
+    "void": "Void passport",
+    "confirmVoid": "Confirm void",
+    "voided": "Passport voided",
+    "errors": {
+      "passport_not_found": "Passport code not found.",
+      "passport_not_available": "This passport cannot be assigned (status: {{status}}).",
+      "student_has_passport": "The student already has a passport of this tier ({{status}}). If it was lost, use the lost-passport process.",
+      "student_not_found": "Student not found.",
+      "reason_required": "Please enter a reason.",
+      "passport_not_voidable": "A passport with status {{status}} cannot be voided.",
+      "batch_not_found": "Batch not found."
+    },
+    "createBatch": "Create code batch",
+    "findByCode": "Find passport by code (XXXX-XXXX)",
+    "noBatches": "No code batches yet. Click \"Create code batch\" to start.",
+    "printMethod": {
+      "decal": "Sticker (decal)",
+      "variable_print": "Direct print"
+    },
+    "printMethodLabel": "Print method",
+    "total": "{{count}} passports",
+    "exported": "Exported",
+    "notExported": "Not exported",
+    "quantityRange": "Quantity must be between 1 and 5,000.",
+    "batchName": "Batch name",
+    "batchNameHint": "E.g. To Vinh Dien Club stickers 09/2026",
+    "quantity": "Quantity",
+    "generate": "Generate codes",
+    "qrPointsTo": "QR codes point to {{url}}",
+    "exportCsv": "CSV for printer",
+    "exportPdf": "Sticker sheet PDF",
+    "bulkAssign": "Bulk assign by class",
+    "pdfSummary": "{{count}} stickers · {{pages}} pages · {{perPage}} per page (A4)",
+    "layout": {
+      "columns": "Columns",
+      "rows": "Rows",
+      "width": "Sticker width (mm)",
+      "height": "Sticker height (mm)",
+      "marginLeft": "Left margin (mm)",
+      "marginTop": "Top margin (mm)",
+      "gapX": "Horizontal gap (mm)",
+      "gapY": "Vertical gap (mm)",
+      "cutLines": "Draw sticker outlines (for test prints)",
+      "hint": "Print one test page on plain paper and hold it against the sticker sheet before printing in bulk.",
+      "too_small": "Sticker size is too small.",
+      "too_big": "The layout does not fit A4 (210 × 297 mm). Reduce columns/rows or margins."
+    },
+    "downloadPdf": "Download PDF",
+    "bulkHint": "Passports are assigned in class-list order (names A→Z), skipping students who already have a passport of this tier. Then download the matching list to stick the right passport on each booklet.",
+    "bulkRun": "Assign passports",
+    "bulkDone": "{{count}} passports assigned",
+    "bulkResult": {
+      "assigned": "Assigned now",
+      "already_has": "Already has one",
+      "batch_empty": "Batch empty"
+    },
+    "downloadList": "Download matching list",
+    "studentSection": "Passports",
+    "none": "No passport yet."
   }
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Plus, Search, Trash2, UserMinus } from 'lucide-react'
+import { ArrowLeft, BookMarked, Plus, Search, Trash2, UserMinus } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { errorMessage } from '@/lib/db'
 import { useLocalized } from '@/lib/i18nField'
@@ -14,6 +14,9 @@ import { useToast } from '@/components/ui/toast'
 import { RosterTable } from '@/features/classes/RosterTable'
 import { ClassCode } from '@/features/classes/ClassCode'
 import { useClassLookups } from '@/features/admin/ClassesPage'
+import { AssignPassportDialog } from '@/features/passports/AssignPassportDialog'
+import { formatCode } from '@/lib/codes'
+import { Badge } from '@/components/ui/card'
 import type { AdminUserRow, ClassRow, RosterRow, StudentSearchRow } from '@/lib/types'
 
 const CLASS_STAFF_ROLES = ['coach', 'head_coach', 'assistant', 'pe_teacher'] as const
@@ -35,6 +38,7 @@ export function ClassDetailPage() {
   const { schools, years, programs } = useClassLookups()
   const [addStudentOpen, setAddStudentOpen] = useState(false)
   const [addStaffOpen, setAddStaffOpen] = useState(false)
+  const [assignFor, setAssignFor] = useState<{ id: string; full_name: string } | null>(null)
 
   const cls = useQuery({
     queryKey: ['class', classId],
@@ -51,6 +55,21 @@ export function ClassDetailPage() {
       const { data, error } = await supabase!.rpc('class_roster', { p_class_id: classId })
       if (error) throw error
       return data as RosterRow[]
+    },
+  })
+
+  const studentIds = (roster.data ?? []).map((r) => r.student_id)
+  const passports = useQuery({
+    queryKey: ['passports', 'class', classId, studentIds.join(',')],
+    enabled: studentIds.length > 0,
+    queryFn: async () => {
+      const { data, error } = await supabase!
+        .from('passports')
+        .select('student_id, passport_code, status')
+        .in('student_id', studentIds)
+        .in('status', ['assigned', 'active'])
+      if (error) throw error
+      return new Map((data ?? []).map((p) => [p.student_id as string, p as { passport_code: string; status: string }]))
     },
   })
 
@@ -181,6 +200,16 @@ export function ClassDetailPage() {
             rows={roster.data}
             actions={(r) =>
               r.enrollment_status === 'active' && (
+                <span className="inline-flex items-center gap-1">
+                {passports.data?.get(r.student_id) ? (
+                  <Badge tone={passports.data.get(r.student_id)!.status === 'active' ? 'good' : 'warn'} className="font-mono">
+                    {formatCode(passports.data.get(r.student_id)!.passport_code)}
+                  </Badge>
+                ) : (
+                  <Button size="sm" variant="outline" onClick={() => setAssignFor({ id: r.student_id, full_name: r.full_name })}>
+                    <BookMarked className="h-4 w-4" /> {t('passports.assign')}
+                  </Button>
+                )}
                 <Button
                   size="sm"
                   variant="ghost"
@@ -189,12 +218,14 @@ export function ClassDetailPage() {
                 >
                   <UserMinus className="h-4 w-4" />
                 </Button>
+                </span>
               )
             }
           />
         )}
       </section>
 
+      <AssignPassportDialog student={assignFor} onClose={() => setAssignFor(null)} />
       <AddStaffDialog
         open={addStaffOpen}
         onClose={() => setAddStaffOpen(false)}
