@@ -387,5 +387,92 @@
     "scanPassport": "Quét mã sổ để mở hồ sơ học viên",
     "noAccessClass": "Bạn không có quyền xem lớp này.",
     "rosterSummary": "{{count}} học viên · {{activated}} đã kích hoạt"
+  },
+  "import": {
+    "tab": {
+      "student_list": "Danh sách học sinh",
+      "course_history": "Lịch sử khoá học"
+    },
+    "templateTitle": "File mẫu danh sách học sinh",
+    "templateHint": "7 cột A–G theo phụ lục A1, có sheet Hướng dẫn. Dòng 1 là tiêu đề.",
+    "downloadTemplate": "Tải file mẫu",
+    "class": "Lớp",
+    "classHint": "Học viên được ghi danh vào lớp này. Có thể bỏ trống.",
+    "noClass": "Không ghi danh vào lớp",
+    "newClass": "Tạo lớp mới",
+    "enterClassName": "Hãy nhập tên lớp mới.",
+    "pickFile": "Chọn file Excel",
+    "readAndPreview": "Đọc file và xem trước",
+    "chooseSetup": "Hãy chọn trường, năm học và chương trình.",
+    "chooseFile": "Hãy chọn file.",
+    "wrongTemplate": "File không đúng mẫu: ô A1 phải là tiêu đề \"Họ và tên học sinh\". Hãy dùng file mẫu.",
+    "emptyFile": "File không có dòng dữ liệu nào (dữ liệu bắt đầu từ dòng 2).",
+    "reading": "Đang đọc file…",
+    "saving": "Đang lưu {{done}}/{{total}} dòng…",
+    "checkingDuplicates": "Đang dò học viên trùng…",
+    "previewTitle": "Xem trước",
+    "rowCount": "{{count}} dòng",
+    "status": {
+      "all": "Tất cả",
+      "ok": "Hợp lệ",
+      "warning": "Cảnh báo",
+      "error": "Lỗi",
+      "duplicate_suspect": "Nghi trùng",
+      "skipped": "Bỏ qua"
+    },
+    "undecided": "Còn {{count}} dòng nghi trùng chưa quyết định.",
+    "allDecided": "Đã quyết định hết các dòng nghi trùng.",
+    "allUseExisting": "Tất cả: dùng hồ sơ có sẵn",
+    "allCreateNew": "Tất cả: tạo em mới",
+    "decision": "Quyết định",
+    "sameStudent": "Là cùng một em, dùng hồ sơ có sẵn",
+    "differentStudent": "Là em khác, tạo hồ sơ mới",
+    "skipRow": "Bỏ qua dòng này",
+    "noName": "(thiếu họ tên)",
+    "willImport": "Sẽ nhập {{count}} dòng · {{errors}} dòng lỗi không nhập",
+    "decideFirst": "Hãy quyết định các dòng nghi trùng trước khi nhập.",
+    "commit": "Nhập",
+    "cancel": "Huỷ lô này",
+    "confirmCancel": "Huỷ lô nhập này? Chưa có dữ liệu nào được ghi.",
+    "cancelled": "Lô đã huỷ.",
+    "doneTitle": "Đã nhập xong",
+    "result": {
+      "created": "Học viên mới",
+      "updated": "Cập nhật hồ sơ có sẵn",
+      "skipped": "Bỏ qua",
+      "errors": "Dòng lỗi",
+      "enrolled": "Ghi danh vào lớp",
+      "guardians": "Người giám hộ"
+    },
+    "problemRows": "{{count}} dòng không được nhập",
+    "downloadErrors": "Tải file báo lỗi",
+    "nextSteps": "Bước tiếp theo",
+    "next": {
+      "viewClass": "Xem lớp",
+      "assignPassports": "Gán sổ Passport",
+      "invite": "Gửi lời mời kích hoạt",
+      "certificates": "Phát hành chứng nhận"
+    },
+    "newImport": "Nhập file khác",
+    "history": "Các lần nhập gần đây",
+    "historyTotals": "{{created}} mới · {{updated}} cập nhật · {{errors}} lỗi",
+    "batchStatus": {
+      "uploaded": "Đang xử lý",
+      "validated": "Chờ nhập",
+      "committed": "Đã nhập",
+      "cancelled": "Đã huỷ"
+    },
+    "msg": {
+      "missing_name": "Thiếu họ tên học sinh (không nhập dòng này).",
+      "invalid_dob": "Ngày sinh \"{{value}}\" sai định dạng, cần dd/mm/yyyy (không nhập dòng này).",
+      "missing_dob": "Thiếu ngày sinh: dò trùng kém chính xác hơn.",
+      "dob_out_of_range": "Ngày sinh {{value}} có vẻ không hợp lý, hãy kiểm tra lại.",
+      "missing_phone": "Thiếu số điện thoại: không gửi được lời mời kích hoạt.",
+      "invalid_phone": "Số điện thoại \"{{value}}\" không hợp lệ, đã bỏ qua số này.",
+      "invalid_email": "Email \"{{value}}\" không hợp lệ, đã bỏ qua email này.",
+      "unknown_school": "Không tìm thấy trường \"{{value}}\", dùng trường đã chọn trên màn hình.",
+      "duplicate_in_file": "Trùng với dòng {{row}} trong file.",
+      "duplicate_existing": "Nghi trùng với học viên đã có trong hệ thống."
+    }
   }
 }

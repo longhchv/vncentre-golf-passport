@@ -25,6 +25,7 @@ import { ClassDetailPage } from '@/features/admin/ClassDetailPage'
 import { StudentsPage } from '@/features/admin/StudentsPage'
 import { UsersPage } from '@/features/admin/UsersPage'
 import { CoachClassPage, CoachHomePage } from '@/features/coach/CoachPages'
+import { ImportsPage } from '@/features/imports/ImportsPage'
 
 // Menu admin theo 02 mục 3.6. Mục chưa làm hiện thẻ "Sắp ra mắt".
 const ADMIN_NAV: (NavItem & { element?: React.ReactNode })[] = [
@@ -35,7 +36,7 @@ const ADMIN_NAV: (NavItem & { element?: React.ReactNode })[] = [
   { to: '/admin/class-types', labelKey: 'admin.nav.classTypes', element: <ClassTypesPage /> },
   { to: '/admin/classes', labelKey: 'admin.nav.classes', element: <ClassesPage /> },
   { to: '/admin/students', labelKey: 'admin.nav.students', element: <StudentsPage /> },
-  { to: '/admin/imports', labelKey: 'admin.nav.imports' },
+  { to: '/admin/imports', labelKey: 'admin.nav.imports', element: <ImportsPage /> },
   { to: '/admin/queue', labelKey: 'admin.nav.queue' },
   { to: '/admin/passports', labelKey: 'admin.nav.passports' },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates' },

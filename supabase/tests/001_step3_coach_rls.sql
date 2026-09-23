@@ -116,3 +116,4 @@ begin
   execute 'reset role';
   raise exception 'ALL_OK';
 end $$;
+

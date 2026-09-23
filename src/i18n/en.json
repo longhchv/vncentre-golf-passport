@@ -387,5 +387,92 @@
     "scanPassport": "Scan a passport to open the student profile",
     "noAccessClass": "You don't have access to this class.",
     "rosterSummary": "{{count}} students · {{activated}} activated"
+  },
+  "import": {
+    "tab": {
+      "student_list": "Student list",
+      "course_history": "Course history"
+    },
+    "templateTitle": "Student list template",
+    "templateHint": "7 columns A–G as in appendix A1, with a Guide sheet. Row 1 is the header.",
+    "downloadTemplate": "Download template",
+    "class": "Class",
+    "classHint": "Students are enrolled in this class. Optional.",
+    "noClass": "Do not enrol in a class",
+    "newClass": "Create a new class",
+    "enterClassName": "Please enter the new class name.",
+    "pickFile": "Choose an Excel file",
+    "readAndPreview": "Read file and preview",
+    "chooseSetup": "Please choose the school, academic year and programme.",
+    "chooseFile": "Please choose a file.",
+    "wrongTemplate": "The file does not match the template: cell A1 must be the \"Họ và tên học sinh\" header. Please use the template.",
+    "emptyFile": "The file has no data rows (data starts at row 2).",
+    "reading": "Reading file…",
+    "saving": "Saving {{done}}/{{total}} rows…",
+    "checkingDuplicates": "Checking for duplicate students…",
+    "previewTitle": "Preview",
+    "rowCount": "{{count}} rows",
+    "status": {
+      "all": "All",
+      "ok": "Valid",
+      "warning": "Warning",
+      "error": "Error",
+      "duplicate_suspect": "Possible duplicate",
+      "skipped": "Skipped"
+    },
+    "undecided": "{{count}} possible duplicates still need a decision.",
+    "allDecided": "All possible duplicates have a decision.",
+    "allUseExisting": "All: use existing record",
+    "allCreateNew": "All: create new student",
+    "decision": "Decision",
+    "sameStudent": "Same student, use the existing record",
+    "differentStudent": "Different student, create a new record",
+    "skipRow": "Skip this row",
+    "noName": "(name missing)",
+    "willImport": "{{count}} rows will be imported · {{errors}} error rows skipped",
+    "decideFirst": "Please decide on the possible duplicates before importing.",
+    "commit": "Import",
+    "cancel": "Cancel this batch",
+    "confirmCancel": "Cancel this import batch? Nothing has been saved yet.",
+    "cancelled": "Batch cancelled.",
+    "doneTitle": "Import complete",
+    "result": {
+      "created": "New students",
+      "updated": "Existing records updated",
+      "skipped": "Skipped",
+      "errors": "Error rows",
+      "enrolled": "Enrolled in class",
+      "guardians": "Guardians"
+    },
+    "problemRows": "{{count}} rows were not imported",
+    "downloadErrors": "Download error report",
+    "nextSteps": "Next steps",
+    "next": {
+      "viewClass": "View class",
+      "assignPassports": "Assign passports",
+      "invite": "Send activation invitations",
+      "certificates": "Issue certificates"
+    },
+    "newImport": "Import another file",
+    "history": "Recent imports",
+    "historyTotals": "{{created}} new · {{updated}} updated · {{errors}} errors",
+    "batchStatus": {
+      "uploaded": "Processing",
+      "validated": "Awaiting import",
+      "committed": "Imported",
+      "cancelled": "Cancelled"
+    },
+    "msg": {
+      "missing_name": "Student name is missing (row not imported).",
+      "invalid_dob": "Date of birth \"{{value}}\" is invalid, use dd/mm/yyyy (row not imported).",
+      "missing_dob": "Date of birth missing: duplicate detection is less accurate.",
+      "dob_out_of_range": "Date of birth {{value}} looks unlikely, please check.",
+      "missing_phone": "Phone missing: no activation invitation can be sent.",
+      "invalid_phone": "Phone \"{{value}}\" is invalid and was ignored.",
+      "invalid_email": "Email \"{{value}}\" is invalid and was ignored.",
+      "unknown_school": "School \"{{value}}\" not found; the school chosen on screen is used.",
+      "duplicate_in_file": "Duplicates row {{row}} in the file.",
+      "duplicate_existing": "Possible duplicate of a student already in the system."
+    }
   }
 }
