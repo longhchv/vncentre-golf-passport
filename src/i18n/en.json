@@ -16,7 +16,21 @@
     "comingSoon": "Coming soon",
     "comingSoonBody": "We're building this feature. Our dragon will let you know when it's ready!",
     "notFound": "Page not found",
-    "notFoundBody": "The link is incorrect or the page has moved."
+    "notFoundBody": "The link is incorrect or the page has moved.",
+    "loading": "Loading…",
+    "close": "Close",
+    "menu": "Menu",
+    "saved": "Saved",
+    "add": "Add",
+    "edit": "Edit",
+    "save": "Save",
+    "empty": "No data yet",
+    "yes": "Yes",
+    "no": "No",
+    "active": "Active",
+    "inactive": "Inactive",
+    "all": "All",
+    "loadMore": "Load more"
   },
   "landing": {
     "headline": "Your child's official golf record",
@@ -59,5 +73,163 @@
     "standalone": "Running as installed app",
     "yes": "Yes",
     "no": "No"
+  },
+  "auth": {
+    "tab": {
+      "parent": "Parent",
+      "staff": "Staff",
+      "student": "Student"
+    },
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "invalidCredentials": "Incorrect email or password.",
+    "forgotLink": "Forgot password?",
+    "forgotStaffHint": "For staff accounts. Enter your email and we will send you a password reset link.",
+    "sendResetLink": "Send reset link",
+    "resetSent": "If the email is registered, you will receive a reset link within a few minutes. Please also check your spam folder.",
+    "newPassword": "Set a new password",
+    "resetLinkInvalid": "This link has expired or is invalid. Please request a new one from the Forgot password page.",
+    "passwordTooShort": "Password must be at least {{min}} characters.",
+    "passwordMismatch": "The passwords do not match.",
+    "chooseWorkspace": "Choose a workspace",
+    "noWorkspace": "Your account has no role yet. Please contact VN Centre.",
+    "signOut": "Log out",
+    "switchWorkspace": "Switch workspace",
+    "noAccessTitle": "You don't have access",
+    "noAccessBody": "This account does not have a role for the page you opened.",
+    "suspended": "This account is suspended. Please contact VN Centre."
+  },
+  "errors": {
+    "duplicate": "This duplicates an existing item.",
+    "forbidden": "You don't have permission to do this.",
+    "invalid": "Some data is invalid, please check again.",
+    "generic": "Something went wrong, please try again.",
+    "invalidJson": "\"{{field}}\" is not valid JSON.",
+    "invalidNumber": "\"{{field}}\" must be a number.",
+    "loadFailed": "Could not load data."
+  },
+  "schoolType": {
+    "public": "Public",
+    "private": "Private",
+    "international": "International",
+    "center": "Centre",
+    "club": "Club",
+    "other": "Other"
+  },
+  "scoringMode": {
+    "pass_fail": "Pass / Not yet",
+    "scale_1_5": "Scale 1–5",
+    "measured": "Measured"
+  },
+  "fields": {
+    "name": "Name",
+    "shortName": "Short name",
+    "schoolType": "Type",
+    "city": "City",
+    "address": "Address",
+    "photoConsent": "Requires photo consent",
+    "status": "Status",
+    "isActive": "Active",
+    "yearName": "Academic year",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "isCurrent": "Current",
+    "code": "Code",
+    "nameVi": "Name (Vietnamese)",
+    "nameEn": "Name (English)",
+    "sessionMinutes": "Minutes/session",
+    "sessionsPerLevel": "Sessions/level",
+    "sessionMinutesMin": "Minutes/session (min)",
+    "sessionMinutesMax": "Minutes/session (max)",
+    "sessionsPerLevelMin": "Sessions/level (min)",
+    "sessionsPerLevelMax": "Sessions/level (max)",
+    "scoringMode": "Default scoring",
+    "program": "Programme",
+    "number": "No.",
+    "groupName": "Group",
+    "stage": "Stage",
+    "tier": "Passport tier",
+    "targetHandicap": "Target handicap",
+    "contentDetail": "Detailed content",
+    "groupNameVi": "Group (Vietnamese)",
+    "groupNameEn": "Group (English)",
+    "summaryVi": "Summary (Vietnamese)",
+    "summaryEn": "Summary (English)",
+    "officialTrack": "Official level pathway",
+    "descriptionVi": "Description (Vietnamese)",
+    "descriptionEn": "Description (English)",
+    "levelRange": "Levels",
+    "color": "Colour",
+    "levelFrom": "From level",
+    "levelTo": "To level",
+    "validityMonths": "Validity (months)",
+    "price": "Price",
+    "priceVnd": "Price (VND)",
+    "setting": "Setting",
+    "value": "Value"
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "schools": "Schools",
+      "years": "Academic years",
+      "programs": "Programmes & levels",
+      "classTypes": "Class types",
+      "classes": "Classes",
+      "students": "Students",
+      "imports": "Data import",
+      "queue": "Approval queue",
+      "passports": "Passports",
+      "certificates": "Certificates & templates",
+      "users": "Users & roles",
+      "orders": "Orders & invoices",
+      "messages": "Messages & costs",
+      "settings": "Settings",
+      "audit": "Audit log"
+    },
+    "years": {
+      "current": "Current year",
+      "setCurrent": "Set as current",
+      "nameHint": "Format 2026-2027"
+    },
+    "programs": {
+      "tab": {
+        "levels": "Levels",
+        "programs": "Programmes",
+        "stages": "Passport stages",
+        "tiers": "Passport tiers"
+      },
+      "rows": "rows",
+      "draft": "draft",
+      "contentHint": "JSON: {\"draft\": true, \"rows\": [{\"key\", \"group\", \"label_vi\", \"label_en\", \"vi\", \"en\"}]}. Leave empty if the level has no detailed content yet."
+    },
+    "settings": {
+      "products": "Product prices",
+      "parameters": "System parameters",
+      "valueHint": "JSON value: a number (e.g. 5), text in double quotes, or an object {…}."
+    },
+    "home": {
+      "students": "Students",
+      "schools": "Schools",
+      "levels": "Configured levels",
+      "fullDashboard": "Activation rates, queues, messaging costs"
+    }
+  },
+  "audit": {
+    "entity": "Entity",
+    "action": "Action",
+    "actor": "Performed by",
+    "actorPlaceholder": "Name or email",
+    "from": "From",
+    "to": "To",
+    "actions": {
+      "insert": "Created",
+      "update": "Updated",
+      "delete": "Deleted"
+    },
+    "system": "System",
+    "reason": "Reason",
+    "details": "Details"
   }
 }

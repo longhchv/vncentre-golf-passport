@@ -16,7 +16,21 @@
     "comingSoon": "Sắp ra mắt",
     "comingSoonBody": "Tính năng này đang được xây dựng. Chú rồng sẽ báo bạn khi sẵn sàng!",
     "notFound": "Không tìm thấy trang",
-    "notFoundBody": "Đường dẫn không đúng hoặc trang đã được chuyển đi."
+    "notFoundBody": "Đường dẫn không đúng hoặc trang đã được chuyển đi.",
+    "loading": "Đang tải…",
+    "close": "Đóng",
+    "menu": "Menu",
+    "saved": "Đã lưu",
+    "add": "Thêm",
+    "edit": "Sửa",
+    "save": "Lưu",
+    "empty": "Chưa có dữ liệu",
+    "yes": "Có",
+    "no": "Không",
+    "active": "Đang hoạt động",
+    "inactive": "Ngừng hoạt động",
+    "all": "Tất cả",
+    "loadMore": "Xem thêm"
   },
   "landing": {
     "headline": "Hồ sơ golf chính thức của con",
@@ -59,5 +73,163 @@
     "standalone": "Đang mở dạng app cài trên màn hình",
     "yes": "Có",
     "no": "Không"
+  },
+  "auth": {
+    "tab": {
+      "parent": "Phụ huynh",
+      "staff": "Nhân viên",
+      "student": "Học viên"
+    },
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Nhập lại mật khẩu",
+    "invalidCredentials": "Email hoặc mật khẩu không đúng.",
+    "forgotLink": "Quên mật khẩu?",
+    "forgotStaffHint": "Dành cho tài khoản nhân viên. Nhập email, chúng tôi sẽ gửi link đặt lại mật khẩu.",
+    "sendResetLink": "Gửi link đặt lại mật khẩu",
+    "resetSent": "Nếu email có trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu trong vài phút. Hãy kiểm tra cả hộp thư rác.",
+    "newPassword": "Đặt mật khẩu mới",
+    "resetLinkInvalid": "Link đã hết hạn hoặc không hợp lệ. Hãy yêu cầu link mới ở trang Quên mật khẩu.",
+    "passwordTooShort": "Mật khẩu cần tối thiểu {{min}} ký tự.",
+    "passwordMismatch": "Hai mật khẩu không khớp.",
+    "chooseWorkspace": "Chọn không gian làm việc",
+    "noWorkspace": "Tài khoản của bạn chưa được gán vai trò nào. Hãy liên hệ VN Centre.",
+    "signOut": "Đăng xuất",
+    "switchWorkspace": "Đổi không gian làm việc",
+    "noAccessTitle": "Bạn không có quyền vào đây",
+    "noAccessBody": "Tài khoản này không có vai trò phù hợp với trang bạn đang mở.",
+    "suspended": "Tài khoản đang bị khoá. Hãy liên hệ VN Centre."
+  },
+  "errors": {
+    "duplicate": "Dữ liệu bị trùng với một mục đã có.",
+    "forbidden": "Bạn không có quyền thực hiện thao tác này.",
+    "invalid": "Dữ liệu chưa hợp lệ, vui lòng kiểm tra lại.",
+    "generic": "Có lỗi xảy ra, vui lòng thử lại.",
+    "invalidJson": "Ô \"{{field}}\" không đúng định dạng JSON.",
+    "invalidNumber": "Ô \"{{field}}\" phải là số.",
+    "loadFailed": "Không tải được dữ liệu."
+  },
+  "schoolType": {
+    "public": "Công lập",
+    "private": "Tư thục",
+    "international": "Quốc tế",
+    "center": "Trung tâm",
+    "club": "Câu lạc bộ",
+    "other": "Khác"
+  },
+  "scoringMode": {
+    "pass_fail": "Đạt / Chưa đạt",
+    "scale_1_5": "Thang 1–5",
+    "measured": "Số đo"
+  },
+  "fields": {
+    "name": "Tên",
+    "shortName": "Tên ngắn",
+    "schoolType": "Loại",
+    "city": "Thành phố",
+    "address": "Địa chỉ",
+    "photoConsent": "Yêu cầu đồng ý ảnh",
+    "status": "Trạng thái",
+    "isActive": "Đang hoạt động",
+    "yearName": "Năm học",
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "isCurrent": "Hiện tại",
+    "code": "Mã",
+    "nameVi": "Tên (tiếng Việt)",
+    "nameEn": "Tên (tiếng Anh)",
+    "sessionMinutes": "Phút/tiết",
+    "sessionsPerLevel": "Số tiết/level",
+    "sessionMinutesMin": "Phút/tiết (tối thiểu)",
+    "sessionMinutesMax": "Phút/tiết (tối đa)",
+    "sessionsPerLevelMin": "Số tiết/level (tối thiểu)",
+    "sessionsPerLevelMax": "Số tiết/level (tối đa)",
+    "scoringMode": "Cách chấm mặc định",
+    "program": "Chương trình",
+    "number": "Số",
+    "groupName": "Nhóm",
+    "stage": "Giai đoạn",
+    "tier": "Cấp hộ chiếu",
+    "targetHandicap": "Handicap mục tiêu",
+    "contentDetail": "Nội dung chi tiết",
+    "groupNameVi": "Nhóm (tiếng Việt)",
+    "groupNameEn": "Nhóm (tiếng Anh)",
+    "summaryVi": "Mô tả tóm tắt (tiếng Việt)",
+    "summaryEn": "Mô tả tóm tắt (tiếng Anh)",
+    "officialTrack": "Lộ trình level chính thức",
+    "descriptionVi": "Mô tả (tiếng Việt)",
+    "descriptionEn": "Mô tả (tiếng Anh)",
+    "levelRange": "Level",
+    "color": "Màu",
+    "levelFrom": "Từ level",
+    "levelTo": "Đến level",
+    "validityMonths": "Hiệu lực (tháng)",
+    "price": "Giá",
+    "priceVnd": "Giá (đồng)",
+    "setting": "Thông số",
+    "value": "Giá trị"
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Bảng điều khiển",
+      "schools": "Trường",
+      "years": "Năm học",
+      "programs": "Chương trình và level",
+      "classTypes": "Loại lớp",
+      "classes": "Lớp",
+      "students": "Học viên",
+      "imports": "Nhập dữ liệu",
+      "queue": "Hàng chờ duyệt",
+      "passports": "Sổ Passport",
+      "certificates": "Chứng nhận và mẫu",
+      "users": "Người dùng và vai trò",
+      "orders": "Đơn hàng và hoá đơn",
+      "messages": "Tin nhắn và chi phí",
+      "settings": "Cấu hình",
+      "audit": "Nhật ký hệ thống"
+    },
+    "years": {
+      "current": "Năm hiện tại",
+      "setCurrent": "Đặt làm năm hiện tại",
+      "nameHint": "Dạng 2026-2027"
+    },
+    "programs": {
+      "tab": {
+        "levels": "Level",
+        "programs": "Chương trình",
+        "stages": "Giai đoạn Passport",
+        "tiers": "Cấp hộ chiếu"
+      },
+      "rows": "dòng",
+      "draft": "bản nháp",
+      "contentHint": "Dạng JSON: {\"draft\": true, \"rows\": [{\"key\", \"group\", \"label_vi\", \"label_en\", \"vi\", \"en\"}]}. Để trống nếu level chưa có nội dung chi tiết."
+    },
+    "settings": {
+      "products": "Giá sản phẩm",
+      "parameters": "Thông số hệ thống",
+      "valueHint": "Giá trị dạng JSON: số (ví dụ 5), chữ trong ngoặc kép, hoặc đối tượng {…}."
+    },
+    "home": {
+      "students": "Học viên",
+      "schools": "Trường",
+      "levels": "Level đã cấu hình",
+      "fullDashboard": "Tỉ lệ kích hoạt, hàng chờ, chi phí tin nhắn"
+    }
+  },
+  "audit": {
+    "entity": "Đối tượng",
+    "action": "Thao tác",
+    "actor": "Người thực hiện",
+    "actorPlaceholder": "Tên hoặc email",
+    "from": "Từ ngày",
+    "to": "Đến ngày",
+    "actions": {
+      "insert": "Tạo mới",
+      "update": "Sửa",
+      "delete": "Xoá"
+    },
+    "system": "Hệ thống",
+    "reason": "Lý do",
+    "details": "Chi tiết"
   }
 }
