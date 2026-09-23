@@ -16,13 +16,17 @@ npm run build                  # kiểm tra kiểu và đóng gói vào dist/
 
 Muốn mở thử trên điện thoại cùng mạng Wi-Fi thì chạy `npm run dev:phone` và mở địa chỉ `http://<IP máy tính>:5173`. Cách này chưa dùng được camera và chưa cài được app lên màn hình, vì hai việc đó cần HTTPS; hãy dùng bản staging trên Cloudflare.
 
-## Triển khai (Cloudflare Pages)
+## Triển khai (Cloudflare Workers, static assets)
+
+Staging: https://vncentre-golf-passport.longhchv.workers.dev — cấu hình trong `wrangler.jsonc`.
 
 | Mục | Giá trị |
 |---|---|
 | Build command | `npm run build` |
-| Build output directory | `dist` |
-| Biến môi trường | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_ENV=staging`, `NODE_VERSION=24` |
+| Deploy command | `npx wrangler deploy` |
+| **Build variables** (Settings → Build → Variables and secrets) | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_ENV=staging`, `NODE_VERSION=24` |
+
+Các biến `VITE_*` được gắn vào code **lúc build**, nên phải đặt ở mục *Build*, không phải mục *Variables* của Worker lúc chạy.
 
 Mỗi lần đẩy code lên GitHub, Cloudflare tự build lại. Trang `/status` cho biết phiên bản đang chạy và app đã kết nối được Supabase chưa.
 

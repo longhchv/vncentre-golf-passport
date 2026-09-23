@@ -6,8 +6,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 import pkg from './package.json' with { type: 'json' }
 
-// Cloudflare Pages tự đặt CF_PAGES_COMMIT_SHA khi build
-const commit = process.env.CF_PAGES_COMMIT_SHA?.slice(0, 7)
+// Cloudflare tự đặt mã commit khi build (Workers Builds hoặc Pages)
+const commit = (process.env.WORKERS_CI_COMMIT_SHA ?? process.env.CF_PAGES_COMMIT_SHA)?.slice(0, 7)
 const appVersion = commit ? `${pkg.version}+${commit}` : pkg.version
 
 export default defineConfig({
