@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Checkbox, Field, FormError, Input, Select, Textarea } from '@/components/ui/form'
 
-export type FieldType = 'text' | 'number' | 'checkbox' | 'select' | 'textarea' | 'date' | 'color' | 'json'
+export type FieldType =
+  | 'text' | 'number' | 'checkbox' | 'select' | 'textarea' | 'date' | 'color' | 'json' | 'email'
+  /** Chọn nhiều giá trị trong `options`, lưu thành mảng */
+  | 'multicheck'
 
 export interface FieldSpec {
   name: string
@@ -21,6 +24,7 @@ type Values = Record<string, unknown>
 function toInput(value: unknown, type: FieldType): string | boolean {
   if (type === 'checkbox') return Boolean(value)
   if (type === 'json') return value === undefined ? '' : JSON.stringify(value, null, 2)
+  if (type === 'multicheck') return JSON.stringify(Array.isArray(value) ? value : [])
   return value === null || value === undefined ? '' : String(value)
 }
 
@@ -28,6 +32,7 @@ function fromInput(raw: string | boolean, type: FieldType): unknown {
   if (type === 'checkbox') return Boolean(raw)
   const s = String(raw)
   if (type === 'json') return s.trim() === '' ? null : JSON.parse(s)
+  if (type === 'multicheck') return JSON.parse(s)
   if (s.trim() === '') return null
   if (type === 'number') return Number(s)
   return s.trim()
@@ -89,6 +94,25 @@ export function EntityForm({
               disabled={disabled}
               onChange={(e) => set(f.name, e.target.checked)}
             />
+          )
+        }
+        if (type === 'multicheck') {
+          const selected: string[] = JSON.parse(String(value))
+          const toggle = (v: string, on: boolean) =>
+            set(f.name, JSON.stringify(on ? [...selected, v] : selected.filter((x) => x !== v)))
+          return (
+            <fieldset key={f.name} className="space-y-1">
+              <legend className="text-sm font-semibold text-navy/80">{t(f.labelKey)}</legend>
+              {f.options?.map((o) => (
+                <Checkbox
+                  key={o.value}
+                  label={o.label}
+                  checked={selected.includes(o.value)}
+                  disabled={disabled}
+                  onChange={(e) => toggle(o.value, e.target.checked)}
+                />
+              ))}
+            </fieldset>
           )
         }
         return (

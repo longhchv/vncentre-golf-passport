@@ -30,7 +30,11 @@
     "active": "Đang hoạt động",
     "inactive": "Ngừng hoạt động",
     "all": "Tất cả",
-    "loadMore": "Xem thêm"
+    "loadMore": "Xem thêm",
+    "copy": "Chép",
+    "copied": "Đã chép",
+    "remove": "Gỡ",
+    "search": "Tìm"
   },
   "landing": {
     "headline": "Hồ sơ golf chính thức của con",
@@ -167,7 +171,25 @@
     "price": "Giá",
     "priceVnd": "Giá (đồng)",
     "setting": "Thông số",
-    "value": "Giá trị"
+    "value": "Giá trị",
+    "studentName": "Họ tên học viên",
+    "dateOfBirth": "Ngày sinh",
+    "level": "Level",
+    "parentActivation": "Phụ huynh kích hoạt",
+    "className": "Tên lớp",
+    "school": "Trường",
+    "classType": "Loại lớp",
+    "targetLevel": "Level mục tiêu",
+    "scoringModeClass": "Cách chấm kỹ năng",
+    "roleInClass": "Vai trò trong lớp",
+    "staffMember": "Nhân viên",
+    "gender": "Giới tính",
+    "nationality": "Quốc tịch",
+    "gradeClass": "Lớp (ở trường)",
+    "golfGoals": "Mục tiêu golf",
+    "golfGoalsOther": "Mục tiêu khác (ghi rõ)",
+    "fullName": "Họ và tên",
+    "role": "Vai trò"
   },
   "admin": {
     "nav": {
@@ -231,5 +253,139 @@
     "system": "Hệ thống",
     "reason": "Lý do",
     "details": "Chi tiết"
+  },
+  "enrollmentStatus": {
+    "active": "Đang học",
+    "completed": "Đã hoàn thành",
+    "dropped": "Đã rời lớp"
+  },
+  "roster": {
+    "activated": "Đã kích hoạt",
+    "notActivated": "Chưa kích hoạt",
+    "empty": "Lớp chưa có học viên."
+  },
+  "verification": {
+    "verified": "Đã xác minh",
+    "pending_review": "Chờ xác minh"
+  },
+  "classStatus": {
+    "active": "Đang hoạt động",
+    "completed": "Đã kết thúc",
+    "archived": "Lưu trữ"
+  },
+  "classes": {
+    "joinCode": "Mã lớp",
+    "joinCodeHint": "Gửi mã này trong nhóm Zalo lớp để phụ huynh tự tìm con.",
+    "changeCode": "Đổi mã",
+    "codeChanged": "Đã đổi mã lớp",
+    "confirmChangeCode": "Đổi mã lớp? Mã cũ sẽ không dùng được nữa.",
+    "nameHint": "Ví dụ: CLB Golf Tô Vĩnh Diện 2026–2027",
+    "scoringHint": "Để trống để dùng cách chấm mặc định của loại lớp.",
+    "open": "Mở lớp",
+    "staff": "Huấn luyện viên của lớp",
+    "addStaff": "Gán HLV",
+    "confirmRemoveStaff": "Gỡ người này khỏi lớp?",
+    "noStaff": "Lớp chưa có HLV.",
+    "noStaffCandidates": "Chưa có nhân viên nào có vai trò giảng dạy. Hãy tạo tài khoản ở mục Người dùng và vai trò.",
+    "students": "Học viên",
+    "addStudents": "Thêm học viên",
+    "removeStudent": "Cho rời lớp",
+    "confirmRemoveStudent": "Cho {{name}} rời lớp? Lịch sử học vẫn được giữ.",
+    "studentAdded": "Đã thêm vào lớp",
+    "searchAllSchools": "Tìm ở mọi trường",
+    "inClass": "Đã trong lớp"
+  },
+  "roles": {
+    "admin": "Admin trung tâm",
+    "head_coach": "HLV trưởng",
+    "coach": "HLV",
+    "assistant": "Trợ giảng",
+    "school_manager": "Quản lý trường",
+    "pe_teacher": "Giáo viên thể chất",
+    "partner": "Đối tác",
+    "event_staff": "Ban tổ chức giải"
+  },
+  "students": {
+    "searchPlaceholder": "Tên, mã học viên hoặc SĐT phụ huynh",
+    "add": "Thêm học viên",
+    "allSchools": "Tất cả trường",
+    "resultCount": "{{count}} học viên",
+    "guardians": "Người giám hộ",
+    "noGuardians": "Chưa có người giám hộ.",
+    "hasAccount": "Đã có tài khoản",
+    "noAccount": "Chưa có tài khoản",
+    "primary": "Người giám hộ chính",
+    "pendingConfirmation": "Chờ xác nhận",
+    "classes": "Lớp",
+    "editInfo": "Sửa thông tin"
+  },
+  "gender": {
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác"
+  },
+  "golfGoals": {
+    "know_how_to_play": "Chỉ để biết cách chơi",
+    "health": "Rèn sức khoẻ, tinh thần",
+    "family": "Gắn kết gia đình",
+    "life_skills": "Kỹ năng sống, ứng xử, lãnh đạo",
+    "local_tournaments": "Thi đấu giải phong trào",
+    "college_scholarship": "Xin học bổng du học Mỹ",
+    "athlete": "Trở thành vận động viên",
+    "golf_industry": "Hoạt động trong ngành golf",
+    "other": "Khác"
+  },
+  "relationship": {
+    "father": "Bố",
+    "mother": "Mẹ",
+    "guardian": "Người giám hộ",
+    "other": "Khác"
+  },
+  "users": {
+    "createStaff": "Tạo tài khoản nhân viên",
+    "filter": {
+      "staff": "Nhân viên",
+      "all": "Tất cả tài khoản"
+    },
+    "searchPlaceholder": "Tên, email, SĐT",
+    "lastSignIn": "Đăng nhập gần nhất: {{at}}",
+    "neverSignedIn": "Chưa đăng nhập lần nào",
+    "suspended": "Đang bị khoá",
+    "invitePending": "Chưa nhận lời mời",
+    "confirmRemoveRole": "Gỡ vai trò này?",
+    "addRole": "Thêm vai trò",
+    "resetLink": "Link đặt lại mật khẩu",
+    "inviteLink": "Link mời",
+    "confirmSuspend": "Khoá tài khoản này? Người dùng sẽ không đăng nhập được.",
+    "suspend": "Khoá tài khoản",
+    "unsuspend": "Mở khoá",
+    "inviteEmailSent": "Đã gửi email mời tới {{email}}",
+    "roleAdded": "Đã thêm vai trò cho tài khoản có sẵn",
+    "sendInviteEmail": "Gửi email mời",
+    "inviteHint": "Nếu chưa gửi được email, app sẽ tạo link mời để bạn chép và gửi qua Zalo.",
+    "errors": {
+      "invalid_email": "Email không hợp lệ.",
+      "missing_name": "Hãy nhập họ tên.",
+      "invalid_role": "Vai trò không hợp lệ.",
+      "missing_school": "Hãy chọn trường cho quản lý trường.",
+      "auth_error": "Không tạo được tài khoản. Vui lòng thử lại.",
+      "forbidden": "Bạn không có quyền.",
+      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại.",
+      "cannot_suspend_self": "Không thể tự khoá tài khoản của mình.",
+      "role_error": "Không gán được vai trò."
+    },
+    "copyManually": "Không chép tự động được, hãy chọn và chép link bằng tay.",
+    "linkTitle": "Link đăng nhập",
+    "linkBody": "Gửi link này cho {{email}} (qua Zalo hoặc tin nhắn). Người nhận bấm link để đặt mật khẩu.",
+    "share": "Chia sẻ",
+    "shareText": "Link đặt mật khẩu VN Centre Golf Passport",
+    "linkWarning": "Link chỉ dùng được một lần và hết hạn sau một thời gian ngắn. Không đăng link này ở nơi công khai."
+  },
+  "coach": {
+    "myClasses": "Lớp của tôi",
+    "noClasses": "Bạn chưa được gán vào lớp nào. Hãy liên hệ admin.",
+    "scanPassport": "Quét mã sổ để mở hồ sơ học viên",
+    "noAccessClass": "Bạn không có quyền xem lớp này.",
+    "rosterSummary": "{{count}} học viên · {{activated}} đã kích hoạt"
   }
 }

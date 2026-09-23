@@ -30,7 +30,11 @@
     "active": "Active",
     "inactive": "Inactive",
     "all": "All",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "copy": "Copy",
+    "copied": "Copied",
+    "remove": "Remove",
+    "search": "Search"
   },
   "landing": {
     "headline": "Your child's official golf record",
@@ -167,7 +171,25 @@
     "price": "Price",
     "priceVnd": "Price (VND)",
     "setting": "Setting",
-    "value": "Value"
+    "value": "Value",
+    "studentName": "Student name",
+    "dateOfBirth": "Date of birth",
+    "level": "Level",
+    "parentActivation": "Parent activation",
+    "className": "Class name",
+    "school": "School",
+    "classType": "Class type",
+    "targetLevel": "Target level",
+    "scoringModeClass": "Skill scoring",
+    "roleInClass": "Role in class",
+    "staffMember": "Staff member",
+    "gender": "Gender",
+    "nationality": "Nationality",
+    "gradeClass": "School class",
+    "golfGoals": "Golf goals",
+    "golfGoalsOther": "Other goal (please specify)",
+    "fullName": "Full name",
+    "role": "Role"
   },
   "admin": {
     "nav": {
@@ -231,5 +253,139 @@
     "system": "System",
     "reason": "Reason",
     "details": "Details"
+  },
+  "enrollmentStatus": {
+    "active": "Enrolled",
+    "completed": "Completed",
+    "dropped": "Left class"
+  },
+  "roster": {
+    "activated": "Activated",
+    "notActivated": "Not activated",
+    "empty": "No students in this class yet."
+  },
+  "verification": {
+    "verified": "Verified",
+    "pending_review": "Pending review"
+  },
+  "classStatus": {
+    "active": "Active",
+    "completed": "Finished",
+    "archived": "Archived"
+  },
+  "classes": {
+    "joinCode": "Class code",
+    "joinCodeHint": "Share this code in the class Zalo group so parents can find their child.",
+    "changeCode": "Change code",
+    "codeChanged": "Class code changed",
+    "confirmChangeCode": "Change the class code? The old code will stop working.",
+    "nameHint": "E.g. To Vinh Dien Golf Club 2026–2027",
+    "scoringHint": "Leave empty to use the class type's default scoring.",
+    "open": "Open class",
+    "staff": "Class coaches",
+    "addStaff": "Assign coach",
+    "confirmRemoveStaff": "Remove this person from the class?",
+    "noStaff": "No coach assigned yet.",
+    "noStaffCandidates": "No staff with a teaching role yet. Create accounts under Users & roles.",
+    "students": "Students",
+    "addStudents": "Add students",
+    "removeStudent": "Remove from class",
+    "confirmRemoveStudent": "Remove {{name}} from the class? Their history is kept.",
+    "studentAdded": "Added to class",
+    "searchAllSchools": "Search all schools",
+    "inClass": "In class"
+  },
+  "roles": {
+    "admin": "Centre admin",
+    "head_coach": "Head coach",
+    "coach": "Coach",
+    "assistant": "Assistant coach",
+    "school_manager": "School manager",
+    "pe_teacher": "PE teacher",
+    "partner": "Partner",
+    "event_staff": "Event staff"
+  },
+  "students": {
+    "searchPlaceholder": "Name, student code or parent phone",
+    "add": "Add student",
+    "allSchools": "All schools",
+    "resultCount": "{{count}} students",
+    "guardians": "Guardians",
+    "noGuardians": "No guardians yet.",
+    "hasAccount": "Has account",
+    "noAccount": "No account",
+    "primary": "Primary guardian",
+    "pendingConfirmation": "Pending confirmation",
+    "classes": "Classes",
+    "editInfo": "Edit details"
+  },
+  "gender": {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
+  },
+  "golfGoals": {
+    "know_how_to_play": "Just to learn how to play",
+    "health": "Physical and mental health",
+    "family": "Family bonding",
+    "life_skills": "Life skills, conduct and leadership",
+    "local_tournaments": "Local amateur tournaments",
+    "college_scholarship": "US college scholarship",
+    "athlete": "Become an athlete",
+    "golf_industry": "Work in the golf industry",
+    "other": "Other"
+  },
+  "relationship": {
+    "father": "Father",
+    "mother": "Mother",
+    "guardian": "Guardian",
+    "other": "Other"
+  },
+  "users": {
+    "createStaff": "Create staff account",
+    "filter": {
+      "staff": "Staff",
+      "all": "All accounts"
+    },
+    "searchPlaceholder": "Name, email, phone",
+    "lastSignIn": "Last sign-in: {{at}}",
+    "neverSignedIn": "Never signed in",
+    "suspended": "Suspended",
+    "invitePending": "Invitation pending",
+    "confirmRemoveRole": "Remove this role?",
+    "addRole": "Add role",
+    "resetLink": "Password reset link",
+    "inviteLink": "Invitation link",
+    "confirmSuspend": "Suspend this account? The user will not be able to sign in.",
+    "suspend": "Suspend",
+    "unsuspend": "Unsuspend",
+    "inviteEmailSent": "Invitation email sent to {{email}}",
+    "roleAdded": "Role added to the existing account",
+    "sendInviteEmail": "Send invitation email",
+    "inviteHint": "If email cannot be sent yet, the app creates an invitation link for you to copy and share via Zalo.",
+    "errors": {
+      "invalid_email": "Invalid email address.",
+      "missing_name": "Please enter a full name.",
+      "invalid_role": "Invalid role.",
+      "missing_school": "Please choose a school for the school manager.",
+      "auth_error": "Could not create the account. Please try again.",
+      "forbidden": "You don't have permission.",
+      "unauthorized": "Your session has expired, please sign in again.",
+      "cannot_suspend_self": "You cannot suspend your own account.",
+      "role_error": "Could not assign the role."
+    },
+    "copyManually": "Automatic copy failed; please select and copy the link manually.",
+    "linkTitle": "Sign-in link",
+    "linkBody": "Send this link to {{email}} (via Zalo or message). They open it to set their password.",
+    "share": "Share",
+    "shareText": "VN Centre Golf Passport password setup link",
+    "linkWarning": "The link can be used once and expires after a short time. Do not post it publicly."
+  },
+  "coach": {
+    "myClasses": "My classes",
+    "noClasses": "You are not assigned to any class yet. Please contact the admin.",
+    "scanPassport": "Scan a passport to open the student profile",
+    "noAccessClass": "You don't have access to this class.",
+    "rosterSummary": "{{count}} students · {{activated}} activated"
   }
 }

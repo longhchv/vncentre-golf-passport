@@ -20,6 +20,11 @@ import { ProgramsPage } from '@/features/admin/ProgramsPage'
 import { ClassTypesPage } from '@/features/admin/ClassTypesPage'
 import { SettingsPage } from '@/features/admin/SettingsPage'
 import { AuditLogPage } from '@/features/admin/AuditLogPage'
+import { ClassesPage } from '@/features/admin/ClassesPage'
+import { ClassDetailPage } from '@/features/admin/ClassDetailPage'
+import { StudentsPage } from '@/features/admin/StudentsPage'
+import { UsersPage } from '@/features/admin/UsersPage'
+import { CoachClassPage, CoachHomePage } from '@/features/coach/CoachPages'
 
 // Menu admin theo 02 mục 3.6. Mục chưa làm hiện thẻ "Sắp ra mắt".
 const ADMIN_NAV: (NavItem & { element?: React.ReactNode })[] = [
@@ -28,18 +33,21 @@ const ADMIN_NAV: (NavItem & { element?: React.ReactNode })[] = [
   { to: '/admin/years', labelKey: 'admin.nav.years', element: <AcademicYearsPage /> },
   { to: '/admin/programs', labelKey: 'admin.nav.programs', element: <ProgramsPage /> },
   { to: '/admin/class-types', labelKey: 'admin.nav.classTypes', element: <ClassTypesPage /> },
-  { to: '/admin/classes', labelKey: 'admin.nav.classes' },
-  { to: '/admin/students', labelKey: 'admin.nav.students' },
+  { to: '/admin/classes', labelKey: 'admin.nav.classes', element: <ClassesPage /> },
+  { to: '/admin/students', labelKey: 'admin.nav.students', element: <StudentsPage /> },
   { to: '/admin/imports', labelKey: 'admin.nav.imports' },
   { to: '/admin/queue', labelKey: 'admin.nav.queue' },
   { to: '/admin/passports', labelKey: 'admin.nav.passports' },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates' },
-  { to: '/admin/users', labelKey: 'admin.nav.users' },
+  { to: '/admin/users', labelKey: 'admin.nav.users', element: <UsersPage /> },
   { to: '/admin/orders', labelKey: 'admin.nav.orders' },
   { to: '/admin/messages', labelKey: 'admin.nav.messages' },
   { to: '/admin/settings', labelKey: 'admin.nav.settings', element: <SettingsPage /> },
   { to: '/admin/audit', labelKey: 'admin.nav.audit', element: <AuditLogPage /> },
 ]
+
+// Menu HLV (02 mục 3.4). Hàng chờ duyệt và phát hành chứng nhận của HLV trưởng: Bước 9 và 12.
+const COACH_NAV: NavItem[] = [{ to: '/coach', labelKey: 'coach.myClasses', end: true }]
 
 function workspaceRoute(workspace: Workspace, path: string, nav?: NavItem[], children?: object[]) {
   return {
@@ -78,7 +86,11 @@ export const router = createBrowserRouter([
   },
   workspaceRoute('parent', '/app'),
   workspaceRoute('student', '/me'),
-  workspaceRoute('coach', '/coach'),
+  workspaceRoute('coach', '/coach', COACH_NAV, [
+    { index: true, element: <CoachHomePage /> },
+    { path: 'classes/:classId', element: <CoachClassPage /> },
+    { path: '*', element: <NotFoundPage /> },
+  ]),
   workspaceRoute('school', '/school'),
   workspaceRoute('admin', '/admin', ADMIN_NAV, [
     { index: true, element: <AdminHomePage /> },
@@ -86,6 +98,7 @@ export const router = createBrowserRouter([
       path: n.to.replace('/admin/', ''),
       element: n.element ?? <ComingSoon />,
     })),
+    { path: 'classes/:classId', element: <ClassDetailPage /> },
     { path: '*', element: <NotFoundPage /> },
   ]),
 ])

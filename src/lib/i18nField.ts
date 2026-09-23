@@ -20,6 +20,14 @@ export function formatDateTime(iso: string, lang: string) {
   }).format(new Date(iso))
 }
 
+/** Ngày thuần (yyyy-mm-dd) → dd/mm/yyyy (vi) hoặc dd/mm/yyyy (en-GB), không đổi múi giờ. */
+export function formatDate(isoDate: string, lang: string) {
+  const [y, m, d] = isoDate.slice(0, 10).split('-').map(Number)
+  return new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'vi-VN', { timeZone: 'UTC' }).format(
+    new Date(Date.UTC(y, m - 1, d)),
+  )
+}
+
 export function formatVnd(amount: number, lang: string) {
   return new Intl.NumberFormat(lang === 'en' ? 'en-US' : 'vi-VN').format(amount) + ' đ'
 }

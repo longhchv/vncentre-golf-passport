@@ -147,3 +147,101 @@ export interface AuditLog {
   created_at: string
   actor: { full_name: string | null; email: string | null } | null
 }
+
+export interface ClassRow {
+  id: string
+  name: string
+  school_id: string | null
+  academic_year_id: string | null
+  program_id: string
+  class_type_id: string | null
+  target_level_id: string | null
+  scoring_mode: 'pass_fail' | 'scale_1_5' | 'measured' | null
+  class_join_code: string
+  start_date: string | null
+  end_date: string | null
+  status: 'active' | 'completed' | 'archived'
+  deleted_at: string | null
+}
+
+export interface RosterRow {
+  student_id: string
+  student_code: string
+  full_name: string
+  date_of_birth: string | null
+  gender: string | null
+  current_grade_class: string | null
+  level_number: number | null
+  level_name_vi: string | null
+  level_name_en: string | null
+  verification_status: 'verified' | 'pending_review'
+  guardian_activated: boolean
+  enrollment_status: 'active' | 'completed' | 'dropped'
+  joined_at: string
+}
+
+export interface StudentSearchRow {
+  id: string
+  student_code: string
+  full_name: string
+  date_of_birth: string | null
+  gender: string | null
+  current_school_id: string | null
+  school_name: string | null
+  current_grade_class: string | null
+  level_number: number | null
+  verification_status: 'verified' | 'pending_review'
+  guardian_count: number
+  activated: boolean
+}
+
+export interface Student {
+  id: string
+  student_code: string
+  full_name: string
+  date_of_birth: string | null
+  gender: 'male' | 'female' | 'other' | null
+  nationality: string | null
+  current_school_id: string | null
+  current_grade_class: string | null
+  golf_goals: string[]
+  golf_goals_other: string | null
+  verification_status: 'verified' | 'pending_review'
+  activated_at: string | null
+  claim_code: string | null
+}
+
+export interface AdminUserRow {
+  user_id: string
+  email: string | null
+  phone: string | null
+  full_name: string | null
+  status: 'active' | 'suspended'
+  confirmed: boolean
+  last_sign_in_at: string | null
+  created_at: string
+  roles: { id: string; role: Role; school_id: string | null; class_id: string | null }[]
+}
+
+export const GOLF_GOALS = [
+  'know_how_to_play',
+  'health',
+  'family',
+  'life_skills',
+  'local_tournaments',
+  'college_scholarship',
+  'athlete',
+  'golf_industry',
+  'other',
+] as const
+
+export const STAFF_ROLES: Role[] = [
+  'admin',
+  'head_coach',
+  'coach',
+  'assistant',
+  'school_manager',
+  'pe_teacher',
+  'partner',
+  'event_staff',
+]
