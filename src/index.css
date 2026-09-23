@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+
+/* Màu trích gần đúng từ logo (00-tong-quan mục 10). Thay bằng mã gốc khi có file nhận diện (phụ lục D, D13). */
+@theme {
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --color-navy: #080634;
+  --color-navy-soft: #1c1a4f;
+  --color-bronze: #b06829;
+  --color-gold: #f9c74f;
+  --color-brown: #6a3a16;
+  --color-cream: #fbf7ef;
+}
+
+@layer base {
+  html {
+    /* Cỡ chữ nội dung chính tối thiểu 16px (02 mục 6) */
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-cream text-navy font-sans antialiased;
+    min-height: 100dvh;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-bronze;
+  }
+}

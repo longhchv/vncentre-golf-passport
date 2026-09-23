@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "VN Centre Golf Passport",
+    "shortName": "Golf Passport",
+    "org": "VN Centre – Dự án phát triển golf trẻ R&A – VGA"
+  },
+  "lang": {
+    "switchTo": "English",
+    "switchLabel": "Chuyển sang tiếng Anh"
+  },
+  "common": {
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "back": "Quay lại",
+    "home": "Trang chủ",
+    "comingSoon": "Sắp ra mắt",
+    "comingSoonBody": "Tính năng này đang được xây dựng. Chú rồng sẽ báo bạn khi sẵn sàng!",
+    "notFound": "Không tìm thấy trang",
+    "notFoundBody": "Đường dẫn không đúng hoặc trang đã được chuyển đi."
+  },
+  "landing": {
+    "headline": "Hồ sơ golf chính thức của con",
+    "body": "Theo dõi level, các khoá đã học và nhận chứng nhận của con. Quét mã QR trên sổ Golf Passport để bắt đầu.",
+    "activate": "Kích hoạt Golf Passport",
+    "verify": "Kiểm tra chứng nhận",
+    "installHint": "Mẹo: thêm app vào màn hình chính để mở nhanh hơn."
+  },
+  "pages": {
+    "activate": "Kích hoạt Golf Passport",
+    "activateBody": "Nhập mã in trên sổ hoặc trên chứng nhận giấy.",
+    "passportScan": "Quét mã sổ",
+    "claimCode": "Kích hoạt bằng mã trên chứng nhận",
+    "invite": "Lời mời kích hoạt",
+    "verify": "Xác thực chứng nhận",
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "forgotPassword": "Quên mật khẩu",
+    "terms": "Điều khoản sử dụng",
+    "privacy": "Chính sách bảo mật",
+    "legalDraft": "Nội dung đang được soạn và sẽ được luật sư rà soát trước khi ra mắt.",
+    "status": "Trạng thái hệ thống"
+  },
+  "workspace": {
+    "parent": "Phụ huynh",
+    "student": "Học viên",
+    "coach": "Huấn luyện viên",
+    "school": "Nhà trường",
+    "admin": "Quản trị"
+  },
+  "status": {
+    "version": "Phiên bản",
+    "environment": "Môi trường",
+    "supabase": "Kết nối máy chủ (Supabase)",
+    "checking": "Đang kiểm tra…",
+    "ok": "Đã kết nối",
+    "notConfigured": "Chưa cấu hình",
+    "error": "Không kết nối được",
+    "language": "Ngôn ngữ hiện tại",
+    "standalone": "Đang mở dạng app cài trên màn hình",
+    "yes": "Có",
+    "no": "Không"
+  }
+}

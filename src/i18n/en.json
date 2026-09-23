@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "VN Centre Golf Passport",
+    "shortName": "Golf Passport",
+    "org": "VN Centre – R&A – VGA Junior Golf Development Project"
+  },
+  "lang": {
+    "switchTo": "Tiếng Việt",
+    "switchLabel": "Switch to Vietnamese"
+  },
+  "common": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "back": "Back",
+    "home": "Home",
+    "comingSoon": "Coming soon",
+    "comingSoonBody": "We're building this feature. Our dragon will let you know when it's ready!",
+    "notFound": "Page not found",
+    "notFoundBody": "The link is incorrect or the page has moved."
+  },
+  "landing": {
+    "headline": "Your child's official golf record",
+    "body": "Follow your child's level and completed courses, and receive their certificates. Scan the QR code on the Golf Passport booklet to get started.",
+    "activate": "Activate Golf Passport",
+    "verify": "Verify a certificate",
+    "installHint": "Tip: add the app to your home screen for quicker access."
+  },
+  "pages": {
+    "activate": "Activate Golf Passport",
+    "activateBody": "Enter the code printed in the booklet or on the paper certificate.",
+    "passportScan": "Passport code",
+    "claimCode": "Activate with certificate code",
+    "invite": "Activation invitation",
+    "verify": "Certificate verification",
+    "login": "Log in",
+    "signup": "Sign up",
+    "forgotPassword": "Forgot password",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "legalDraft": "This content is being drafted and will be reviewed by a lawyer before launch.",
+    "status": "System status"
+  },
+  "workspace": {
+    "parent": "Parent",
+    "student": "Student",
+    "coach": "Coach",
+    "school": "School",
+    "admin": "Admin"
+  },
+  "status": {
+    "version": "Version",
+    "environment": "Environment",
+    "supabase": "Server connection (Supabase)",
+    "checking": "Checking…",
+    "ok": "Connected",
+    "notConfigured": "Not configured",
+    "error": "Cannot connect",
+    "language": "Current language",
+    "standalone": "Running as installed app",
+    "yes": "Yes",
+    "no": "No"
+  }
+}

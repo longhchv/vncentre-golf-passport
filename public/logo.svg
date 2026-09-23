@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Biểu tượng tạm: cuốn hộ chiếu có lá cờ golf. Thay bằng linh vật/logo gốc khi có file. -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F9C74F"/>
+      <stop offset="1" stop-color="#B06829"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#080634"/>
+  <rect x="136" y="96" width="240" height="320" rx="24" fill="url(#gold)"/>
+  <rect x="160" y="120" width="192" height="272" rx="12" fill="none" stroke="#080634" stroke-width="8" opacity=".35"/>
+  <line x1="236" y1="170" x2="236" y2="330" stroke="#080634" stroke-width="14" stroke-linecap="round"/>
+  <path d="M243 170 L318 196 L243 222 Z" fill="#080634"/>
+  <ellipse cx="256" cy="336" rx="64" ry="14" fill="#080634" opacity=".85"/>
+</svg>
