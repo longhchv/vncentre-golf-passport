@@ -1283,5 +1283,46 @@
       "invoice_already_issued": "The invoice has been issued and can no longer be changed.",
       "forbidden": "You don't have access to this order."
     }
+  },
+  "merge": {
+    "title": "Merge duplicate records",
+    "intro": "Use when one student has two records. All data (guardians, classes, history, passports, certificates, levels, orders) moves to the record you keep. Can be undone within 30 days.",
+    "start": "Merge with another record…",
+    "pickOther": "Find the duplicate of {{name}}:",
+    "keep": "Keep",
+    "remove": "Merge into the other",
+    "pickValues": "Tap a record to keep it. Where fields differ, tap the value to keep.",
+    "photo": "Photo",
+    "hasPhoto": "Has photo",
+    "related": "Related data",
+    "count": {
+      "guardians": "Guardians",
+      "classes": "Classes",
+      "courses": "Courses",
+      "levels": "Level records",
+      "passports": "Passports",
+      "certificates": "Certificates",
+      "orders": "Orders",
+      "account": "Student account"
+    },
+    "allMove": "Everything moves to the kept record; no records are deleted.",
+    "warnSharedGuardian": "{{count}} guardian(s) are on both records: one link is kept, the duplicate link is hidden.",
+    "warnPassports": "Both records have an active passport: passport {{code}} will become \"replaced\".",
+    "warnAccounts": "Both records have a student account: the merged record's account will be locked.",
+    "pickAnother": "Choose another record",
+    "doMerge": "Merge records",
+    "confirm": "Merge {{remove}} into {{keep}}? You can undo within 30 days under \"Merge history\".",
+    "done": "Records merged",
+    "history": "Merge history",
+    "undo": "Undo (until {{date}})",
+    "confirmUndo": "Undo this merge? All data goes back to the original records.",
+    "undone": "Merge undone",
+    "undoneOn": "Undone {{date}}",
+    "undoExpired": "Undo period ended",
+    "errors": {
+      "undo_expired": "More than 30 days have passed; this merge cannot be undone.",
+      "undo_later_merge_first": "This record was later merged into another one. Undo the later merge first.",
+      "already_undone": "This merge was already undone."
+    }
   }
 }

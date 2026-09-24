@@ -1283,5 +1283,46 @@
       "invoice_already_issued": "Hoá đơn đã được xuất, không sửa được nữa.",
       "forbidden": "Bạn không có quyền với đơn này."
     }
+  },
+  "merge": {
+    "title": "Gộp hồ sơ trùng",
+    "intro": "Dùng khi một học viên có hai hồ sơ. Mọi dữ liệu (người giám hộ, lớp, lịch sử, sổ, chứng nhận, level, đơn hàng) chuyển sang hồ sơ giữ lại. Hoàn tác được trong 30 ngày.",
+    "start": "Gộp với hồ sơ khác…",
+    "pickOther": "Tìm hồ sơ trùng với {{name}}:",
+    "keep": "Giữ lại",
+    "remove": "Gộp vào hồ sơ kia",
+    "pickValues": "Chạm vào hồ sơ để chọn hồ sơ giữ lại. Ở trường khác nhau, chạm vào giá trị muốn giữ.",
+    "photo": "Ảnh",
+    "hasPhoto": "Có ảnh",
+    "related": "Dữ liệu liên quan",
+    "count": {
+      "guardians": "Người giám hộ",
+      "classes": "Lớp",
+      "courses": "Khoá đã học",
+      "levels": "Bản ghi level",
+      "passports": "Sổ Passport",
+      "certificates": "Chứng nhận",
+      "orders": "Đơn hàng",
+      "account": "Tài khoản học viên"
+    },
+    "allMove": "Toàn bộ chuyển sang hồ sơ giữ lại; không bản ghi nào bị xoá.",
+    "warnSharedGuardian": "{{count}} người giám hộ có ở cả hai hồ sơ: giữ một liên kết, liên kết trùng được ẩn.",
+    "warnPassports": "Cả hai hồ sơ đều có sổ đang dùng: sổ {{code}} sẽ chuyển sang \"đã thay\".",
+    "warnAccounts": "Cả hai hồ sơ đều có tài khoản học viên: tài khoản của hồ sơ bị gộp sẽ bị khoá.",
+    "pickAnother": "Chọn hồ sơ khác",
+    "doMerge": "Gộp hồ sơ",
+    "confirm": "Gộp hồ sơ {{remove}} vào {{keep}}? Có thể hoàn tác trong 30 ngày ở mục \"Lịch sử gộp\".",
+    "done": "Đã gộp hồ sơ",
+    "history": "Lịch sử gộp",
+    "undo": "Hoàn tác (đến {{date}})",
+    "confirmUndo": "Hoàn tác lần gộp này? Mọi dữ liệu được trả về hồ sơ cũ như trước khi gộp.",
+    "undone": "Đã hoàn tác",
+    "undoneOn": "Đã hoàn tác {{date}}",
+    "undoExpired": "Hết hạn hoàn tác",
+    "errors": {
+      "undo_expired": "Đã quá 30 ngày, không hoàn tác được.",
+      "undo_later_merge_first": "Hồ sơ này đã được gộp tiếp vào hồ sơ khác. Hãy hoàn tác lần gộp sau trước.",
+      "already_undone": "Lần gộp này đã được hoàn tác."
+    }
   }
 }

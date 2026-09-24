@@ -17,6 +17,8 @@ import { AdminSetLevel } from '@/features/review/AdminSetLevel'
 import { ManualHistoryForm } from '@/features/school/SchoolPages'
 import { ClaimCodeCard } from '@/features/activation/ClaimCodeCard'
 import { GOLF_GOALS, type School, type Student, type StudentSearchRow } from '@/lib/types'
+import { useAuth } from '@/auth/AuthProvider'
+import { MergeHistoryButton, MergeStudentsDialog } from './MergeStudents'
 
 /** Học viên (admin/HLV trưởng): tìm theo tên, mã, trường, SĐT phụ huynh; xem và sửa hồ sơ (F16). */
 export function StudentsPage() {
@@ -46,9 +48,12 @@ export function StudentsPage() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold">{t('admin.nav.students')}</h1>
-        <Button size="sm" onClick={() => setOpenId('new')}>
-          <Plus className="h-4 w-4" /> {t('students.add')}
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <MergeHistoryButton />
+          <Button size="sm" onClick={() => setOpenId('new')}>
+            <Plus className="h-4 w-4" /> {t('students.add')}
+          </Button>
+        </div>
       </div>
 
       <Card className="grid gap-3 p-4 sm:grid-cols-[1fr_16rem]">
@@ -128,7 +133,7 @@ export function StudentsPage() {
         </>
       )}
 
-      <StudentDialog id={openId} onClose={() => setOpenId(null)} schools={schools.data ?? []} />
+      <StudentDialog id={openId} onClose={() => setOpenId(null)} onOpen={setOpenId} schools={schools.data ?? []} />
     </div>
   )
 }
@@ -149,8 +154,10 @@ interface EnrollmentRow {
   class: { id: string; name: string } | null
 }
 
-function StudentDialog({ id, onClose, schools }: { id: string | 'new' | null; onClose: () => void; schools: School[] }) {
+function StudentDialog({ id, onClose, onOpen, schools }: { id: string | 'new' | null; onClose: () => void; onOpen: (id: string) => void; schools: School[] }) {
   const { t } = useTranslation()
+  const { hasRole } = useAuth()
+  const [merging, setMerging] = useState(false)
   const qc = useQueryClient()
   const toast = useToast()
   const isNew = id === 'new'
@@ -289,7 +296,15 @@ function StudentDialog({ id, onClose, schools }: { id: string | 'new' | null; on
               onSubmit={(v) => save.mutate(v)}
             />
           </section>
-          {/* Mã kích hoạt, gộp trùng, gỡ người giám hộ: Bước 10 và 14 */}
+          {hasRole('admin') && (
+            <section className="space-y-2 border-t border-navy/10 pt-4">
+              <h3 className="font-bold">{t('merge.title')}</h3>
+              <p className="text-sm text-navy/60">{t('merge.intro')}</p>
+              <Button variant="outline" onClick={() => setMerging(true)}>{t('merge.start')}</Button>
+              <MergeStudentsDialog student={{ id: data.student.id, full_name: data.student.full_name }} open={merging}
+                onClose={() => setMerging(false)} onMerged={(keepId) => onOpen(keepId)} />
+            </section>
+          )}
         </div>
       )}
     </Dialog>
