@@ -4,8 +4,10 @@ import {
   markInFileDuplicates,
   normalizeEmail,
   normalizeForMatch,
+  normalizeHistoryRow,
   normalizePhone,
   normalizeStudentRow,
+  parseAcademicYear,
   parseDob,
   titleCaseName,
   type RawStudentRow,
@@ -130,5 +132,36 @@ describe('trạng thái dòng (F10 bước 4)', () => {
     expect(rows[0].status).toBe('ok')
     expect(rows[1].status).toBe('warning')
     expect(rows[1].messages.at(-1)).toEqual({ code: 'duplicate_in_file', params: { row: 2 } })
+  })
+})
+
+
+describe('lịch sử khoá học (phụ lục A2)', () => {
+  const h = (over = {}) => ({
+    full_name: 'Nguyễn Minh An', date_of_birth: '13/07/2019', school: '', grade_class: '1A3',
+    academic_year: '2024-2025', course_name: 'Golf GDTC học kỳ 2 (18 tiết)', level: 1, ...over,
+  })
+  it('năm học nhiều cách viết', () => {
+    expect(parseAcademicYear('2024-2025')).toBe('2024-2025')
+    expect(parseAcademicYear('2024 – 2025')).toBe('2024-2025')
+    expect(parseAcademicYear('2024/2025')).toBe('2024-2025')
+    expect(parseAcademicYear('2024-2026')).toBeNull()
+    expect(parseAcademicYear('2024')).toBeNull()
+  })
+  it('dòng đủ → ok, level 1', () => {
+    const r = normalizeHistoryRow(h(), ctx)
+    expect(r.status).toBe('ok')
+    expect(r.normalized).toMatchObject({ academic_year: '2024-2025', level_number: 1, school_id: 'tvd' })
+  })
+  it('thiếu năm học, khoá học hoặc level sai → lỗi', () => {
+    expect(normalizeHistoryRow(h({ academic_year: '' }), ctx).status).toBe('error')
+    expect(normalizeHistoryRow(h({ course_name: ' ' }), ctx).status).toBe('error')
+    expect(normalizeHistoryRow(h({ level: 21 }), ctx).status).toBe('error')
+    expect(normalizeHistoryRow(h({ level: 'một' }), ctx).status).toBe('error')
+  })
+  it('không có level → vẫn nhập khoá học', () => {
+    const r = normalizeHistoryRow(h({ level: '' }), ctx)
+    expect(r.status).toBe('ok')
+    expect(r.normalized.level_number).toBeNull()
   })
 })

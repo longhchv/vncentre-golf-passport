@@ -1,8 +1,8 @@
 // Đọc/ghi file Excel cho màn hình nhập dữ liệu (phụ lục A). SheetJS được tải khi cần
 // (import động) để không làm nặng các trang khác.
 
-import type { Cell, RawStudentRow } from './normalize'
-import { STUDENT_LIST_COLUMNS } from './normalize'
+import type { Cell, RawHistoryRow, RawStudentRow } from './normalize'
+import { HISTORY_COLUMNS, STUDENT_LIST_COLUMNS } from './normalize'
 
 const loadXlsx = () => import('xlsx')
 
@@ -96,5 +96,75 @@ export async function downloadErrorReport(
   ws['!cols'] = [{ wch: 10 }, { wch: 28 }, { wch: 16 }, { wch: 20 }, { wch: 12 }, { wch: 22 }, { wch: 18 }, { wch: 24 }, { wch: 14 }, { wch: 60 }]
   const wb = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(wb, ws, 'Bao loi')
+  saveWorkbook(XLSX, wb, fileName)
+}
+
+// ---------------------------------------------------------------------------
+// Lịch sử khoá học — mau-lich-su-khoa-hoc.xlsx (phụ lục A2)
+// ---------------------------------------------------------------------------
+
+
+export const HISTORY_HEADERS = [
+  'Họ và tên học sinh',
+  'Ngày sinh (dd/mm/yyyy)',
+  'Trường',
+  'Lớp',
+  'Năm học (yyyy-yyyy)',
+  'Khoá học',
+  'Level đạt',
+]
+
+const HISTORY_GUIDE: string[][] = [
+  ['Cột', 'Tiêu đề', 'Bắt buộc', 'Định dạng', 'Ví dụ', 'Column (English)'],
+  ['A', 'Họ và tên học sinh', 'Có', 'Chữ', 'Nguyễn Minh An', "Student's full name"],
+  ['B', 'Ngày sinh', 'Nên có', 'dd/mm/yyyy', '13/07/2019', 'Date of birth'],
+  ['C', 'Trường', 'Có', 'Chữ; trống thì lấy trường đã chọn trên màn hình', 'TH Tô Vĩnh Diện', 'School'],
+  ['D', 'Lớp', 'Nên có', 'Chữ', '1A3', 'School class'],
+  ['E', 'Năm học', 'Có', 'yyyy-yyyy', '2024-2025', 'Academic year'],
+  ['F', 'Khoá học', 'Có', 'Chữ', 'Golf GDTC học kỳ 2 (18 tiết)', 'Course name'],
+  ['G', 'Level đạt', 'Không', 'Số 1–20, hoặc để trống', '1', 'Level achieved (1–20, optional)'],
+  [],
+  ['Quy tắc / Rules'],
+  ['• App dò học viên có sẵn theo tên + ngày sinh + trường. Không tìm thấy thì hỏi: tạo học viên mới, hoặc bỏ dòng.'],
+  ['• Cột G có giá trị → tạo bản ghi level chờ duyệt. Admin/HLV trưởng có thể chọn "Duyệt luôn khi nhập".'],
+  ['• Quy tắc dữ liệu cũ: học sinh đã học ít nhất 1 học kỳ thì điền 1 ở cột G.'],
+  ['• Nhà trường nhập thì mọi dòng ở trạng thái chờ duyệt.'],
+]
+
+export async function downloadHistoryTemplate() {
+  const XLSX = await loadXlsx()
+  const ws = XLSX.utils.aoa_to_sheet([HISTORY_HEADERS])
+  ws['!cols'] = [{ wch: 28 }, { wch: 22 }, { wch: 22 }, { wch: 8 }, { wch: 20 }, { wch: 34 }, { wch: 10 }]
+  for (let r = 1; r <= 2000; r++) {
+    for (const col of ['B', 'E']) ws[`${col}${r + 1}`] = { t: 's', v: '', z: '@' }
+  }
+  ws['!ref'] = 'A1:G2001'
+  const guide = XLSX.utils.aoa_to_sheet(HISTORY_GUIDE)
+  guide['!cols'] = [{ wch: 6 }, { wch: 22 }, { wch: 10 }, { wch: 44 }, { wch: 28 }, { wch: 34 }]
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Lịch sử khoá học')
+  XLSX.utils.book_append_sheet(wb, guide, 'Hướng dẫn')
+  saveWorkbook(XLSX, wb, 'mau-lich-su-khoa-hoc.xlsx')
+}
+
+export async function readHistoryFile(file: File): Promise<{ rows: { rowNumber: number; raw: RawHistoryRow }[]; headerLooksRight: boolean }> {
+  const XLSX = await loadXlsx()
+  const wb = XLSX.read(await file.arrayBuffer(), { type: 'array', cellDates: false })
+  const aoa = XLSX.utils.sheet_to_json<Cell[]>(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: null, blankrows: false })
+  const header = (aoa[0] ?? []).map((c) => String(c ?? '').toLowerCase())
+  const headerLooksRight = (header[0]?.includes('tên') || header[0]?.includes('name')) && (header[4]?.includes('năm') || header[4]?.includes('year'))
+  const rows: { rowNumber: number; raw: RawHistoryRow }[] = []
+  aoa.slice(1).forEach((cells, i) => {
+    if (!cells || cells.every((c) => c === null || String(c).trim() === '')) return
+    rows.push({ rowNumber: i + 2, raw: Object.fromEntries(HISTORY_COLUMNS.map((k, col) => [k, cells[col] ?? null])) as unknown as RawHistoryRow })
+  })
+  return { rows, headerLooksRight: Boolean(headerLooksRight) }
+}
+
+export async function downloadRowsAsXlsx(headers: string[], rows: (string | number | null)[][], sheet: string, fileName: string) {
+  const XLSX = await loadXlsx()
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...rows])
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, sheet)
   saveWorkbook(XLSX, wb, fileName)
 }

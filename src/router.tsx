@@ -32,7 +32,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/classes', labelKey: 'admin.nav.classes', lazy: page(() => import('@/features/admin/ClassesPage'), (m) => m.ClassesPage) },
   { to: '/admin/students', labelKey: 'admin.nav.students', lazy: page(() => import('@/features/admin/StudentsPage'), (m) => m.StudentsPage) },
   { to: '/admin/imports', labelKey: 'admin.nav.imports', lazy: page(() => import('@/features/imports/ImportsPage'), (m) => m.ImportsPage) },
-  { to: '/admin/queue', labelKey: 'admin.nav.queue' },
+  { to: '/admin/queue', labelKey: 'admin.nav.queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates' },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
@@ -46,6 +46,15 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
 const COACH_NAV: NavItem[] = [
   { to: '/coach', labelKey: 'coach.myClasses', end: true },
   { to: '/coach/scan', labelKey: 'coach.scanPassport' },
+  { to: '/coach/queue', labelKey: 'admin.nav.queue', requireRole: 'head_coach' },
+  { to: '/coach/history', labelKey: 'import.tab.course_history', requireRole: 'head_coach' },
+]
+
+// Cổng quản lý trường (02 mục 3.5)
+const SCHOOL_NAV: NavItem[] = [
+  { to: '/school', labelKey: 'school.nav.overview', end: true },
+  { to: '/school/students', labelKey: 'school.nav.students' },
+  { to: '/school/history', labelKey: 'school.nav.history' },
 ]
 
 // Menu phụ huynh (02 mục 3.2) — các mục hồ sơ con có từ Bước 7–8.
@@ -106,9 +115,17 @@ export const router = createBrowserRouter([
     { path: 'classes/:classId', lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachClassPage) },
     { path: 'students/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachStudentPage) },
     { path: 'scan', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachScanPage) },
+    { path: 'queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
+    { path: 'history', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.CenterHistoryImportPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
-  workspaceRoute('school', '/school'),
+  workspaceRoute('school', '/school', SCHOOL_NAV, [
+    { index: true, lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolHomePage) },
+    { path: 'students', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolStudentsPage) },
+    { path: 'students/:studentId', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolStudentPage) },
+    { path: 'history', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolHistoryPage) },
+    { path: '*', element: <NotFoundPage /> },
+  ]),
   workspaceRoute('admin', '/admin', ADMIN_NAV, [
     { index: true, lazy: page(() => import('@/features/admin/AdminHomePage'), (m) => m.AdminHomePage) },
     ...ADMIN_NAV.filter((n) => n.to !== '/admin').map<RouteObject>((n) => ({

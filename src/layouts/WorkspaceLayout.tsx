@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { LogOut, Menu, Repeat, UserRound } from 'lucide-react'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { useAuth, type Workspace } from '@/auth/AuthProvider'
+import type { Role } from '@/lib/types'
 import { Dialog } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
 
@@ -11,17 +12,19 @@ export interface NavItem {
   to: string
   labelKey: string
   end?: boolean
+  /** Chỉ hiện khi tài khoản có vai trò này (ví dụ HLV trưởng) */
+  requireRole?: Role
 }
 
 /** Khung chung cho các không gian sau đăng nhập; có menu điều hướng khi truyền `nav`. */
 export function WorkspaceLayout({ workspace, nav }: { workspace: Workspace; nav?: NavItem[] }) {
   const { t } = useTranslation()
-  const { profile, workspaces, signOut } = useAuth()
+  const { profile, workspaces, signOut, hasRole } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const navList = nav && (
     <nav className="flex flex-col gap-1" onClick={() => setMenuOpen(false)}>
-      {nav.map((item) => (
+      {nav.filter((item) => !item.requireRole || hasRole(item.requireRole)).map((item) => (
         <NavLink
           key={item.to}
           to={item.to}

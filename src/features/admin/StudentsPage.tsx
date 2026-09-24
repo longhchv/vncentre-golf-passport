@@ -13,6 +13,8 @@ import { Input, Select } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { EntityForm, type FieldSpec } from '@/features/admin/EntityForm'
 import { StudentPassports } from '@/features/passports/StudentPassports'
+import { AdminSetLevel } from '@/features/review/AdminSetLevel'
+import { ManualHistoryForm } from '@/features/school/SchoolPages'
 import { GOLF_GOALS, type School, type Student, type StudentSearchRow } from '@/lib/types'
 
 /** Học viên (admin/HLV trưởng): tìm theo tên, mã, trường, SĐT phụ huynh; xem và sửa hồ sơ (F16). */
@@ -255,7 +257,9 @@ function StudentDialog({ id, onClose, schools }: { id: string | 'new' | null; on
             )}
           </section>
 
+          <AdminSetLevel studentId={data.student.id} />
           <StudentPassports student={{ id: data.student.id, full_name: data.student.full_name }} />
+          <ManualHistoryForm studentId={data.student.id} center />
 
           <section className="space-y-2">
             <h3 className="font-bold">{t('students.classes')}</h3>

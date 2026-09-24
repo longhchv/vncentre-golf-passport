@@ -5,10 +5,10 @@ import { supabase } from '@/lib/supabase'
 import { useTable } from '@/lib/db'
 import { formatDateTime } from '@/lib/i18nField'
 import { Badge, Card } from '@/components/ui/card'
-import { ComingSoon } from '@/components/ComingSoon'
 import { cn } from '@/lib/utils'
 import type { ClassRow, School } from '@/lib/types'
 import { StudentListImport, type ImportBatch } from './StudentListImport'
+import { HistoryImport } from './HistoryImport'
 
 type Tab = 'student_list' | 'course_history'
 
@@ -61,7 +61,7 @@ export function ImportsPage() {
       </div>
 
       {tab === 'course_history' ? (
-        <ComingSoon title={t('import.tab.course_history')} />
+        <HistoryImport mode="center" />
       ) : (
         <>
           <StudentListImport key={session.key} resumeBatch={session.batch} onFinished={() => restart()} />

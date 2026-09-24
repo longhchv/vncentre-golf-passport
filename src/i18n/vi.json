@@ -845,5 +845,121 @@
   "notifications": {
     "markAllRead": "Đánh dấu đã đọc",
     "empty": "Chưa có thông báo."
+  },
+  "history": {
+    "wrongTemplate": "File không đúng mẫu lịch sử khoá học: cột A là họ tên, cột E là năm học. Hãy dùng file mẫu.",
+    "templateTitle": "File mẫu lịch sử khoá học",
+    "templateHint": "7 cột A–G theo phụ lục A2, có sheet Hướng dẫn. Học ít nhất 1 học kỳ thì ghi 1 ở cột Level đạt.",
+    "matching": "Đang dò học viên có sẵn…",
+    "schoolPendingNote": "Nhà trường nhập thì mọi khoá học và level ở trạng thái chờ duyệt. VN Centre duyệt xong phụ huynh mới thấy.",
+    "filter": {
+      "all": "Tất cả",
+      "matched": "Đã khớp học viên",
+      "decide": "Cần quyết định",
+      "error": "Lỗi"
+    },
+    "undecided": "Còn {{count}} dòng chưa tìm thấy học viên, cần chọn tạo mới hoặc bỏ qua.",
+    "allSkip": "Tất cả: bỏ qua",
+    "matched": "Đã khớp",
+    "needsDecision": "Cần quyết định",
+    "createNew": "Tạo học viên mới",
+    "willImport": "Sẽ nhập {{count}} khoá học · {{errors}} dòng lỗi không nhập",
+    "approveNow": "Duyệt luôn khi nhập (phụ huynh thấy ngay)",
+    "result": {
+      "courses": "Khoá học đã ghi",
+      "levels": "Level ghi nhận",
+      "created": "Học viên mới"
+    },
+    "doneApproved": "Đã duyệt luôn. Phụ huynh đã nhận thông báo.",
+    "donePending": "Các khoá học đang chờ duyệt trong Hàng chờ duyệt.",
+    "msg": {
+      "student_not_found": "Không tìm thấy học viên có sẵn (tên + ngày sinh + trường).",
+      "multiple_matches": "Có nhiều học viên trùng tên, hãy chọn đúng em.",
+      "school_not_allowed": "Bạn không được nhập cho trường này.",
+      "invalid_year": "Năm học \"{{value}}\" sai định dạng, cần yyyy-yyyy (không nhập dòng này).",
+      "missing_course": "Thiếu tên khoá học (không nhập dòng này).",
+      "invalid_level": "Level đạt \"{{value}}\" không hợp lệ, cần số 1–20 (không nhập dòng này)."
+    },
+    "year": "Năm học",
+    "course": "Khoá học",
+    "sessions": "Số tiết",
+    "levelAchieved": "Level đạt"
+  },
+  "review": {
+    "section": {
+      "course_history": "Khoá học",
+      "level_records": "Level",
+      "students": "Học viên tự khai",
+      "guardian_links": "Liên kết chờ xác nhận",
+      "link_requests": "Yêu cầu liên kết",
+      "support_requests": "Yêu cầu từ phụ huynh"
+    },
+    "approvedN": "Đã duyệt {{count}} mục",
+    "rejectedN": "Đã từ chối {{count}} mục",
+    "empty": "Không có mục nào chờ duyệt.",
+    "selectAll": "Chọn tất cả",
+    "approve": "Duyệt",
+    "reject": "Từ chối",
+    "markDone": "Đã xử lý",
+    "submittedBy": "Người gửi: {{name}}",
+    "source": {
+      "import": "Nhập file",
+      "school_entry": "Nhà trường nhập",
+      "admin": "Admin",
+      "system": "Hệ thống"
+    },
+    "levelSource": {
+      "legacy_import": "Dữ liệu cũ",
+      "school_entry": "Nhà trường",
+      "assessment": "Đánh giá",
+      "admin": "Admin"
+    },
+    "fromPassport": "Từ sổ {{code}}",
+    "studentOnFile": "Hồ sơ trong hệ thống",
+    "parentSaid": "Phụ huynh khai",
+    "childSaid": "Phụ huynh khai về con",
+    "supportType": {
+      "history_update": "Con đã từng học golf",
+      "data_deletion": "Yêu cầu xoá dữ liệu",
+      "other": "Khác"
+    },
+    "absorbed": "Đã ghép vào học viên có sẵn",
+    "possibleMatches": "Có thể là học viên có sẵn:",
+    "confirmAbsorb": "Ghép hồ sơ tự khai vào {{name}}? Sổ và phụ huynh sẽ chuyển sang hồ sơ này.",
+    "absorb": "Ghép vào em này",
+    "confirmNewStudent": "Xác nhận là học viên mới",
+    "rejectTitle": "Từ chối {{count}} mục",
+    "rejectLinkNote": "Liên kết bị gỡ; sổ chuyển sang một hồ sơ mới theo thông tin phụ huynh khai (chờ xác minh).",
+    "rejectStudentNote": "Hồ sơ tự khai bị xoá, sổ bị huỷ và liên kết phụ huynh bị gỡ.",
+    "reason": "Lý do",
+    "confirmReject": "Xác nhận từ chối",
+    "editLevel": "Sửa level",
+    "newLevel": "Level hiện tại mới",
+    "editLevelHint": "Các level đã duyệt từ level mới trở lên sẽ bị huỷ; level ngay trước được ghi là đã hoàn thành. Thao tác được ghi nhật ký kèm lý do."
+  },
+  "school": {
+    "noSchool": "Tài khoản chưa được gán trường. Hãy liên hệ VN Centre.",
+    "code": "Mã học viên",
+    "classes": "Lớp golf",
+    "students": "Học sinh",
+    "activated": "Phụ huynh đã kích hoạt",
+    "pendingHistory": "Khoá học chờ duyệt",
+    "levelDistribution": "Phân bổ level",
+    "byClass": "Theo lớp",
+    "classStat": "{{students}} học sinh · {{activated}} đã kích hoạt",
+    "exportExcel": "Xuất Excel",
+    "nav": {
+      "overview": "Tổng quan trường",
+      "students": "Học sinh",
+      "history": "Nhập lịch sử khoá học"
+    },
+    "allClasses": "Tất cả lớp",
+    "searchPlaceholder": "Tìm tên hoặc mã học viên",
+    "pendingN": "{{count}} chờ duyệt",
+    "historySubmitted": "Đã gửi, đang chờ VN Centre duyệt",
+    "historyInvalid": "Kiểm tra lại năm học (yyyy-yyyy) và tên khoá học.",
+    "addHistory": "Thêm khoá đã học",
+    "submitHistory": "Gửi",
+    "historyIntro": "Tải file mẫu, điền các khoá học sinh đã học, rồi tải lên. Mọi dòng sẽ chờ VN Centre duyệt."
   }
 }

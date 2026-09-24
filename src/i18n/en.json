@@ -845,5 +845,121 @@
   "notifications": {
     "markAllRead": "Mark all as read",
     "empty": "No notifications yet."
+  },
+  "history": {
+    "wrongTemplate": "The file does not match the course-history template: column A is the name, column E the academic year. Please use the template.",
+    "templateTitle": "Course history template",
+    "templateHint": "7 columns A–G as in appendix A2, with a Guide sheet. At least one semester of golf → put 1 in Level achieved.",
+    "matching": "Matching existing students…",
+    "schoolPendingNote": "Entries from schools stay pending until VN Centre approves them; parents see them only after approval.",
+    "filter": {
+      "all": "All",
+      "matched": "Matched",
+      "decide": "Needs decision",
+      "error": "Errors"
+    },
+    "undecided": "{{count}} rows have no matching student: choose create new or skip.",
+    "allSkip": "All: skip",
+    "matched": "Matched",
+    "needsDecision": "Needs decision",
+    "createNew": "Create a new student",
+    "willImport": "{{count}} courses will be imported · {{errors}} error rows skipped",
+    "approveNow": "Approve on import (parents see it immediately)",
+    "result": {
+      "courses": "Courses recorded",
+      "levels": "Levels recorded",
+      "created": "New students"
+    },
+    "doneApproved": "Approved on import. Parents have been notified.",
+    "donePending": "The courses are waiting in the Approval queue.",
+    "msg": {
+      "student_not_found": "No existing student found (name + date of birth + school).",
+      "multiple_matches": "Several students share this name; choose the right one.",
+      "school_not_allowed": "You cannot import for this school.",
+      "invalid_year": "Academic year \"{{value}}\" is invalid; use yyyy-yyyy (row not imported).",
+      "missing_course": "Course name missing (row not imported).",
+      "invalid_level": "Level \"{{value}}\" is invalid; use a number 1–20 (row not imported)."
+    },
+    "year": "Academic year",
+    "course": "Course",
+    "sessions": "Sessions",
+    "levelAchieved": "Level achieved"
+  },
+  "review": {
+    "section": {
+      "course_history": "Courses",
+      "level_records": "Levels",
+      "students": "Self-reported students",
+      "guardian_links": "Links awaiting confirmation",
+      "link_requests": "Link requests",
+      "support_requests": "Parent requests"
+    },
+    "approvedN": "{{count}} items approved",
+    "rejectedN": "{{count}} items rejected",
+    "empty": "Nothing waiting for review.",
+    "selectAll": "Select all",
+    "approve": "Approve",
+    "reject": "Reject",
+    "markDone": "Handled",
+    "submittedBy": "Submitted by: {{name}}",
+    "source": {
+      "import": "File import",
+      "school_entry": "School entry",
+      "admin": "Admin",
+      "system": "System"
+    },
+    "levelSource": {
+      "legacy_import": "Legacy data",
+      "school_entry": "School",
+      "assessment": "Assessment",
+      "admin": "Admin"
+    },
+    "fromPassport": "From passport {{code}}",
+    "studentOnFile": "Record on file",
+    "parentSaid": "Parent reported",
+    "childSaid": "Parent reported about the child",
+    "supportType": {
+      "history_update": "Child learned golf before",
+      "data_deletion": "Data deletion request",
+      "other": "Other"
+    },
+    "absorbed": "Merged into the existing student",
+    "possibleMatches": "Possibly an existing student:",
+    "confirmAbsorb": "Merge the self-reported record into {{name}}? The passport and guardians move to that record.",
+    "absorb": "Merge into this student",
+    "confirmNewStudent": "Confirm as a new student",
+    "rejectTitle": "Reject {{count}} items",
+    "rejectLinkNote": "The link is removed; the passport moves to a new record built from the parent's details (pending verification).",
+    "rejectStudentNote": "The self-reported record is removed, its passport voided and guardian links removed.",
+    "reason": "Reason",
+    "confirmReject": "Confirm rejection",
+    "editLevel": "Edit level",
+    "newLevel": "New current level",
+    "editLevelHint": "Approved levels at or above the new level are cancelled; the level just below is recorded as completed. This action is logged with the reason."
+  },
+  "school": {
+    "noSchool": "This account has no school assigned. Please contact VN Centre.",
+    "code": "Student code",
+    "classes": "Golf classes",
+    "students": "Students",
+    "activated": "Parents activated",
+    "pendingHistory": "Courses pending approval",
+    "levelDistribution": "Level distribution",
+    "byClass": "By class",
+    "classStat": "{{students}} students · {{activated}} activated",
+    "exportExcel": "Export to Excel",
+    "nav": {
+      "overview": "School overview",
+      "students": "Students",
+      "history": "Import course history"
+    },
+    "allClasses": "All classes",
+    "searchPlaceholder": "Search name or student code",
+    "pendingN": "{{count}} pending",
+    "historySubmitted": "Submitted, awaiting VN Centre approval",
+    "historyInvalid": "Check the academic year (yyyy-yyyy) and course name.",
+    "addHistory": "Add a completed course",
+    "submitHistory": "Submit",
+    "historyIntro": "Download the template, fill in the courses students have taken, then upload it. All rows wait for VN Centre approval."
   }
 }

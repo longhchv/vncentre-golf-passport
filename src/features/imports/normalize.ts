@@ -226,3 +226,99 @@ export const STUDENT_LIST_COLUMNS: (keyof RawStudentRow)[] = [
   'contact_phone',
   'contact_email',
 ]
+
+// ---------------------------------------------------------------------------
+// Lịch sử khoá học (phụ lục A2): A Họ tên · B Ngày sinh · C Trường · D Lớp · E Năm học · F Khoá học · G Level đạt
+// ---------------------------------------------------------------------------
+
+export interface RawHistoryRow {
+  full_name: Cell
+  date_of_birth: Cell
+  school: Cell
+  grade_class: Cell
+  academic_year: Cell
+  course_name: Cell
+  level: Cell
+}
+
+export interface NormalizedHistoryRow {
+  full_name: string | null
+  date_of_birth: string | null
+  school_text: string | null
+  school_id: string | null
+  grade_class: string | null
+  academic_year: string | null
+  course_name: string | null
+  level_number: number | null
+}
+
+export type HistoryMessageCode = MessageCode | 'invalid_year' | 'missing_course' | 'invalid_level'
+
+export const HISTORY_COLUMNS: (keyof RawHistoryRow)[] = [
+  'full_name',
+  'date_of_birth',
+  'school',
+  'grade_class',
+  'academic_year',
+  'course_name',
+  'level',
+]
+
+/** "2024-2025", "2024 – 2025", "2024/2025" → "2024-2025" (hai năm liền nhau). */
+export function parseAcademicYear(c: Cell): string | null {
+  const m = text(c).match(/^(\d{4})\s*[-–—/]\s*(\d{4})$/)
+  if (!m) return null
+  return Number(m[2]) === Number(m[1]) + 1 ? `${m[1]}-${m[2]}` : null
+}
+
+export function normalizeHistoryRow(
+  raw: RawHistoryRow,
+  ctx: { selectedSchoolId: string; schools: SchoolRef[] },
+): { normalized: NormalizedHistoryRow; status: RowStatus; messages: { code: HistoryMessageCode; params?: Record<string, string | number> }[] } {
+  const messages: { code: HistoryMessageCode; params?: Record<string, string | number> }[] = []
+  const nameText = text(raw.full_name)
+  const full_name = nameText ? titleCaseName(nameText) : null
+  if (!full_name) messages.push({ code: 'missing_name' })
+
+  const dob = parseDob(raw.date_of_birth)
+  if (dob === null) messages.push({ code: 'invalid_dob', params: { value: text(raw.date_of_birth) } })
+  else if (dob === undefined) messages.push({ code: 'missing_dob' })
+
+  const school_text = text(raw.school) || null
+  let school_id: string | null = ctx.selectedSchoolId || null
+  if (school_text) {
+    const found = matchSchool(school_text, ctx.schools)
+    if (found) school_id = found.id
+    else messages.push({ code: 'unknown_school', params: { value: school_text } })
+  }
+
+  const academic_year = parseAcademicYear(raw.academic_year)
+  if (!academic_year) messages.push({ code: 'invalid_year', params: { value: text(raw.academic_year) } })
+  const course_name = text(raw.course_name) || null
+  if (!course_name) messages.push({ code: 'missing_course' })
+
+  let level_number: number | null = null
+  const levelText = text(raw.level)
+  if (levelText) {
+    const n = Number(levelText)
+    if (Number.isInteger(n) && n >= 1 && n <= 20) level_number = n
+    else messages.push({ code: 'invalid_level', params: { value: levelText } })
+  }
+
+  const errorCodes: HistoryMessageCode[] = ['missing_name', 'invalid_dob', 'invalid_year', 'missing_course', 'invalid_level']
+  const isError = messages.some((m) => errorCodes.includes(m.code))
+  return {
+    normalized: {
+      full_name,
+      date_of_birth: typeof dob === 'string' ? dob : null,
+      school_text,
+      school_id,
+      grade_class: text(raw.grade_class) || null,
+      academic_year,
+      course_name,
+      level_number,
+    },
+    status: isError ? 'error' : messages.length ? 'warning' : 'ok',
+    messages,
+  }
+}
