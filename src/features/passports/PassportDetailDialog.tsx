@@ -92,6 +92,20 @@ export function PassportDetailDialog({ passportId, onClose }: { passportId: stri
     onError: (e) => setError(passportError(e)),
   })
 
+  // F15: admin báo mất thay phụ huynh → sổ 'lost', tạo đơn phí cấp lại
+  const reportLost = useMutation({
+    mutationFn: async () => {
+      const { error: e } = await supabase!.rpc('report_lost_passport', { p_passport_id: passportId })
+      if (e) throw e
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['passports'] })
+      qc.invalidateQueries({ queryKey: ['admin_orders'] })
+      toast(t('orders.lostReported'))
+    },
+    onError: (e) => setError(passportError(e)),
+  })
+
   const p = q.data?.passport
   const fmt = (iso: string | null) => (iso ? formatDateTime(iso, i18n.language) : '—')
 
@@ -158,6 +172,13 @@ export function PassportDetailDialog({ passportId, onClose }: { passportId: stri
                 {t('passports.void')}
               </Button>
             ))}
+          {p.student && (p.status === 'assigned' || p.status === 'active') && (
+            <Button variant="outline" disabled={reportLost.isPending}
+              onClick={() => window.confirm(t('orders.confirmLostAdmin', { name: p.student!.full_name })) && reportLost.mutate()}>
+              {t('profile.reportLost')}
+            </Button>
+          )}
+          
         </div>
       )}
     </Dialog>

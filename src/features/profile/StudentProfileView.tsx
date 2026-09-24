@@ -20,6 +20,7 @@ import { useSignedPhoto, type StudentProfile } from './useStudentProfile'
 import { ChildInfoForm } from './ChildInfoForm'
 import { GuardiansTab } from '@/features/guardians/GuardiansTab'
 import { CertificateViewer } from '@/features/certificates/CertificateViewer'
+import { ReportLostButton } from '@/features/orders/ReportLost'
 
 type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info'
 
@@ -378,6 +379,7 @@ function PassportTab({ profile }: { profile: StudentProfile }) {
   const { t, i18n } = useTranslation()
   const list = profile.passports ?? []
   const current = list.find((p) => p.status === 'active') ?? list.find((p) => p.status === 'assigned')
+  const lost = current ? undefined : list.find((p) => p.status === 'lost')
   const fmt = (d: string | null) => (d ? formatDate(d, i18n.language) : '—')
   const tier = (p: (typeof list)[number]) => (i18n.language === 'en' ? p.tier_en : p.tier_vi)
   return (
@@ -393,20 +395,24 @@ function PassportTab({ profile }: { profile: StudentProfile }) {
             <dt className="text-navy/60">{t('passports.expiresAt')}</dt>
             <dd>{fmt(current.expires_at)}</dd>
           </dl>
-          {profile.viewer === 'guardian' && (
-            <Button variant="outline" size="sm" disabled>
-              {t('profile.reportLost')} · {t('common.comingSoon')}
-            </Button>
-          )}
+          {profile.viewer === 'guardian' && profile.can_manage && <ReportLostButton passportId={current.id} code={current.code} />}
+        </Card>
+      ) : lost ? (
+        // F15: sổ đã báo mất, chưa có sổ mới → thanh toán phí cấp lại (hoặc xem đơn đã trả)
+        <Card className="space-y-2 p-4">
+          <p className="font-mono text-xl font-bold">{formatCode(lost.code)}</p>
+          <Badge tone="bad">{t('passportStatus.lost')}</Badge>
+          <p className="text-sm text-navy/65">{t('orders.lostCardHint')}</p>
+          {profile.viewer === 'guardian' && profile.can_manage && <ReportLostButton passportId={lost.id} code={lost.code} mode="pay" />}
         </Card>
       ) : (
         <Empty text={t('passports.none')} />
       )}
-      {list.length > 1 && (
+      {list.filter((p) => p !== current && p !== lost).length > 0 && (
         <section className="space-y-2">
           <h3 className="font-bold">{t('profile.passportHistory')}</h3>
           <ul className="space-y-2">
-            {list.filter((p) => p !== current).map((p) => (
+            {list.filter((p) => p !== current && p !== lost).map((p) => (
               <li key={p.id} className="flex flex-wrap items-center gap-2 text-sm">
                 <span className="font-mono font-semibold">{formatCode(p.code)}</span>
                 <Badge tone={PASSPORT_TONE[p.status]}>{t(`passportStatus.${p.status}`)}</Badge>

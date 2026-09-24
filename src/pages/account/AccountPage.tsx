@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card'
 import { Field, FormError, Input } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { ComingSoon } from '@/components/ComingSoon'
+import { MyOrders } from '@/features/orders/OrderPage'
 import { PhoneField } from '@/features/auth/PhoneField'
 import { OtpStep } from '@/features/auth/OtpStep'
 import { callOtp, otpErrorText, type OtpSent } from '@/features/auth/otp'
@@ -22,7 +23,7 @@ import { isVietnamese, toE164 } from '@/features/auth/phone'
  */
 export function AccountPage() {
   const { t } = useTranslation()
-  const { session, loading, profile, signOut, changeLanguage } = useAuth()
+  const { session, loading, profile, signOut, changeLanguage, guardianId } = useAuth()
   if (loading) return <FullPageSpinner />
   if (!session) return <Navigate to="/login?next=/account" replace />
   const user = session.user
@@ -47,7 +48,9 @@ export function AccountPage() {
       <EmailCard current={user.email ?? null} verified={Boolean(user.email_confirmed_at)} />
       <PasswordCard />
 
-      <ComingSoon title={t('account.consentsOrders')} />
+      {guardianId && <MyOrders />}
+      {/* Quản lý đồng ý: Bước 15 */}
+      <ComingSoon title={t('account.consents')} />
 
       <Button variant="outline" size="full" onClick={() => signOut()}>
         <LogOut className="h-4 w-4" /> {t('auth.signOut')}

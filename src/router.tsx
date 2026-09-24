@@ -36,7 +36,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
-  { to: '/admin/orders', labelKey: 'admin.nav.orders' },
+  { to: '/admin/orders', labelKey: 'admin.nav.orders', lazy: page(() => import('@/features/orders/OrdersPage'), (m) => m.OrdersPage) },
   { to: '/admin/messages', labelKey: 'admin.nav.messages', lazy: page(() => import('@/features/admin/MessagesPage'), (m) => m.MessagesPage) },
   { to: '/admin/settings', labelKey: 'admin.nav.settings', lazy: page(() => import('@/features/admin/SettingsPage'), (m) => m.SettingsPage) },
   { to: '/admin/audit', labelKey: 'admin.nav.audit', lazy: page(() => import('@/features/admin/AuditLogPage'), (m) => m.AuditLogPage) },
@@ -109,6 +109,7 @@ export const router = createBrowserRouter([
   },
   workspaceRoute('parent', '/app', PARENT_NAV, [
     { index: true, lazy: page(() => import('@/features/parent/ParentHomePage'), (m) => m.ParentHomePage) },
+    { path: 'orders/:orderId', lazy: page(() => import('@/features/orders/OrderPage'), (m) => m.OrderPage) },
     { path: 'find', lazy: page(() => import('@/features/findchild/FindChildPage'), (m) => m.FindChildPage) },
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },

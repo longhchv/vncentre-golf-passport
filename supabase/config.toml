@@ -417,3 +417,6 @@ enabled = true
 # Supabase Auth gọi hook bằng chữ ký webhook, không có JWT người dùng
 [functions.sms-hook]
 verify_jwt = false
+
+[functions.payos-webhook]
+verify_jwt = false
