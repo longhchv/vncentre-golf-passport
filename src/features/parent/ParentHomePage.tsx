@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight, Mail, QrCode } from 'lucide-react'
+import { ChevronRight, Mail, QrCode, Search } from 'lucide-react'
 import { useAuth } from '@/auth/AuthProvider'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -160,8 +160,10 @@ export function ParentHomePage() {
             <QrCode className="h-5 w-5" /> {t('parent.activateAnother')}
           </Link>
         </Button>
-        <Button variant="ghost" size="full" disabled>
-          {t('parent.noCode')} · {t('common.comingSoon')}
+        <Button asChild variant="outline" size="full">
+          <Link to="/app/find">
+            <Search className="h-5 w-5" /> {t('parent.noCode')}
+          </Link>
         </Button>
       </Card>
     </div>

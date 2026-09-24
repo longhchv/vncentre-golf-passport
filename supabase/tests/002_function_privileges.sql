@@ -16,5 +16,12 @@ begin
      or has_function_privilege('anon', 'public.auth_user_id_by_email(text)', 'execute') then
     raise exception 'FAIL: auth_user_id_by_* gọi được qua API';
   end if;
+  -- Bước 11: hàm nội bộ; khách chưa đăng nhập không tự tìm con được
+  if has_function_privilege('authenticated', 'public.ensure_my_guardian()', 'execute')
+     or has_function_privilege('authenticated', 'public.finish_guardian_link(uuid, jsonb, text, boolean)', 'execute')
+     or has_function_privilege('anon', 'public.find_child_request(jsonb)', 'execute')
+     or has_function_privilege('anon', 'public.link_request_candidates(uuid)', 'execute') then
+    raise exception 'FAIL: hàm Bước 11 mở quá rộng';
+  end if;
   raise exception 'ALL_OK';
 end $$;

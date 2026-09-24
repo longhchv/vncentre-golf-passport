@@ -43,6 +43,20 @@ export function ParentChildPage() {
   return <ProfileLoader studentId={studentId} back={{ to: '/app', label: t('parent.nav.home') }} />
 }
 
+/** Học viên · Hồ sơ của mình (F7: chỉ xem, không sửa, không tải PDF). */
+export function StudentMePage() {
+  const { t } = useTranslation()
+  const { studentId } = useAuth()
+  const q = useStudentProfile(studentId ?? '')
+  if (q.isPending) return <p className="text-navy/60">{t('common.loading')}</p>
+  if (q.isError) return <p className="text-red-700">{t('errors.loadFailed')}</p>
+  return (
+    <div className="mx-auto max-w-2xl">
+      <StudentProfileView profile={q.data} />
+    </div>
+  )
+}
+
 /** HLV · Hồ sơ học viên (không có liên hệ phụ huynh — F14, R8). */
 export function CoachStudentPage() {
   const { studentId = '' } = useParams()

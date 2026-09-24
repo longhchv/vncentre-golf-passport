@@ -45,9 +45,12 @@ export function WorkspaceLayout({ workspace, nav }: { workspace: Workspace; nav?
   const accountBox = (
     <div className="space-y-2 border-t border-navy/10 pt-3">
       <p className="truncate px-3 text-sm text-navy/60">{profile?.full_name || profile?.email || profile?.phone}</p>
-      <Link to="/account" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-navy/80 hover:bg-navy/5">
-        <UserRound className="h-4 w-4" /> {t('account.title')}
-      </Link>
+      {/* Học viên chỉ xem (F7): không có trang Tài khoản */}
+      {workspace !== 'student' && (
+        <Link to="/account" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-navy/80 hover:bg-navy/5">
+          <UserRound className="h-4 w-4" /> {t('account.title')}
+        </Link>
+      )}
       {workspaces.length > 1 && (
         <Link to="/choose" className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-navy/80 hover:bg-navy/5">
           <Repeat className="h-4 w-4" /> {t('auth.switchWorkspace')}

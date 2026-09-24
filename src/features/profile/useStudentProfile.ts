@@ -13,7 +13,7 @@ export interface LevelInfo {
 }
 
 export interface StudentProfile {
-  viewer: 'guardian' | 'staff' | 'pending'
+  viewer: 'guardian' | 'staff' | 'student' | 'pending'
   can_manage?: boolean
   student: {
     id: string
@@ -56,6 +56,7 @@ export interface StudentProfile {
   }[]
   certificates?: { id: string; title_vi: string | null; title_en: string | null; type: string; issued_at: string; verify_code: string }[]
   guardians?: {
+    link_id: string
     name: string | null
     relationship: string | null
     is_primary: boolean

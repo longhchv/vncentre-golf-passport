@@ -9,6 +9,7 @@ import { useAuth } from '@/auth/AuthProvider'
 import { Card } from '@/components/ui/card'
 import { RosterTable } from '@/features/classes/RosterTable'
 import { ClassCode } from '@/features/classes/ClassCode'
+import { CoachLinkRequests } from '@/features/review/LinkRequestActions'
 import type { AcademicYear, ClassRow, RosterRow, School } from '@/lib/types'
 
 interface MyClass extends ClassRow {
@@ -46,6 +47,7 @@ export function CoachHomePage() {
 
   return (
     <div className="space-y-5">
+      <CoachLinkRequests />
       <h1 className="text-2xl font-bold">{t('coach.myClasses')}</h1>
       {classes.isPending ? (
         <p className="text-navy/60">{t('common.loading')}</p>

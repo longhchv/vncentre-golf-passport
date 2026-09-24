@@ -65,6 +65,9 @@ const PARENT_NAV: NavItem[] = [
   { to: '/account', labelKey: 'account.title' },
 ]
 
+// Học viên (F7): chỉ xem hồ sơ của mình
+const STUDENT_NAV: NavItem[] = [{ to: '/me', labelKey: 'studentAccount.myProfile', end: true }]
+
 const comingSoon: RouteObject[] = [{ index: true, element: <ComingSoon /> }, { path: '*', element: <ComingSoon /> }]
 
 function workspaceRoute(workspace: Workspace, path: string, nav?: NavItem[], children: RouteObject[] = comingSoon): RouteObject {
@@ -106,11 +109,15 @@ export const router = createBrowserRouter([
   },
   workspaceRoute('parent', '/app', PARENT_NAV, [
     { index: true, lazy: page(() => import('@/features/parent/ParentHomePage'), (m) => m.ParentHomePage) },
+    { path: 'find', lazy: page(() => import('@/features/findchild/FindChildPage'), (m) => m.FindChildPage) },
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
-  workspaceRoute('student', '/me'),
+  workspaceRoute('student', '/me', STUDENT_NAV, [
+    { index: true, lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.StudentMePage) },
+    { path: '*', element: <NotFoundPage /> },
+  ]),
   workspaceRoute('coach', '/coach', COACH_NAV, [
     { index: true, lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachHomePage) },
     { path: 'classes/:classId', lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachClassPage) },

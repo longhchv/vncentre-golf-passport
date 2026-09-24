@@ -24,6 +24,8 @@ interface AuthState {
   roles: UserRole[]
   workspaces: Workspace[]
   guardianId: string | null
+  /** Tài khoản học viên (tên + PIN, F7): hồ sơ của chính học viên */
+  studentId: string | null
   refreshAccount: () => Promise<void>
   hasRole: (role: Role) => boolean
   signOut: () => Promise<void>
@@ -33,11 +35,12 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null)
 
 async function loadAccount(userId: string) {
-  const [profileRes, rolesRes, guardianRes] = await Promise.all([
+  const [profileRes, rolesRes, guardianRes, studentRes] = await Promise.all([
     supabase!.from('profiles').select('*').eq('user_id', userId).maybeSingle(),
     supabase!.from('user_roles').select('id, user_id, role, school_id, class_id').eq('user_id', userId),
     // Phụ huynh: có dòng người giám hộ gắn với tài khoản (tạo khi đăng ký hoặc thêm SĐT)
     supabase!.from('guardians').select('id').eq('user_id', userId).maybeSingle(),
+    supabase!.from('student_accounts').select('student_id').eq('user_id', userId).eq('is_active', true).maybeSingle(),
   ])
   if (profileRes.error) throw profileRes.error
   if (rolesRes.error) throw rolesRes.error
@@ -45,6 +48,7 @@ async function loadAccount(userId: string) {
     profile: profileRes.data as Profile | null,
     roles: (rolesRes.data ?? []) as UserRole[],
     guardianId: (guardianRes.data?.id as string | undefined) ?? null,
+    studentId: (studentRes.data?.student_id as string | undefined) ?? null,
   }
 }
 
@@ -77,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const profile = account.data?.profile ?? null
   const roles = useMemo(() => account.data?.roles ?? [], [account.data])
   const guardianId = account.data?.guardianId ?? null
+  const studentId = account.data?.studentId ?? null
 
   // Ngôn ngữ nhớ theo tài khoản (02 mục 6): áp dụng một lần mỗi lần đăng nhập
   useEffect(() => {
@@ -95,9 +100,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (roles.some((r) => COACH_ROLES.includes(r.role))) list.push('coach')
     if (roles.some((r) => r.role === 'school_manager')) list.push('school')
     if (guardianId) list.push('parent')
-    // Học viên (tên + PIN): Bước 11
+    if (studentId) list.push('student')
     return list
-  }, [roles, guardianId])
+  }, [roles, guardianId, studentId])
 
   const signOut = useCallback(async () => {
     await supabase?.auth.signOut()
@@ -121,6 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     roles,
     workspaces,
     guardianId,
+    studentId,
     refreshAccount: async () => {
       await supabase?.auth.refreshSession()
       await queryClient.invalidateQueries({ queryKey: ['account'] })

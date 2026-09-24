@@ -18,10 +18,11 @@ import { PASSPORT_TONE } from '@/features/passports/PassportDetailDialog'
 import type { Level, Program } from '@/lib/types'
 import { useSignedPhoto, type StudentProfile } from './useStudentProfile'
 import { ChildInfoForm } from './ChildInfoForm'
+import { GuardiansTab } from '@/features/guardians/GuardiansTab'
 
 type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info'
 
-/** Hồ sơ học viên (F8). Phụ huynh: đủ 7 mục; nhân viên (HLV, trường): xem Tổng quan, Lộ trình, Khoá học, Chứng nhận, Passport. */
+/** Hồ sơ học viên (F8). Phụ huynh: đủ 7 mục; nhân viên (HLV, trường) và chính học viên (F7, chỉ xem): Tổng quan, Lộ trình, Khoá học, Chứng nhận, Passport. */
 export function StudentProfileView({ profile }: { profile: StudentProfile }) {
   const { t } = useTranslation()
   const tabs: Tab[] =
@@ -56,7 +57,7 @@ export function StudentProfileView({ profile }: { profile: StudentProfile }) {
       {tab === 'courses' && <Courses profile={profile} />}
       {tab === 'certificates' && <Certificates profile={profile} />}
       {tab === 'passport' && <PassportTab profile={profile} />}
-      {tab === 'guardians' && <Guardians profile={profile} />}
+      {tab === 'guardians' && <GuardiansTab profile={profile} />}
       {tab === 'info' && <ChildInfoForm profile={profile} />}
     </div>
   )
@@ -402,36 +403,6 @@ function PassportTab({ profile }: { profile: StudentProfile }) {
           </ul>
         </section>
       )}
-    </div>
-  )
-}
-
-function Guardians({ profile }: { profile: StudentProfile }) {
-  const { t } = useTranslation()
-  return (
-    <div className="space-y-3">
-      <ul className="space-y-2">
-        {(profile.guardians ?? []).map((g, i) => (
-          <li key={i}>
-            <Card className="flex flex-wrap items-center justify-between gap-2 p-4">
-              <div>
-                <p className="font-semibold">
-                  {g.name || '—'} {g.is_me && <span className="text-sm text-navy/55">({t('profile.you')})</span>}
-                </p>
-                <p className="text-sm text-navy/60">{g.relationship ? t(`relationship.${g.relationship}`) : ''}</p>
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {g.is_primary && <Badge>{t('students.primary')}</Badge>}
-                {g.can_manage && <Badge tone="good">{t('profile.canManage')}</Badge>}
-                {!g.has_account && <Badge>{t('students.noAccount')}</Badge>}
-                {g.status === 'pending_confirmation' && <Badge tone="warn">{t('students.pendingConfirmation')}</Badge>}
-              </div>
-            </Card>
-          </li>
-        ))}
-      </ul>
-      {/* Mời người giám hộ thứ hai, tạo tài khoản học viên: Bước 11 */}
-      <ComingSoon title={t('profile.inviteGuardian')} />
     </div>
   )
 }

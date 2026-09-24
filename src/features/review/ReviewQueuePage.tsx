@@ -11,6 +11,7 @@ import { Dialog } from '@/components/ui/dialog'
 import { Field, FormError, Textarea } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { Mascot } from '@/components/Mascot'
+import { LinkRequestActions } from './LinkRequestActions'
 
 type Kind = 'course_history' | 'level_record' | 'student' | 'guardian_link' | 'link_request' | 'support_request'
 type Section = 'course_history' | 'level_records' | 'students' | 'guardian_links' | 'link_requests' | 'support_requests'
@@ -129,9 +130,11 @@ function SectionList({ section, items }: { section: Section; items: Item[] }) {
             {t('review.selectAll')} ({selected.size}/{items.length})
           </label>
           <div className="flex gap-2">
-            <Button size="sm" disabled={!ids.length || act.isPending} onClick={() => act.mutate({ ids, action: 'approve' })}>
-              <Check className="h-4 w-4" /> {t('review.approve')}
-            </Button>
+            {section !== 'link_requests' && (
+              <Button size="sm" disabled={!ids.length || act.isPending} onClick={() => act.mutate({ ids, action: 'approve' })}>
+                <Check className="h-4 w-4" /> {t('review.approve')}
+              </Button>
+            )}
             <Button size="sm" variant="outline" disabled={!ids.length} onClick={() => setRejecting(ids)}>
               <X className="h-4 w-4" /> {t('review.reject')}
             </Button>
@@ -147,6 +150,8 @@ function SectionList({ section, items }: { section: Section; items: Item[] }) {
                 <ItemBody section={section} item={item} />
                 {section === 'students' ? (
                   <StudentActions item={item} onApprove={() => act.mutate({ ids: [item.id], action: 'approve' })} onReject={() => setRejecting([item.id])} />
+                ) : section === 'link_requests' ? (
+                  <LinkRequestActions requestId={item.id} onDone={() => qc.invalidateQueries({ queryKey: ['review_queue'] })} />
                 ) : (
                   <div className="flex flex-wrap gap-2">
                     <Button size="sm" variant="outline" onClick={() => act.mutate({ ids: [item.id], action: 'approve' })}>

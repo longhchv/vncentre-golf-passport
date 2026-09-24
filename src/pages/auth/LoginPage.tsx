@@ -5,10 +5,10 @@ import { supabase } from '@/lib/supabase'
 import { useAuth, WORKSPACE_PATH } from '@/auth/AuthProvider'
 import { Button } from '@/components/ui/button'
 import { Field, FormError, Input } from '@/components/ui/form'
-import { ComingSoon } from '@/components/ComingSoon'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { parseIdentifier } from '@/features/auth/phone'
 import { cn } from '@/lib/utils'
+import { formatDateTime } from '@/lib/i18nField'
 
 type Tab = 'parent' | 'staff' | 'student'
 
@@ -46,8 +46,7 @@ export function LoginPage() {
       </div>
       {tab === 'parent' && <PasswordLogin mode="parent" />}
       {tab === 'staff' && <PasswordLogin mode="staff" />}
-      {/* Học viên (tên đăng nhập + PIN): Bước 11 */}
-      {tab === 'student' && <ComingSoon title={t('auth.tab.student')} />}
+      {tab === 'student' && <StudentLogin />}
     </div>
   )
 }
@@ -124,6 +123,67 @@ function PasswordLogin({ mode }: { mode: 'parent' | 'staff' }) {
           </Link>
         )}
       </div>
+    </form>
+  )
+}
+
+/**
+ * Học viên: tên đăng nhập + PIN 6 số do phụ huynh tạo (F7). Đăng nhập qua Edge Function (đếm số lần sai,
+ * sai 5 lần khoá 15 phút) rồi nhận phiên Supabase.
+ */
+function StudentLogin() {
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [pin, setPin] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault()
+    if (!supabase) return setError(t('status.notConfigured'))
+    setBusy(true)
+    setError(null)
+    const { data, error: err } = await supabase.functions.invoke('student-accounts', {
+      body: { action: 'login', username: username.trim().toLowerCase(), pin },
+    })
+    if (err || !data) {
+      setBusy(false)
+      return setError(t('errors.generic'))
+    }
+    if (data.error) {
+      setBusy(false)
+      setPin('')
+      return setError(
+        data.error === 'locked'
+          ? t('studentAccount.loginLocked', { time: formatDateTime(data.locked_until, i18n.language) })
+          : data.error === 'disabled'
+            ? t('studentAccount.loginDisabled')
+            : data.remaining
+              ? t('studentAccount.loginWrongLeft', { count: data.remaining })
+              : t('studentAccount.loginWrong'),
+      )
+    }
+    const { error: se } = await supabase.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token })
+    setBusy(false)
+    if (se) return setError(t('errors.generic'))
+    navigate('/login', { replace: true })
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="space-y-4">
+      <Field label={t('studentAccount.username')}>
+        <Input autoCapitalize="none" autoComplete="username" required value={username} onChange={(e) => setUsername(e.target.value)} className="font-mono" />
+      </Field>
+      <Field label={t('studentAccount.pin')}>
+        <Input type="password" inputMode="numeric" maxLength={6} autoComplete="current-password" required value={pin}
+          onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))} className="font-mono text-lg tracking-[0.5em]" />
+      </Field>
+      <FormError message={error} />
+      <Button type="submit" size="full" disabled={busy || pin.length !== 6}>
+        {busy ? t('common.loading') : t('common.login')}
+      </Button>
+      <p className="text-sm text-navy/60">{t('studentAccount.forgotPinHint')}</p>
     </form>
   )
 }
