@@ -1324,5 +1324,37 @@
       "undo_later_merge_first": "This record was later merged into another one. Undo the later merge first.",
       "already_undone": "This merge was already undone."
     }
+  },
+  "dashboard": {
+    "students": "Students",
+    "activationRate": "Activation rate",
+    "activatedOf": "{{a}}/{{b}} students activated by a parent",
+    "contacts": "Contacts collected",
+    "contactsSub": "{{phone}} phones · {{email}} emails",
+    "parentAccounts": "Parent accounts",
+    "ordersSub": "{{pending}} awaiting payment · {{invoices}} invoices to issue",
+    "messageCost": "Messaging cost this month",
+    "messagesSub": "{{count}} Zalo/SMS messages",
+    "certificates": "Certificates issued",
+    "queueDetail": "Review queue",
+    "bySchool": "Activation by school",
+    "byClass": "Activation by class",
+    "name": "Name",
+    "activated": "Activated",
+    "rate": "Rate"
+  },
+  "consents": {
+    "updatedTitle": "Our terms have been updated",
+    "updatedBody": "VN Centre has updated its Terms of Use or Privacy Policy. Please read and accept them to keep using Golf Passport.",
+    "continue": "Accept and continue",
+    "acceptedVersions": "You accepted the Terms ({{terms}}) and Privacy Policy ({{privacy}}).",
+    "deletionTitle": "Request deletion of your child's data",
+    "deletionHint": "Ask VN Centre to delete your child's golf record and personal information. VN Centre will contact you to confirm first.",
+    "deletionButton": "Request data deletion",
+    "deletionExplain": "VN Centre will contact you to confirm, then delete your child's record, photos and personal information. Some information may need to be kept by law (e.g. issued invoices).",
+    "deletionReason": "Reason (optional)",
+    "deletionSend": "Send request",
+    "deletionSent": "Request sent. VN Centre will contact you.",
+    "deletionPending": "Data deletion requested. VN Centre is processing it."
   }
 }

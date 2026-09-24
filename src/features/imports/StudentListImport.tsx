@@ -557,12 +557,15 @@ function ResultStep({ batch, onDone }: { batch: ImportBatch; onDone: () => void 
               <Link to={`/admin/classes/${batch.class_id}`}>{t('import.next.viewClass')}</Link>
             </Button>
           )}
-          {/* Gán sổ (Bước 5), gửi lời mời (Bước 10), phát hành chứng nhận (Bước 12): chưa có → không để link chết */}
-          {(['assignPassports', 'invite', 'certificates'] as const).map((k) => (
-            <Button key={k} variant="outline" size="sm" disabled>
-              {t(`import.next.${k}`)} · {t('common.comingSoon')}
+          {/* Gán sổ và gửi lời mời làm trong trang lớp; phát hành chứng nhận ở mục Chứng nhận */}
+          {batch.class_id && (['assignPassports', 'invite'] as const).map((k) => (
+            <Button key={k} asChild variant="outline" size="sm">
+              <Link to={`/admin/classes/${batch.class_id}`}>{t(`import.next.${k}`)}</Link>
             </Button>
           ))}
+          <Button asChild variant="outline" size="sm">
+            <Link to="/admin/certificates">{t('import.next.certificates')}</Link>
+          </Button>
         </div>
       </Card>
 

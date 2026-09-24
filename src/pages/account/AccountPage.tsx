@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Field, FormError, Input } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
-import { ComingSoon } from '@/components/ComingSoon'
+import { ConsentsCard } from '@/features/consents/Consents'
 import { MyOrders } from '@/features/orders/OrderPage'
 import { PhoneField } from '@/features/auth/PhoneField'
 import { OtpStep } from '@/features/auth/OtpStep'
@@ -49,8 +49,7 @@ export function AccountPage() {
       <PasswordCard />
 
       {guardianId && <MyOrders />}
-      {/* Quản lý đồng ý: Bước 15 */}
-      <ComingSoon title={t('account.consents')} />
+      {guardianId && <ConsentsCard />}
 
       <Button variant="outline" size="full" onClick={() => signOut()}>
         <LogOut className="h-4 w-4" /> {t('auth.signOut')}

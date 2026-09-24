@@ -21,6 +21,7 @@ import { ChildInfoForm } from './ChildInfoForm'
 import { GuardiansTab } from '@/features/guardians/GuardiansTab'
 import { CertificateViewer } from '@/features/certificates/CertificateViewer'
 import { ReportLostButton } from '@/features/orders/ReportLost'
+import { DataDeletionRequest } from '@/features/consents/Consents'
 
 type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info'
 
@@ -63,7 +64,12 @@ export function StudentProfileView({ profile }: { profile: StudentProfile }) {
       {tab === 'certificates' && <Certificates profile={profile} />}
       {tab === 'passport' && <PassportTab profile={profile} />}
       {tab === 'guardians' && <GuardiansTab profile={profile} />}
-      {tab === 'info' && <ChildInfoForm profile={profile} />}
+      {tab === 'info' && (
+        <div className="space-y-4">
+          <ChildInfoForm profile={profile} />
+          {profile.viewer === 'guardian' && profile.can_manage && <DataDeletionRequest studentId={profile.student.id} />}
+        </div>
+      )}
     </div>
   )
 }

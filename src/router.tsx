@@ -14,6 +14,7 @@ import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 import { ChooseWorkspacePage } from '@/pages/auth/ChooseWorkspacePage'
 import { AccountPage } from '@/pages/account/AccountPage'
 import { ComingSoon } from '@/components/ComingSoon'
+import { ReconsentGate } from '@/features/consents/Consents'
 import { PassportScanPage } from '@/features/activation/PassportScanPage'
 import { ActivatePage } from '@/features/activation/ActivatePage'
 import { ClaimPage, InvitePage } from '@/features/activation/ClaimInvitePages'
@@ -75,7 +76,14 @@ function workspaceRoute(workspace: Workspace, path: string, nav?: NavItem[], chi
     path,
     element: (
       <RequireWorkspace workspace={workspace}>
-        <WorkspaceLayout workspace={workspace} nav={nav} />
+        {workspace === 'parent' ? (
+          // F18: đồng ý lại khi Điều khoản / Chính sách có phiên bản mới
+          <ReconsentGate>
+            <WorkspaceLayout workspace={workspace} nav={nav} />
+          </ReconsentGate>
+        ) : (
+          <WorkspaceLayout workspace={workspace} nav={nav} />
+        )}
       </RequireWorkspace>
     ),
     hydrateFallbackElement: <FullPageSpinner />,

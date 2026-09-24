@@ -1324,5 +1324,37 @@
       "undo_later_merge_first": "Hồ sơ này đã được gộp tiếp vào hồ sơ khác. Hãy hoàn tác lần gộp sau trước.",
       "already_undone": "Lần gộp này đã được hoàn tác."
     }
+  },
+  "dashboard": {
+    "students": "Học viên",
+    "activationRate": "Tỉ lệ kích hoạt",
+    "activatedOf": "{{a}}/{{b}} em có phụ huynh kích hoạt",
+    "contacts": "Liên hệ thu được",
+    "contactsSub": "{{phone}} SĐT · {{email}} email",
+    "parentAccounts": "Tài khoản phụ huynh",
+    "ordersSub": "{{pending}} đơn chờ thanh toán · {{invoices}} hoá đơn cần xuất",
+    "messageCost": "Chi phí tin nhắn tháng này",
+    "messagesSub": "{{count}} tin Zalo/SMS",
+    "certificates": "Chứng nhận đã phát",
+    "queueDetail": "Hàng chờ duyệt",
+    "bySchool": "Kích hoạt theo trường",
+    "byClass": "Kích hoạt theo lớp",
+    "name": "Tên",
+    "activated": "Đã kích hoạt",
+    "rate": "Tỉ lệ"
+  },
+  "consents": {
+    "updatedTitle": "Điều khoản đã được cập nhật",
+    "updatedBody": "VN Centre vừa cập nhật Điều khoản sử dụng hoặc Chính sách bảo mật. Hãy đọc và đồng ý để tiếp tục dùng Golf Passport.",
+    "continue": "Đồng ý và tiếp tục",
+    "acceptedVersions": "Bạn đã đồng ý Điều khoản ({{terms}}) và Chính sách bảo mật ({{privacy}}).",
+    "deletionTitle": "Yêu cầu xoá dữ liệu của con",
+    "deletionHint": "Gửi yêu cầu để VN Centre xoá hồ sơ golf và thông tin cá nhân của con. VN Centre sẽ liên hệ xác nhận trước khi xoá.",
+    "deletionButton": "Yêu cầu xoá dữ liệu",
+    "deletionExplain": "VN Centre sẽ liên hệ để xác nhận, rồi xoá hồ sơ, ảnh và thông tin cá nhân của con. Một số thông tin có thể phải giữ theo quy định (ví dụ hoá đơn đã xuất).",
+    "deletionReason": "Lý do (không bắt buộc)",
+    "deletionSend": "Gửi yêu cầu",
+    "deletionSent": "Đã gửi yêu cầu. VN Centre sẽ liên hệ bạn.",
+    "deletionPending": "Đã gửi yêu cầu xoá dữ liệu. VN Centre đang xử lý."
   }
 }
