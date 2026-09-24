@@ -11,5 +11,10 @@ begin
   if has_function_privilege('anon', 'public.import_commit_student_list(uuid)', 'execute') then
     raise exception 'FAIL: khách gọi được import_commit_student_list';
   end if;
+  -- Bước 6: tra tài khoản theo SĐT/email chỉ dành cho máy chủ (tránh dò tài khoản)
+  if has_function_privilege('authenticated', 'public.auth_user_id_by_phone(text)', 'execute')
+     or has_function_privilege('anon', 'public.auth_user_id_by_email(text)', 'execute') then
+    raise exception 'FAIL: auth_user_id_by_* gọi được qua API';
+  end if;
   raise exception 'ALL_OK';
 end $$;

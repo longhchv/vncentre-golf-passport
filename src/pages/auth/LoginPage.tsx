@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Field, FormError, Input } from '@/components/ui/form'
 import { ComingSoon } from '@/components/ComingSoon'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
+import { parseIdentifier } from '@/features/auth/phone'
 import { cn } from '@/lib/utils'
 
 type Tab = 'parent' | 'staff' | 'student'
@@ -15,7 +16,7 @@ export function LoginPage() {
   const { t } = useTranslation()
   const { session, loading, workspaces } = useAuth()
   const [params] = useSearchParams()
-  const [tab, setTab] = useState<Tab>((params.get('tab') as Tab) || 'staff')
+  const [tab, setTab] = useState<Tab>((params.get('tab') as Tab) || 'parent')
 
   if (loading) return <FullPageSpinner />
   if (session) {
@@ -37,27 +38,29 @@ export function LoginPage() {
             type="button"
             aria-selected={tab === k}
             onClick={() => setTab(k)}
-            className={cn(
-              'min-h-11 rounded-lg px-2 text-sm font-semibold',
-              tab === k ? 'bg-white shadow-sm' : 'text-navy/60',
-            )}
+            className={cn('min-h-11 rounded-lg px-2 text-sm font-semibold', tab === k ? 'bg-white shadow-sm' : 'text-navy/60')}
           >
             {t(`auth.tab.${k}`)}
           </button>
         ))}
       </div>
-      {tab === 'staff' && <StaffLogin />}
-      {/* Phụ huynh: Bước 6 (OTP + mật khẩu). Học viên: Bước 11 (tên + PIN). */}
-      {tab === 'parent' && <ComingSoon title={t('auth.tab.parent')} />}
+      {tab === 'parent' && <PasswordLogin mode="parent" />}
+      {tab === 'staff' && <PasswordLogin mode="staff" />}
+      {/* Học viên (tên đăng nhập + PIN): Bước 11 */}
       {tab === 'student' && <ComingSoon title={t('auth.tab.student')} />}
     </div>
   )
 }
 
-function StaffLogin() {
+/**
+ * Phụ huynh: SĐT hoặc email + mật khẩu (F1 bước 4 — không gửi OTP mỗi lần đăng nhập để tiết kiệm).
+ * Nhân viên: email + mật khẩu.
+ */
+function PasswordLogin({ mode }: { mode: 'parent' | 'staff' }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const [params] = useSearchParams()
+  const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -65,21 +68,41 @@ function StaffLogin() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     if (!supabase) return setError(t('status.notConfigured'))
+    const id = mode === 'staff' ? { email: identifier.trim().toLowerCase() } : parseIdentifier(identifier)
+    if (!id) return setError(t('auth.invalidIdentifier'))
     setBusy(true)
     setError(null)
-    const { error: err } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
+    const { error: err } = await supabase.auth.signInWithPassword({ ...id, password })
     setBusy(false)
     if (err) {
-      setError(err.message.toLowerCase().includes('invalid') ? t('auth.invalidCredentials') : err.message)
+      const m = err.message.toLowerCase()
+      setError(
+        m.includes('invalid')
+          ? t(mode === 'parent' ? 'auth.invalidCredentialsParent' : 'auth.invalidCredentials')
+          : m.includes('confirm')
+            ? t('auth.emailNotConfirmed')
+            : m.includes('banned')
+              ? t('auth.suspended')
+              : err.message,
+      )
       return
     }
-    navigate('/login', { replace: true })
+    const next = params.get('next')
+    navigate(next ? `/login?next=${encodeURIComponent(next)}` : '/login', { replace: true })
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <Field label={t('auth.email')}>
-        <Input type="email" autoComplete="email" inputMode="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+      <Field label={mode === 'parent' ? t('auth.phoneOrEmail') : t('auth.email')}>
+        <Input
+          type={mode === 'staff' ? 'email' : 'text'}
+          inputMode={mode === 'staff' ? 'email' : 'text'}
+          autoComplete="username"
+          required
+          value={identifier}
+          onChange={(e) => setIdentifier(e.target.value)}
+          placeholder={mode === 'parent' ? '0912 345 678' : undefined}
+        />
       </Field>
       <Field label={t('auth.password')}>
         <Input type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -88,11 +111,19 @@ function StaffLogin() {
       <Button type="submit" size="full" disabled={busy}>
         {busy ? t('common.loading') : t('common.login')}
       </Button>
-      <p className="text-center">
+      <div className="flex flex-wrap justify-between gap-2 text-sm">
         <Link to="/forgot-password" className="font-semibold text-bronze underline-offset-4 hover:underline">
           {t('auth.forgotLink')}
         </Link>
-      </p>
+        {mode === 'parent' && (
+          <Link
+            to={`/signup${params.get('next') ? `?next=${encodeURIComponent(params.get('next')!)}` : ''}`}
+            className="font-semibold text-bronze underline-offset-4 hover:underline"
+          >
+            {t('auth.noAccountSignup')}
+          </Link>
+        )}
+      </div>
     </form>
   )
 }

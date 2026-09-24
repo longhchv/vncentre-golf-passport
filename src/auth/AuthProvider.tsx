@@ -23,6 +23,8 @@ interface AuthState {
   profile: Profile | null
   roles: UserRole[]
   workspaces: Workspace[]
+  guardianId: string | null
+  refreshAccount: () => Promise<void>
   hasRole: (role: Role) => boolean
   signOut: () => Promise<void>
   changeLanguage: (lang: Language) => Promise<void>
@@ -31,13 +33,19 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null)
 
 async function loadAccount(userId: string) {
-  const [profileRes, rolesRes] = await Promise.all([
+  const [profileRes, rolesRes, guardianRes] = await Promise.all([
     supabase!.from('profiles').select('*').eq('user_id', userId).maybeSingle(),
     supabase!.from('user_roles').select('id, user_id, role, school_id, class_id').eq('user_id', userId),
+    // Phụ huynh: có dòng người giám hộ gắn với tài khoản (tạo khi đăng ký hoặc thêm SĐT)
+    supabase!.from('guardians').select('id').eq('user_id', userId).maybeSingle(),
   ])
   if (profileRes.error) throw profileRes.error
   if (rolesRes.error) throw rolesRes.error
-  return { profile: profileRes.data as Profile | null, roles: (rolesRes.data ?? []) as UserRole[] }
+  return {
+    profile: profileRes.data as Profile | null,
+    roles: (rolesRes.data ?? []) as UserRole[],
+    guardianId: (guardianRes.data?.id as string | undefined) ?? null,
+  }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -68,6 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const profile = account.data?.profile ?? null
   const roles = useMemo(() => account.data?.roles ?? [], [account.data])
+  const guardianId = account.data?.guardianId ?? null
 
   // Ngôn ngữ nhớ theo tài khoản (02 mục 6): áp dụng một lần mỗi lần đăng nhập
   useEffect(() => {
@@ -85,9 +94,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (roles.some((r) => r.role === 'admin')) list.push('admin')
     if (roles.some((r) => COACH_ROLES.includes(r.role))) list.push('coach')
     if (roles.some((r) => r.role === 'school_manager')) list.push('school')
-    // Phụ huynh (Bước 7) và học viên (Bước 11) được thêm khi có liên kết tương ứng
+    if (guardianId) list.push('parent')
+    // Học viên (tên + PIN): Bước 11
     return list
-  }, [roles])
+  }, [roles, guardianId])
 
   const signOut = useCallback(async () => {
     await supabase?.auth.signOut()
@@ -110,6 +120,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     profile,
     roles,
     workspaces,
+    guardianId,
+    refreshAccount: async () => {
+      await supabase?.auth.refreshSession()
+      await queryClient.invalidateQueries({ queryKey: ['account'] })
+    },
     hasRole,
     signOut,
     changeLanguage,

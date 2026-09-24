@@ -103,7 +103,17 @@
     "switchWorkspace": "Switch workspace",
     "noAccessTitle": "You don't have access",
     "noAccessBody": "This account does not have a role for the page you opened.",
-    "suspended": "This account is suspended. Please contact VN Centre."
+    "suspended": "This account is suspended. Please contact VN Centre.",
+    "phone": "Phone number",
+    "phoneHintVn": "The code is sent via Zalo; if the number is not on Zalo, an SMS is sent instead.",
+    "phoneHintForeign": "International number: the verification code is sent by email.",
+    "countryCode": "Country code",
+    "invalidPhone": "The phone number is not valid. Check the number and country code.",
+    "invalidIdentifier": "Please enter a valid phone number or email.",
+    "phoneOrEmail": "Phone number or email",
+    "invalidCredentialsParent": "Incorrect phone/email or password.",
+    "emailNotConfirmed": "Your email is not verified yet. Sign in with your phone number, then verify your email under Account.",
+    "noAccountSignup": "No account yet? Sign up"
   },
   "errors": {
     "duplicate": "This duplicates an existing item.",
@@ -571,5 +581,129 @@
     "downloadList": "Download matching list",
     "studentSection": "Passports",
     "none": "No passport yet."
+  },
+  "signup": {
+    "stepOf": "Step {{n}} of 3",
+    "foreignEmailHint": "International numbers receive the verification code at this email.",
+    "sendCode": "Send verification code",
+    "haveAccount": "Already have an account?",
+    "emailVerified": "Email {{email}} has been verified.",
+    "emailOptional": "You can skip this now. An email is required before downloading PDF certificates.",
+    "passwordHint": "At least 8 characters. Next time, sign in with your phone number and password; no code needed.",
+    "language": "Language",
+    "finish": "Complete sign-up"
+  },
+  "forgot": {
+    "hint": "Enter your account's phone number or email. We will send a verification code so you can set a new password."
+  },
+  "otp": {
+    "sentVia": {
+      "zalo": "A 6-digit code was sent via Zalo to {{target}}.",
+      "sms": "A 6-digit code was sent by SMS to {{target}}.",
+      "email": "A 6-digit code was sent to {{target}}. Please also check your spam folder."
+    },
+    "mockNotice": "Test mode: Zalo/SMS are not connected yet. The code is shown in Admin → Messages & costs.",
+    "codeLabel": "Verification code",
+    "verify": "Verify",
+    "resendIn": "Resend code in {{seconds}} s",
+    "resend": "Resend code",
+    "errors": {
+      "invalid_purpose": "Invalid request.",
+      "invalid_phone": "The phone number is not valid.",
+      "invalid_email": "Invalid email address.",
+      "phone_required": "Please enter a phone number.",
+      "phone_exists": "This phone number already has an account. Please sign in or use Forgot password.",
+      "email_required_for_foreign": "International numbers need an email to receive the code.",
+      "email_exists": "This email belongs to another account. If it is yours (e.g. a staff account), sign in with that email and add your phone number under Account.",
+      "account_not_found": "No account found with these details.",
+      "no_verified_channel": "The account has no verified phone or email to receive a code. Please contact VN Centre.",
+      "phone_or_email_required": "Please enter a phone number or email.",
+      "vn_phone_required": "Please enter a Vietnamese phone number.",
+      "email_required": "Please enter an email.",
+      "unauthorized": "Your session has expired, please sign in again.",
+      "resend_too_soon": "Please wait {{retry_after}} seconds before resending.",
+      "too_many_for_target": "Too many codes sent to this number/email today. Please try again tomorrow.",
+      "too_many_for_ip": "Too many codes sent from this network today. Please try again later.",
+      "send_failed": "The code could not be sent. Please try again in a few minutes.",
+      "otp_not_found": "This code is no longer valid; please request a new one.",
+      "otp_locked": "Too many wrong attempts. Please request a new code.",
+      "otp_used": "This code has already been used; please request a new one.",
+      "otp_expired": "The code has expired; please request a new one.",
+      "otp_wrong": "Incorrect code. {{attempts_left}} attempts left.",
+      "ticket_invalid": "The verification session is no longer valid. Please start again.",
+      "ticket_expired": "The verification session has expired. Please start again.",
+      "missing_name": "Please enter your full name.",
+      "password_too_short": "Password must be at least {{min}} characters.",
+      "create_failed": "The account could not be created. Please try again.",
+      "update_failed": "Could not update. Please try again.",
+      "server_error": "The system is busy, please try again.",
+      "network": "Cannot reach the server. Check your connection and try again."
+    }
+  },
+  "account": {
+    "title": "Account",
+    "language": "Language",
+    "verified": "Verified",
+    "unverified": "Not verified",
+    "noPhone": "No phone number yet",
+    "addPhoneHint": "Add a phone number to use the app as a parent (activate passports, follow your child).",
+    "changePhone": "Change phone number",
+    "addPhone": "Add phone number",
+    "phoneAdded": "Phone number verified",
+    "noEmail": "No email yet",
+    "emailWhy": "An email is needed to download PDF certificates and receive notifications.",
+    "verifyEmailWhy": "Verify your email to be able to sign in with it.",
+    "verifyEmail": "Verify email",
+    "changeEmail": "Change email",
+    "addEmail": "Add email",
+    "emailVerified": "Email verified",
+    "changePassword": "Change password",
+    "passwordChanged": "Password changed",
+    "consentsOrders": "Consents, orders and invoices"
+  },
+  "parent": {
+    "hello": "Hello,",
+    "addEmailPrompt": "Add an email to receive notifications and download your child's PDF certificates.",
+    "noChildren": "You have not activated a Golf Passport for your child yet.",
+    "addChild": "Add child",
+    "childProfiles": "Your child's golf profile",
+    "nav": {
+      "home": "Home",
+      "notifications": "Notifications"
+    }
+  },
+  "messages": {
+    "thisMonth": "Messaging cost this month",
+    "thisMonthShort": "this month",
+    "channel": {
+      "zalo": "Zalo",
+      "sms": "SMS",
+      "email": "Email"
+    },
+    "mockNotice": "Zalo/SMS are in test mode: no real messages, no cost. OTP codes appear in the \"Test code\" column for testing.",
+    "time": "Time",
+    "recipient": "Recipient",
+    "channelLabel": "Channel",
+    "purposeLabel": "Purpose",
+    "cost": "Cost",
+    "testCode": "Test code",
+    "mock": "test",
+    "fallback": "Zalo failed → SMS",
+    "purpose": {
+      "signup": "Sign-up",
+      "reset_password": "Password reset",
+      "add_phone": "Add phone",
+      "verify_email": "Verify email",
+      "activation": "Activation",
+      "invite": "Invitation"
+    },
+    "status": {
+      "sent": "Sent",
+      "failed": "Failed",
+      "verified": "Verified",
+      "expired": "Expired",
+      "locked": "Locked (too many attempts)",
+      "used": "Used"
+    }
   }
 }

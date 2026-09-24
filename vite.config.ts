@@ -39,6 +39,15 @@ export default defineConfig({
         ],
       },
       workbox: {
+        // Chỉ lưu sẵn phần lõi; các gói lớn của admin (Excel, PDF, camera) lưu khi dùng lần đầu
+        globPatterns: ['**/*.{css,html,ico,png,svg,woff2,webmanifest}', 'assets/index-*.js'],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/assets/') && url.pathname.endsWith('.js'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'js-chunks', expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 60 } },
+          },
+        ],
         navigateFallback: '/index.html',
         // Không cache API Supabase: dữ liệu học viên luôn lấy mới
         navigateFallbackDenylist: [/^\/functions\//],

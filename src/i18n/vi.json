@@ -103,7 +103,17 @@
     "switchWorkspace": "Đổi không gian làm việc",
     "noAccessTitle": "Bạn không có quyền vào đây",
     "noAccessBody": "Tài khoản này không có vai trò phù hợp với trang bạn đang mở.",
-    "suspended": "Tài khoản đang bị khoá. Hãy liên hệ VN Centre."
+    "suspended": "Tài khoản đang bị khoá. Hãy liên hệ VN Centre.",
+    "phone": "Số điện thoại",
+    "phoneHintVn": "Mã xác thực gửi qua Zalo; nếu số không dùng Zalo sẽ tự gửi SMS.",
+    "phoneHintForeign": "Số nước ngoài: mã xác thực gửi qua email.",
+    "countryCode": "Mã quốc gia",
+    "invalidPhone": "Số điện thoại chưa đúng. Kiểm tra lại số và mã quốc gia.",
+    "invalidIdentifier": "Hãy nhập số điện thoại hoặc email hợp lệ.",
+    "phoneOrEmail": "Số điện thoại hoặc email",
+    "invalidCredentialsParent": "Số điện thoại/email hoặc mật khẩu không đúng.",
+    "emailNotConfirmed": "Email chưa được xác minh. Hãy đăng nhập bằng số điện thoại, rồi xác minh email trong mục Tài khoản.",
+    "noAccountSignup": "Chưa có tài khoản? Đăng ký"
   },
   "errors": {
     "duplicate": "Dữ liệu bị trùng với một mục đã có.",
@@ -571,5 +581,129 @@
     "downloadList": "Tải danh sách đối chiếu",
     "studentSection": "Sổ Passport",
     "none": "Chưa có sổ."
+  },
+  "signup": {
+    "stepOf": "Bước {{n}}/3",
+    "foreignEmailHint": "Số nước ngoài nhận mã xác thực qua email này.",
+    "sendCode": "Gửi mã xác thực",
+    "haveAccount": "Đã có tài khoản?",
+    "emailVerified": "Email {{email}} đã được xác minh.",
+    "emailOptional": "Có thể bỏ qua bây giờ. Email cần có trước khi tải chứng nhận PDF.",
+    "passwordHint": "Tối thiểu 8 ký tự. Các lần sau đăng nhập bằng số điện thoại + mật khẩu, không cần mã.",
+    "language": "Ngôn ngữ",
+    "finish": "Hoàn tất đăng ký"
+  },
+  "forgot": {
+    "hint": "Nhập số điện thoại hoặc email của tài khoản. Chúng tôi sẽ gửi mã xác thực để đặt mật khẩu mới."
+  },
+  "otp": {
+    "sentVia": {
+      "zalo": "Mã 6 số đã gửi qua Zalo tới {{target}}.",
+      "sms": "Mã 6 số đã gửi qua SMS tới {{target}}.",
+      "email": "Mã 6 số đã gửi tới email {{target}}. Kiểm tra cả hộp thư rác."
+    },
+    "mockNotice": "Chế độ thử: Zalo/SMS chưa kết nối. Mã hiện trong trang admin → Tin nhắn và chi phí.",
+    "codeLabel": "Mã xác thực",
+    "verify": "Xác nhận",
+    "resendIn": "Gửi lại mã sau {{seconds}} giây",
+    "resend": "Gửi lại mã",
+    "errors": {
+      "invalid_purpose": "Yêu cầu không hợp lệ.",
+      "invalid_phone": "Số điện thoại chưa đúng.",
+      "invalid_email": "Email không hợp lệ.",
+      "phone_required": "Hãy nhập số điện thoại.",
+      "phone_exists": "Số điện thoại này đã có tài khoản. Hãy đăng nhập hoặc dùng Quên mật khẩu.",
+      "email_required_for_foreign": "Số nước ngoài cần email để nhận mã xác thực.",
+      "email_exists": "Email này đã thuộc một tài khoản khác. Nếu đó là tài khoản của bạn (ví dụ tài khoản nhân viên), hãy đăng nhập bằng email đó rồi thêm số điện thoại trong mục Tài khoản.",
+      "account_not_found": "Không tìm thấy tài khoản với thông tin này.",
+      "no_verified_channel": "Tài khoản chưa có số điện thoại hoặc email đã xác minh để nhận mã. Hãy liên hệ VN Centre.",
+      "phone_or_email_required": "Hãy nhập số điện thoại hoặc email.",
+      "vn_phone_required": "Hãy nhập số điện thoại Việt Nam.",
+      "email_required": "Hãy nhập email.",
+      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại.",
+      "resend_too_soon": "Vui lòng chờ {{retry_after}} giây rồi gửi lại.",
+      "too_many_for_target": "Số này/email này đã nhận quá nhiều mã hôm nay. Vui lòng thử lại vào ngày mai.",
+      "too_many_for_ip": "Đã gửi quá nhiều mã từ mạng này hôm nay. Vui lòng thử lại sau.",
+      "send_failed": "Chưa gửi được mã. Vui lòng thử lại sau ít phút.",
+      "otp_not_found": "Mã đã hết hiệu lực, hãy gửi mã mới.",
+      "otp_locked": "Nhập sai quá số lần cho phép. Hãy gửi mã mới.",
+      "otp_used": "Mã này đã được dùng, hãy gửi mã mới.",
+      "otp_expired": "Mã đã hết hạn, hãy gửi mã mới.",
+      "otp_wrong": "Mã không đúng. Còn {{attempts_left}} lần thử.",
+      "ticket_invalid": "Phiên xác thực không còn hiệu lực. Hãy làm lại từ đầu.",
+      "ticket_expired": "Phiên xác thực đã hết hạn. Hãy làm lại từ đầu.",
+      "missing_name": "Hãy nhập họ tên.",
+      "password_too_short": "Mật khẩu cần tối thiểu {{min}} ký tự.",
+      "create_failed": "Chưa tạo được tài khoản. Vui lòng thử lại.",
+      "update_failed": "Chưa cập nhật được. Vui lòng thử lại.",
+      "server_error": "Hệ thống đang bận, vui lòng thử lại.",
+      "network": "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại."
+    }
+  },
+  "account": {
+    "title": "Tài khoản",
+    "language": "Ngôn ngữ",
+    "verified": "Đã xác minh",
+    "unverified": "Chưa xác minh",
+    "noPhone": "Chưa có số điện thoại",
+    "addPhoneHint": "Thêm số điện thoại để dùng app với vai trò phụ huynh (kích hoạt sổ, theo dõi con).",
+    "changePhone": "Đổi số điện thoại",
+    "addPhone": "Thêm số điện thoại",
+    "phoneAdded": "Đã xác minh số điện thoại",
+    "noEmail": "Chưa có email",
+    "emailWhy": "Email cần có để tải chứng nhận PDF và nhận thông báo.",
+    "verifyEmailWhy": "Xác minh email để có thể đăng nhập bằng email.",
+    "verifyEmail": "Xác minh email",
+    "changeEmail": "Đổi email",
+    "addEmail": "Thêm email",
+    "emailVerified": "Đã xác minh email",
+    "changePassword": "Đổi mật khẩu",
+    "passwordChanged": "Đã đổi mật khẩu",
+    "consentsOrders": "Quản lý đồng ý, đơn hàng và hoá đơn"
+  },
+  "parent": {
+    "hello": "Xin chào,",
+    "addEmailPrompt": "Thêm email để nhận thông báo và tải chứng nhận PDF của con.",
+    "noChildren": "Bạn chưa kích hoạt Golf Passport cho con.",
+    "addChild": "Thêm con",
+    "childProfiles": "Hồ sơ golf của con",
+    "nav": {
+      "home": "Trang chủ",
+      "notifications": "Thông báo"
+    }
+  },
+  "messages": {
+    "thisMonth": "Chi phí tin nhắn tháng này",
+    "thisMonthShort": "tháng này",
+    "channel": {
+      "zalo": "Zalo",
+      "sms": "SMS",
+      "email": "Email"
+    },
+    "mockNotice": "Zalo/SMS đang ở chế độ thử: không gửi tin thật, không tốn tiền. Mã OTP hiện ở cột \"Mã thử\" để thử nghiệm.",
+    "time": "Thời gian",
+    "recipient": "Người nhận",
+    "channelLabel": "Kênh",
+    "purposeLabel": "Mục đích",
+    "cost": "Chi phí",
+    "testCode": "Mã thử",
+    "mock": "thử",
+    "fallback": "Zalo lỗi → chuyển SMS",
+    "purpose": {
+      "signup": "Đăng ký",
+      "reset_password": "Quên mật khẩu",
+      "add_phone": "Thêm SĐT",
+      "verify_email": "Xác minh email",
+      "activation": "Kích hoạt",
+      "invite": "Lời mời"
+    },
+    "status": {
+      "sent": "Đã gửi",
+      "failed": "Lỗi",
+      "verified": "Đã nhập đúng",
+      "expired": "Hết hạn",
+      "locked": "Khoá (sai nhiều lần)",
+      "used": "Đã dùng"
+    }
   }
 }
