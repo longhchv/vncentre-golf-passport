@@ -1,7 +1,8 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Check, ChevronRight, Lock } from 'lucide-react'
+import { Award, Check, ChevronRight, Lock } from 'lucide-react'
+import { useSearchParams } from 'react-router'
 import { supabase } from '@/lib/supabase'
 import { useTable } from '@/lib/db'
 import { formatCode } from '@/lib/codes'
@@ -11,7 +12,6 @@ import { Badge, Card } from '@/components/ui/card'
 import { Dialog } from '@/components/ui/dialog'
 import { FormError, Textarea } from '@/components/ui/form'
 import { Mascot } from '@/components/Mascot'
-import { ComingSoon } from '@/components/ComingSoon'
 import { useToast } from '@/components/ui/toast'
 import { StageBar } from '@/features/parent/ParentHomePage'
 import { PASSPORT_TONE } from '@/features/passports/PassportDetailDialog'
@@ -19,6 +19,7 @@ import type { Level, Program } from '@/lib/types'
 import { useSignedPhoto, type StudentProfile } from './useStudentProfile'
 import { ChildInfoForm } from './ChildInfoForm'
 import { GuardiansTab } from '@/features/guardians/GuardiansTab'
+import { CertificateViewer } from '@/features/certificates/CertificateViewer'
 
 type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info'
 
@@ -29,7 +30,10 @@ export function StudentProfileView({ profile }: { profile: StudentProfile }) {
     profile.viewer === 'guardian'
       ? ['overview', 'roadmap', 'courses', 'certificates', 'passport', 'guardians', 'info']
       : ['overview', 'roadmap', 'courses', 'certificates', 'passport']
-  const [tab, setTab] = useState<Tab>('overview')
+  // Mở đúng mục từ thông báo, vd. ?tab=certificates
+  const [params] = useSearchParams()
+  const initial = params.get('tab') as Tab | null
+  const [tab, setTab] = useState<Tab>(initial && tabs.includes(initial) ? initial : 'overview')
 
   if (profile.viewer === 'pending') return <PendingView profile={profile} />
 
@@ -335,9 +339,11 @@ function Courses({ profile }: { profile: StudentProfile }) {
   )
 }
 
+/** Chứng nhận (F9): danh sách → xem hình chứng nhận, tải PDF (phụ huynh có email), chia sẻ link xác thực. */
 function Certificates({ profile }: { profile: StudentProfile }) {
   const { t, i18n } = useTranslation()
   const loc = useLocalized()
+  const [open, setOpen] = useState<string | null>(null)
   const list = profile.certificates ?? []
   return (
     <div className="space-y-3">
@@ -347,16 +353,23 @@ function Certificates({ profile }: { profile: StudentProfile }) {
         <ul className="space-y-3">
           {list.map((c) => (
             <li key={c.id}>
-              <Card className="p-4">
-                <p className="font-semibold">{loc(c, 'title')}</p>
-                <p className="text-sm text-navy/60">{formatDate(c.issued_at, i18n.language)}</p>
-              </Card>
+              <button type="button" onClick={() => setOpen(c.id)} className="block w-full text-left">
+                <Card className="flex items-center gap-3 p-4 hover:border-bronze">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gold/25 text-brown">
+                    <Award className="h-6 w-6" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold">{loc(c, 'title')}</span>
+                    <span className="block text-sm text-navy/60">{formatDate(c.issued_at, i18n.language)}</span>
+                  </span>
+                  <ChevronRight className="h-4 w-4 shrink-0 text-bronze" />
+                </Card>
+              </button>
             </li>
           ))}
         </ul>
       )}
-      {/* Xem ảnh, tải PDF, chia sẻ link xác thực: Bước 12 */}
-      <ComingSoon title={t('profile.certificateActions')} />
+      <CertificateViewer id={open} onClose={() => setOpen(null)} />
     </div>
   )
 }

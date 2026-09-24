@@ -5,7 +5,7 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | # | Việc | Ảnh hưởng đợt | Ai quyết | Trạng thái |
 |---|---|---|---|---|
 | D1 | **Mùa giải BXH tính thế nào?** Anh Long ghi "đang cho theo ÂM lịch". Cần xác nhận: A) mùa giải theo năm âm lịch (Tết đến Tết), hay B) ý là năm dương lịch. Trong lúc chờ, tài liệu quy định admin tự đặt ngày bắt đầu/kết thúc mỗi mùa, nên cách nào cũng dùng được | 3 | Anh Long | Chờ |
-| D2 | Tên chính thức của linh vật rồng; file PNG linh vật (anh Long gửi sau) | 1 | Anh Long | Chờ |
+| D2 | Tên chính thức của linh vật rồng; file PNG linh vật (anh Long gửi sau) | 1 | Anh Long | File PNG đã nhận và đã dùng trong app (24/09/2026); còn chờ tên chính thức |
 | D3 | Điều khoản sử dụng và Chính sách bảo mật: Minh soạn nháp, luật sư rà trước khi ra mắt | 1 (bắt buộc trước khi chạy thật) | Minh → luật sư | Chưa bắt đầu |
 | D4 | Duyệt `phu-luc-B` (nội dung, tiêu chí Đạt L1–3, các ngưỡng ĐX) | 1 (nội dung), 2 (chấm) | Anh Long, HLV trưởng | Chờ |
 | D5 | Bảng Mốc thành tích L1–3 | 2 | Minh đề xuất | Chưa bắt đầu |
@@ -40,3 +40,5 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D34 | F5: yêu cầu nối con (`link_requests`) khi được duyệt phải **chọn đúng học viên**, không duyệt hàng loạt; từ chối hàng loạt vẫn được. Phụ huynh gửi tối đa 5 yêu cầu đang chờ cùng lúc (`link_request.max_pending_per_account`). HLV chỉ thấy yêu cầu có mã lớp đúng của lớp mình | 1 | Claude Code đề xuất | Đã làm (Bước 11) |
 | D35 | F6: mời người giám hộ thứ hai bằng SĐT Việt Nam (qua Zalo) hoặc email. SĐT nước ngoài hoặc số không dùng Zalo thì mời bằng email (lời mời chưa gửi qua SMS). Tối đa 5 lời mời/học viên/ngày | 1 | Claude Code đề xuất | Đã làm (Bước 11), chờ anh Long xác nhận |
 | D36 | F7: PIN không được là 6 số giống nhau hoặc dãy liên tiếp (123456, 987654). Học viên không có trang Tài khoản (không đổi được tên, PIN); quên PIN thì nhờ bố mẹ đổi | 1 | Claude Code đề xuất | Đã làm (Bước 11) |
+| D37 | Chứng nhận (F9), đã nhận đủ file: nền trống 3500×2475, logo VN Centre, logo R&A–VGA (vector), chữ ký, linh vật. Ba loại chứng nhận **dùng chung một nền**, chỉ đổi dòng chữ giữa; admin **tải lên nền khác cho từng mẫu** được. Người ký in **không dấu** như mẫu: "Vu Anh Long – Director of the R&A - VGA Junior Golf Development Project"; tên học viên in **có dấu**. Mã QR góc phải dưới là QR xác thực riêng của từng chứng nhận | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| D38 | Chứng nhận (F9): PDF do máy chủ tạo lần đầu khi tải, lưu ở kho riêng tư, phát link tải có hạn 5 phút. Nền lưu dạng JPEG, font cắt sẵn phần chữ Latin + tiếng Việt, để vừa giới hạn CPU của gói Free (bản PDF khoảng 600 KB). Chứng nhận **không in ngày cấp**, giống mẫu hiện tại; ngày cấp hiện trên trang xác thực. HLV trưởng phát hành được; chỉ admin thu hồi và sửa mẫu | 1 | Claude Code đề xuất | Đã làm (Bước 12) |

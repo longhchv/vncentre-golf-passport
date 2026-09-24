@@ -1108,5 +1108,90 @@
     "confirm": "Link this parent to {{name}}? They will see the child's full record.",
     "coachTitle": "Child link requests",
     "requester": "Requested by"
+  },
+  "certificates": {
+    "tab": {
+      "issue": "Issue",
+      "issued": "Issued",
+      "templates": "Templates"
+    },
+    "type": {
+      "summer_camp": "Summer camp completion",
+      "course_completion": "Course completion",
+      "level_completion": "Level completion",
+      "tournament": "Tournament"
+    },
+    "chooseStudents": "Choose class and students",
+    "details": "Template and content",
+    "program": "Programme name",
+    "programHint": "Printed on the certificate, e.g. \"SNAG Golf @ School Summer Camp 2026\".",
+    "levelHint": "Only issued to students with an approved completion of this level.",
+    "issuedAt": "Issue date",
+    "language": {
+      "en": "English",
+      "bilingual": "English – Vietnamese"
+    },
+    "preview": "Preview",
+    "confirm": "Check and issue",
+    "willIssue": "{{count}} certificates will be issued. The first 3 are shown below.",
+    "skippedN": "{{count}} students skipped",
+    "skip": {
+      "no_level": "level completion not approved yet",
+      "duplicate": "already has this certificate"
+    },
+    "samplePdf": "Open sample PDF",
+    "issueN": "Issue {{count}} certificates",
+    "confirmIssue": "Issue {{count}} certificates? Activated parents will get a notification and an email.",
+    "issuedN": "{{count}} certificates issued",
+    "emailsSent": "{{count}} emails sent to parents.",
+    "issueMore": "Issue more",
+    "preparing": "Preparing PDF…",
+    "downloadPdf": "Download PDF",
+    "shareVerify": "Share verification link",
+    "needEmail": "Add an email address to your account to download the PDF certificate.",
+    "studentNoDownload": "Your parents can download the PDF of this certificate.",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "valid": "Valid",
+    "revoked": "Revoked",
+    "view": "View",
+    "revoke": "Revoke",
+    "revokeHint": "After revoking, the verification page shows \"revoked\" and parents can no longer view or download it. This cannot be undone.",
+    "confirmRevoke": "Revoke certificate",
+    "revokedDone": "Certificate revoked",
+    "searchHint": "Name, student code or verification code",
+    "uploadBackground": "Upload another background",
+    "uploadSignature": "Upload another signature",
+    "uploadHint": "Background: PNG/JPG, A4 landscape (3500×2475 ratio), max 10 MB (compressed automatically). Signature: transparent PNG, max 5 MB. Issued certificates keep their original background and signature.",
+    "signerName": "Signer name (printed as typed)",
+    "signerTitle": "Signer title",
+    "signerTitleHint": "Use a line break to split it into 2 lines like the template.",
+    "errors": {
+      "email_required": "Add an email address to your account to download the PDF certificate.",
+      "revoked": "This certificate has been revoked.",
+      "forbidden": "You don't have access to this certificate.",
+      "not_found": "Certificate not found.",
+      "imageType": "Only PNG or JPG images.",
+      "imageTooBig": "Image too large (max {{mb}} MB).",
+      "backgroundSize": "The background must be A4 landscape (3500×2475 ratio, at least 2000 px wide)."
+    }
+  },
+  "verify": {
+    "title": "Verify a certificate",
+    "intro": "Enter the verification code printed under the QR code on the certificate, or scan the QR code with your phone camera.",
+    "enterCode": "Verification code",
+    "codeHint": "10 characters, e.g. ABCDE-FGHJK",
+    "check": "Check",
+    "valid": "Valid certificate",
+    "revoked": "This certificate has been revoked",
+    "revokedOn": "Revoked on {{date}}",
+    "notFound": "Certificate not found",
+    "notFoundHint": "Check the verification code on the certificate.",
+    "student": "Student",
+    "type": "Type",
+    "program": "Programme",
+    "issuedAt": "Issued",
+    "issuer": "Issued by",
+    "code": "Verification code"
   }
 }

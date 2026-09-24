@@ -40,12 +40,19 @@ export default defineConfig({
       },
       workbox: {
         // Chỉ lưu sẵn phần lõi; các gói lớn của admin (Excel, PDF, camera) lưu khi dùng lần đầu
-        globPatterns: ['**/*.{css,html,ico,png,svg,woff2,webmanifest}', 'assets/index-*.js'],
+        globPatterns: ['**/*.{css,html,ico,png,svg,woff2,webmanifest}', 'assets/index-*.js', 'mascot-256.webp'],
+        // Font của chứng nhận chỉ tải khi mở chứng nhận
+        globIgnores: ['**/noto-serif-*', '**/great-vibes-*', '**/montserrat-*', 'cert/**'],
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/assets/') && url.pathname.endsWith('.js'),
             handler: 'CacheFirst',
             options: { cacheName: 'js-chunks', expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 60 } },
+          },
+          {
+            urlPattern: ({ url }) => url.origin === self.location.origin && (/\.woff2$/.test(url.pathname) || url.pathname.startsWith('/cert/')),
+            handler: 'CacheFirst',
+            options: { cacheName: 'cert-assets', expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 180 } },
           },
         ],
         navigateFallback: '/index.html',

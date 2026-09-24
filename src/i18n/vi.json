@@ -1108,5 +1108,90 @@
     "confirm": "Nối phụ huynh này với {{name}}? Phụ huynh sẽ xem được toàn bộ hồ sơ của em.",
     "coachTitle": "Yêu cầu nối con",
     "requester": "Người gửi"
+  },
+  "certificates": {
+    "tab": {
+      "issue": "Phát hành",
+      "issued": "Đã phát hành",
+      "templates": "Mẫu chứng nhận"
+    },
+    "type": {
+      "summer_camp": "Hoàn thành trại hè",
+      "course_completion": "Hoàn thành khoá học",
+      "level_completion": "Hoàn thành level",
+      "tournament": "Giải đấu"
+    },
+    "chooseStudents": "Chọn lớp và học viên",
+    "details": "Mẫu và nội dung",
+    "program": "Tên chương trình",
+    "programHint": "In trên chứng nhận, ví dụ \"SNAG Golf @ School Summer Camp 2026\".",
+    "levelHint": "Chỉ phát cho học viên đã được duyệt hoàn thành level này.",
+    "issuedAt": "Ngày cấp",
+    "language": {
+      "en": "Tiếng Anh",
+      "bilingual": "Song ngữ Anh – Việt"
+    },
+    "preview": "Xem trước",
+    "confirm": "Kiểm tra và phát hành",
+    "willIssue": "Sẽ phát hành {{count}} chứng nhận. Dưới đây là 3 bản đầu.",
+    "skippedN": "Bỏ qua {{count}} học viên",
+    "skip": {
+      "no_level": "chưa được duyệt hoàn thành level này",
+      "duplicate": "đã có chứng nhận này"
+    },
+    "samplePdf": "Xem bản PDF mẫu",
+    "issueN": "Phát hành {{count}} chứng nhận",
+    "confirmIssue": "Phát hành {{count}} chứng nhận? Phụ huynh đã kích hoạt sẽ nhận thông báo và email.",
+    "issuedN": "Đã phát hành {{count}} chứng nhận",
+    "emailsSent": "Đã gửi {{count}} email báo phụ huynh.",
+    "issueMore": "Phát hành tiếp",
+    "preparing": "Đang tạo PDF…",
+    "downloadPdf": "Tải PDF",
+    "shareVerify": "Chia sẻ link xác thực",
+    "needEmail": "Thêm email vào tài khoản để tải chứng nhận PDF.",
+    "studentNoDownload": "Bố mẹ có thể tải bản PDF của chứng nhận này.",
+    "zoomIn": "Phóng to",
+    "zoomOut": "Thu nhỏ",
+    "valid": "Hợp lệ",
+    "revoked": "Đã thu hồi",
+    "view": "Xem",
+    "revoke": "Thu hồi",
+    "revokeHint": "Sau khi thu hồi, trang xác thực báo \"đã thu hồi\" và phụ huynh không xem, không tải được nữa. Không hoàn tác được.",
+    "confirmRevoke": "Thu hồi chứng nhận",
+    "revokedDone": "Đã thu hồi chứng nhận",
+    "searchHint": "Tên, mã học viên hoặc mã xác thực",
+    "uploadBackground": "Tải lên nền khác",
+    "uploadSignature": "Tải lên chữ ký khác",
+    "uploadHint": "Nền: PNG/JPG khổ A4 ngang (tỉ lệ 3500×2475), tối đa 10 MB (hệ thống tự nén). Chữ ký: PNG nền trong suốt, tối đa 5 MB. Chứng nhận đã phát giữ nguyên nền và chữ ký cũ.",
+    "signerName": "Tên người ký (in như nhập)",
+    "signerTitle": "Chức danh người ký",
+    "signerTitleHint": "Xuống dòng để chia thành 2 dòng như mẫu.",
+    "errors": {
+      "email_required": "Thêm email vào tài khoản để tải chứng nhận PDF.",
+      "revoked": "Chứng nhận này đã bị thu hồi.",
+      "forbidden": "Bạn không có quyền với chứng nhận này.",
+      "not_found": "Không tìm thấy chứng nhận.",
+      "imageType": "Chỉ nhận ảnh PNG hoặc JPG.",
+      "imageTooBig": "Ảnh quá lớn (tối đa {{mb}} MB).",
+      "backgroundSize": "Ảnh nền cần khổ A4 ngang (tỉ lệ 3500×2475, rộng từ 2000 px)."
+    }
+  },
+  "verify": {
+    "title": "Xác thực chứng nhận",
+    "intro": "Nhập mã xác thực in dưới mã QR trên chứng nhận, hoặc quét mã QR bằng camera điện thoại.",
+    "enterCode": "Mã xác thực",
+    "codeHint": "10 ký tự, ví dụ ABCDE-FGHJK",
+    "check": "Kiểm tra",
+    "valid": "Chứng nhận hợp lệ",
+    "revoked": "Chứng nhận đã bị thu hồi",
+    "revokedOn": "Thu hồi ngày {{date}}",
+    "notFound": "Không tìm thấy chứng nhận",
+    "notFoundHint": "Kiểm tra lại mã xác thực trên chứng nhận.",
+    "student": "Học viên",
+    "type": "Loại",
+    "program": "Chương trình",
+    "issuedAt": "Ngày cấp",
+    "issuer": "Đơn vị cấp",
+    "code": "Mã xác thực"
   }
 }

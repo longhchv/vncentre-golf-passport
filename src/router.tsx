@@ -4,7 +4,6 @@ import { WorkspaceLayout, type NavItem } from '@/layouts/WorkspaceLayout'
 import { RequireWorkspace, FullPageSpinner } from '@/auth/RequireWorkspace'
 import type { Workspace } from '@/auth/AuthProvider'
 import { LandingPage } from '@/pages/LandingPage'
-import { PlaceholderPage } from '@/pages/PlaceholderPage'
 import { LegalPage } from '@/pages/LegalPage'
 import { StatusPage } from '@/pages/StatusPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
@@ -35,7 +34,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/imports', labelKey: 'admin.nav.imports', lazy: page(() => import('@/features/imports/ImportsPage'), (m) => m.ImportsPage) },
   { to: '/admin/queue', labelKey: 'admin.nav.queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
-  { to: '/admin/certificates', labelKey: 'admin.nav.certificates' },
+  { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
   { to: '/admin/orders', labelKey: 'admin.nav.orders' },
   { to: '/admin/messages', labelKey: 'admin.nav.messages', lazy: page(() => import('@/features/admin/MessagesPage'), (m) => m.MessagesPage) },
@@ -49,6 +48,7 @@ const COACH_NAV: NavItem[] = [
   { to: '/coach/scan', labelKey: 'coach.scanPassport' },
   { to: '/coach/queue', labelKey: 'admin.nav.queue', requireRole: 'head_coach' },
   { to: '/coach/history', labelKey: 'import.tab.course_history', requireRole: 'head_coach' },
+  { to: '/coach/certificates', labelKey: 'admin.nav.certificates', requireRole: 'head_coach' },
 ]
 
 // Cổng quản lý trường (02 mục 3.5)
@@ -93,8 +93,8 @@ export const router = createBrowserRouter([
       { path: '/p/:passportCode', element: <PassportScanPage /> },
       { path: '/c/:claimCode', element: <ClaimPage /> },
       { path: '/i/:inviteToken', element: <InvitePage /> },
-      { path: '/verify', element: <PlaceholderPage titleKey="pages.verify" /> },
-      { path: '/verify/:verifyCode', element: <PlaceholderPage titleKey="pages.verify" /> },
+      { path: '/verify', lazy: page(() => import('@/features/certificates/VerifyPage'), (m) => m.VerifyPage) },
+      { path: '/verify/:verifyCode', lazy: page(() => import('@/features/certificates/VerifyPage'), (m) => m.VerifyPage) },
       { path: '/login', element: <LoginPage /> },
       { path: '/signup', element: <SignupPage /> },
       { path: '/forgot-password', element: <ForgotPasswordPage /> },
@@ -125,6 +125,7 @@ export const router = createBrowserRouter([
     { path: 'scan', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachScanPage) },
     { path: 'queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
     { path: 'history', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.CenterHistoryImportPage) },
+    { path: 'certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
   workspaceRoute('school', '/school', SCHOOL_NAV, [
