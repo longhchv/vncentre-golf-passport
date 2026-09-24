@@ -719,7 +719,8 @@
       "expired": "Hết hạn",
       "locked": "Khoá (sai nhiều lần)",
       "used": "Đã dùng"
-    }
+    },
+    "openLink": "Mở link thử"
   },
   "activation": {
     "title": "Kích hoạt Golf Passport",
@@ -764,7 +765,14 @@
       "relationship_required": "Hãy chọn quan hệ với con.",
       "child_info_required": "Hãy nhập đủ họ tên, ngày sinh và trường của con.",
       "invalid_dob": "Ngày sinh không hợp lệ.",
-      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại."
+      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại.",
+      "claim_not_found": "Mã kích hoạt không đúng hoặc đã được tạo lại.",
+      "claim_used": "Mã này đã được dùng. Hồ sơ của con đã được kích hoạt.",
+      "invite_not_found": "Không tìm thấy lời mời.",
+      "invite_used": "Lời mời này đã được dùng.",
+      "invite_cancelled": "Lời mời đã bị huỷ.",
+      "invite_expired": "Lời mời đã hết hạn.",
+      "invite_other_target": "Link này dành cho số điện thoại khác."
     },
     "mode": {
       "scan": "Quét QR",
@@ -772,7 +780,8 @@
     },
     "scanHint": "Đưa mã QR trên sổ Golf Passport (hoặc trên chứng nhận giấy) vào khung vàng.",
     "notPassportQr": "Mã QR này không phải mã Golf Passport. Hãy quét mã QR in trên sổ.",
-    "cannotScan": "Không quét được? Gõ mã 8 ký tự"
+    "cannotScan": "Không quét được? Gõ mã 8 ký tự",
+    "profileOf": "Hồ sơ golf của {{name}}"
   },
   "scan": {
     "wrongCode": "Mã không đúng",
@@ -961,5 +970,47 @@
     "addHistory": "Thêm khoá đã học",
     "submitHistory": "Gửi",
     "historyIntro": "Tải file mẫu, điền các khoá học sinh đã học, rồi tải lên. Mọi dòng sẽ chờ VN Centre duyệt."
+  },
+  "claim": {
+    "used": "Hồ sơ đã được kích hoạt",
+    "usedHint": "Nếu bạn là người giám hộ của con, hãy đăng nhập, hoặc nhờ người đã kích hoạt mời bạn.",
+    "exportList": "Xuất mã kích hoạt",
+    "regenerated": "Đã tạo mã kích hoạt mới. Mã cũ không dùng được nữa.",
+    "codeLabel": "Mã kích hoạt (in trên chứng nhận giấy)",
+    "usedBadge": "Đã dùng",
+    "unusedBadge": "Chưa dùng",
+    "confirmRegenerate": "Tạo mã kích hoạt mới? Mã cũ (kể cả mã đã in) sẽ không dùng được nữa.",
+    "regenerate": "Tạo lại mã"
+  },
+  "invite": {
+    "notFound": "Không tìm thấy lời mời",
+    "used": "Lời mời đã được dùng",
+    "usedHint": "Hồ sơ của con đã được kích hoạt. Hãy đăng nhập để xem.",
+    "expired": "Lời mời đã hết hạn",
+    "cancelled": "Lời mời đã bị huỷ",
+    "askAgain": "Hãy liên hệ VN Centre hoặc giáo viên của con để được gửi lời mời mới.",
+    "forPhone": "Lời mời dành cho số điện thoại {{target}}. Hãy đăng ký hoặc đăng nhập bằng đúng số này.",
+    "forEmail": "Lời mời dành cho email {{target}}. Hãy đăng nhập bằng tài khoản có email này.",
+    "otherTarget": "Link này dành cho số điện thoại khác",
+    "otherTargetHint": "Nếu bạn có sổ Golf Passport của con, hãy quét mã trên sổ. Hoặc nhờ người được mời chuyển tiếp lời mời.",
+    "sending": "Đang gửi {{done}}/{{total}} em…",
+    "sendTitle": "Gửi lời mời kích hoạt · {{count}} học viên",
+    "sentResult": "Đã gửi {{sent}} lời mời · {{failed}} lỗi",
+    "costResult": "Chi phí ước tính: {{cost}}",
+    "zaloHint": "Zalo: gửi tới SĐT Việt Nam của phụ huynh; nếu số không dùng Zalo mà có email thì tự gửi email.",
+    "emailHint": "Email: miễn phí, gửi tới email phụ huynh trong danh sách.",
+    "estimating": "Đang tính ước tính…",
+    "estimateTitle": "Ước tính trước khi gửi",
+    "recipients": "{{count}} lời mời (Zalo: {{zalo}}, email: {{email}})",
+    "estimatedCost": "Chi phí ước tính: {{cost}}",
+    "unitPrice": "Đơn giá tin Zalo: {{price}}/tin (chỉnh trong Cấu hình)",
+    "skipped": "Bỏ qua: {{active}} em đã có phụ huynh kích hoạt, {{noContact}} em thiếu SĐT/email",
+    "confirmSend": "Xác nhận gửi {{count}} lời mời",
+    "sendButton": "Gửi lời mời kích hoạt",
+    "errors": {
+      "no_students": "Chưa chọn học viên.",
+      "forbidden": "Bạn không có quyền gửi lời mời.",
+      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại."
+    }
   }
 }

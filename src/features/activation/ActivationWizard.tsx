@@ -31,15 +31,35 @@ interface ChildForm {
  * Trình tự kích hoạt sau khi đã đăng nhập (D30): [xác nhận ngày sinh/họ tên] → quan hệ → đồng ý →
  * thông tin con → hoàn tất (F2 luồng A và B). Mọi kiểm tra thật nằm ở CSDL (activation_complete).
  */
-export function ActivationWizard({ code, maskedName, schoolName }: { code: string; maskedName?: string | null; schoolName?: string | null }) {
+/** Ba cách nối phụ huynh với học viên dùng chung trình tự: mã sổ (F2), mã trên chứng nhận (F4), link mời (F3). */
+export type ActivationKind = 'passport' | 'claim' | 'invite'
+
+const RPC: Record<ActivationKind, { start: string; verify: string; complete: string; arg: string }> = {
+  passport: { start: 'activation_start', verify: 'activation_verify_identity', complete: 'activation_complete', arg: 'p_code' },
+  claim: { start: 'claim_start', verify: 'claim_verify_identity', complete: 'claim_complete', arg: 'p_code' },
+  invite: { start: 'invitation_start', verify: '', complete: 'invitation_complete', arg: 'p_token' },
+}
+
+export function ActivationWizard({
+  code,
+  maskedName,
+  schoolName,
+  kind = 'passport',
+}: {
+  code: string
+  maskedName?: string | null
+  schoolName?: string | null
+  kind?: ActivationKind
+}) {
+  const api = RPC[kind]
   const { t } = useTranslation()
   const qc = useQueryClient()
   const { refreshAccount } = useAuth()
   const schools = useTable<School>('schools', { order: 'name' })
 
   const start = useQuery({
-    queryKey: ['activation_start', code],
-    queryFn: () => rpc<ActivationStart>('activation_start', { p_code: code }),
+    queryKey: [api.start, code],
+    queryFn: () => rpc<ActivationStart>(api.start, { [api.arg]: code }),
     retry: false,
     staleTime: Infinity,
   })
@@ -79,8 +99,8 @@ export function ActivationWizard({ code, maskedName, schoolName }: { code: strin
     setBusy(true)
     setError(null)
     try {
-      const r = await rpc<ActivationResult>('activation_complete', {
-        p_code: code,
+      const r = await rpc<ActivationResult>(api.complete, {
+        [api.arg]: code,
         p_data: {
           identity_answer: identityAnswer || undefined,
           relationship,
@@ -117,7 +137,7 @@ export function ActivationWizard({ code, maskedName, schoolName }: { code: strin
         <div>
           <p className="text-sm text-navy/60">{t('activation.title')}</p>
           <p className="font-bold">
-            {isB ? t('activation.unassignedTitle') : t('activation.passportOf', { name: maskedName })}
+            {isB ? t('activation.unassignedTitle') : t(kind === 'passport' ? 'activation.passportOf' : 'activation.profileOf', { name: maskedName })}
           </p>
           {!isB && schoolName && <p className="text-sm text-navy/60">{schoolName}</p>}
         </div>
@@ -127,6 +147,7 @@ export function ActivationWizard({ code, maskedName, schoolName }: { code: strin
       {step === 'identity' && (
         <IdentityStep
           code={code}
+          verifyRpc={api.verify}
           kind={s.identity!}
           onVerified={(answer) => {
             setIdentityAnswer(answer)
@@ -221,7 +242,7 @@ function Notice({ title, body, mascot }: { title: string; body?: string; mascot?
   )
 }
 
-function IdentityStep({ code, kind, onVerified }: { code: string; kind: 'dob' | 'name'; onVerified: (answer: string) => void }) {
+function IdentityStep({ code, verifyRpc, kind, onVerified }: { code: string; verifyRpc: string; kind: 'dob' | 'name'; onVerified: (answer: string) => void }) {
   const { t } = useTranslation()
   const [value, setValue] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -232,7 +253,7 @@ function IdentityStep({ code, kind, onVerified }: { code: string; kind: 'dob' | 
     setBusy(true)
     setError(null)
     try {
-      const r = await rpc<{ ok: boolean; attempts_left?: number }>('activation_verify_identity', { p_code: code, p_answer: value })
+      const r = await rpc<{ ok: boolean; attempts_left?: number }>(verifyRpc, { p_code: code, p_answer: value })
       if (r.ok) onVerified(value)
       else setError(r.attempts_left ? t('activation.identityWrong', { count: r.attempts_left }) : t('activation.errors.identity_locked'))
     } catch (err) {

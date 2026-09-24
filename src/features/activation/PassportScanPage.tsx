@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router'
+import { Link, Navigate, useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle } from 'lucide-react'
@@ -34,6 +34,8 @@ export function PassportScanPage() {
   const r = lookup.data
   if (r.result === 'locked') return <Message title={t('scan.locked', { minutes: r.retry_minutes })} />
   if (r.result === 'not_found') return <Message title={t('scan.wrongCode')} body={t('scan.wrongCodeBody')} retry />
+  // Mã in trên chứng nhận giấy (F4) nhập ở ô mã sổ → chuyển sang trang mã chứng nhận
+  if (r.result === 'claim') return <Navigate to={`/c/${code}`} replace />
 
   const next = `/p/${code}`
   const tier = i18n.language === 'en' ? r.tier_en : r.tier_vi

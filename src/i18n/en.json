@@ -719,7 +719,8 @@
       "expired": "Expired",
       "locked": "Locked (too many attempts)",
       "used": "Used"
-    }
+    },
+    "openLink": "Open test link"
   },
   "activation": {
     "title": "Activate Golf Passport",
@@ -764,7 +765,14 @@
       "relationship_required": "Please choose your relationship to the child.",
       "child_info_required": "Please enter your child's full name, date of birth and school.",
       "invalid_dob": "Invalid date of birth.",
-      "unauthorized": "Your session has expired, please sign in again."
+      "unauthorized": "Your session has expired, please sign in again.",
+      "claim_not_found": "The activation code is incorrect or has been replaced.",
+      "claim_used": "This code has already been used. Your child's record is activated.",
+      "invite_not_found": "Invitation not found.",
+      "invite_used": "This invitation has already been used.",
+      "invite_cancelled": "The invitation was cancelled.",
+      "invite_expired": "The invitation has expired.",
+      "invite_other_target": "This link is for a different phone number."
     },
     "mode": {
       "scan": "Scan QR",
@@ -772,7 +780,8 @@
     },
     "scanHint": "Place the QR code from the Golf Passport booklet (or paper certificate) inside the gold frame.",
     "notPassportQr": "This QR code is not a Golf Passport code. Please scan the QR code printed in the booklet.",
-    "cannotScan": "Cannot scan? Type the 8-character code"
+    "cannotScan": "Cannot scan? Type the 8-character code",
+    "profileOf": "Golf record of {{name}}"
   },
   "scan": {
     "wrongCode": "Incorrect code",
@@ -961,5 +970,47 @@
     "addHistory": "Add a completed course",
     "submitHistory": "Submit",
     "historyIntro": "Download the template, fill in the courses students have taken, then upload it. All rows wait for VN Centre approval."
+  },
+  "claim": {
+    "used": "This record has already been activated",
+    "usedHint": "If you are the child's guardian, sign in, or ask the person who activated it to invite you.",
+    "exportList": "Export activation codes",
+    "regenerated": "A new activation code was created. The old code no longer works.",
+    "codeLabel": "Activation code (printed on the paper certificate)",
+    "usedBadge": "Used",
+    "unusedBadge": "Not used",
+    "confirmRegenerate": "Create a new activation code? The old code (including printed ones) will stop working.",
+    "regenerate": "Regenerate code"
+  },
+  "invite": {
+    "notFound": "Invitation not found",
+    "used": "This invitation has been used",
+    "usedHint": "Your child's record is activated. Please sign in to view it.",
+    "expired": "The invitation has expired",
+    "cancelled": "The invitation was cancelled",
+    "askAgain": "Please contact VN Centre or your child's teacher for a new invitation.",
+    "forPhone": "This invitation is for phone number {{target}}. Sign up or sign in with exactly this number.",
+    "forEmail": "This invitation is for {{target}}. Sign in with the account that has this email.",
+    "otherTarget": "This link is for a different phone number",
+    "otherTargetHint": "If you have your child's Golf Passport booklet, scan the code in it. Or ask the invited person to forward the invitation.",
+    "sending": "Sending {{done}}/{{total}} students…",
+    "sendTitle": "Send activation invitations · {{count}} students",
+    "sentResult": "{{sent}} invitations sent · {{failed}} failed",
+    "costResult": "Estimated cost: {{cost}}",
+    "zaloHint": "Zalo: sent to the parent's Vietnamese number; if the number is not on Zalo and an email exists, an email is sent instead.",
+    "emailHint": "Email: free, sent to the parent's email in the list.",
+    "estimating": "Calculating estimate…",
+    "estimateTitle": "Estimate before sending",
+    "recipients": "{{count}} invitations (Zalo: {{zalo}}, email: {{email}})",
+    "estimatedCost": "Estimated cost: {{cost}}",
+    "unitPrice": "Zalo unit price: {{price}}/message (change in Settings)",
+    "skipped": "Skipped: {{active}} students already have an activated parent, {{noContact}} have no phone/email",
+    "confirmSend": "Confirm sending {{count}} invitations",
+    "sendButton": "Send activation invitations",
+    "errors": {
+      "no_students": "No students selected.",
+      "forbidden": "You don't have permission to send invitations.",
+      "unauthorized": "Your session has expired, please sign in again."
+    }
   }
 }

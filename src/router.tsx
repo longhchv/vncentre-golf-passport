@@ -17,6 +17,7 @@ import { AccountPage } from '@/pages/account/AccountPage'
 import { ComingSoon } from '@/components/ComingSoon'
 import { PassportScanPage } from '@/features/activation/PassportScanPage'
 import { ActivatePage } from '@/features/activation/ActivatePage'
+import { ClaimPage, InvitePage } from '@/features/activation/ClaimInvitePages'
 
 // Trang của từng không gian tải khi cần (lazy) → trang phụ huynh nhẹ hơn trên 4G (02 mục 6).
 type Loader = () => Promise<{ Component: React.ComponentType }>
@@ -87,8 +88,8 @@ export const router = createBrowserRouter([
       { path: '/', element: <LandingPage /> },
       { path: '/activate', element: <ActivatePage /> },
       { path: '/p/:passportCode', element: <PassportScanPage /> },
-      { path: '/c/:claimCode', element: <PlaceholderPage titleKey="pages.claimCode" /> },
-      { path: '/i/:inviteToken', element: <PlaceholderPage titleKey="pages.invite" /> },
+      { path: '/c/:claimCode', element: <ClaimPage /> },
+      { path: '/i/:inviteToken', element: <InvitePage /> },
       { path: '/verify', element: <PlaceholderPage titleKey="pages.verify" /> },
       { path: '/verify/:verifyCode', element: <PlaceholderPage titleKey="pages.verify" /> },
       { path: '/login', element: <LoginPage /> },

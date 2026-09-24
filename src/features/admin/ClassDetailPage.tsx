@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, BookMarked, Plus, Search, Trash2, UserMinus } from 'lucide-react'
+import { ArrowLeft, BookMarked, Download, Plus, Search, Send, Trash2, UserMinus } from 'lucide-react'
+import { InviteDialog } from '@/features/activation/InviteDialog'
+import { downloadRowsAsXlsx } from '@/features/imports/excel'
+import { usePublicBaseUrl } from '@/lib/settings'
 import { supabase } from '@/lib/supabase'
 import { errorMessage } from '@/lib/db'
 import { useLocalized } from '@/lib/i18nField'
@@ -39,6 +42,8 @@ export function ClassDetailPage() {
   const [addStudentOpen, setAddStudentOpen] = useState(false)
   const [addStaffOpen, setAddStaffOpen] = useState(false)
   const [assignFor, setAssignFor] = useState<{ id: string; full_name: string } | null>(null)
+  const [inviteOpen, setInviteOpen] = useState(false)
+  const baseUrl = usePublicBaseUrl()
 
   const cls = useQuery({
     queryKey: ['class', classId],
@@ -191,9 +196,31 @@ export function ClassDetailPage() {
           <h2 className="text-xl font-bold">
             {t('classes.students')} ({activeCount})
           </h2>
-          <Button size="sm" onClick={() => setAddStudentOpen(true)}>
-            <Plus className="h-4 w-4" /> {t('classes.addStudents')}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" variant="outline" disabled={!activeCount} onClick={() => setInviteOpen(true)}>
+              <Send className="h-4 w-4" /> {t('invite.sendButton')}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={!activeCount}
+              onClick={async () => {
+                const { data } = await supabase!.rpc('class_claim_codes', { p_class_id: classId })
+                const rows = (data ?? []) as { student_code: string; full_name: string; date_of_birth: string | null; grade_class: string | null; claim_code: string; used: boolean }[]
+                await downloadRowsAsXlsx(
+                  ['STT', 'Mã học viên', 'Họ và tên', 'Ngày sinh', 'Lớp', 'Mã kích hoạt', 'Link / QR', 'Đã dùng'],
+                  rows.map((r, i) => [i + 1, r.student_code, r.full_name, r.date_of_birth ?? '', r.grade_class ?? '', `${r.claim_code.slice(0, 4)}-${r.claim_code.slice(4)}`, `${baseUrl}/c/${r.claim_code}`, r.used ? 'x' : '']),
+                  'Ma kich hoat',
+                  `ma-kich-hoat-${c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').replace(/[^\w]+/g, '-').toLowerCase()}.xlsx`,
+                )
+              }}
+            >
+              <Download className="h-4 w-4" /> {t('claim.exportList')}
+            </Button>
+            <Button size="sm" onClick={() => setAddStudentOpen(true)}>
+              <Plus className="h-4 w-4" /> {t('classes.addStudents')}
+            </Button>
+          </div>
         </div>
         {roster.data && (
           <RosterTable
@@ -226,6 +253,11 @@ export function ClassDetailPage() {
       </section>
 
       <AssignPassportDialog student={assignFor} onClose={() => setAssignFor(null)} />
+      <InviteDialog
+        open={inviteOpen}
+        onClose={() => setInviteOpen(false)}
+        studentIds={roster.data?.filter((r) => r.enrollment_status === 'active').map((r) => r.student_id) ?? []}
+      />
       <AddStaffDialog
         open={addStaffOpen}
         onClose={() => setAddStaffOpen(false)}

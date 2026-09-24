@@ -129,7 +129,9 @@ export function MessagesPage() {
                 </td>
                 <td className={`${td} whitespace-nowrap text-sm`}>{formatVnd(l.cost_vnd, i18n.language)}</td>
                 <td className={`${td} font-mono text-lg font-bold`}>
-                  {l.debug_code && l.status === 'sent' && (!l.expires_at || Date.parse(l.expires_at) > Date.now()) ? l.debug_code : ''}
+                  {l.debug_code?.startsWith('http') ? (
+                    <a href={l.debug_code} target="_blank" rel="noreferrer" className="text-sm font-semibold text-bronze underline">{t('messages.openLink')}</a>
+                  ) : l.debug_code && l.status === 'sent' && (!l.expires_at || Date.parse(l.expires_at) > Date.now()) ? l.debug_code : ''}
                 </td>
               </tr>
             ))}
