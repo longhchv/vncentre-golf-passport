@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Mail, QrCode } from 'lucide-react'
+import { ChevronRight, Mail, QrCode } from 'lucide-react'
 import { useAuth } from '@/auth/AuthProvider'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -105,7 +105,8 @@ export function ParentHomePage() {
         <ul className="space-y-3">
           {children.data?.map((c) => (
             <li key={c.student_id}>
-              <Card className="space-y-3 p-4">
+              <Link to={`/app/children/${c.student_id}`} className="block">
+              <Card className="space-y-3 p-4 hover:border-bronze">
                 <div className="flex items-center gap-3">
                   {c.avatar_url ? (
                     <img src={c.avatar_url} alt="" className="h-16 w-16 shrink-0 rounded-full object-cover" />
@@ -142,8 +143,11 @@ export function ParentHomePage() {
                   </div>
                 )}
                 {c.link_status === 'pending_confirmation' && <p className="text-sm text-navy/65">{t('parent.pendingLinkHint')}</p>}
-                {/* Hồ sơ đầy đủ của con (tổng quan, lộ trình, khoá học, chứng nhận, sổ): Bước 8 */}
+                <p className="flex items-center justify-end gap-1 text-sm font-semibold text-bronze">
+                  {t('parent.openProfile')} <ChevronRight className="h-4 w-4" />
+                </p>
               </Card>
+              </Link>
             </li>
           ))}
         </ul>

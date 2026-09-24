@@ -43,7 +43,10 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
 ]
 
 // Menu HLV (02 mục 3.4). Hàng chờ duyệt và phát hành chứng nhận của HLV trưởng: Bước 9 và 12.
-const COACH_NAV: NavItem[] = [{ to: '/coach', labelKey: 'coach.myClasses', end: true }]
+const COACH_NAV: NavItem[] = [
+  { to: '/coach', labelKey: 'coach.myClasses', end: true },
+  { to: '/coach/scan', labelKey: 'coach.scanPassport' },
+]
 
 // Menu phụ huynh (02 mục 3.2) — các mục hồ sơ con có từ Bước 7–8.
 const PARENT_NAV: NavItem[] = [
@@ -93,12 +96,16 @@ export const router = createBrowserRouter([
   },
   workspaceRoute('parent', '/app', PARENT_NAV, [
     { index: true, lazy: page(() => import('@/features/parent/ParentHomePage'), (m) => m.ParentHomePage) },
+    { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
+    { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
   workspaceRoute('student', '/me'),
   workspaceRoute('coach', '/coach', COACH_NAV, [
     { index: true, lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachHomePage) },
     { path: 'classes/:classId', lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachClassPage) },
+    { path: 'students/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachStudentPage) },
+    { path: 'scan', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachScanPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
   workspaceRoute('school', '/school'),

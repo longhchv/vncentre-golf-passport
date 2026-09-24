@@ -397,7 +397,8 @@
     "noClasses": "Bạn chưa được gán vào lớp nào. Hãy liên hệ admin.",
     "scanPassport": "Quét mã sổ để mở hồ sơ học viên",
     "noAccessClass": "Bạn không có quyền xem lớp này.",
-    "rosterSummary": "{{count}} học viên · {{activated}} đã kích hoạt"
+    "rosterSummary": "{{count}} học viên · {{activated}} đã kích hoạt",
+    "noAccessStudent": "Bạn không có quyền xem học viên này."
   },
   "import": {
     "tab": {
@@ -683,7 +684,8 @@
     "currentLevel": "Level hiện tại",
     "stage": "Giai đoạn {{n}}",
     "activateAnother": "Quét hoặc nhập mã sổ",
-    "noCode": "Tôi không có mã"
+    "noCode": "Tôi không có mã",
+    "openProfile": "Xem hồ sơ"
   },
   "messages": {
     "thisMonth": "Chi phí tin nhắn tháng này",
@@ -791,5 +793,57 @@
     "alreadyActiveHint": "Nếu bạn là người giám hộ khác, hãy nhờ người đã kích hoạt mời bạn.",
     "openStudent": "Mở hồ sơ học viên",
     "enterManually": "Nhập mã bằng tay"
+  },
+  "profile": {
+    "tab": {
+      "overview": "Tổng quan",
+      "roadmap": "Lộ trình",
+      "courses": "Các khoá đã học",
+      "certificates": "Chứng nhận",
+      "passport": "Passport",
+      "guardians": "Người giám hộ",
+      "info": "Thông tin"
+    },
+    "stages": "5 giai đoạn Passport",
+    "noGoals": "Chưa chọn mục tiêu golf.",
+    "startingLevel1": "Con đang bắt đầu Level 1.",
+    "historyPending": "Đã gửi thông tin cho Trung tâm. VN Centre sẽ cập nhật lịch sử học của con.",
+    "historyAsk": "Con đã từng học golf? Báo cho Trung tâm",
+    "historyHint": "Cho chúng tôi biết con đã học ở đâu, năm học nào, khoảng bao nhiêu buổi. VN Centre sẽ kiểm tra và cập nhật hồ sơ.",
+    "historySend": "Gửi cho Trung tâm",
+    "historySent": "Đã gửi, cảm ơn bạn!",
+    "completedOn": "Hoàn thành {{date}}",
+    "learningNow": "Đang học",
+    "targetHandicap": "Handicap mục tiêu: {{h}}",
+    "contentGroup": {
+      "technique": "Kỹ thuật",
+      "culture": "Văn hoá golf",
+      "rules": "Luật golf",
+      "knowledge": "Kiến thức",
+      "life_skills": "Kỹ năng sống",
+      "other": "Khác"
+    },
+    "noLevelDetail": "Nội dung chi tiết của level này sẽ được cập nhật sau.",
+    "draftContent": "Nội dung đang ở bản nháp, có thể được điều chỉnh.",
+    "noCourses": "Chưa có khoá học nào được ghi nhận.",
+    "sessions": "{{count}} tiết",
+    "levelAchieved": "Đạt Level {{n}}",
+    "journeyAchieved": "Hoàn thành Hành trình {{n}}",
+    "noCertificates": "Chưa có chứng nhận.",
+    "certificateActions": "Xem, tải PDF và chia sẻ link xác thực chứng nhận",
+    "currentPassport": "Sổ đang dùng",
+    "reportLost": "Báo mất sổ",
+    "passportHistory": "Các sổ trước",
+    "you": "bạn",
+    "canManage": "Quản lý",
+    "inviteGuardian": "Mời người giám hộ, tạo tài khoản cho con",
+    "readOnlyGuardian": "Bạn có quyền xem. Chỉ người giám hộ có quyền quản lý mới sửa được thông tin.",
+    "changePhoto": "Đổi ảnh",
+    "photoUpdated": "Đã cập nhật ảnh",
+    "photoFailed": "Chưa tải được ảnh. Hãy thử ảnh khác (JPG/PNG)."
+  },
+  "notifications": {
+    "markAllRead": "Đánh dấu đã đọc",
+    "empty": "Chưa có thông báo."
   }
 }

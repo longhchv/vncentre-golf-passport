@@ -1,12 +1,12 @@
 import { Link, useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ChevronRight, Users } from 'lucide-react'
+import { ArrowLeft, ChevronRight, QrCode, Users } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
 import { useTable } from '@/lib/db'
 import { useAuth } from '@/auth/AuthProvider'
 import { Card } from '@/components/ui/card'
-import { ComingSoon } from '@/components/ComingSoon'
 import { RosterTable } from '@/features/classes/RosterTable'
 import { ClassCode } from '@/features/classes/ClassCode'
 import type { AcademicYear, ClassRow, RosterRow, School } from '@/lib/types'
@@ -81,8 +81,11 @@ export function CoachHomePage() {
           ))}
         </ul>
       )}
-      {/* Quét QR sổ để mở hồ sơ học viên: Bước 8 */}
-      <ComingSoon title={t('coach.scanPassport')} />
+      <Button asChild variant="outline" size="full">
+        <Link to="/coach/scan">
+          <QrCode className="h-5 w-5" /> {t('coach.scanPassport')}
+        </Link>
+      </Button>
     </div>
   )
 }
@@ -136,7 +139,7 @@ export function CoachClassPage() {
       ) : roster.isError ? (
         <p className="text-red-700">{t('errors.loadFailed')}</p>
       ) : (
-        <RosterTable rows={roster.data} />
+        <RosterTable rows={roster.data} rowHref={(r) => `/coach/students/${r.student_id}`} />
       )}
     </div>
   )

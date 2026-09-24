@@ -370,7 +370,7 @@ function Done({ result }: { result: ActivationResult }) {
       {pending && <p className="rounded-xl bg-gold/20 p-3 text-brown">{t('activation.pendingNote')}</p>}
       {!pending && result.flow === 'B' && <p className="rounded-xl bg-gold/20 p-3 text-brown">{t('activation.newStudentNote')}</p>}
       <Button asChild size="full">
-        <Link to="/app">{t('activation.openChild')}</Link>
+        <Link to={`/app/children/${result.student_id}`}>{t('activation.openChild')}</Link>
       </Button>
       <Button asChild variant="outline" size="full">
         <Link to="/activate">{t('activation.anotherChild')}</Link>

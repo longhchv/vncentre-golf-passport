@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Badge, TableWrap, td, th } from '@/components/ui/card'
 import { formatDate } from '@/lib/i18nField'
@@ -8,7 +9,16 @@ import type { RosterRow } from '@/lib/types'
  * Danh sách học viên của lớp (02 mục 3.4): tên, ngày sinh, level, trạng thái kích hoạt của phụ huynh.
  * Dữ liệu lấy từ hàm class_roster — không có liên hệ phụ huynh (R8).
  */
-export function RosterTable({ rows, actions }: { rows: RosterRow[]; actions?: (row: RosterRow) => ReactNode }) {
+export function RosterTable({
+  rows,
+  actions,
+  rowHref,
+}: {
+  rows: RosterRow[]
+  actions?: (row: RosterRow) => ReactNode
+  /** Đường dẫn hồ sơ khi bấm tên học viên */
+  rowHref?: (row: RosterRow) => string
+}) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
   return (
@@ -27,7 +37,13 @@ export function RosterTable({ rows, actions }: { rows: RosterRow[]; actions?: (r
           {rows.map((r) => (
             <tr key={r.student_id} className={r.enrollment_status !== 'active' ? 'opacity-50' : undefined}>
               <td className={td}>
-                <div className="font-semibold">{r.full_name}</div>
+                {rowHref ? (
+                  <Link to={rowHref(r)} className="font-semibold text-navy underline-offset-4 hover:underline">
+                    {r.full_name}
+                  </Link>
+                ) : (
+                  <div className="font-semibold">{r.full_name}</div>
+                )}
                 <div className="text-sm text-navy/55">
                   {r.student_code}
                   {r.current_grade_class ? ` · ${r.current_grade_class}` : ''}

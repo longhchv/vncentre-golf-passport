@@ -397,7 +397,8 @@
     "noClasses": "You are not assigned to any class yet. Please contact the admin.",
     "scanPassport": "Scan a passport to open the student profile",
     "noAccessClass": "You don't have access to this class.",
-    "rosterSummary": "{{count}} students · {{activated}} activated"
+    "rosterSummary": "{{count}} students · {{activated}} activated",
+    "noAccessStudent": "You don't have permission to view this student."
   },
   "import": {
     "tab": {
@@ -683,7 +684,8 @@
     "currentLevel": "Current level",
     "stage": "Stage {{n}}",
     "activateAnother": "Scan or enter a passport code",
-    "noCode": "I don't have a code"
+    "noCode": "I don't have a code",
+    "openProfile": "View profile"
   },
   "messages": {
     "thisMonth": "Messaging cost this month",
@@ -791,5 +793,57 @@
     "alreadyActiveHint": "If you are another guardian, ask the person who activated it to invite you.",
     "openStudent": "Open student profile",
     "enterManually": "Enter code manually"
+  },
+  "profile": {
+    "tab": {
+      "overview": "Overview",
+      "roadmap": "Pathway",
+      "courses": "Courses",
+      "certificates": "Certificates",
+      "passport": "Passport",
+      "guardians": "Guardians",
+      "info": "Details"
+    },
+    "stages": "5 Passport stages",
+    "noGoals": "No golf goals selected yet.",
+    "startingLevel1": "Your child is starting Level 1.",
+    "historyPending": "Sent to the Centre. VN Centre will update your child's learning history.",
+    "historyAsk": "Has your child learned golf before? Tell the Centre",
+    "historyHint": "Tell us where your child learned, which school year and roughly how many sessions. VN Centre will check and update the profile.",
+    "historySend": "Send to the Centre",
+    "historySent": "Sent, thank you!",
+    "completedOn": "Completed {{date}}",
+    "learningNow": "Learning now",
+    "targetHandicap": "Target handicap: {{h}}",
+    "contentGroup": {
+      "technique": "Technique",
+      "culture": "Golf etiquette",
+      "rules": "Rules of golf",
+      "knowledge": "Knowledge",
+      "life_skills": "Life skills",
+      "other": "Other"
+    },
+    "noLevelDetail": "Detailed content for this level will be added later.",
+    "draftContent": "This content is a draft and may be adjusted.",
+    "noCourses": "No courses recorded yet.",
+    "sessions": "{{count}} sessions",
+    "levelAchieved": "Achieved Level {{n}}",
+    "journeyAchieved": "Completed Journey {{n}}",
+    "noCertificates": "No certificates yet.",
+    "certificateActions": "View, download PDF and share certificate verification links",
+    "currentPassport": "Current passport",
+    "reportLost": "Report lost passport",
+    "passportHistory": "Previous passports",
+    "you": "you",
+    "canManage": "Manager",
+    "inviteGuardian": "Invite a guardian, create your child's account",
+    "readOnlyGuardian": "You have view access. Only a managing guardian can edit these details.",
+    "changePhoto": "Change photo",
+    "photoUpdated": "Photo updated",
+    "photoFailed": "Could not upload the photo. Please try another image (JPG/PNG)."
+  },
+  "notifications": {
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications yet."
   }
 }

@@ -94,7 +94,7 @@ export function PassportScanPage() {
           <p className="text-navy/70">{t('scan.retiredNote', { code: formatCode(r.current_passport_code) })}</p>
         )}
         <Button asChild size="full">
-          <Link to="/app">{t('activation.openChild')}</Link>
+          <Link to={r.student_id ? `/app/children/${r.student_id}` : '/app'}>{t('activation.openChild')}</Link>
         </Button>
       </div>
     )
@@ -128,6 +128,13 @@ function StaffLink({ studentId }: { studentId?: string | null }) {
   const { workspaces } = useAuth()
   if (!studentId) return null
   // Hồ sơ học viên cho nhân viên: admin có trang Học viên; HLV mở hồ sơ ở Bước 8
+  if (workspaces.includes('coach')) {
+    return (
+      <Button asChild variant="outline" size="sm">
+        <Link to={`/coach/students/${studentId}`}>{t('scan.openStudent')}</Link>
+      </Button>
+    )
+  }
   if (workspaces.includes('admin')) {
     return (
       <Button asChild variant="outline" size="sm">
