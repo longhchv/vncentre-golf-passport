@@ -19,7 +19,7 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D13 | File nhận diện gốc (mã màu chuẩn, font) nếu có | 1 | Anh Long | Chờ |
 | D14 | Tên mục trong First Passport chưa thống nhất: sơ đồ bậc thang ghi bước 2 là "SNAG Golf, văn hoá và luật golf", phần mô tả ghi "Làm chủ kỹ thuật cơ bản với SNAG Golf". App tạm dùng tên thứ hai | 1 | Anh Long | Chờ |
 | D15 | Trang BXH League hiện tại ghi "hạng kế tiếp không bị bỏ qua" nhưng hiển thị T6, T6, 8. Đã chốt dùng kiểu T6, T6, 8; cần sửa dòng chữ trên trang cũ | 3 | Anh Long | Đã chốt, chờ sửa trang cũ |
-| D16 | Số điện thoại nước ngoài nhận OTP qua email (quy tắc Minh đặt để tiết kiệm chi phí, phục vụ lớp UNIS) | 1 | Anh Long xác nhận | Chờ |
+| D16 | Số điện thoại nước ngoài nhận OTP qua email (quy tắc Minh đặt để tiết kiệm chi phí, phục vụ lớp UNIS) | 1 | Anh Long xác nhận | **Đã chốt 24/09/2026, đã làm ở Bước 6** |
 | D17 | Xác nhận quyền dùng dữ liệu liên hệ phụ huynh do nhà trường cung cấp để gửi lời mời kích hoạt | 1 | Anh Long với nhà trường | Chờ |
 | D18 | Giá Premium, số mã tặng, giá điểm đổi Premium | 4 | Anh Long | **Xong 21/09/2026: chốt theo đề xuất — 299.000 đ/năm · 3 tháng/mã · 50 mã/tháng · 3.000 điểm = 1 tháng** |
 | D19 | Bản quyền: đã chốt mô hình — trò CGI và SNAG **miễn phí** cho HLV, trò VN Centre tự soạn nằm trong bản mất phí. Vẫn nên có văn bản xác nhận của R&A và SNAG cho việc dịch và số hoá lên app | 5 | Anh Long với R&A / SNAG | Mô hình đã chốt, văn bản chờ |

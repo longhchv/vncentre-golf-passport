@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Plus, Search } from 'lucide-react'
@@ -20,7 +21,9 @@ export function StudentsPage() {
   const [query, setQuery] = useState('')
   const [submitted, setSubmitted] = useState('')
   const [schoolId, setSchoolId] = useState('')
-  const [openId, setOpenId] = useState<string | 'new' | null>(null)
+  const [params] = useSearchParams()
+  // Mở thẳng hồ sơ khi đến từ trang quét sổ (/admin/students?open=…)
+  const [openId, setOpenId] = useState<string | 'new' | null>(params.get('open'))
   const schools = useTable<School>('schools', { order: 'name' })
 
   const results = useQuery({

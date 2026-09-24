@@ -670,7 +670,14 @@
     "nav": {
       "home": "Home",
       "notifications": "Notifications"
-    }
+    },
+    "noChildrenHint": "Scan the QR code in your child's Golf Passport booklet, or enter the 8-character code printed there.",
+    "pendingLink": "Awaiting VN Centre confirmation",
+    "pendingLinkHint": "Once confirmed, you will see your child's full profile.",
+    "currentLevel": "Current level",
+    "stage": "Stage {{n}}",
+    "activateAnother": "Scan or enter a passport code",
+    "noCode": "I don't have a code"
   },
   "messages": {
     "thisMonth": "Messaging cost this month",
@@ -705,5 +712,71 @@
       "locked": "Locked (too many attempts)",
       "used": "Used"
     }
+  },
+  "activation": {
+    "title": "Activate Golf Passport",
+    "stepOf": "Step {{n}} of {{total}}",
+    "unassignedTitle": "New Golf Passport, not yet linked to a student",
+    "passportOf": "Golf Passport of {{name}}",
+    "blockedOtherGuardian": "Your child's profile has already been activated by another guardian",
+    "blockedOtherGuardianBody": "If you are also a guardian, ask the person who activated it to invite you from the Guardians section of the child's profile.",
+    "relationshipTitle": "What is your relationship to the child?",
+    "next": "Continue",
+    "consentsTitle": "Consent",
+    "consent": {
+      "terms": "I agree to the Terms of Use and the Privacy Policy (required)",
+      "leaderboard": "Show my child's full name on leaderboards",
+      "leaderboardHint": "Optional. If not allowed, leaderboards show \"Anonymous athlete\". You can change this at any time.",
+      "photo": "Allow VN Centre to use photos/videos of my child for communications (optional)"
+    },
+    "identityTitle": "Confirm you are the parent",
+    "identityDobHint": "Enter your child's date of birth to confirm.",
+    "identityNameHint": "Enter your child's full name to confirm.",
+    "identityWrong": "The details do not match. {{count}} attempts left.",
+    "confirm": "Confirm",
+    "childInfoTitle": "Complete your child's details",
+    "childInfoTitleB": "Your child's details",
+    "otherSchool": "Other school (type below)",
+    "schoolName": "School name",
+    "photoLater": "You can add your child's photo later in the profile.",
+    "finish": "Complete activation",
+    "welcome": "Welcome to your child's golf journey!",
+    "pendingNote": "VN Centre will confirm the link within 48 hours. Meanwhile you can see your child's name and level.",
+    "newStudentNote": "Your child's profile is awaiting verification by VN Centre. You can start following it right away.",
+    "openChild": "Open my child's profile",
+    "anotherChild": "Activate a passport for another child",
+    "manualHint": "Enter the 8-character code printed next to the QR code in the Golf Passport booklet.",
+    "errors": {
+      "passport_not_found": "Passport code not found.",
+      "passport_not_activatable": "This passport cannot be activated (status: {{status}}).",
+      "other_guardian": "This child already has another guardian. Please ask them to invite you.",
+      "identity_locked": "Too many incorrect confirmation attempts. The passport code is locked for 24 hours and VN Centre has been notified.",
+      "identity_failed": "The confirmation details do not match.",
+      "consent_required": "You need to agree to the Terms of Use and Privacy Policy.",
+      "relationship_required": "Please choose your relationship to the child.",
+      "child_info_required": "Please enter your child's full name, date of birth and school.",
+      "invalid_dob": "Invalid date of birth.",
+      "unauthorized": "Your session has expired, please sign in again."
+    }
+  },
+  "scan": {
+    "wrongCode": "Incorrect code",
+    "wrongCodeBody": "Check the code printed in the booklet, or scan the QR code again.",
+    "locked": "Too many incorrect codes. Please try again in {{minutes}} minutes.",
+    "signInToActivate": "Sign up or sign in to activate your child's golf profile.",
+    "signupAndActivate": "Sign up and activate",
+    "haveAccount": "I already have an account",
+    "staffWarning": {
+      "lost": "Passport reported lost",
+      "void": "Passport voided"
+    },
+    "currentPassport": "Current passport: {{code}}",
+    "invalidPassport": "This passport is no longer valid. Please contact VN Centre.",
+    "yourChild": "Golf Passport of {{name}}",
+    "retiredNote": "This is a previous passport. The current passport is {{code}}.",
+    "alreadyActive": "This passport has already been activated",
+    "alreadyActiveHint": "If you are another guardian, ask the person who activated it to invite you.",
+    "openStudent": "Open student profile",
+    "enterManually": "Enter code manually"
   }
 }

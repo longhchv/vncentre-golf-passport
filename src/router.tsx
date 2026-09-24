@@ -15,6 +15,8 @@ import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 import { ChooseWorkspacePage } from '@/pages/auth/ChooseWorkspacePage'
 import { AccountPage } from '@/pages/account/AccountPage'
 import { ComingSoon } from '@/components/ComingSoon'
+import { PassportScanPage } from '@/features/activation/PassportScanPage'
+import { ActivatePage } from '@/features/activation/ActivatePage'
 
 // Trang của từng không gian tải khi cần (lazy) → trang phụ huynh nhẹ hơn trên 4G (02 mục 6).
 type Loader = () => Promise<{ Component: React.ComponentType }>
@@ -71,8 +73,8 @@ export const router = createBrowserRouter([
     element: <PublicLayout />,
     children: [
       { path: '/', element: <LandingPage /> },
-      { path: '/activate', element: <PlaceholderPage titleKey="pages.activate" bodyKey="pages.activateBody" /> },
-      { path: '/p/:passportCode', element: <PlaceholderPage titleKey="pages.passportScan" /> },
+      { path: '/activate', element: <ActivatePage /> },
+      { path: '/p/:passportCode', element: <PassportScanPage /> },
       { path: '/c/:claimCode', element: <PlaceholderPage titleKey="pages.claimCode" /> },
       { path: '/i/:inviteToken', element: <PlaceholderPage titleKey="pages.invite" /> },
       { path: '/verify', element: <PlaceholderPage titleKey="pages.verify" /> },

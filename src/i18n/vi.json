@@ -670,7 +670,14 @@
     "nav": {
       "home": "Trang chủ",
       "notifications": "Thông báo"
-    }
+    },
+    "noChildrenHint": "Quét mã QR trên sổ Golf Passport của con, hoặc nhập mã 8 ký tự in trên sổ.",
+    "pendingLink": "Chờ VN Centre xác nhận",
+    "pendingLinkHint": "Sau khi được xác nhận, bạn sẽ xem được đầy đủ hồ sơ của con.",
+    "currentLevel": "Level hiện tại",
+    "stage": "Giai đoạn {{n}}",
+    "activateAnother": "Quét hoặc nhập mã sổ",
+    "noCode": "Tôi không có mã"
   },
   "messages": {
     "thisMonth": "Chi phí tin nhắn tháng này",
@@ -705,5 +712,71 @@
       "locked": "Khoá (sai nhiều lần)",
       "used": "Đã dùng"
     }
+  },
+  "activation": {
+    "title": "Kích hoạt Golf Passport",
+    "stepOf": "Bước {{n}}/{{total}}",
+    "unassignedTitle": "Golf Passport mới, chưa gắn với học viên",
+    "passportOf": "Golf Passport của {{name}}",
+    "blockedOtherGuardian": "Hồ sơ của con đã được một người giám hộ khác kích hoạt",
+    "blockedOtherGuardianBody": "Nếu bạn cũng là người giám hộ của con, hãy nhờ người đã kích hoạt mời bạn trong mục Người giám hộ của hồ sơ con.",
+    "relationshipTitle": "Bạn là gì của con?",
+    "next": "Tiếp tục",
+    "consentsTitle": "Đồng ý",
+    "consent": {
+      "terms": "Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật (bắt buộc)",
+      "leaderboard": "Cho phép hiện tên đầy đủ của con trên bảng xếp hạng",
+      "leaderboardHint": "Không bắt buộc. Nếu không đồng ý, bảng xếp hạng hiện \"Vận động viên ẩn danh\". Bạn đổi được bất cứ lúc nào.",
+      "photo": "Cho phép dùng ảnh/video của con cho hoạt động truyền thông của VN Centre (không bắt buộc)"
+    },
+    "identityTitle": "Xác nhận bạn là phụ huynh",
+    "identityDobHint": "Nhập ngày sinh của con để xác nhận.",
+    "identityNameHint": "Nhập họ và tên đầy đủ của con để xác nhận.",
+    "identityWrong": "Thông tin chưa khớp. Còn {{count}} lần thử.",
+    "confirm": "Xác nhận",
+    "childInfoTitle": "Bổ sung thông tin của con",
+    "childInfoTitleB": "Thông tin của con",
+    "otherSchool": "Trường khác (gõ tên bên dưới)",
+    "schoolName": "Tên trường",
+    "photoLater": "Ảnh đại diện của con có thể thêm sau trong hồ sơ.",
+    "finish": "Hoàn tất kích hoạt",
+    "welcome": "Chào mừng bạn đến với hành trình golf của con!",
+    "pendingNote": "VN Centre sẽ xác nhận liên kết trong vòng 48 giờ. Trong lúc chờ, bạn xem được tên và level của con.",
+    "newStudentNote": "Hồ sơ của con đang chờ VN Centre xác minh. Bạn vẫn theo dõi được ngay.",
+    "openChild": "Vào hồ sơ của con",
+    "anotherChild": "Kích hoạt sổ cho con khác",
+    "manualHint": "Nhập mã 8 ký tự in cạnh mã QR trên sổ Golf Passport.",
+    "errors": {
+      "passport_not_found": "Không tìm thấy mã sổ này.",
+      "passport_not_activatable": "Sổ này không kích hoạt được (trạng thái: {{status}}).",
+      "other_guardian": "Hồ sơ của con đã có người giám hộ khác. Hãy nhờ người đó mời bạn.",
+      "identity_locked": "Thông tin xác nhận bị nhập sai quá nhiều lần. Mã sổ tạm khoá 24 giờ; VN Centre đã được thông báo.",
+      "identity_failed": "Thông tin xác nhận chưa khớp.",
+      "consent_required": "Cần đồng ý Điều khoản sử dụng và Chính sách bảo mật.",
+      "relationship_required": "Hãy chọn quan hệ với con.",
+      "child_info_required": "Hãy nhập đủ họ tên, ngày sinh và trường của con.",
+      "invalid_dob": "Ngày sinh không hợp lệ.",
+      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại."
+    }
+  },
+  "scan": {
+    "wrongCode": "Mã không đúng",
+    "wrongCodeBody": "Kiểm tra lại mã in trên sổ, hoặc quét lại mã QR.",
+    "locked": "Nhập sai mã quá nhiều lần. Vui lòng thử lại sau {{minutes}} phút.",
+    "signInToActivate": "Đăng ký hoặc đăng nhập để kích hoạt hồ sơ golf của con.",
+    "signupAndActivate": "Đăng ký và kích hoạt",
+    "haveAccount": "Tôi đã có tài khoản",
+    "staffWarning": {
+      "lost": "Sổ đã báo mất",
+      "void": "Sổ đã huỷ"
+    },
+    "currentPassport": "Sổ đang dùng: {{code}}",
+    "invalidPassport": "Sổ này không còn hiệu lực. Liên hệ VN Centre.",
+    "yourChild": "Golf Passport của {{name}}",
+    "retiredNote": "Đây là sổ cấp trước. Sổ hiện tại là {{code}}.",
+    "alreadyActive": "Sổ đã được kích hoạt",
+    "alreadyActiveHint": "Nếu bạn là người giám hộ khác, hãy nhờ người đã kích hoạt mời bạn.",
+    "openStudent": "Mở hồ sơ học viên",
+    "enterManually": "Nhập mã bằng tay"
   }
 }
