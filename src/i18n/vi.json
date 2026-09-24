@@ -591,7 +591,13 @@
     "emailOptional": "Có thể bỏ qua bây giờ. Email cần có trước khi tải chứng nhận PDF.",
     "passwordHint": "Tối thiểu 8 ký tự. Các lần sau đăng nhập bằng số điện thoại + mật khẩu, không cần mã.",
     "language": "Ngôn ngữ",
-    "finish": "Hoàn tất đăng ký"
+    "finish": "Hoàn tất đăng ký",
+    "accountIntro": "Đây là tài khoản của bạn — phụ huynh/người giám hộ. Thông tin của con sẽ nhập ở bước kích hoạt sổ.",
+    "parentPhone": "Số điện thoại của phụ huynh/người giám hộ",
+    "parentEmail": "Email của phụ huynh/người giám hộ",
+    "parentName": "Họ và tên phụ huynh/người giám hộ",
+    "parentNameHint": "Ví dụ: Trần Thu Hà. Không nhập tên của con ở đây.",
+    "title": "Đăng ký tài khoản phụ huynh"
   },
   "forgot": {
     "hint": "Nhập số điện thoại hoặc email của tài khoản. Chúng tôi sẽ gửi mã xác thực để đặt mật khẩu mới."

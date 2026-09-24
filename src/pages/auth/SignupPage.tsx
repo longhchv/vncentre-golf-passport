@@ -59,15 +59,16 @@ export function SignupPage() {
   return (
     <div className="mx-auto max-w-md space-y-5">
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold">{t('pages.signup')}</h1>
+        <h1 className="text-2xl font-bold">{t('signup.title')}</h1>
         <p className="text-sm text-navy/60">{t('signup.stepOf', { n: step === 'phone' ? 1 : step === 'otp' ? 2 : 3 })}</p>
+        {step !== 'otp' && <p className="rounded-xl bg-navy/5 p-3 text-sm text-navy/80">{t('signup.accountIntro')}</p>}
       </div>
 
       {step === 'phone' && (
         <form onSubmit={onPhone} className="space-y-4">
-          <PhoneField dial={dial} onDial={setDial} value={local} onChange={setLocal} />
+          <PhoneField dial={dial} onDial={setDial} value={local} onChange={setLocal} label={t('signup.parentPhone')} />
           {foreign && (
-            <Field label={t('auth.email') + ' *'} hint={t('signup.foreignEmailHint')}>
+            <Field label={t('signup.parentEmail') + ' *'} hint={t('signup.foreignEmailHint')}>
               <Input type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </Field>
           )}
@@ -157,13 +158,13 @@ function ProfileStep({
 
   return (
     <form onSubmit={submit} className="space-y-4">
-      <Field label={t('fields.fullName') + ' *'}>
+      <Field label={t('signup.parentName') + ' *'} hint={t('signup.parentNameHint')}>
         <Input required autoComplete="name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
       </Field>
       {foreign ? (
         <p className="text-sm text-navy/70">{t('signup.emailVerified', { email: foreignEmail })}</p>
       ) : (
-        <Field label={t('auth.email')} hint={t('signup.emailOptional')}>
+        <Field label={t('signup.parentEmail')} hint={t('signup.emailOptional')}>
           <Input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </Field>
       )}

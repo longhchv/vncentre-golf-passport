@@ -591,7 +591,13 @@
     "emailOptional": "You can skip this now. An email is required before downloading PDF certificates.",
     "passwordHint": "At least 8 characters. Next time, sign in with your phone number and password; no code needed.",
     "language": "Language",
-    "finish": "Complete sign-up"
+    "finish": "Complete sign-up",
+    "accountIntro": "This is your account as the parent/guardian. Your child's details are entered later, when activating the passport.",
+    "parentPhone": "Parent/guardian phone number",
+    "parentEmail": "Parent/guardian email",
+    "parentName": "Parent/guardian full name",
+    "parentNameHint": "E.g. Jane Smith. Do not enter your child's name here.",
+    "title": "Parent/guardian sign-up"
   },
   "forgot": {
     "hint": "Enter your account's phone number or email. We will send a verification code so you can set a new password."
