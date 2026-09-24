@@ -12,7 +12,7 @@ export function codeFromQr(text: string): string {
  * Quét QR bằng camera sau của điện thoại (@zxing/browser). Cần HTTPS.
  * Gọi onCode một lần với mã đã chuẩn hoá rồi tự tắt camera.
  */
-export function QrScanner({ onCode }: { onCode: (code: string) => void }) {
+export function QrScanner({ onCode, hint }: { onCode: (code: string, rawText: string) => void; hint?: string }) {
   const { t } = useTranslation()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [error, setError] = useState<string | null>(null)
@@ -33,7 +33,7 @@ export function QrScanner({ onCode }: { onCode: (code: string) => void }) {
               done.current = true
               controls?.stop()
               if (navigator.vibrate) navigator.vibrate(60)
-              onCode(codeFromQr(result.getText()))
+              onCode(codeFromQr(result.getText()), result.getText())
             }
           },
         )
@@ -55,7 +55,7 @@ export function QrScanner({ onCode }: { onCode: (code: string) => void }) {
         <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
         <div className="pointer-events-none absolute inset-[18%] rounded-2xl border-4 border-gold/80" />
       </div>
-      <p className={error ? 'text-sm font-medium text-red-700' : 'text-sm text-navy/60'}>{error ?? t('scanner.hint')}</p>
+      <p className={error ? 'text-sm font-medium text-red-700' : 'text-sm text-navy/60'}>{error ?? hint ?? t('scanner.hint')}</p>
     </div>
   )
 }

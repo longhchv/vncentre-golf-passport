@@ -757,7 +757,14 @@
       "child_info_required": "Please enter your child's full name, date of birth and school.",
       "invalid_dob": "Invalid date of birth.",
       "unauthorized": "Your session has expired, please sign in again."
-    }
+    },
+    "mode": {
+      "scan": "Scan QR",
+      "type": "Type code"
+    },
+    "scanHint": "Place the QR code from the Golf Passport booklet (or paper certificate) inside the gold frame.",
+    "notPassportQr": "This QR code is not a Golf Passport code. Please scan the QR code printed in the booklet.",
+    "cannotScan": "Cannot scan? Type the 8-character code"
   },
   "scan": {
     "wrongCode": "Incorrect code",

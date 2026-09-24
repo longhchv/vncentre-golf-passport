@@ -757,7 +757,14 @@
       "child_info_required": "Hãy nhập đủ họ tên, ngày sinh và trường của con.",
       "invalid_dob": "Ngày sinh không hợp lệ.",
       "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại."
-    }
+    },
+    "mode": {
+      "scan": "Quét QR",
+      "type": "Gõ mã"
+    },
+    "scanHint": "Đưa mã QR trên sổ Golf Passport (hoặc trên chứng nhận giấy) vào khung vàng.",
+    "notPassportQr": "Mã QR này không phải mã Golf Passport. Hãy quét mã QR in trên sổ.",
+    "cannotScan": "Không quét được? Gõ mã 8 ký tự"
   },
   "scan": {
     "wrongCode": "Mã không đúng",
