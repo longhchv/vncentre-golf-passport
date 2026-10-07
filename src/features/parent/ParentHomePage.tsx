@@ -32,6 +32,9 @@ export interface ChildCardData {
   tier_name_en: string | null
   school_name: string | null
   grade_class: string | null
+  is_event_guest: boolean
+  event_name_vi: string | null
+  event_name_en: string | null
 }
 
 export function useMyChildren() {
@@ -126,6 +129,12 @@ export function ParentHomePage() {
                     )}
                   </div>
                 </div>
+                {c.is_event_guest ? (
+                  <div>
+                    <Badge tone="good">{t('parent.eventGuest')}</Badge>
+                    <p className="mt-1 text-sm text-navy/70">{loc(c, 'event_name')}</p>
+                  </div>
+                ) : (<>
                 <div className="flex items-end justify-between gap-2">
                   <div>
                     <p className="text-sm text-navy/60">{t('parent.currentLevel')}</p>
@@ -142,6 +151,7 @@ export function ParentHomePage() {
                     </p>
                   </div>
                 )}
+                </>)}
                 {c.link_status === 'pending_confirmation' && <p className="text-sm text-navy/65">{t('parent.pendingLinkHint')}</p>}
                 <p className="flex items-center justify-end gap-1 text-sm font-semibold text-bronze">
                   {t('parent.openProfile')} <ChevronRight className="h-4 w-4" />

@@ -27,7 +27,7 @@ export interface StudentProfile {
     avatar_path?: string | null
     golf_goals?: string[]
     golf_goals_other?: string | null
-    verification_status?: 'verified' | 'pending_review'
+    verification_status?: 'verified' | 'pending_review' | 'event_guest'
   }
   level: LevelInfo | null
   completed_levels?: { program: string; number: number; completed_at: string | null }[]

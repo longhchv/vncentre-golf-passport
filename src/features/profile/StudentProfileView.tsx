@@ -22,20 +22,24 @@ import { GuardiansTab } from '@/features/guardians/GuardiansTab'
 import { CertificateViewer } from '@/features/certificates/CertificateViewer'
 import { ReportLostButton } from '@/features/orders/ReportLost'
 import { DataDeletionRequest } from '@/features/consents/Consents'
+import { EventExperience } from '@/features/events/EventExperience'
 
-type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info'
+type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info' | 'experience'
 
 /** Hồ sơ học viên (F8). Phụ huynh: đủ 7 mục; nhân viên (HLV, trường) và chính học viên (F7, chỉ xem): Tổng quan, Lộ trình, Khoá học, Chứng nhận, Passport. */
 export function StudentProfileView({ profile }: { profile: StudentProfile }) {
   const { t } = useTranslation()
-  const tabs: Tab[] =
-    profile.viewer === 'guardian'
+  // Người trải nghiệm sự kiện (E6): chưa có lộ trình, khoá học, level, sổ — chỉ hồ sơ trải nghiệm và chứng nhận
+  const guest = profile.student.verification_status === 'event_guest'
+  const tabs: Tab[] = guest
+    ? profile.viewer === 'guardian' ? ['experience', 'certificates', 'guardians', 'info'] : ['experience', 'certificates']
+    : profile.viewer === 'guardian'
       ? ['overview', 'roadmap', 'courses', 'certificates', 'passport', 'guardians', 'info']
       : ['overview', 'roadmap', 'courses', 'certificates', 'passport']
   // Mở đúng mục từ thông báo, vd. ?tab=certificates
   const [params] = useSearchParams()
   const initial = params.get('tab') as Tab | null
-  const [tab, setTab] = useState<Tab>(initial && tabs.includes(initial) ? initial : 'overview')
+  const [tab, setTab] = useState<Tab>(initial && tabs.includes(initial) ? initial : tabs[0])
 
   if (profile.viewer === 'pending') return <PendingView profile={profile} />
 
@@ -58,6 +62,7 @@ export function StudentProfileView({ profile }: { profile: StudentProfile }) {
           ))}
         </div>
       </div>
+      {tab === 'experience' && <EventExperience studentId={profile.student.id} />}
       {tab === 'overview' && <Overview profile={profile} />}
       {tab === 'roadmap' && <Roadmap profile={profile} />}
       {tab === 'courses' && <Courses profile={profile} />}
@@ -86,11 +91,14 @@ export function Avatar({ path, className = 'h-20 w-20' }: { path?: string | null
 }
 
 function Header({ profile }: { profile: StudentProfile }) {
+  const { t } = useTranslation()
   const s = profile.student
+  const self = profile.guardians?.some((g) => g.is_me && g.relationship === 'self')
   return (
     <div className="flex items-center gap-4">
       <Avatar path={s.avatar_path} />
       <div className="min-w-0">
+        {self && <p className="text-sm font-semibold text-bronze">{t('profile.myProfile')}</p>}
         <h1 className="text-2xl font-bold">{s.full_name}</h1>
         <p className="text-sm text-navy/60">{[s.student_code, s.school_name, s.grade_class].filter(Boolean).join(' · ')}</p>
       </div>

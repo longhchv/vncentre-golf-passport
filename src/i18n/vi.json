@@ -688,7 +688,8 @@
     "stage": "Giai đoạn {{n}}",
     "activateAnother": "Quét hoặc nhập mã sổ",
     "noCode": "Tôi không có mã",
-    "openProfile": "Xem hồ sơ"
+    "openProfile": "Xem hồ sơ",
+    "eventGuest": "Trải nghiệm sự kiện"
   },
   "messages": {
     "thisMonth": "Chi phí tin nhắn tháng này",
@@ -723,7 +724,8 @@
       "locked": "Khoá (sai nhiều lần)",
       "used": "Đã dùng"
     },
-    "openLink": "Mở link thử"
+    "openLink": "Mở link thử",
+    "emailToday": "Email hôm nay / hạn mức"
   },
   "activation": {
     "title": "Kích hoạt Golf Passport",
@@ -816,7 +818,8 @@
       "certificates": "Chứng nhận",
       "passport": "Passport",
       "guardians": "Người giám hộ",
-      "info": "Thông tin"
+      "info": "Thông tin",
+      "experience": "Trải nghiệm"
     },
     "stages": "5 giai đoạn Passport",
     "noGoals": "Chưa chọn mục tiêu golf.",
@@ -854,7 +857,8 @@
     "readOnlyGuardian": "Bạn có quyền xem. Chỉ người giám hộ có quyền quản lý mới sửa được thông tin.",
     "changePhoto": "Đổi ảnh",
     "photoUpdated": "Đã cập nhật ảnh",
-    "photoFailed": "Chưa tải được ảnh. Hãy thử ảnh khác (JPG/PNG)."
+    "photoFailed": "Chưa tải được ảnh. Hãy thử ảnh khác (JPG/PNG).",
+    "myProfile": "Hồ sơ của tôi"
   },
   "notifications": {
     "markAllRead": "Đánh dấu đã đọc",
@@ -1452,7 +1456,6 @@
       "rejected": "Chưa được xác nhận"
     },
     "congrats": "Chúc mừng, bạn đã hoàn thành!",
-    "accountSoon": "Chứng nhận đã sẵn sàng. Chức năng tạo tài khoản để tải chứng nhận sẽ mở ngay sau sự kiện — quét lại thẻ này để nhận.",
     "pendingReview": "Ban tổ chức đang kiểm tra ảnh thẻ điểm của bạn. Quét lại thẻ này để xem kết quả.",
     "notCompleted": "Bạn chưa hoàn thành. Chơi đủ 4 trạm rồi mang thẻ tới quầy đổi quà.",
     "rejectedReason": "Lý do: {{reason}}",
@@ -1506,5 +1509,66 @@
     "redeemed": "Đã đổi quà · còn lại {{balance}} điểm",
     "redeemedLine": "Đã đổi {{points}} điểm · {{gift}} · {{time}}",
     "next": "Thẻ tiếp theo"
+  },
+  "eventActivate": {
+    "title": "Tạo tài khoản để tải chứng nhận",
+    "intro": "Nhập số điện thoại đã ghi khi nhận thẻ. Sau đó dùng email để nhận mã xác thực và tạo tài khoản.",
+    "phoneLabel": "Số điện thoại đã ghi khi nhận thẻ",
+    "phoneHint": "Nhập đủ số. Nếu khi ghi tên không có số, hãy nhập số của bạn.",
+    "next": "Tiếp tục",
+    "haveAccount": "Đã có tài khoản VN Centre?",
+    "phoneOk": "Số điện thoại khớp.",
+    "cardsTogether": "{{n}} thẻ cùng số điện thoại sẽ được nối vào tài khoản:",
+    "emailLabel": "Email của bạn",
+    "emailHint": "Mã xác thực gửi về email này. Email dùng để đăng nhập và nhận chứng nhận.",
+    "sendCode": "Gửi mã qua email",
+    "loginToLink": "Đăng nhập bằng email này để nối thẻ",
+    "codeSent": "Mã 6 số đã gửi tới {{email}}.",
+    "spamHint": "Không thấy email? Kiểm tra hộp thư Spam / Quảng cáo (Gmail: tab Quảng cáo). Mã có hiệu lực trong vài phút.",
+    "passwordLabel": "Đặt mật khẩu",
+    "passwordHint": "Ít nhất 8 ký tự. Lần sau đăng nhập bằng email và mật khẩu này.",
+    "yourName": "Họ tên của bạn (người lớn)",
+    "yourNameHint": "Để trống nếu bạn là người chơi.",
+    "photoConsent": "Tôi đồng ý để VN Centre dùng ảnh tại sự kiện có tôi / con tôi cho truyền thông",
+    "agreeLine": "Bằng việc tạo tài khoản, bạn đồng ý với",
+    "create": "Tạo tài khoản",
+    "changeEmail": "Đổi email",
+    "linkToMeTitle": "Nối thẻ này vào tài khoản {{email}}",
+    "linkToMe": "Nối thẻ vào tài khoản của tôi",
+    "alreadyActivated": "Thẻ đã được nối với một tài khoản. Đăng nhập để xem hồ sơ và tải chứng nhận.",
+    "openAccount": "Đăng nhập",
+    "errors": {
+      "phone_wrong": "Số điện thoại không khớp với số đã ghi khi nhận thẻ. Còn {{remaining}} lần thử.",
+      "phone_locked": "Nhập sai quá số lần cho phép, thẻ tạm khoá. Liên hệ Ban tổ chức qua Zalo OA để được hỗ trợ.",
+      "phone_invalid_phone": "Số điện thoại chưa đúng.",
+      "phone_not_found": "Không tìm thấy thẻ.",
+      "phone_not_registered": "Thẻ chưa ghi tên.",
+      "phone_inactive": "Thẻ này không còn hiệu lực.",
+      "not_completed": "Thẻ chưa hoàn thành nên chưa tạo được tài khoản.",
+      "invalid_email": "Email không hợp lệ.",
+      "email_has_account": "Email này đã có tài khoản. Hãy đăng nhập bằng email đó rồi quét lại thẻ để nối.",
+      "resend_too_soon": "Vui lòng chờ {{retry_after}} giây rồi gửi lại.",
+      "too_many_for_target": "Email này đã nhận quá nhiều mã hôm nay. Vui lòng thử lại vào ngày mai.",
+      "too_many_for_ip": "Đã gửi quá nhiều mã từ mạng này hôm nay. Vui lòng thử lại sau.",
+      "send_failed": "Chưa gửi được email. Vui lòng thử lại sau ít phút.",
+      "otp_not_found": "Mã đã hết hiệu lực, hãy gửi mã mới.",
+      "otp_wrong": "Mã chưa đúng. Còn {{attempts_left}} lần thử.",
+      "otp_locked": "Nhập sai quá số lần cho phép. Hãy gửi mã mới.",
+      "otp_expired": "Mã đã hết hạn. Hãy gửi mã mới.",
+      "otp_used": "Mã đã được dùng. Hãy gửi mã mới.",
+      "password_too_short": "Mật khẩu cần ít nhất {{min}} ký tự.",
+      "create_failed": "Chưa tạo được tài khoản. Vui lòng thử lại.",
+      "card_already_activated": "Thẻ đã được nối với một tài khoản khác.",
+      "card_not_registered": "Thẻ chưa ghi tên.",
+      "unauthorized": "Phiên đăng nhập đã hết, hãy đăng nhập lại."
+    }
+  },
+  "eventExperience": {
+    "balance": "Điểm còn lại",
+    "totalPoints": "Tổng điểm tích luỹ: {{total}}",
+    "cardPoints": "Thẻ này: tích luỹ {{total}} · còn {{balance}} điểm",
+    "redeemed": "Đã đổi quà · còn lại {{balance}} điểm",
+    "learnMore": "Muốn học golf tiếp?",
+    "learnMoreBody": "VN Centre có các lớp golf cho trẻ em và người lớn. Nhắn cho chúng tôi để được tư vấn lớp phù hợp."
   }
 }

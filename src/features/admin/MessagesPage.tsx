@@ -6,6 +6,7 @@ import { formatDateTime, formatVnd } from '@/lib/i18nField'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Select } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
+import { useSetting } from '@/lib/settings'
 
 interface OtpLog {
   id: string
@@ -60,6 +61,20 @@ export function MessagesPage() {
     },
   })
 
+  // Email gửi hôm nay (giờ Việt Nam) so với hạn mức/ngày của nhà cung cấp
+  const { value: emailLimit } = useSetting<number>('messaging.email_daily_limit', 300)
+  const emailsToday = useQuery({
+    queryKey: ['emails_today'],
+    refetchInterval: 30_000,
+    queryFn: async () => {
+      const day = new Date(Date.now() + 7 * 3_600_000).toISOString().slice(0, 10)
+      const { count, error } = await supabase!.from('otp_logs').select('id', { count: 'exact', head: true })
+        .eq('channel', 'email').gte('created_at', `${day}T00:00:00+07:00`)
+      if (error) throw error
+      return count ?? 0
+    },
+  })
+
   const thisMonth = new Date().toISOString().slice(0, 7)
   const monthTotal = (costs.data ?? []).filter((c) => c.month.startsWith(thisMonth)).reduce((s, c) => s + Number(c.cost_vnd ?? 0), 0)
   const hasMock = logs.data?.some((l) => l.debug_code)
@@ -68,14 +83,23 @@ export function MessagesPage() {
     <div className="space-y-5">
       <h1 className="text-2xl font-bold">{t('admin.nav.messages')}</h1>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Card className="p-4">
           <p className="text-sm text-navy/60">{t('messages.thisMonth')}</p>
           <p className="text-3xl font-bold">{formatVnd(monthTotal, i18n.language)}</p>
         </Card>
         {(['zalo', 'sms', 'email'] as const).map((c) => {
           const row = costs.data?.find((x) => x.month.startsWith(thisMonth) && x.channel === c)
-          return c === 'email' ? null : (
+          if (c === 'email') {
+            const n = emailsToday.data ?? 0
+            return (
+              <Card key={c} className={`p-4 ${n >= emailLimit * 0.8 ? 'border-red-300 bg-red-50' : ''}`}>
+                <p className="text-sm text-navy/60">{t('messages.emailToday')}</p>
+                <p className="text-3xl font-bold">{n} / {emailLimit}</p>
+              </Card>
+            )
+          }
+          return (
             <Card key={c} className="p-4">
               <p className="text-sm text-navy/60">{t(`messages.channel.${c}`)} · {t('messages.thisMonthShort')}</p>
               <p className="text-3xl font-bold">{row?.messages ?? 0}</p>

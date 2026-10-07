@@ -688,7 +688,8 @@
     "stage": "Stage {{n}}",
     "activateAnother": "Scan or enter a passport code",
     "noCode": "I don't have a code",
-    "openProfile": "View profile"
+    "openProfile": "View profile",
+    "eventGuest": "Event experience"
   },
   "messages": {
     "thisMonth": "Messaging cost this month",
@@ -723,7 +724,8 @@
       "locked": "Locked (too many attempts)",
       "used": "Used"
     },
-    "openLink": "Open test link"
+    "openLink": "Open test link",
+    "emailToday": "Emails today / limit"
   },
   "activation": {
     "title": "Activate Golf Passport",
@@ -816,7 +818,8 @@
       "certificates": "Certificates",
       "passport": "Passport",
       "guardians": "Guardians",
-      "info": "Details"
+      "info": "Details",
+      "experience": "Experience"
     },
     "stages": "5 Passport stages",
     "noGoals": "No golf goals selected yet.",
@@ -854,7 +857,8 @@
     "readOnlyGuardian": "You have view access. Only a managing guardian can edit these details.",
     "changePhoto": "Change photo",
     "photoUpdated": "Photo updated",
-    "photoFailed": "Could not upload the photo. Please try another image (JPG/PNG)."
+    "photoFailed": "Could not upload the photo. Please try another image (JPG/PNG).",
+    "myProfile": "My profile"
   },
   "notifications": {
     "markAllRead": "Mark all as read",
@@ -1452,7 +1456,6 @@
       "rejected": "Not confirmed"
     },
     "congrats": "Congratulations, you have completed it!",
-    "accountSoon": "Your certificate is ready. Account creation to download it opens right after the event — scan this card again to collect it.",
     "pendingReview": "The organisers are checking your score-card photo. Scan this card again to see the result.",
     "notCompleted": "Not completed yet. Play all 4 stations, then bring the card to the gift counter.",
     "rejectedReason": "Reason: {{reason}}",
@@ -1506,5 +1509,66 @@
     "redeemed": "Gift redeemed · {{balance}} points left",
     "redeemedLine": "Redeemed {{points}} points · {{gift}} · {{time}}",
     "next": "Next card"
+  },
+  "eventActivate": {
+    "title": "Create an account to download the certificate",
+    "intro": "Enter the phone number given when you got the card. Then use your email to receive a code and create an account.",
+    "phoneLabel": "Phone number given with the card",
+    "phoneHint": "Enter the full number. If no number was given at registration, enter yours.",
+    "next": "Continue",
+    "haveAccount": "Already have a VN Centre account?",
+    "phoneOk": "Phone number matches.",
+    "cardsTogether": "{{n}} cards with the same phone number will be linked to the account:",
+    "emailLabel": "Your email",
+    "emailHint": "The code is sent to this email. You will use it to sign in and receive certificates.",
+    "sendCode": "Send code by email",
+    "loginToLink": "Sign in with this email to link the card",
+    "codeSent": "A 6-digit code was sent to {{email}}.",
+    "spamHint": "No email? Check your Spam / Promotions folder. The code is valid for a few minutes.",
+    "passwordLabel": "Choose a password",
+    "passwordHint": "At least 8 characters. Next time sign in with this email and password.",
+    "yourName": "Your full name (adult)",
+    "yourNameHint": "Leave empty if you are the player.",
+    "photoConsent": "I agree that VN Centre may use event photos of me / my child for communications",
+    "agreeLine": "By creating an account you agree to the",
+    "create": "Create account",
+    "changeEmail": "Change email",
+    "linkToMeTitle": "Link this card to the account {{email}}",
+    "linkToMe": "Link the card to my account",
+    "alreadyActivated": "This card is already linked to an account. Sign in to see the profile and download the certificate.",
+    "openAccount": "Sign in",
+    "errors": {
+      "phone_wrong": "The phone number does not match the one given with the card. {{remaining}} attempts left.",
+      "phone_locked": "Too many wrong attempts, the card is temporarily locked. Contact the organisers via Zalo OA.",
+      "phone_invalid_phone": "Invalid phone number.",
+      "phone_not_found": "Card not found.",
+      "phone_not_registered": "This card has not been registered.",
+      "phone_inactive": "This card is no longer valid.",
+      "not_completed": "The card is not completed yet, so an account cannot be created.",
+      "invalid_email": "Invalid email.",
+      "email_has_account": "This email already has an account. Sign in with it, then scan the card again to link it.",
+      "resend_too_soon": "Please wait {{retry_after}} seconds before resending.",
+      "too_many_for_target": "This email received too many codes today. Please try again tomorrow.",
+      "too_many_for_ip": "Too many codes sent from this network today. Please try later.",
+      "send_failed": "Could not send the email. Please try again in a few minutes.",
+      "otp_not_found": "The code is no longer valid, request a new one.",
+      "otp_wrong": "Wrong code. {{attempts_left}} attempts left.",
+      "otp_locked": "Too many wrong attempts. Request a new code.",
+      "otp_expired": "The code has expired. Request a new one.",
+      "otp_used": "The code was already used. Request a new one.",
+      "password_too_short": "The password needs at least {{min}} characters.",
+      "create_failed": "Could not create the account. Please try again.",
+      "card_already_activated": "This card is already linked to another account.",
+      "card_not_registered": "This card has not been registered.",
+      "unauthorized": "Your session has expired, please sign in again."
+    }
+  },
+  "eventExperience": {
+    "balance": "Points left",
+    "totalPoints": "Total points earned: {{total}}",
+    "cardPoints": "This card: earned {{total}} · {{balance}} points left",
+    "redeemed": "Gift redeemed · {{balance}} points left",
+    "learnMore": "Want to keep learning golf?",
+    "learnMoreBody": "VN Centre runs golf classes for children and adults. Message us to find the right class."
   }
 }

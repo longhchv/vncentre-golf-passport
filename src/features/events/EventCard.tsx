@@ -12,6 +12,7 @@ import { Checkbox, Field, FormError, Input, Select } from '@/components/ui/form'
 import { Mascot } from '@/components/Mascot'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { COUNTRIES, toE164 } from '@/features/auth/phone'
+import { EventActivation } from './EventActivation'
 
 export interface EventCardStatus {
   result: 'ok' | 'not_found'
@@ -196,8 +197,14 @@ export function EventCardPage({ code }: { code: string }) {
         {p.completion_status === 'completed' ? (
           <>
             <p className="text-xl font-bold text-emerald-700">{t('eventCard.congrats')}</p>
-            {/* Tạo tài khoản qua email và tải chứng nhận: S3 (E6) */}
-            <p className="text-navy/75">{t('eventCard.accountSoon')}</p>
+            {s.card_status === 'active' ? (
+              <>
+                <p className="text-navy/75">{t('eventActivate.alreadyActivated')}</p>
+                <Button asChild size="full"><Link to="/login?tab=parent&next=/app">{t('eventActivate.openAccount')}</Link></Button>
+              </>
+            ) : (
+              <EventActivation code={s.code} />
+            )}
           </>
         ) : p.completion_status === 'pending_review' ? (
           <p className="text-navy/75">{t('eventCard.pendingReview')}</p>
