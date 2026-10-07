@@ -74,9 +74,11 @@ export interface PassportTier {
   code: string
   name_vi: string
   name_en: string
-  level_from: number
-  level_to: number
+  /** null với hạng không gắn dải level (event_experience) */
+  level_from: number | null
+  level_to: number | null
   validity_months: number
+  counts_toward_single_active?: boolean
 }
 
 export interface LevelContentRow {

@@ -23,6 +23,8 @@ export interface PassportBatch {
   print_method: 'variable_print' | 'decal'
   exported_at: string | null
   created_at: string
+  /** Lô thẻ của sự kiện (module Trải nghiệm sự kiện) */
+  event_id?: string | null
 }
 
 interface BatchStats {

@@ -291,7 +291,7 @@ Dùng khi phụ huynh không có sổ, không có link, không có mã.
 2. Hệ thống sinh mã ngẫu nhiên không trùng → `passports` trạng thái `unassigned`.
 3. **Xuất file:**
    - **CSV** cho nhà in (cột: STT, mã, URL QR).
-   - **PDF tờ decal:** lưới tem, mỗi tem có QR + mã dạng `XXXX-XXXX` + dòng `app.vncentre.net`. Kích thước tem mặc định 35 × 45 mm, admin chỉnh được số cột, số hàng, lề để khớp khổ giấy decal.
+   - **PDF tờ decal:** lưới tem, mỗi tem có QR + mã dạng `XXXX-XXXX` + dòng `app.vncentre.net`. Kích thước tem mặc định 35 × 45 mm, admin chỉnh được **kích thước tem (rộng, cao)**, số cột, số hàng, lề để khớp khổ giấy decal. Thẻ sự kiện (module 10) dùng bố cục riêng: tem 25 × 30 mm, vừa ô QR trên thẻ 90 × 55 mm.
    - Ghi `exported_at`.
 
 **Gán sổ cho học viên:**

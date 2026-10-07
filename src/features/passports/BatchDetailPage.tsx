@@ -155,6 +155,8 @@ export function BatchDetailPage() {
         codes={printable}
         baseUrl={baseUrl}
         fileName={`decal-${slug}.pdf`}
+        // Thẻ sự kiện: bố cục tem riêng cho ô QR trên thẻ 90×55 mm
+        settingKey={batch.event_id ? 'passport_decal.layout_event' : 'passport_decal.layout'}
         onDone={() => markExported.mutate()}
       />
       <BulkAssignDialog open={bulkOpen} onClose={() => setBulkOpen(false)} batchId={batch.id} fileSlug={slug} />
@@ -168,6 +170,7 @@ function DecalPdfDialog({
   codes,
   baseUrl,
   fileName,
+  settingKey,
   onDone,
 }: {
   open: boolean
@@ -175,11 +178,12 @@ function DecalPdfDialog({
   codes: string[]
   baseUrl: string
   fileName: string
+  settingKey: string
   onDone: () => void
 }) {
   const { t } = useTranslation()
   const toast = useToast()
-  const { value: saved } = useSetting<DecalLayout>('passport_decal.layout', DEFAULT_DECAL_LAYOUT)
+  const { value: saved } = useSetting<DecalLayout>(settingKey, DEFAULT_DECAL_LAYOUT)
   const [layout, setLayout] = useState<DecalLayout | null>(null)
   const [busy, setBusy] = useState(false)
   const l = layout ?? { ...DEFAULT_DECAL_LAYOUT, ...saved }

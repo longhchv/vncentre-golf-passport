@@ -163,6 +163,27 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | `payment_events` | 1 | order_id, provider, payload (JSON), signature_valid (bool), received_at | Lưu nguyên dữ liệu webhook |
 | `invoice_requests` | 1 | order_id, buyer_type (`individual`, `company`), buyer_name, tax_code, address, email, status (`requested`, `issued`), issued_invoice_no, issued_by | Kế toán xuất hoá đơn trên MISA rồi đánh dấu đã xuất |
 
+## 11b. Module Trải nghiệm sự kiện (ngoại lệ đợt 1, v0.8 — xem `10-module-trai-nghiem-su-kien.md`)
+
+| Thay đổi | Nội dung |
+|---|---|
+| `passport_tiers` | Thêm hạng `event_experience` ("Trải nghiệm sự kiện"). `level_from`, `level_to` cho phép trống (hạng này không gắn dải level). Thêm cột **counts_toward_single_active** (bool, mặc định true; hạng sự kiện = false) |
+| `passports` | Thêm trạng thái `event_registered` (thẻ đã ghi tên + SĐT, chưa có tài khoản). Thêm cột **counts_toward_single_active** sao chép từ hạng (trigger), để chỉ mục "một sổ active mỗi học viên" (R2) bỏ qua thẻ sự kiện (E-R5) |
+| `passport_batches` | Thêm `event_id` (lô thẻ của sự kiện) |
+| `students.verification_status` | Thêm `event_guest` (hồ sơ người trải nghiệm; không vào hàng chờ F12) |
+| `student_guardians` | `relationship` thêm `self`; `linked_via` thêm `event_card` |
+| `consents.type` | Thêm `contact_by_vncentre` (tuỳ chọn, mặc định không tick) |
+| `programs`, `class_types` | Thêm dòng `event_experience` (lớp của sự kiện không lẫn vào lộ trình 20 level) |
+| `events` | class_id (duy nhất), name_vi, name_en, event_date, venue, registration_opens_at, registration_closes_at, self_claim_closes_at, status (`draft`/`open`/`closed`/`archived`), zalo_oa_url |
+| `event_stations` | event_id, code (`putt`, `chip`, `pitch`, `full_swing`), name_vi, name_en, sort_order, **max_score (trống = không giới hạn)**, score_step (mặc định 5), min_score_to_complete (mặc định 5) |
+| `event_participations` | Một dòng mỗi thẻ đã ghi tên: event_id, passport_id (duy nhất), student_id, player_type (`self`/`child`), age_at_registration, residence, registered_by (trống = tự ghi tên), completion_status (`registered`/`pending_review`/`completed`/`rejected`), completed_via (`counter`/`self_claim`), completed_at, completed_by, phone_check_failures, locked_until |
+| `event_scores` | event_id, passport_id, station_id, score (nguyên, ≥ 0), entered_by, updated_by. Duy nhất theo (passport_id, station_id). **Gắn theo thẻ, không theo học viên** |
+| `event_completion_claims` | participation_id, photo_path (kho riêng tư), status (`pending`/`approved`/`rejected`), reviewed_by, reviewed_at, reject_reason |
+| `event_redemptions` | **Đổi quà bằng điểm** (quyết định B18): passport_id, event_id (đợt đổi quà), points (> 0), gift_label, redeemed_by, redeemed_at. Đổi nhiều lần, tổng không vượt điểm tích luỹ |
+| Điểm | Tổng tích luỹ = tổng `event_scores` của thẻ; còn lại = tổng tích luỹ − tổng `event_redemptions`. Không lưu cứng |
+| Vai trò `event_staff` | Gán theo sự kiện qua `user_roles.class_id` = lớp của sự kiện. Không thấy SĐT, email người chơi (E-R12) |
+| `app_settings` | `event.max_open_claims` (3), `event.phone_check_max_failures` (5), `event.phone_check_lock_hours` (24), `passport_decal.layout_event` (tem 25 × 30 mm, 7 × 8 tem/tờ A4) |
+
 ## 12. Khung dữ liệu cho đợt 2–7 (chưa cần tạo)
 
 | Nhóm | Bảng dự kiến | Đợt |

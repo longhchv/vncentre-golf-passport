@@ -1,6 +1,8 @@
 # VN Centre Golf Passport — Bộ tài liệu mô tả yêu cầu
 
-Phiên bản: **v0.7** · Ngày: 27/09/2026 · Người soạn: Minh (R&D đào tạo golf) · Chủ sản phẩm duyệt: Vũ Anh Long
+Phiên bản: **v0.8** · Ngày: 07/10/2026 · Người soạn: Minh (R&D đào tạo golf) · Chủ sản phẩm duyệt: Vũ Anh Long
+
+**Mới ở v0.8:** thêm `10-module-trai-nghiem-su-kien.md`, module ngoại lệ trong đợt 1 cho Lễ phát động 10/10/2026.
 
 **Mới ở v0.7:** thêm mục **7b — hạng tài khoản HLV (Standard / Coach)** và mục **7c — ba mini app sẽ nhập về sau** trong `00-tong-quan.md`. Standard miễn phí với hạn mức 50 học viên · 5 lớp · 100 MB. Kèm nguyên tắc phân loại tính năng, lằn ranh không khoá paywall quyền của phụ huynh, và trường `coach_plan` phải có ngay từ đợt 6.
 
@@ -21,6 +23,7 @@ Phiên bản: **v0.7** · Ngày: 27/09/2026 · Người soạn: Minh (R&D đào 
 | `07-dot-5-thu-vien-tro-choi.md` | Đợt 5: kho trò chơi và hoạt động dạy golf cho HLV, gợi ý theo buổi, gói VIP/Diamond | Khung đã chốt — viết chi tiết sau |
 | `08-dot-6-lop-1-1.md` | Đợt 6: chương trình 1-1, hồ sơ học viên hai mức, giáo án riêng, lịch và đặt buổi, chạy buổi học, nhận xét, bài tập, đánh giá | **Đủ chi tiết để build** |
 | `09-dot-7-san-ket-noi-hlv.md` | Đợt 7: 5 nhóm HLV, xác minh, hồ sơ công khai, tìm và so sánh, giá/combo/coupon, gói Coach, testimonial, AI soạn bài giới thiệu | Khung đã chốt — viết chi tiết sau |
+| `10-module-trai-nghiem-su-kien.md` | Module ngoại lệ trong đợt 1: thẻ hạng "Trải nghiệm sự kiện", ghi tên tại chỗ, quầy đổi quà (nhập điểm 4 trạm, hoàn thành, đổi quà), tự xác nhận bằng ảnh, chứng nhận theo người, kích hoạt qua email | **Đủ chi tiết để build** — có hạn 10/10/2026 |
 | `06-cong-nghe-chi-phi.md` | Công nghệ, tài khoản cần đăng ký, chi phí dự kiến, môi trường | Hoàn chỉnh |
 | `phu-luc-A-file-mau-nhap.md` | File Excel mẫu nhập danh sách và lịch sử khoá học | Hoàn chỉnh |
 | `phu-luc-B-ky-nang-L1-L3.md` | Danh mục kỹ năng Level 1–3 (bản nháp) | **Chờ anh Long duyệt** |

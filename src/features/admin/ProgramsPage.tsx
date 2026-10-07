@@ -213,14 +213,15 @@ function TiersSection() {
       canCreate={false}
       columns={[
         { key: 'name', labelKey: 'fields.name', render: (s) => loc(s, 'name') },
-        { key: 'levels', labelKey: 'fields.levelRange', render: (s) => `${s.level_from}–${s.level_to}` },
+        { key: 'levels', labelKey: 'fields.levelRange', render: (s) => (s.level_from == null ? '—' : `${s.level_from}–${s.level_to}`) },
         { key: 'validity_months', labelKey: 'fields.validityMonths' },
       ]}
       fields={[
         { name: 'name_vi', labelKey: 'fields.nameVi', required: true },
         { name: 'name_en', labelKey: 'fields.nameEn', required: true },
-        { name: 'level_from', labelKey: 'fields.levelFrom', type: 'number', required: true },
-        { name: 'level_to', labelKey: 'fields.levelTo', type: 'number', required: true },
+        // Hạng "Trải nghiệm sự kiện" không gắn dải level → để trống
+        { name: 'level_from', labelKey: 'fields.levelFrom', type: 'number' },
+        { name: 'level_to', labelKey: 'fields.levelTo', type: 'number' },
         { name: 'validity_months', labelKey: 'fields.validityMonths', type: 'number', required: true },
       ]}
     />
