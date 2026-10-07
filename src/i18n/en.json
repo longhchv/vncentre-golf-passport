@@ -1362,7 +1362,9 @@
     "byClass": "Activation by class",
     "name": "Name",
     "activated": "Activated",
-    "rate": "Rate"
+    "rate": "Rate",
+    "eventGuests": "Event guests",
+    "eventGuestsSub": "Not counted as students"
   },
   "consents": {
     "updatedTitle": "Our terms have been updated",
@@ -1479,7 +1481,9 @@
       "reason_required": "Editing scores after completion needs a reason.",
       "invalid_points": "Invalid number of points.",
       "not_enough_points": "Not enough points: {{detail}} left.",
-      "forbidden": "You are not staff for this event."
+      "forbidden": "You are not staff for this event.",
+      "claim_not_pending": "This request has already been handled.",
+      "not_found": "Not found."
     }
   },
   "counter": {
@@ -1570,5 +1574,57 @@
     "redeemed": "Gift redeemed · {{balance}} points left",
     "learnMore": "Want to keep learning golf?",
     "learnMoreBody": "VN Centre runs golf classes for children and adults. Message us to find the right class."
+  },
+  "selfClaim": {
+    "button": "Confirm completion with a photo",
+    "title": "Send a photo of your score card to the organisers",
+    "hint": "Photograph the whole side with the 4 score boxes, stamps clearly visible, in good light. The organisers will check and confirm.",
+    "take": "Take a photo of the card",
+    "retake": "Retake",
+    "send": "Send photo",
+    "sent": "Sent. The organisers will check it. Scan this card again to see the result.",
+    "errors": {
+      "photo_type": "Could not read the photo. Please retake it (JPG/PNG).",
+      "photo_too_large": "The photo is too large. Please retake it.",
+      "photo_required": "Please take a photo of the card.",
+      "card_not_found": "Card not found.",
+      "card_not_registered": "This card has not been registered.",
+      "claim_closed": "The deadline for photo confirmation has passed. Contact the organisers via Zalo OA.",
+      "claim_not_allowed": "This card is awaiting review or already completed.",
+      "too_many_claims": "Too many photos sent for this card. Contact the organisers via Zalo OA.",
+      "upload_failed": "Could not send the photo. Please try again."
+    }
+  },
+  "live": {
+    "title": "Live tracking",
+    "updated": "Updated {{time}} · refreshes every 15 seconds",
+    "registered": "Registered",
+    "registeredSub": "/ {{cards}} cards · self {{self}} · by staff {{staff}}",
+    "completed": "Completed",
+    "completedSub": "at counter {{counter}} · by photo {{claim}}",
+    "gifts": "Cards with gifts",
+    "giftsSub": "{{points}} points redeemed",
+    "pendingReview": "Photos to review",
+    "rejectedSub": "{{n}} rejected",
+    "activated": "Accounts created",
+    "last15": "Registered in last 15 min",
+    "playersSub": "adults {{self}} · children {{child}}"
+  },
+  "claims": {
+    "title": "Photo confirmation queue",
+    "status": {
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "approved": "Approved"
+    },
+    "empty": "No requests.",
+    "hint": "No certificate until approved. Each card may have at most 3 pending or rejected photos.",
+    "attempt": "Attempt {{n}}",
+    "stampHint": "Enter each station score from the photo. A card stamped \"GIFT GIVEN\" went through the counter while the app was down: approve using the scores on the card.",
+    "approve": "Approve and issue certificate",
+    "reject": "Reject",
+    "reasonPlaceholder": "Reason (blurry photo, missing stamps…)",
+    "approved": "Approved, certificate issued",
+    "rejected": "Rejected"
   }
 }

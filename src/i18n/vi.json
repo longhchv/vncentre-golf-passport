@@ -1362,7 +1362,9 @@
     "byClass": "Kích hoạt theo lớp",
     "name": "Tên",
     "activated": "Đã kích hoạt",
-    "rate": "Tỉ lệ"
+    "rate": "Tỉ lệ",
+    "eventGuests": "Người trải nghiệm sự kiện",
+    "eventGuestsSub": "Không tính vào học viên"
   },
   "consents": {
     "updatedTitle": "Điều khoản đã được cập nhật",
@@ -1479,7 +1481,9 @@
       "reason_required": "Sửa điểm sau khi hoàn thành cần ghi lý do.",
       "invalid_points": "Số điểm đổi quà chưa đúng.",
       "not_enough_points": "Không đủ điểm: còn {{detail}} điểm.",
-      "forbidden": "Bạn không phải nhân viên của sự kiện này."
+      "forbidden": "Bạn không phải nhân viên của sự kiện này.",
+      "claim_not_pending": "Yêu cầu này đã được xử lý.",
+      "not_found": "Không tìm thấy."
     }
   },
   "counter": {
@@ -1570,5 +1574,57 @@
     "redeemed": "Đã đổi quà · còn lại {{balance}} điểm",
     "learnMore": "Muốn học golf tiếp?",
     "learnMoreBody": "VN Centre có các lớp golf cho trẻ em và người lớn. Nhắn cho chúng tôi để được tư vấn lớp phù hợp."
+  },
+  "selfClaim": {
+    "button": "Tự xác nhận hoàn thành bằng ảnh",
+    "title": "Gửi ảnh thẻ điểm cho Ban tổ chức",
+    "hint": "Chụp cả mặt thẻ có 4 ô điểm, rõ các dấu, đủ sáng. Ban tổ chức sẽ kiểm tra và xác nhận.",
+    "take": "Chụp ảnh thẻ",
+    "retake": "Chụp lại",
+    "send": "Gửi ảnh",
+    "sent": "Đã gửi, Ban tổ chức sẽ kiểm tra. Quét lại thẻ này để xem kết quả.",
+    "errors": {
+      "photo_type": "Không đọc được ảnh. Hãy chụp lại (JPG/PNG).",
+      "photo_too_large": "Ảnh quá lớn. Hãy chụp lại.",
+      "photo_required": "Hãy chụp ảnh thẻ.",
+      "card_not_found": "Không tìm thấy thẻ.",
+      "card_not_registered": "Thẻ chưa ghi tên.",
+      "claim_closed": "Đã hết hạn gửi ảnh tự xác nhận. Liên hệ Ban tổ chức qua Zalo OA.",
+      "claim_not_allowed": "Thẻ đang chờ duyệt hoặc đã hoàn thành.",
+      "too_many_claims": "Thẻ đã gửi ảnh quá số lần cho phép. Liên hệ Ban tổ chức qua Zalo OA.",
+      "upload_failed": "Chưa gửi được ảnh. Vui lòng thử lại."
+    }
+  },
+  "live": {
+    "title": "Theo dõi trực tiếp",
+    "updated": "Cập nhật {{time}} · tự làm mới 15 giây",
+    "registered": "Đã ghi tên",
+    "registeredSub": "/ {{cards}} thẻ · tự ghi {{self}} · ghi hộ {{staff}}",
+    "completed": "Đã hoàn thành",
+    "completedSub": "tại quầy {{counter}} · qua ảnh {{claim}}",
+    "gifts": "Thẻ đã đổi quà",
+    "giftsSub": "{{points}} điểm đã đổi",
+    "pendingReview": "Chờ duyệt ảnh",
+    "rejectedSub": "bị từ chối {{n}}",
+    "activated": "Đã tạo tài khoản",
+    "last15": "Ghi tên 15 phút qua",
+    "playersSub": "người lớn {{self}} · trẻ em {{child}}"
+  },
+  "claims": {
+    "title": "Hàng chờ xác nhận ảnh",
+    "status": {
+      "pending": "Chờ duyệt",
+      "rejected": "Đã từ chối",
+      "approved": "Đã duyệt"
+    },
+    "empty": "Không có yêu cầu nào.",
+    "hint": "Chưa duyệt thì không có chứng nhận. Mỗi thẻ gửi tối đa 3 ảnh đang chờ hoặc bị từ chối.",
+    "attempt": "Lần gửi thứ {{n}}",
+    "stampHint": "Nhập điểm từng trạm theo ảnh. Thẻ có dấu \"ĐÃ ĐỔI QUÀ\" là đã qua quầy khi app gặp sự cố: duyệt theo điểm trên thẻ.",
+    "approve": "Duyệt và cấp chứng nhận",
+    "reject": "Từ chối",
+    "reasonPlaceholder": "Lý do từ chối (ảnh mờ, thiếu dấu…)",
+    "approved": "Đã duyệt, chứng nhận đã cấp",
+    "rejected": "Đã từ chối"
   }
 }

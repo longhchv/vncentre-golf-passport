@@ -13,6 +13,7 @@ import { Mascot } from '@/components/Mascot'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { COUNTRIES, toE164 } from '@/features/auth/phone'
 import { EventActivation } from './EventActivation'
+import { SelfClaim } from './SelfClaim'
 
 export interface EventCardStatus {
   result: 'ok' | 'not_found'
@@ -211,7 +212,10 @@ export function EventCardPage({ code }: { code: string }) {
         ) : (
           <>
             <p className="text-navy/75">{t('eventCard.notCompleted')}</p>
-            {p.reject_reason && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-800">{t('eventCard.rejectedReason', { reason: p.reject_reason })}</p>}
+            {p.completion_status === 'rejected' && p.reject_reason && (
+              <p className="rounded-xl bg-red-50 p-3 text-sm text-red-800">{t('eventCard.rejectedReason', { reason: p.reject_reason })}</p>
+            )}
+            {ev.claim_open && <SelfClaim code={s.code} />}
           </>
         )}
         <div className="rounded-xl bg-gold/15 p-3">

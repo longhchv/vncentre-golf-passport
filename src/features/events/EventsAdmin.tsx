@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Field, FormError, Input, Select } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
+import { ClaimsQueue, LiveBoard } from './EventMonitor'
 
 export type EventStatus = 'draft' | 'open' | 'closed' | 'archived'
 export const EVENT_TONE: Record<EventStatus, 'neutral' | 'good' | 'warn' | 'bad'> = { draft: 'neutral', open: 'good', closed: 'warn', archived: 'neutral' }
@@ -129,6 +130,8 @@ export function EventDetailPage() {
             <h1 className="text-2xl font-bold">{q.data.name_vi}</h1>
             <Button asChild><Link to={`/event/${eventId}`}>{t('events.openCounter')}</Link></Button>
           </div>
+          <LiveBoard eventId={eventId} />
+          <ClaimsQueue eventId={eventId} />
           <EventInfo event={q.data} />
           <Stations eventId={eventId} />
           <CardBatches eventId={eventId} />

@@ -68,7 +68,7 @@ npx supabase secrets set --project-ref <PROD_REF> `
 ## 5. Edge Functions ⚙️
 
 ```powershell
-foreach ($f in 'admin-users','auth-otp','send-invitations','student-accounts','certificates','payments') {
+foreach ($f in 'admin-users','auth-otp','send-invitations','student-accounts','certificates','payments','event-activate','event-claim') {
   npx supabase functions deploy $f --project-ref <PROD_REF> --use-api
 }
 npx supabase functions deploy sms-hook --project-ref <PROD_REF> --use-api --no-verify-jwt

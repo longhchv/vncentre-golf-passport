@@ -22,6 +22,7 @@ interface Dashboard {
   message_cost_month: number
   messages_month: number
   certificates: number
+  event_guests: number
 }
 
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0)
@@ -109,6 +110,7 @@ export function AdminHomePage() {
             <Stat label={t('dashboard.messageCost')} value={formatVnd(d.message_cost_month, i18n.language)}
               sub={t('dashboard.messagesSub', { count: d.messages_month })} to="/admin/messages" />
             <Stat label={t('dashboard.certificates')} value={d.certificates} to="/admin/certificates" />
+            <Stat label={t('dashboard.eventGuests')} value={d.event_guests} sub={t('dashboard.eventGuestsSub')} to="/admin/events" />
           </div>
 
           {queueTotal > 0 && (
