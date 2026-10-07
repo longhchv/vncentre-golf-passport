@@ -1,6 +1,6 @@
 -- Bước 7 · Kích hoạt bằng mã sổ Passport (F2, luồng A và B).
--- Quyết định: D30 (đăng nhập/OTP trước), D31 (không tự nối khi đã có người giám hộ khác),
---             D32 (chờ duyệt chỉ thấy tên + level), D33 (SĐT khớp danh sách → tin cậy).
+-- Quyết định: B7 (đăng nhập/OTP trước), B8 (không tự nối khi đã có người giám hộ khác),
+--             B9 (chờ duyệt chỉ thấy tên + level), B10 (SĐT khớp danh sách → tin cậy).
 
 -------------------------------------------------------------------------------
 -- Dữ liệu
@@ -73,7 +73,7 @@ returns boolean language sql stable security definer set search_path = public as
                  where e.student_id = p_student_id and public.is_school_manager_of(c.school_id))
 $$;
 
--- Người gọi được tin cậy với học viên (D30, D33): đã là người giám hộ, hoặc SĐT đã xác minh trùng SĐT
+-- Người gọi được tin cậy với học viên (B7, B10): đã là người giám hộ, hoặc SĐT đã xác minh trùng SĐT
 -- người giám hộ có sẵn trong danh sách trường của học viên.
 create or replace function public.is_trusted_for_student(p_student_id uuid)
 returns boolean language plpgsql stable security definer set search_path = public, auth as $$
@@ -86,7 +86,7 @@ begin
                  where sg.student_id = p_student_id and sg.deleted_at is null and g.deleted_at is null and g.phone = v_phone);
 end $$;
 
--- D31: học viên đã có người giám hộ khác (có tài khoản) đang liên kết
+-- B8: học viên đã có người giám hộ khác (có tài khoản) đang liên kết
 create or replace function public.has_other_account_guardian(p_student_id uuid)
 returns boolean language sql stable security definer set search_path = public as $$
   select exists (select 1 from public.student_guardians sg join public.guardians g on g.id = sg.guardian_id
@@ -424,7 +424,7 @@ begin
 end $$;
 
 -------------------------------------------------------------------------------
--- Trang chủ phụ huynh: thẻ từng con (02 mục 3.2). Chờ duyệt → chỉ tên + level (D32).
+-- Trang chủ phụ huynh: thẻ từng con (02 mục 3.2). Chờ duyệt → chỉ tên + level (B9).
 -------------------------------------------------------------------------------
 create or replace function public.my_children()
 returns table (

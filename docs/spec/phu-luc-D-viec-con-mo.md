@@ -1,11 +1,13 @@
 # Phụ lục D · Việc còn mở
 
+> **Quy ước đánh số:** số **D** là việc còn mở do Minh soạn trong đặc tả; số **B** là quyết định chốt khi build (mục "Quyết định chốt khi build đợt 1" ở cuối file). Hai dãy số **không bao giờ dùng chung**: không lấy số B cho việc của đặc tả, và ngược lại.
+
 Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào đây.
 
 | # | Việc | Ảnh hưởng đợt | Ai quyết | Trạng thái |
 |---|---|---|---|---|
 | D1 | **Mùa giải BXH tính thế nào?** Anh Long ghi "đang cho theo ÂM lịch". Cần xác nhận: A) mùa giải theo năm âm lịch (Tết đến Tết), hay B) ý là năm dương lịch. Trong lúc chờ, tài liệu quy định admin tự đặt ngày bắt đầu/kết thúc mỗi mùa, nên cách nào cũng dùng được | 3 | Anh Long | Chờ |
-| D2 | Tên chính thức của linh vật rồng; file PNG linh vật (anh Long gửi sau) | 1 | Anh Long | Chờ |
+| D2 | Tên chính thức của linh vật rồng; file PNG linh vật | 1 | Anh Long | File PNG đã nhận (24/09/2026) và đang dùng trong app; **chỉ còn chờ tên chính thức** |
 | D3 | Điều khoản sử dụng và Chính sách bảo mật: Minh soạn nháp, luật sư rà trước khi ra mắt | 1 (bắt buộc trước khi chạy thật) | Minh → luật sư | Chưa bắt đầu |
 | D4 | Duyệt `phu-luc-B` (nội dung, tiêu chí Đạt L1–3, các ngưỡng ĐX) | 1 (nội dung), 2 (chấm) | Anh Long, HLV trưởng | Chờ |
 | D5 | Bảng Mốc thành tích L1–3 | 2 | Minh đề xuất | Chưa bắt đầu |
@@ -41,3 +43,27 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D33 | Quy định nội bộ về lỗi hẹn và buổi bù, để điều khoản trong app khớp điều khoản ngoài đời | 6 | Anh Long | Chưa bắt đầu |
 | D34 | Trao đổi với đội HLV hiện tại trước khi mở sàn cho HLV ngoài | 7 | Anh Long | Chưa bắt đầu |
 | D35 | Chọn nhà cung cấp dịch vụ AI cho tính năng soạn bài giới thiệu HLV; chốt trần số lần sinh mỗi HLV mỗi tháng | 7 | Minh tra cứu, anh Long duyệt | Chưa bắt đầu |
+
+## Quyết định chốt khi build đợt 1
+
+Các câu hỏi phát sinh và quyết định đã chốt trong lúc Claude Code build đợt 1 (Bước 1–15, 23–25/09/2026). Ghi chú trong code và kiểm thử dẫn chiếu theo số B.
+
+| # | Việc | Ảnh hưởng đợt | Ai quyết | Trạng thái |
+|---|---|---|---|---|
+| B1 | Tên riêng của 20 level và mô tả tóm tắt của Level 4–20. App đang tạm đặt "Level N" và lấy mô tả theo nhóm; admin sửa được trong **Chương trình và level** | 1 | Anh Long | Chờ (phát sinh khi build, 23/09/2026) |
+| B2 | Màu 5 giai đoạn: tài liệu ghi "Vàng, Cam, Đỏ" nhưng có 5 giai đoạn. App tạm phối 5 sắc độ từ vàng sang đỏ, admin sửa được | 1 | Anh Long | Chờ (phát sinh khi build, 23/09/2026) |
+| B3 | Tài liệu có nút "Con đã từng học golf? Báo cho Trung tâm" (F8) và "Yêu cầu xoá dữ liệu của con" (F18) nhưng chưa có bảng lưu. Đã thêm bảng `support_requests` (loại, nội dung, trạng thái, người xử lý), hiện trong hàng chờ admin | 1 | Claude Code đề xuất | Đã làm, chờ Minh cập nhật `01-du-lieu.md` |
+| B4 | Tài khoản học viên dùng hệ thống đăng nhập của Supabase, nên `student_accounts` không có cột `pin_hash` như `01-du-lieu.md`. Mật khẩu Supabase được tạo từ PIN cộng một khoá bí mật chỉ máy chủ biết, nên chỉ đăng nhập được qua hàm `student-accounts`. Hàm này đếm số lần sai: sai 5 lần thì khoá 15 phút. Không ai dò PIN được bằng cách gọi thẳng Supabase | 1 | Claude Code đề xuất | Đã làm, chờ Minh cập nhật `01-du-lieu.md` |
+| B5 | Gửi email (mời nhân viên, đặt lại mật khẩu, OTP cho số nước ngoài) cần dịch vụ email riêng và xác thực tên miền `vncentre.net` | 1 | Anh Long | **Xong 24/09/2026: Brevo, đã xác thực tên miền, tắt chặn IP lạ** |
+| B6 | Một người vừa là nhân viên vừa là phụ huynh dùng **một tài khoản**: đăng nhập tài khoản email rồi thêm SĐT (xác thực OTP) trong mục Tài khoản (kế hoạch C10) | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| B7 | Luồng A (F2): làm F1 (đăng nhập/OTP) **trước**; SĐT khớp danh sách trường thì bỏ qua xác nhận ngày sinh, không khớp thì hỏi ngày sinh (kế hoạch D15) | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| B8 | Sổ `assigned` của học viên **đã có người giám hộ khác**: người quét không tự nối được, phải nhờ người giám hộ hiện tại mời (kế hoạch D16) | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| B9 | Luồng B khớp 1 học viên, liên kết `pending_confirmation`: trong lúc chờ duyệt phụ huynh **chỉ thấy tên và level**; lịch sử, chứng nhận, ảnh hiện sau khi duyệt (kế hoạch D17) | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| B10 | Phụ huynh đăng ký/xác thực OTP đúng SĐT có trong danh sách trường → **tự động thấy tất cả các con** gắn với SĐT đó (kế hoạch D18) | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| B11 | F5: yêu cầu nối con (`link_requests`) khi được duyệt phải **chọn đúng học viên**, không duyệt hàng loạt; từ chối hàng loạt vẫn được. Phụ huynh gửi tối đa 5 yêu cầu đang chờ cùng lúc (`link_request.max_pending_per_account`). HLV chỉ thấy yêu cầu có mã lớp đúng của lớp mình | 1 | Claude Code đề xuất | Đã làm (Bước 11) |
+| B12 | F6: mời người giám hộ thứ hai bằng SĐT Việt Nam (qua Zalo) hoặc email. SĐT nước ngoài hoặc số không dùng Zalo thì mời bằng email (lời mời chưa gửi qua SMS). Tối đa 5 lời mời/học viên/ngày | 1 | Claude Code đề xuất | Đã làm (Bước 11), chờ anh Long xác nhận |
+| B13 | F7: PIN không được là 6 số giống nhau hoặc dãy liên tiếp (123456, 987654). Học viên không có trang Tài khoản (không đổi được tên, PIN); quên PIN thì nhờ bố mẹ đổi | 1 | Claude Code đề xuất | Đã làm (Bước 11) |
+| B14 | Chứng nhận (F9), đã nhận đủ file: nền trống 3500×2475, logo VN Centre, logo R&A–VGA (vector), chữ ký, linh vật. Ba loại chứng nhận **dùng chung một nền**, chỉ đổi dòng chữ giữa; admin **tải lên nền khác cho từng mẫu** được. Người ký in **không dấu** như mẫu: "Vu Anh Long – Director of the R&A - VGA Junior Golf Development Project"; tên học viên in **có dấu**. Mã QR góc phải dưới là QR xác thực riêng của từng chứng nhận | 1 | Anh Long | **Đã chốt 24/09/2026** |
+| B15 | Chứng nhận (F9): PDF do máy chủ tạo lần đầu khi tải, lưu ở kho riêng tư, phát link tải có hạn 5 phút. Nền lưu dạng JPEG, font cắt sẵn phần chữ Latin + tiếng Việt, để vừa giới hạn CPU của gói Free (bản PDF khoảng 600 KB). Chứng nhận **không in ngày cấp**, giống mẫu hiện tại; ngày cấp hiện trên trang xác thực. HLV trưởng phát hành được; chỉ admin thu hồi và sửa mẫu | 1 | Claude Code đề xuất | Đã làm (Bước 12) |
+| B16 | Thanh toán (F15) đang ở **chế độ thử** vì chưa có tài khoản payOS (D9): QR chưa chuyển tiền thật; admin bấm "Giả lập đã nhận tiền", thao tác này gửi webhook có chữ ký qua đúng bước kiểm tra (R10). Khi có payOS: đặt 3 secret PAYOS_CLIENT_ID, PAYOS_API_KEY, PAYOS_CHECKSUM_KEY trên Supabase; khai URL webhook `https://<project>.supabase.co/functions/v1/payos-webhook` trong trang payOS. Nút giả lập tự tắt. Nội dung chuyển khoản dạng `VNC<mã đơn>` (9 ký tự). Đơn quá hạn tự chuyển "Hết hạn" mỗi 15 phút (pg_cron). Vai trò "Kế toán" chưa có (kế hoạch C14), nên admin nhập số hoá đơn MISA | 1 | Anh Long (đăng ký payOS) | Chờ tài khoản payOS |
+| B17 | Bước 15 xong phần xây dựng. Muốn chạy thật cần: Zalo ZNS (D7), nhà cung cấp SMS (D8, và viết thêm adapter), payOS (D9), văn bản Điều khoản/Chính sách (D3), Supabase Pro + tên miền `app.vncentre.net`. Các bước dựng production ghi trong `docs/van-hanh/trien-khai-production.md`; bảng nghiệm thu 15 kịch bản ở `docs/van-hanh/nghiem-thu-dot-1.md` | 1 | Anh Long | Chờ tài khoản |

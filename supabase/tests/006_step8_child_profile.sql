@@ -1,4 +1,4 @@
--- Kiểm thử hồ sơ học viên (Bước 8): ai xem được gì — phụ huynh, phụ huynh chờ duyệt (D32), HLV lớp mình / lớp khác,
+-- Kiểm thử hồ sơ học viên (Bước 8): ai xem được gì — phụ huynh, phụ huynh chờ duyệt (B9), HLV lớp mình / lớp khác,
 -- người lạ; R7 (khoá học chờ duyệt không hiện), R8 (không lộ liên hệ phụ huynh), R4/R5 hiển thị level; sửa thông tin con.
 create or replace function pg_temp.act_as(u uuid) returns void language plpgsql as $f$
 begin
@@ -64,10 +64,10 @@ begin
   begin perform public.update_child_info(s, '{"gender":"female"}'); exception when insufficient_privilege then ok := true; end;
   if not ok then raise exception 'FAIL: người giám hộ không quản lý sửa được thông tin'; end if;
 
-  -- D32: chờ duyệt → chỉ tên + level
+  -- B9: chờ duyệt → chỉ tên + level
   perform pg_temp.act_as(pending);
   r := public.student_profile(s);
-  if r ->> 'viewer' <> 'pending' or r ? 'courses' or r -> 'student' ? 'student_code' then raise exception 'FAIL D32: %', r; end if;
+  if r ->> 'viewer' <> 'pending' or r ? 'courses' or r -> 'student' ? 'student_code' then raise exception 'FAIL B9: %', r; end if;
 
   -- HLV lớp mình: xem được, không có liên hệ phụ huynh (R8); HLV lớp khác: bị từ chối
   perform pg_temp.act_as(coach_in);

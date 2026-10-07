@@ -59,7 +59,7 @@ begin
   perform pg_temp.act_as(pc);
   r := public.activation_complete(code_c, jsonb_build_object('relationship', 'father', 'consents', jsonb_build_object('terms', true, 'privacy', true),
         'child', jsonb_build_object('full_name', 'Test Luong B Khop', 'date_of_birth', '2019-03-03', 'school_id', school)));
-  if (public.student_profile(s_match) ->> 'viewer') <> 'pending' then raise exception 'FAIL D32 trước duyệt'; end if;
+  if (public.student_profile(s_match) ->> 'viewer') <> 'pending' then raise exception 'FAIL B9 trước duyệt'; end if;
   perform pg_temp.act_as(adm);
   select array_agg((x ->> 'id')::uuid) into ids from jsonb_array_elements(public.review_queue() -> 'guardian_links') x where (x ->> 'student_id')::uuid = s_match;
   perform public.review_items('guardian_link', ids, 'approve');

@@ -1,5 +1,5 @@
 -- Kiểm thử kích hoạt bằng mã sổ (Bước 7, F2): luồng A (tin cậy / xác nhận ngày sinh), luồng B (khớp / tạo mới),
--- R1 (một lần), R11, D31 (đã có người giám hộ khác), khoá khi sai ngày sinh, khoá IP khi dò mã, D32.
+-- R1 (một lần), R11, B8 (đã có người giám hộ khác), khoá khi sai ngày sinh, khoá IP khi dò mã, B9.
 create or replace function pg_temp.act_as(u uuid) returns void language plpgsql as $f$
 begin
   execute 'reset role';
@@ -65,10 +65,10 @@ begin
   begin perform public.activation_start(c1); exception when insufficient_privilege then ok := true; end;
   if not ok then raise exception 'FAIL: khách gọi được activation_start'; end if;
 
-  -- 2. Luồng A, phụ huynh A: SĐT trùng danh sách trường → tin cậy, không hỏi ngày sinh (D30, D33)
+  -- 2. Luồng A, phụ huynh A: SĐT trùng danh sách trường → tin cậy, không hỏi ngày sinh (B7, B10)
   perform pg_temp.act_as(pa);
   r := public.activation_start(c1);
-  if (r ->> 'trusted')::boolean is not true then raise exception 'FAIL D33: phụ huynh A không được tin cậy: %', r; end if;
+  if (r ->> 'trusted')::boolean is not true then raise exception 'FAIL B10: phụ huynh A không được tin cậy: %', r; end if;
   ok := false;
   begin
     perform public.activation_complete(c1, '{"relationship":"mother","consents":{"terms":false,"privacy":true}}');
@@ -95,9 +95,9 @@ begin
   r := public.passport_lookup(c1);
   if r ->> 'relation' <> 'none' or r ->> 'status' <> 'active' then raise exception 'FAIL: người khác thấy quan hệ %', r; end if;
 
-  -- 4. D31: học viên đã có người giám hộ khác → người lạ không tự nối qua sổ thứ hai
+  -- 4. B8: học viên đã có người giám hộ khác → người lạ không tự nối qua sổ thứ hai
   r := public.activation_start(c5);
-  if r ->> 'blocked' <> 'other_guardian' then raise exception 'FAIL D31: %', r; end if;
+  if r ->> 'blocked' <> 'other_guardian' then raise exception 'FAIL B8: %', r; end if;
 
   -- 5. Luồng A, phụ huynh B: phải xác nhận ngày sinh
   r := public.activation_start(c2);
@@ -125,7 +125,7 @@ begin
     raise exception 'FAIL: chưa báo admin khi khoá mã';
   end if;
 
-  -- 7. Luồng B khớp đúng 1 em → liên kết chờ xác nhận; thẻ con chỉ có tên + level (D32)
+  -- 7. Luồng B khớp đúng 1 em → liên kết chờ xác nhận; thẻ con chỉ có tên + level (B9)
   perform pg_temp.act_as(pb);
   r := public.activation_complete(c3, jsonb_build_object('relationship', 'father',
         'consents', jsonb_build_object('terms', true, 'privacy', true),
@@ -134,7 +134,7 @@ begin
     raise exception 'FAIL luồng B khớp: %', r;
   end if;
   select count(*) into n from public.my_children() c where c.student_id = s4 and c.student_code is null and c.level_number = 1 and c.school_name is null;
-  if n <> 1 then raise exception 'FAIL D32: thẻ con chờ duyệt lộ thông tin'; end if;
+  if n <> 1 then raise exception 'FAIL B9: thẻ con chờ duyệt lộ thông tin'; end if;
   select count(*) into n from public.my_children();
   if n <> 2 then raise exception 'FAIL: phụ huynh B có % con (mong đợi 2)', n; end if;
 

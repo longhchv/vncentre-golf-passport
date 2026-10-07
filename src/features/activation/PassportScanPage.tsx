@@ -41,7 +41,7 @@ export function PassportScanPage() {
   const tier = i18n.language === 'en' ? r.tier_en : r.tier_vi
   const isStaff = workspaces.some((w) => w !== 'parent' && w !== 'student')
 
-  // Sổ chưa kích hoạt: chưa đăng nhập → chào + đăng ký/đăng nhập (D30: F1 trước); đã đăng nhập → trình tự kích hoạt
+  // Sổ chưa kích hoạt: chưa đăng nhập → chào + đăng ký/đăng nhập (B7: F1 trước); đã đăng nhập → trình tự kích hoạt
   if (r.status === 'assigned' || r.status === 'unassigned') {
     if (!session) {
       return (

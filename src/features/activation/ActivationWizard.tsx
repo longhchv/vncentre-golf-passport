@@ -28,7 +28,7 @@ interface ChildForm {
 }
 
 /**
- * Trình tự kích hoạt sau khi đã đăng nhập (D30): [xác nhận ngày sinh/họ tên] → quan hệ → đồng ý →
+ * Trình tự kích hoạt sau khi đã đăng nhập (B7): [xác nhận ngày sinh/họ tên] → quan hệ → đồng ý →
  * thông tin con → hoàn tất (F2 luồng A và B). Mọi kiểm tra thật nằm ở CSDL (activation_complete).
  */
 /** Ba cách nối phụ huynh với học viên dùng chung trình tự: mã sổ (F2), mã trên chứng nhận (F4), link mời (F3). */

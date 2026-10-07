@@ -1,6 +1,6 @@
 -- Bước 8 · Hồ sơ học viên (F8 cho phụ huynh, F14 cho HLV), ảnh riêng tư, yêu cầu cập nhật lịch sử.
 -- Phụ huynh / HLV không đọc thẳng bảng students; hồ sơ trả qua student_profile() với đúng phần được phép:
---   - Phụ huynh liên kết chờ duyệt: chỉ tên + level (D32)
+--   - Phụ huynh liên kết chờ duyệt: chỉ tên + level (B9)
 --   - Nhân viên: không có liên hệ phụ huynh (R8)
 --   - Lịch sử khoá học chờ duyệt không hiện (R7)
 
@@ -45,7 +45,7 @@ begin
   left join public.passport_tiers t on t.id = l.passport_tier_id
   where l.id = s.current_level_id;
 
-  -- D32: chờ duyệt → chỉ tên + level
+  -- B9: chờ duyệt → chỉ tên + level
   if v_viewer = 'pending' then
     return jsonb_build_object('viewer', 'pending', 'student', jsonb_build_object('id', s.id, 'full_name', s.full_name), 'level', v_level);
   end if;
