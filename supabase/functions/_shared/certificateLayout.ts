@@ -43,6 +43,25 @@ export interface CertificateData {
   verify_url: string
   background_path?: string | null
   signature_path?: string | null
+  /** 'event': chứng nhận trải nghiệm sự kiện (module 10) — nền tự thiết kế, chỉ in tên + dòng xác nhận + QR */
+  kind?: 'event'
+  line_vi?: string
+  line_en?: string
+  layout?: EventCertLayout
+}
+
+/** Vị trí các phần in đè lên nền chứng nhận sự kiện (khung 2000 × 1414), admin chỉnh ở mẫu chứng nhận */
+export interface EventCertLayout {
+  name_y?: number
+  name_size?: number
+  line_y?: number
+  line_size?: number
+  show_line?: boolean
+  show_line_en?: boolean
+  qr_x?: number
+  qr_y?: number
+  qr_size?: number
+  text_color?: string
 }
 
 const GRAY = '#49494d'
@@ -59,7 +78,38 @@ export function programLine(d: Pick<CertificateData, 'program' | 'level_label'>)
   return [d.program, d.level_label].filter((x) => x && String(x).trim()).join(' - ')
 }
 
+/** Ngắt dòng ước lượng theo số ký tự (giống nhau ở PDF và app; mỗi dòng còn được thu nhỏ cho vừa maxWidth) */
+function wrap(text: string, maxChars: number): string[] {
+  const words = text.split(/\s+/).filter(Boolean)
+  const lines: string[] = []
+  let cur = ''
+  for (const w of words) {
+    if (cur && (cur + ' ' + w).length > maxChars) { lines.push(cur); cur = w } else cur = cur ? cur + ' ' + w : w
+  }
+  if (cur) lines.push(cur)
+  return lines
+}
+
+/** Chứng nhận trải nghiệm sự kiện: nền (logo, chữ ký, câu chữ cố định) do VN Centre thiết kế; app in tên, dòng xác nhận, QR. */
+export function buildEventCertificate(d: CertificateData): CertElement[] {
+  const L = { name_y: 640, name_size: 64, line_y: 760, line_size: 30, show_line: true, show_line_en: false,
+    qr_x: 1637, qr_y: 1080, qr_size: 176, text_color: NAVY, ...(d.layout ?? {}) }
+  const text = (t: string, y: number, size: number, font: CertFont, maxWidth: number): CertElement =>
+    ({ kind: 'text', text: t.normalize('NFC'), x: CERT_W / 2, y, size, font, color: L.text_color, align: 'center', maxWidth })
+  const els: CertElement[] = []
+  if (d.background_path) els.push({ kind: 'image', image: 'background', x: 0, y: 0, w: CERT_W, h: CERT_H })
+  els.push(text(d.student_name, L.name_y, L.name_size, 'serifBold', 1400))
+  let y = L.line_y
+  const lines = [...(L.show_line && d.line_vi ? wrap(d.line_vi, 80) : []), ...(L.show_line_en && d.line_en ? wrap(d.line_en, 90) : [])]
+  for (const line of lines) { els.push(text(line, y, L.line_size, 'serif', 1500)); y += Math.round(L.line_size * 1.45) }
+  els.push({ kind: 'qr', value: d.verify_url, x: L.qr_x, y: L.qr_y, size: L.qr_size, color: L.text_color })
+  els.push({ kind: 'text', text: formatVerifyCode(d.verify_code), x: L.qr_x + L.qr_size / 2, y: L.qr_y + L.qr_size + 24, size: 16,
+    font: 'sansMedium', color: L.text_color, align: 'center', letterSpacing: 2 })
+  return els
+}
+
 export function buildCertificate(d: CertificateData): CertElement[] {
+  if (d.kind === 'event') return buildEventCertificate(d)
   const bi = d.language === 'bilingual'
   const text = (t: string, x: number, y: number, size: number, font: CertFont, color: string,
     align: 'left' | 'center' | 'right' = 'center', extra: { maxWidth?: number; letterSpacing?: number } = {}): CertElement =>

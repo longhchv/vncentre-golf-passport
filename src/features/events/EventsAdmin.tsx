@@ -125,7 +125,10 @@ export function EventDetailPage() {
       <Link to="/admin/events" className="inline-flex items-center gap-1 text-sm font-semibold text-bronze"><ArrowLeft className="h-4 w-4" /> {t('events.title')}</Link>
       {!q.data ? <p className="text-navy/60">{t('common.loading')}</p> : (
         <>
-          <h1 className="text-2xl font-bold">{q.data.name_vi}</h1>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h1 className="text-2xl font-bold">{q.data.name_vi}</h1>
+            <Button asChild><Link to={`/event/${eventId}`}>{t('events.openCounter')}</Link></Button>
+          </div>
           <EventInfo event={q.data} />
           <Stations eventId={eventId} />
           <CardBatches eventId={eventId} />

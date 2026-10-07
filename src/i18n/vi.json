@@ -56,15 +56,17 @@
     "forgotPassword": "Quên mật khẩu",
     "terms": "Điều khoản sử dụng",
     "privacy": "Chính sách bảo mật",
-    "legalDraft": "Nội dung đang được soạn và sẽ được luật sư rà soát trước khi ra mắt.",
-    "status": "Trạng thái hệ thống"
+    "legalDraft": "Bản tạm thời, áp dụng cho sự kiện 10/10/2026 và giai đoạn thử nghiệm. VN Centre sẽ hoàn thiện cùng luật sư; khi có bản mới, app sẽ hỏi bạn đồng ý lại.",
+    "status": "Trạng thái hệ thống",
+    "legalVersion": "Phiên bản {{version}}"
   },
   "workspace": {
     "parent": "Phụ huynh",
     "student": "Học viên",
     "coach": "Huấn luyện viên",
     "school": "Nhà trường",
-    "admin": "Quản trị"
+    "admin": "Quản trị",
+    "event": "Nhân viên sự kiện"
   },
   "status": {
     "version": "Phiên bản",
@@ -1120,7 +1122,8 @@
       "summer_camp": "Hoàn thành trại hè",
       "course_completion": "Hoàn thành khoá học",
       "level_completion": "Hoàn thành level",
-      "tournament": "Giải đấu"
+      "tournament": "Giải đấu",
+      "event_experience": "Trải nghiệm sự kiện"
     },
     "chooseStudents": "Chọn lớp và học viên",
     "details": "Mẫu và nội dung",
@@ -1175,6 +1178,20 @@
       "imageType": "Chỉ nhận ảnh PNG hoặc JPG.",
       "imageTooBig": "Ảnh quá lớn (tối đa {{mb}} MB).",
       "backgroundSize": "Ảnh nền cần khổ A4 ngang (tỉ lệ 3500×2475, rộng từ 2000 px)."
+    },
+    "eventUploadHint": "Nền thiết kế sẵn logo, chữ ký, câu chữ cố định: PNG/JPG A4 ngang (tỉ lệ 3500×2475). App chỉ in thêm tên người chơi, dòng xác nhận (lấy từ sự kiện) và QR xác thực. Đổi nền hoặc vị trí thì mọi chứng nhận sự kiện đã phát đổi theo.",
+    "eventLayoutHint": "Vị trí tính trên khung 2000 × 1414 (gốc ở góc trên trái). Chỉnh rồi xem trước ở trên.",
+    "eventLayout": {
+      "name_y": "Dòng tên (y)",
+      "name_size": "Cỡ chữ tên",
+      "line_y": "Dòng xác nhận (y)",
+      "line_size": "Cỡ chữ xác nhận",
+      "qr_x": "QR (x)",
+      "qr_y": "QR (y)",
+      "qr_size": "Cỡ QR",
+      "text_color": "Màu chữ",
+      "show_line": "In dòng xác nhận tiếng Việt",
+      "show_line_en": "In thêm dòng tiếng Anh"
     }
   },
   "verify": {
@@ -1403,6 +1420,91 @@
     "staffInvited": "Đã gửi email mời đặt mật khẩu và gán vào sự kiện",
     "staffAdded": "Đã tạo tài khoản và gán vào sự kiện",
     "staffAddedExisting": "Tài khoản đã có, đã gán vào sự kiện",
-    "staffLinkHint": "Gửi link này cho nhân viên để đặt mật khẩu (dùng một lần):"
+    "staffLinkHint": "Gửi link này cho nhân viên để đặt mật khẩu (dùng một lần):",
+    "openCounter": "Mở quầy đổi quà"
+  },
+  "eventCard": {
+    "registerTitle": "Ghi tên để nhận chứng nhận trải nghiệm golf",
+    "whoPlays": "Ai chơi?",
+    "playerType": {
+      "self": "Tôi chơi",
+      "child": "Con tôi chơi"
+    },
+    "playerName": "Họ tên người chơi",
+    "contactPhone": "Số điện thoại liên hệ (người lớn)",
+    "phoneHint": "Dùng để xác nhận khi nhận chứng nhận. Không gửi mã OTP.",
+    "phoneOptionalStaff": "Có thể để trống khi ghi tên hộ.",
+    "age": "Tuổi",
+    "residence": "Nơi ở",
+    "contactConsent": "Tôi đồng ý để VN Centre liên hệ, gửi thông tin các lớp golf",
+    "agreeLine": "Bằng việc ghi tên, bạn đồng ý với",
+    "register": "Ghi tên",
+    "registeredLine": "Đã ghi tên {{name}}, thẻ số {{code}}.",
+    "nextSteps": "Chơi đủ 4 trạm, rồi mang thẻ tới quầy đổi quà để hoàn thành và nhận quà.",
+    "followZalo": "Theo dõi Zalo OA VN Centre",
+    "notOpenYet": "Sự kiện chưa mở ghi tên.",
+    "registrationClosed": "Đã hết giờ ghi tên. Mời bạn tới quầy của Ban tổ chức.",
+    "cardInactive": "Thẻ này không còn hiệu lực. Liên hệ Ban tổ chức.",
+    "completion": {
+      "registered": "Chưa hoàn thành",
+      "pending_review": "Đang chờ BTC xác nhận",
+      "completed": "Đã hoàn thành",
+      "rejected": "Chưa được xác nhận"
+    },
+    "congrats": "Chúc mừng, bạn đã hoàn thành!",
+    "accountSoon": "Chứng nhận đã sẵn sàng. Chức năng tạo tài khoản để tải chứng nhận sẽ mở ngay sau sự kiện — quét lại thẻ này để nhận.",
+    "pendingReview": "Ban tổ chức đang kiểm tra ảnh thẻ điểm của bạn. Quét lại thẻ này để xem kết quả.",
+    "notCompleted": "Bạn chưa hoàn thành. Chơi đủ 4 trạm rồi mang thẻ tới quầy đổi quà.",
+    "rejectedReason": "Lý do: {{reason}}",
+    "points": "Điểm còn lại",
+    "pointsDetail": "Tích luỹ {{total}} · đã đổi quà {{redeemed}}",
+    "pointsJourney": "Điểm được tích luỹ cho cả hành trình chơi golf sau này",
+    "errors": {
+      "card_not_found": "Không tìm thấy thẻ.",
+      "card_already_registered": "Thẻ này đã được ghi tên.",
+      "registration_closed": "Sự kiện chưa mở hoặc đã hết giờ ghi tên.",
+      "player_type_required": "Hãy chọn ai chơi.",
+      "name_required": "Hãy nhập họ tên người chơi.",
+      "phone_required": "Hãy nhập số điện thoại liên hệ.",
+      "invalid_phone": "Số điện thoại chưa đúng.",
+      "invalid_age": "Tuổi chưa đúng.",
+      "card_other_event": "Thẻ này thuộc sự kiện khác.",
+      "card_not_registered": "Thẻ chưa ghi tên.",
+      "invalid_score": "Điểm trạm {{detail}} chưa đúng (số nguyên, chia hết cho bước điểm).",
+      "stations_incomplete": "Còn trạm chưa đạt: {{detail}}.",
+      "already_completed": "Thẻ này đã hoàn thành.",
+      "reason_required": "Sửa điểm sau khi hoàn thành cần ghi lý do.",
+      "invalid_points": "Số điểm đổi quà chưa đúng.",
+      "not_enough_points": "Không đủ điểm: còn {{detail}} điểm.",
+      "forbidden": "Bạn không phải nhân viên của sự kiện này."
+    }
+  },
+  "counter": {
+    "title": "Quầy đổi quà",
+    "myEvents": "Sự kiện của tôi",
+    "noEvents": "Bạn chưa được giao sự kiện nào.",
+    "scanHint": "Đưa QR trên thẻ vào khung",
+    "open": "Mở",
+    "notEventCard": "Không phải thẻ sự kiện.",
+    "notRegistered": "Thẻ chưa ghi tên",
+    "registerOnBehalf": "Ghi tên hộ",
+    "otherEvent": "Thẻ của sự kiện \"{{name}}\": chỉ đổi quà ở đây, không nhập điểm.",
+    "completedAt": "Đã hoàn thành lúc {{time}}",
+    "scores": "Điểm 4 trạm (tổng các dấu trên thẻ)",
+    "scoreRule": "Mỗi ô là số nguyên chia hết cho {{step}}; cần ít nhất {{min}} điểm mỗi trạm để hoàn thành.",
+    "missing": "Chưa đạt: {{stations}}",
+    "complete": "Hoàn thành",
+    "saveOnly": "Chỉ lưu điểm",
+    "saveScores": "Lưu điểm đã sửa",
+    "editReason": "Lý do sửa điểm (bắt buộc sau khi hoàn thành)",
+    "redeemTitle": "Đổi quà bằng điểm",
+    "balance": "Còn",
+    "redeemPoints": "Số điểm",
+    "giftLabel": "Quà (tuỳ chọn)",
+    "redeem": "Đổi quà",
+    "confirmRedeem": "Đổi {{points}} điểm? Còn lại {{balance}} điểm.",
+    "redeemed": "Đã đổi quà · còn lại {{balance}} điểm",
+    "redeemedLine": "Đã đổi {{points}} điểm · {{gift}} · {{time}}",
+    "next": "Thẻ tiếp theo"
   }
 }

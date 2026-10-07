@@ -67,6 +67,9 @@ const PARENT_NAV: NavItem[] = [
   { to: '/account', labelKey: 'account.title' },
 ]
 
+// Nhân viên sự kiện (module 10): danh sách sự kiện → quầy đổi quà
+const EVENT_NAV: NavItem[] = [{ to: '/event', labelKey: 'counter.myEvents', end: true }]
+
 // Học viên (F7): chỉ xem hồ sơ của mình
 const STUDENT_NAV: NavItem[] = [{ to: '/me', labelKey: 'studentAccount.myProfile', end: true }]
 
@@ -123,6 +126,10 @@ export const router = createBrowserRouter([
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: '*', element: <ComingSoon /> },
+  ]),
+  workspaceRoute('event', '/event', EVENT_NAV, [
+    { index: true, lazy: page(() => import('@/features/events/CounterPages'), (m) => m.EventStaffHome) },
+    { path: ':eventId', lazy: page(() => import('@/features/events/CounterPages'), (m) => m.CounterPage) },
   ]),
   workspaceRoute('student', '/me', STUDENT_NAV, [
     { index: true, lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.StudentMePage) },

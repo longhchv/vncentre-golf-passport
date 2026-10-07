@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { setLanguage, type Language } from '@/i18n'
 import type { Profile, Role, UserRole } from '@/lib/types'
 
-export type Workspace = 'parent' | 'student' | 'coach' | 'school' | 'admin'
+export type Workspace = 'parent' | 'student' | 'coach' | 'school' | 'admin' | 'event'
 
 export const WORKSPACE_PATH: Record<Workspace, string> = {
   parent: '/app',
@@ -13,6 +13,7 @@ export const WORKSPACE_PATH: Record<Workspace, string> = {
   coach: '/coach',
   school: '/school',
   admin: '/admin',
+  event: '/event',
 }
 
 const COACH_ROLES: Role[] = ['head_coach', 'coach', 'assistant', 'pe_teacher']
@@ -101,6 +102,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (roles.some((r) => r.role === 'school_manager')) list.push('school')
     if (guardianId) list.push('parent')
     if (studentId) list.push('student')
+    // Nhân viên sự kiện (module 10): quầy đổi quà
+    if (roles.some((r) => r.role === 'event_staff' && r.class_id)) list.push('event')
     return list
   }, [roles, guardianId, studentId])
 

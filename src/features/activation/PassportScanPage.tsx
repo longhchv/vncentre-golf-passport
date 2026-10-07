@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card'
 import { Mascot } from '@/components/Mascot'
 import { rpc, type PassportLookup } from './api'
 import { ActivationWizard } from './ActivationWizard'
+import { EventCardPage } from '@/features/events/EventCard'
 
 /**
  * /p/{mã sổ} — quét QR sổ hoặc nhập mã (F2). Xử lý theo bảng trạng thái sổ × người mở.
@@ -36,6 +37,8 @@ export function PassportScanPage() {
   if (r.result === 'not_found') return <Message title={t('scan.wrongCode')} body={t('scan.wrongCodeBody')} retry />
   // Mã in trên chứng nhận giấy (F4) nhập ở ô mã sổ → chuyển sang trang mã chứng nhận
   if (r.result === 'claim') return <Navigate to={`/c/${code}`} replace />
+  // Thẻ "Trải nghiệm sự kiện" (module 10): ghi tên tại chỗ, không cần tài khoản
+  if (r.result === 'event') return <EventCardPage code={code} />
 
   const next = `/p/${code}`
   const tier = i18n.language === 'en' ? r.tier_en : r.tier_vi

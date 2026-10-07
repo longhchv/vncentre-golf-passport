@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase'
 
 export interface PassportLookup {
-  result: 'ok' | 'not_found' | 'locked' | 'claim'
+  result: 'ok' | 'not_found' | 'locked' | 'claim' | 'event'
   retry_minutes?: number
   status?: 'unassigned' | 'assigned' | 'active' | 'lost' | 'void' | 'retired'
   tier_vi?: string

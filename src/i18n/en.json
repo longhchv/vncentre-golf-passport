@@ -56,15 +56,17 @@
     "forgotPassword": "Forgot password",
     "terms": "Terms of Use",
     "privacy": "Privacy Policy",
-    "legalDraft": "This content is being drafted and will be reviewed by a lawyer before launch.",
-    "status": "System status"
+    "legalDraft": "Interim version for the 10/10/2026 event and the pilot. VN Centre will finalise it with a lawyer; when it changes, the app will ask you to accept it again.",
+    "status": "System status",
+    "legalVersion": "Version {{version}}"
   },
   "workspace": {
     "parent": "Parent",
     "student": "Student",
     "coach": "Coach",
     "school": "School",
-    "admin": "Admin"
+    "admin": "Admin",
+    "event": "Event staff"
   },
   "status": {
     "version": "Version",
@@ -1120,7 +1122,8 @@
       "summer_camp": "Summer camp completion",
       "course_completion": "Course completion",
       "level_completion": "Level completion",
-      "tournament": "Tournament"
+      "tournament": "Tournament",
+      "event_experience": "Event experience"
     },
     "chooseStudents": "Choose class and students",
     "details": "Template and content",
@@ -1175,6 +1178,20 @@
       "imageType": "Only PNG or JPG images.",
       "imageTooBig": "Image too large (max {{mb}} MB).",
       "backgroundSize": "The background must be A4 landscape (3500×2475 ratio, at least 2000 px wide)."
+    },
+    "eventUploadHint": "Background designed with logos, signature and fixed wording: PNG/JPG, A4 landscape (3500×2475 ratio). The app only adds the player name, the confirmation line (from the event) and the verification QR. Changing the background or positions updates all issued event certificates.",
+    "eventLayoutHint": "Positions on a 2000 × 1414 frame (origin top-left). Adjust and check the preview above.",
+    "eventLayout": {
+      "name_y": "Name line (y)",
+      "name_size": "Name size",
+      "line_y": "Confirmation line (y)",
+      "line_size": "Confirmation size",
+      "qr_x": "QR (x)",
+      "qr_y": "QR (y)",
+      "qr_size": "QR size",
+      "text_color": "Text colour",
+      "show_line": "Print the Vietnamese confirmation line",
+      "show_line_en": "Also print the English line"
     }
   },
   "verify": {
@@ -1403,6 +1420,91 @@
     "staffInvited": "Invitation email sent and assigned to the event",
     "staffAdded": "Account created and assigned to the event",
     "staffAddedExisting": "Existing account assigned to the event",
-    "staffLinkHint": "Send this one-time link to the staff member to set a password:"
+    "staffLinkHint": "Send this one-time link to the staff member to set a password:",
+    "openCounter": "Open gift counter"
+  },
+  "eventCard": {
+    "registerTitle": "Register to receive your golf experience certificate",
+    "whoPlays": "Who is playing?",
+    "playerType": {
+      "self": "I am playing",
+      "child": "My child is playing"
+    },
+    "playerName": "Player's full name",
+    "contactPhone": "Contact phone (adult)",
+    "phoneHint": "Used to confirm when you collect the certificate. No OTP is sent.",
+    "phoneOptionalStaff": "May be left empty when registering on behalf.",
+    "age": "Age",
+    "residence": "Where you live",
+    "contactConsent": "I agree that VN Centre may contact me about golf classes",
+    "agreeLine": "By registering you agree to the",
+    "register": "Register",
+    "registeredLine": "Registered {{name}}, card {{code}}.",
+    "nextSteps": "Play all 4 stations, then bring the card to the gift counter to complete and collect your gift.",
+    "followZalo": "Follow VN Centre on Zalo",
+    "notOpenYet": "Registration is not open yet.",
+    "registrationClosed": "Registration has closed. Please go to the organisers' desk.",
+    "cardInactive": "This card is no longer valid. Please contact the organisers.",
+    "completion": {
+      "registered": "Not completed",
+      "pending_review": "Waiting for organisers",
+      "completed": "Completed",
+      "rejected": "Not confirmed"
+    },
+    "congrats": "Congratulations, you have completed it!",
+    "accountSoon": "Your certificate is ready. Account creation to download it opens right after the event — scan this card again to collect it.",
+    "pendingReview": "The organisers are checking your score-card photo. Scan this card again to see the result.",
+    "notCompleted": "Not completed yet. Play all 4 stations, then bring the card to the gift counter.",
+    "rejectedReason": "Reason: {{reason}}",
+    "points": "Points left",
+    "pointsDetail": "Earned {{total}} · redeemed {{redeemed}}",
+    "pointsJourney": "Points count towards your whole golf journey",
+    "errors": {
+      "card_not_found": "Card not found.",
+      "card_already_registered": "This card is already registered.",
+      "registration_closed": "Registration is not open or has closed.",
+      "player_type_required": "Choose who is playing.",
+      "name_required": "Enter the player's name.",
+      "phone_required": "Enter a contact phone number.",
+      "invalid_phone": "Invalid phone number.",
+      "invalid_age": "Invalid age.",
+      "card_other_event": "This card belongs to another event.",
+      "card_not_registered": "This card is not registered yet.",
+      "invalid_score": "Invalid score for {{detail}} (whole number, multiple of the step).",
+      "stations_incomplete": "Stations not passed: {{detail}}.",
+      "already_completed": "This card is already completed.",
+      "reason_required": "Editing scores after completion needs a reason.",
+      "invalid_points": "Invalid number of points.",
+      "not_enough_points": "Not enough points: {{detail}} left.",
+      "forbidden": "You are not staff for this event."
+    }
+  },
+  "counter": {
+    "title": "Gift counter",
+    "myEvents": "My events",
+    "noEvents": "You have no events assigned.",
+    "scanHint": "Point the camera at the QR on the card",
+    "open": "Open",
+    "notEventCard": "Not an event card.",
+    "notRegistered": "Card not registered",
+    "registerOnBehalf": "Register on behalf",
+    "otherEvent": "Card from \"{{name}}\": redeem gifts here only, no scores.",
+    "completedAt": "Completed at {{time}}",
+    "scores": "Scores for 4 stations (total of stamps on the card)",
+    "scoreRule": "Each box is a whole number, multiple of {{step}}; at least {{min}} per station to complete.",
+    "missing": "Not passed: {{stations}}",
+    "complete": "Complete",
+    "saveOnly": "Save scores only",
+    "saveScores": "Save edited scores",
+    "editReason": "Reason for editing (required after completion)",
+    "redeemTitle": "Redeem gifts with points",
+    "balance": "Left",
+    "redeemPoints": "Points",
+    "giftLabel": "Gift (optional)",
+    "redeem": "Redeem",
+    "confirmRedeem": "Redeem {{points}} points? {{balance}} points will be left.",
+    "redeemed": "Gift redeemed · {{balance}} points left",
+    "redeemedLine": "Redeemed {{points}} points · {{gift}} · {{time}}",
+    "next": "Next card"
   }
 }

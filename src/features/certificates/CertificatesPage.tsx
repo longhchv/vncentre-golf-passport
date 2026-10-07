@@ -14,7 +14,7 @@ import { Field, FormError, Input, Select, Textarea } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { Mascot } from '@/components/Mascot'
 import type { ClassRow, Level, Program, RosterRow } from '@/lib/types'
-import type { CertificateData } from '../../../supabase/functions/_shared/certificateLayout'
+import type { CertificateData, EventCertLayout } from '../../../supabase/functions/_shared/certificateLayout'
 import { CertificateViewer } from './CertificateViewer'
 
 const CertificateSvg = lazy(() => import('./CertificateSvg').then((m) => ({ default: m.CertificateSvg })))
@@ -24,12 +24,13 @@ interface Template {
   code: string
   name_vi: string
   name_en: string
-  type: 'summer_camp' | 'course_completion' | 'level_completion' | 'tournament'
+  type: 'summer_camp' | 'course_completion' | 'level_completion' | 'tournament' | 'event_experience'
   background_image_url: string | null
   signer_name: string | null
   signer_title: string | null
   signature_image_url: string | null
   is_active: boolean
+  layout: EventCertLayout | null
 }
 
 type Tab = 'issue' | 'issued' | 'templates'
@@ -215,7 +216,7 @@ function IssueTab({ onIssued }: { onIssued: () => void }) {
       <Card className="space-y-3 p-4">
         <p className="font-semibold">2. {t('certificates.details')}</p>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          {templates.data?.filter((x) => x.is_active && x.type !== 'tournament').map((x) => (
+          {templates.data?.filter((x) => x.is_active && x.type !== 'tournament' && x.type !== 'event_experience').map((x) => (
             <Button key={x.id} type="button" variant={templateId === x.id ? 'primary' : 'outline'} onClick={() => setTemplateId(x.id)}>
               {loc(x, 'name')}
             </Button>
@@ -424,12 +425,25 @@ function TemplateCard({ tpl }: { tpl: Template }) {
   const [signerName, setSignerName] = useState(tpl.signer_name ?? '')
   const [signerTitle, setSignerTitle] = useState(tpl.signer_title ?? '')
   const [error, setError] = useState<string | null>(null)
+  // Mẫu chứng nhận sự kiện (module 10): nền tự thiết kế; chỉ chỉnh vị trí tên, dòng xác nhận, QR
+  const isEvent = tpl.type === 'event_experience'
+  const [layout, setLayout] = useState<EventCertLayout>(tpl.layout ?? {})
 
-  const sample: CertificateData = useMemo(() => ({
+  const sample: CertificateData = useMemo(() => (isEvent ? {
+    kind: 'event', student_name: 'Nguyễn Văn An', program: '', language: 'en', signer_name: '', signer_title: '',
+    line_vi: "Đã hoàn thành trải nghiệm môn Golf tại Lễ phát động 'Mỗi người dân lựa chọn ít nhất một môn thể thao phù hợp để tập luyện thường xuyên', Hồ Hoàn Kiếm, Hà Nội, ngày 10/10/2026",
+    line_en: "Completed the golf experience at the launch event 'Every citizen chooses at least one sport to practise regularly', Hoan Kiem Lake, Hanoi on 10/10/2026",
+    layout, verify_code: 'SAMPLE0000', verify_url: `${window.location.origin}/verify`, background_path: tpl.background_image_url,
+  } : {
     student_name: 'Nguyễn Văn An', class_name: '3A', school_name: 'Trường Tiểu học Mẫu', program: 'SNAG Golf @ School Basic',
     level_label: tpl.type === 'level_completion' ? 'Level 1' : null, language: 'en', signer_name: signerName, signer_title: signerTitle,
     verify_code: 'SAMPLE0000', verify_url: `${window.location.origin}/verify`, background_path: tpl.background_image_url, signature_path: tpl.signature_image_url,
-  }), [tpl, signerName, signerTitle])
+  }), [tpl, signerName, signerTitle, isEvent, layout])
+  const num = (k: keyof EventCertLayout, def: number) => (
+    <Field label={t(`certificates.eventLayout.${k}`)}>
+      <Input inputMode="numeric" value={String(layout[k] ?? def)} onChange={(e) => setLayout((l) => ({ ...l, [k]: Number(e.target.value.replace(/[^0-9]/g, '')) }))} />
+    </Field>
+  )
 
   const save = useMutation({
     mutationFn: async (patch: Partial<Template>) => {
@@ -478,13 +492,33 @@ function TemplateCard({ tpl }: { tpl: Template }) {
           <Upload className="h-4 w-4" /> {t('certificates.uploadBackground')}
           <input type="file" accept="image/png,image/jpeg" className="hidden" onChange={(e) => upload('background', e.target.files?.[0])} />
         </label>
-        <label className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-navy/20 bg-white px-4 font-semibold">
-          <Upload className="h-4 w-4" /> {t('certificates.uploadSignature')}
-          <input type="file" accept="image/png,image/jpeg" className="hidden" onChange={(e) => upload('signature', e.target.files?.[0])} />
-        </label>
+        {!isEvent && (
+          <label className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-navy/20 bg-white px-4 font-semibold">
+            <Upload className="h-4 w-4" /> {t('certificates.uploadSignature')}
+            <input type="file" accept="image/png,image/jpeg" className="hidden" onChange={(e) => upload('signature', e.target.files?.[0])} />
+          </label>
+        )}
       </div>
-      <p className="text-sm text-navy/55">{t('certificates.uploadHint')}</p>
+      <p className="text-sm text-navy/55">{isEvent ? t('certificates.eventUploadHint') : t('certificates.uploadHint')}</p>
       <FormError message={error} />
+      {isEvent && (
+        <div className="space-y-3">
+          <p className="text-sm text-navy/65">{t('certificates.eventLayoutHint')}</p>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {num('name_y', 640)}{num('name_size', 64)}{num('line_y', 760)}{num('line_size', 30)}
+            {num('qr_x', 1637)}{num('qr_y', 1080)}{num('qr_size', 176)}
+            <Field label={t('certificates.eventLayout.text_color')}>
+              <Input type="color" value={layout.text_color ?? '#181e42'} onChange={(e) => setLayout((l) => ({ ...l, text_color: e.target.value }))} />
+            </Field>
+          </div>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" className="h-5 w-5 accent-bronze" checked={layout.show_line ?? true}
+            onChange={(e) => setLayout((l) => ({ ...l, show_line: e.target.checked }))} /> {t('certificates.eventLayout.show_line')}</label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" className="h-5 w-5 accent-bronze" checked={layout.show_line_en ?? false}
+            onChange={(e) => setLayout((l) => ({ ...l, show_line_en: e.target.checked }))} /> {t('certificates.eventLayout.show_line_en')}</label>
+          <Button disabled={save.isPending} onClick={() => save.mutate({ layout })}>{t('common.save')}</Button>
+        </div>
+      )}
+      {!isEvent && <>
       <Field label={t('certificates.signerName')}>
         <Input value={signerName} onChange={(e) => setSignerName(e.target.value)} />
       </Field>
@@ -494,6 +528,7 @@ function TemplateCard({ tpl }: { tpl: Template }) {
       <Button disabled={save.isPending} onClick={() => save.mutate({ signer_name: signerName.trim(), signer_title: signerTitle.trim() })}>
         {t('common.save')}
       </Button>
+      </>}
     </Card>
   )
 }

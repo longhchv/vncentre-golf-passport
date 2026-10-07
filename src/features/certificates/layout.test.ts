@@ -35,6 +35,19 @@ describe('bố cục chứng nhận', () => {
     expect(t).toContain('Tô Vĩnh Diện'.normalize('NFC'))
   })
 
+  it('chứng nhận sự kiện: tên + dòng xác nhận + QR, không điểm, không Class/School (module 10 mục 5)', () => {
+    const d: CertificateData = { ...base, kind: 'event', program: 'Lễ phát động', line_vi: 'Đã hoàn thành trải nghiệm môn Golf tại Lễ phát động, Hồ Hoàn Kiếm, ngày 10/10/2026', layout: { name_y: 600 } }
+    const els = buildCertificate(d)
+    const t = els.flatMap((e) => (e.kind === 'text' ? [e.text] : []))
+    expect(t[0]).toBe('Tô Vĩnh Diện')
+    expect(t.join(' ')).toContain('Đã hoàn thành trải nghiệm môn Golf')
+    expect(t.some((x) => /Class|School|CERTIFICATE|điểm|score/i.test(x))).toBe(false)
+    expect(els.find((e) => e.kind === 'text' && e.text === 'Tô Vĩnh Diện')).toMatchObject({ y: 600 })
+    expect(els.some((e) => e.kind === 'qr')).toBe(true)
+    // Chưa tải nền thì không vẽ nền
+    expect(els.some((e) => e.kind === 'image')).toBe(false)
+  })
+
   it('mã và dòng chương trình', () => {
     expect(formatVerifyCode('ABCDEFGHJK')).toBe('ABCDE-FGHJK')
     expect(programLine({ program: 'Summer Camp 2026', level_label: null })).toBe('Summer Camp 2026')
