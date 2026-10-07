@@ -44,7 +44,38 @@ Người dùng gõ mã có thể viết thường, có dấu gạch hoặc khôn
 | `user_roles` | 1 | user_id, role, school_id (nullable), class_id (nullable), granted_by | role ∈ `admin`, `head_coach`, `coach`, `assistant`, `school_manager`, `pe_teacher`, `partner`, `event_staff`. Phụ huynh không cần dòng ở đây, xác định qua `student_guardians` |
 | `guardians` | 1 | user_id, full_name, phone, email, relationship_default | Thông tin phụ huynh. Có thể tồn tại **trước** khi có tài khoản (nhập từ danh sách trường) → `user_id` null |
 | `student_guardians` | 1 | student_id, guardian_id, relationship (`father`, `mother`, `guardian`, `other`), is_primary, can_manage (bool), share_academic_with_coaches (bool), linked_via (`passport`, `claim_code`, `invite`, `class_code`, `admin`), status (`active`, `pending_confirmation`), linked_at | Nhiều–nhiều |
-| `student_accounts` | 1 | student_id, username, pin_hash, created_by_guardian_id, is_active | Tài khoản cho học viên từ 8 tuổi, phụ huynh tạo |
+| `student_accounts` | 1 | student_id (duy nhất), **user_id** (tài khoản Supabase Auth tương ứng, duy nhất), username (duy nhất toàn hệ thống; chữ thường không dấu, số, dấu chấm, gạch dưới; 3–32 ký tự), created_by_guardian_id, is_active, **failed_attempts**, **locked_until**, org_id | Tài khoản cho học viên từ 8 tuổi, phụ huynh tạo. **Không có cột `pin_hash` — PIN không lưu ở bất cứ đâu.** Xem ô dưới |
+
+### 4b. Tài khoản học viên hoạt động thế nào (cập nhật 07/10/2026 theo bản đã build — xem quyết định **B4** ở `phu-luc-D`)
+
+**PIN không bao giờ được lưu.** Mỗi tài khoản học viên có một tài khoản Supabase Auth đi kèm, dùng **email nội bộ không có hộp thư thật** dạng `<mã tài khoản>@students.vncentre.net`. Mật khẩu của tài khoản đó được tính từ **PIN cộng một khoá bí mật chỉ máy chủ biết**, rồi Supabase băm như mọi mật khẩu khác. Hệ quả:
+
+- PIN không nằm trong cơ sở dữ liệu, không nằm trong log, không ở đâu cả.
+- Không ai đăng nhập thẳng vào Supabase bằng PIN được.
+- Mọi lần đăng nhập đều đi qua máy chủ của app, nơi đếm số lần nhập sai.
+
+**Luồng đăng nhập.** Học viên vào `/login` → tab "Học viên" → nhập tên đăng nhập và **PIN 6 số**. Edge Function `student-accounts` xử lý:
+
+1. Kiểm tra tài khoản có đang tạm khoá (`locked_until`) hoặc bị phụ huynh khoá (`is_active = false`) không.
+2. Đúng PIN → đăng nhập và đặt lại `failed_attempts` về 0.
+3. Sai PIN → tăng `failed_attempts`. Sai 5 lần thì khoá 15 phút, ghi vào `locked_until`.
+
+**Chỉ người giám hộ có `can_manage` được quản lý tài khoản của con:**
+
+- Tạo tài khoản cho con **từ 8 tuổi trở lên**, tính theo ngày sinh (R14). Chưa có ngày sinh thì phải nhập trước.
+- App gợi ý tên đăng nhập từ tên con cộng số.
+- PIN **không được** là 6 số giống nhau hoặc dãy số liên tiếp (B13).
+- Phụ huynh đổi PIN được; đổi PIN đồng thời mở khoá ngay.
+- Phụ huynh khoá hoặc mở khoá tài khoản của con bất cứ lúc nào.
+- Học viên **chỉ xem** hồ sơ của mình ở `/me`: không sửa gì, không tải PDF, **không có trang Tài khoản**.
+
+**Các con số nằm trong `app_settings`, admin chỉnh được (R13):**
+
+| Khoá | Mặc định |
+|---|---|
+| `student_account.min_age` | 8 |
+| `student_account.max_pin_failures` | 5 |
+| `student_account.pin_lock_minutes` | 15 |
 
 ## 5. Học viên
 
@@ -120,7 +151,8 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | `push_subscriptions` | 2 | user_id, endpoint, keys (JSON), device_label, user_agent, created_at, last_success_at, failed_count, revoked_at | Thông báo đẩy Web Push. Mỗi thiết bị một dòng; thất bại 5 lần liên tiếp thì thu hồi |
 | `consents` | 1 | guardian_id, student_id (nullable), type (`terms`, `privacy`, `leaderboard_name`, `photo`), version, granted (bool), granted_at, revoked_at | Lưu cả phiên bản văn bản đã đồng ý |
 | `audit_logs` | 1 | actor_user_id, action, entity_type, entity_id, before (JSON), after (JSON), ip, created_at | Không cho sửa/xoá |
-| `app_settings` | 1 | key, value (JSON), updated_by | Cấu hình chung: giá cấp lại sổ, giới hạn OTP, kênh thông báo… |
+| `support_requests` | 1 | student_id (nullable), requester_user_id, type (`history_update`, `data_deletion`, `other`), **body**, status (`pending`, `resolved`, `rejected`), handled_by, handled_at, **resolution_note** | Chỗ lưu cho nút "Con đã từng học golf?" (F8) và "Yêu cầu xoá dữ liệu của con" (F18). Hiện trong hàng chờ của admin. Yêu cầu xoá dữ liệu xử lý thủ công và **phải ghi nhật ký**. Tên cột lấy theo bảng đã build (B3) |
+| `app_settings` | 1 | key, value (JSON), updated_by | Cấu hình chung: giá cấp lại sổ, giới hạn OTP, kênh thông báo, các khoá `student_account.*`… |
 
 ## 11. Thanh toán (đợt 1: chỉ phí cấp lại sổ)
 

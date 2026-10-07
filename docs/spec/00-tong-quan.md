@@ -273,7 +273,7 @@ Vì vậy khi thiết kế dữ liệu của đợt 3 và đợt 6, **phải ch�
 |---|---|
 | Logo | Logo VN Centre. Logo "Dự án phát triển golf trẻ R&A – VGA" phải đi kèm **tên gọi đầy đủ**. VN Centre đã được phép dùng; dự án được 2 đơn vị duyệt và ra mắt ngày 06/02/2024 |
 | Màu chính | Navy `#080634` (nền đậm, chữ chính) · Vàng đồng `#B06829` chuyển sang vàng sáng `#F9C74F` (nút chính, huy hiệu) · Nâu `#6A3A16` (chữ logo). Mã màu trích gần đúng từ logo; thay bằng mã gốc khi có file nhận diện |
-| Màu giai đoạn | Vàng, Cam, Đỏ theo các phần màu của First Passport |
+| Màu 5 giai đoạn | Sổ First Passport in ba màu Vàng – Cam – Đỏ, nhưng lộ trình có **5 giai đoạn**, nên cần 5 màu. Dải chuyển từ vàng sang đỏ, **lấy đúng bộ màu đã có trong migration**: **GĐ1 `#F9C74F` · GĐ2 `#F4A340` · GĐ3 `#EE7B30` · GĐ4 `#E0502B` · GĐ5 `#C0262D`**. Màu lưu ở cột `passport_stages.color`, admin sửa được. Nếu sau này có file nhận diện gốc (D13) thì chỉ cần đổi 5 giá trị này, không đụng tới code |
 | Font | Be Vietnam Pro (giao diện). Chứng nhận dùng font có chân giống mẫu hiện tại |
 | Linh vật | Chú rồng trong Passport. Tên chính thức chưa chốt. Dùng ở màn hình chào, trạng thái trống, huy hiệu, thông báo chúc mừng |
 | Giọng văn | Ấm áp, khích lệ, rõ ràng. Với phụ huynh: lịch sự, ngắn gọn. Với các em: vui, dễ hiểu |

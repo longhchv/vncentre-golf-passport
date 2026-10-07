@@ -5,11 +5,11 @@
 - First Golf Passport: trang 5–14 (cầm gậy, setup, 4 cú đánh, công cụ, giá trị, văn hoá), trang 30 (12 mục sẵn sàng chuyển golf truyền thống), trang 35–38 (luyện tiếp xúc bóng, hướng đánh, thử thách 30 ngày).
 
 **Cách dùng trong app:**
-- **Đợt 1:** hiện phần "Nội dung" (B1) ở trang chi tiết level cho phụ huynh.
-- **Đợt 2:** dùng phần "Tiêu chí Đạt" (B2) để HLV chấm.
+- **Đợt 1:** hiện phần "Nội dung" (mục 1) ở trang chi tiết level cho phụ huynh.
+- **Đợt 2:** dùng phần "Tiêu chí Đạt" (mục 2) để HLV chấm.
 - Các ngưỡng số đo có đánh dấu **ĐX** là do Minh đề xuất, chưa được HLV trưởng kiểm chứng trên lớp thật.
 
-## B1. Nội dung học theo level (trích từ ma trận)
+## Mục 1 · Nội dung học theo level (trích từ ma trận)
 
 | Dòng nội dung | Level 1 | Level 2 | Level 3 |
 |---|---|---|---|
@@ -32,7 +32,7 @@
 | Ôn tập | Ôn tập, tổng kết | Ôn tập, tổng kết | Ôn tập, tổng kết |
 | Thi đấu | Giải SNAG Golf mini | Giải SNAG Golf mini | Giải SNAG Golf mini |
 
-## B2. Tiêu chí Đạt theo 5 mảng kỹ thuật
+## Mục 2 · Tiêu chí Đạt theo 5 mảng kỹ thuật
 
 Mỗi kỹ năng có tiêu chí cho 3 cách chấm:
 - **Đạt/Chưa đạt:** HLV quan sát theo mô tả.
@@ -80,7 +80,7 @@ Mỗi kỹ năng có tiêu chí cho 3 cách chấm:
 | 2 | Full swing + Finish | Kết thúc cú đánh giữ thăng bằng ở tư thế finish | Giữ finish 2 giây, 7/10 cú (ĐX) |
 | 3 | Setup chuẩn trước full swing | Như mảng Grip–Setup L3; tiếp xúc bóng tốt | Tiếp xúc tốt 50/100 cú trong bài "Luyện tập tiếp xúc bóng", tích lũy (mục tiêu Passport 80/100 ở level cao hơn) (ĐX) |
 
-## B3. Văn hoá – ứng xử – luật (trụ 3)
+## Mục 3 · Văn hoá – ứng xử – luật (trụ 3)
 
 | Level | Văn hoá, ứng xử bắt buộc | Luật, kiến thức (kiểm tra ngắn) |
 |---|---|---|
@@ -90,9 +90,9 @@ Mỗi kỹ năng có tiêu chí cho 3 cách chấm:
 
 **Điều kiện đạt trụ 3 (ĐX):** không có ghi nhận "nhắc" nghiêm trọng trong 4 buổi cuối **và** bài kiểm tra luật/kiến thức đạt từ 80%.
 
-## B4. Ngưỡng tổng để đề xuất lên level (ĐX)
+## Mục 4 · Ngưỡng tổng để đề xuất lên level (ĐX)
 
 - **Trụ 1:** đạt tất cả kỹ năng của 5 mảng ở level đó.
 - **Trụ 2:** đạt mốc thành tích của level (bảng mốc đề xuất sau).
-- **Trụ 3:** như B3.
+- **Trụ 3:** như mục 3.
 - **Số tiết đã học** đạt tối thiểu theo loại lớp (`00-tong-quan.md` mục 6.5).

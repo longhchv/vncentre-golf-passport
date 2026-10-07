@@ -205,6 +205,9 @@ Dùng khi phụ huynh không có sổ, không có link, không có mã.
 - Sai PIN 5 lần → khoá 15 phút.
 - Phụ huynh đổi PIN, khoá/mở tài khoản con được.
 - Con dưới 8 tuổi: nút tạo tài khoản bị ẩn. Tuổi tính theo ngày sinh; nếu chưa có ngày sinh thì yêu cầu nhập trước.
+- PIN **không được** là 6 số giống nhau hoặc dãy số liên tiếp. Đổi PIN đồng thời mở khoá ngay.
+- Học viên chỉ xem hồ sơ của mình ở `/me`: không sửa, không tải PDF, **không có trang Tài khoản**.
+- **PIN không lưu ở bất cứ đâu.** Cách hiện thực và các con số cấu hình: `01-du-lieu.md` mục 4b.
 
 ### F8. Hồ sơ học viên (phần phụ huynh xem)
 
