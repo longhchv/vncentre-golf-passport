@@ -113,7 +113,11 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | `invitations` | 1 | guardian_id, student_id, channel (`zalo`, `sms`, `email`), token, sent_at, opened_at, used_at, expires_at, status | Lời mời kích hoạt gửi tới SĐT/email có trong danh sách trường |
 | `link_requests` | 1 | requester_user_id, student_id (nullable), submitted_child_name, submitted_dob, submitted_school, method (`class_code`, `manual_review`), status (`pending`, `approved`, `rejected`), reviewed_by | Phụ huynh tự tìm con |
 | `otp_logs` | 1 | phone/email, channel, purpose (`signup`, `reset_password`, `activation`), status, provider_message_id, cost_vnd, created_at | Theo dõi chi phí tin nhắn |
-| `notifications` | 1 | user_id, type, title_vi/en, body_vi/en, link, channels_sent (JSON), read_at | Hộp thông báo trong app |
+| `notifications` | 1 | user_id, notification_code, student_id (nullable), type, title_vi/en, body_vi/en, link, channels_sent (JSON), grouped_count, read_at | Hộp thông báo trong app. **Mọi thông báo đều ghi vào đây, kể cả khi gửi thất bại ở mọi kênh** |
+| `notification_types` | 1 | code, group, name_vi/en, description_vi/en, default_channels (JSON), mandatory (bool), min_role, audience | Danh mục các loại thông báo, nạp bằng file seed từ `phu-luc-F` mục 4. Thêm loại mới là thêm dòng, không sửa code |
+| `notification_preferences` | 1 | user_id, student_id (nullable), notification_code, channel (`push`, `email`, `zalo`, `in_app`), enabled | Người dùng bật/tắt từng loại. Thiếu dòng thì lấy mặc định trong `notification_types` |
+| `notification_templates` | 1 | code, channel, lang, subject, body, zalo_template_id (nullable), version, approved_at | Mẫu tin song ngữ. Tin Zalo phải lưu mã mẫu Zalo đã duyệt |
+| `push_subscriptions` | 2 | user_id, endpoint, keys (JSON), device_label, user_agent, created_at, last_success_at, failed_count, revoked_at | Thông báo đẩy Web Push. Mỗi thiết bị một dòng; thất bại 5 lần liên tiếp thì thu hồi |
 | `consents` | 1 | guardian_id, student_id (nullable), type (`terms`, `privacy`, `leaderboard_name`, `photo`), version, granted (bool), granted_at, revoked_at | Lưu cả phiên bản văn bản đã đồng ý |
 | `audit_logs` | 1 | actor_user_id, action, entity_type, entity_id, before (JSON), after (JSON), ip, created_at | Không cho sửa/xoá |
 | `app_settings` | 1 | key, value (JSON), updated_by | Cấu hình chung: giá cấp lại sổ, giới hạn OTP, kênh thông báo… |
@@ -127,7 +131,7 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | `payment_events` | 1 | order_id, provider, payload (JSON), signature_valid (bool), received_at | Lưu nguyên dữ liệu webhook |
 | `invoice_requests` | 1 | order_id, buyer_type (`individual`, `company`), buyer_name, tax_code, address, email, status (`requested`, `issued`), issued_invoice_no, issued_by | Kế toán xuất hoá đơn trên MISA rồi đánh dấu đã xuất |
 
-## 12. Khung dữ liệu cho đợt 2–5 (chưa cần tạo)
+## 12. Khung dữ liệu cho đợt 2–7 (chưa cần tạo)
 
 | Nhóm | Bảng dự kiến | Đợt |
 |---|---|---|
@@ -152,6 +156,18 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | Đơn vị thi đấu | `competition_units` + `unit_transfer_requests` (đơn xin chuyển đơn vị, VN Centre duyệt) | 3 |
 | Gói | `subscriptions` (student_id, plan `premium`, start, end, status) | 4 |
 | Hồ sơ học bổng | `academic_records` (học bạ, GPA, chứng chỉ; file riêng tư; nhãn tự khai), `activities`, `recommendation_letters`, `external_results` (giải ngoài, VGA; duyệt), `scholarship_exports` | 4 |
+| Chương trình 1-1 | `coaching_programs` (học viên, HLV, mục tiêu, số buổi, thời hạn, có tính vào level không), `profile_access_grants` (mức `summary`/`full`, phụ huynh đồng ý, admin duyệt, thu hồi) | 6 |
+| Giáo án riêng | `lesson_plans` (trạng thái nháp/chờ duyệt/đã duyệt), `lesson_plan_items` (thứ tự, mục tiêu buổi, kỹ năng, có tính vào level không) | 6 |
+| Lịch và đặt buổi | `coach_availability` (khung rảnh theo tuần và ngoại lệ), `bookings` (yêu cầu, xác nhận, đổi, hủy, chuyển hàng chờ admin), `booking_substitutions` (HLV thay thế, cần đủ 3 xác nhận) | 6 |
+| Buổi 1-1 | `sessions_1to1` (giờ bắt đầu/kết thúc thật, điểm danh, đúng điểm hẹn), `session_notes` (**`coach_written_text` bắt buộc không rỗng**), `session_media` (chỉ gia đình em đó và HLV của chương trình xem được) | 6 |
+| Bài tập giao riêng | `assignments` (hạn nộp, cần bằng chứng, điểm, người duyệt khi HLV tự soạn), `assignment_attempts` (bấm giờ, nộp, chấm, điểm khích lệ, gia hạn) | 6 |
+| Đánh giá buổi | `session_feedback` (phụ huynh chấm 1–5 và nhận xét; học viên chỉ chọn biểu tượng cảm xúc), `reliability_events` (lỗi hẹn: hủy muộn, không đến) | 6 |
+| Hồ sơ HLV | `coach_profiles` (nhóm HLV, khu vực, chuyên môn, giới thiệu), `coach_credentials` (chứng chỉ, trạng thái xác minh, hạn), `coach_achievements`, `coach_verifications` (người xác minh, checklist, thời điểm) | 7 |
+| Giá và khuyến mãi | `coach_pricing` (buổi lẻ, combo; trạng thái duyệt), `coach_coupons` (mức giảm, số lượng, hạn, trạng thái duyệt) | 7 |
+| Hạng tài khoản HLV | `coach_plan` (trường trên hồ sơ HLV: `standard` / `coach`, nguồn `paid`/`partnership`, ngày hết hạn) — **tạo từ đợt 6**, HLV VN Centre mặc định `coach`; `plan_features` (bật/tắt từng tính năng theo hạng, admin chỉnh); `plan_limits` (số học viên, số lớp, dung lượng — mặc định Standard 50/5/100 MB); `plan_usage` (đang dùng bao nhiêu) | 6 (trường) · 7 (thu phí, chặn hạn mức) |
+| Gói Coach | `coach_subscriptions` (kỳ, giá, tự động cho HLV hợp tác, ngày hết hạn), dùng chung `products`/`orders`/`payment_events` của đợt 1 | 7 |
+| Testimonial | `testimonials` (nguồn từ `session_feedback`, phụ huynh đồng ý công khai, HLV chọn hiện/ẩn, rút lại được) | 7 |
+| AI viết bài | `coach_bio_drafts` (3 bản: dài, ngắn, đoạn hồ sơ; phiên bản hồ sơ nguồn, người bấm sinh, trạng thái HLV đã xem, đánh dấu đã cũ) | 7 |
 
 ## 13. Phân quyền dữ liệu
 

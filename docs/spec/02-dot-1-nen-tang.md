@@ -364,6 +364,8 @@ Dùng khi phụ huynh không có sổ, không có link, không có mã.
 
 ### F17. Thông báo đợt 1
 
+> **Bảng đầy đủ của cả 5 đợt nằm ở `phu-luc-F-thong-bao.md`.** Khi build đợt 1, đọc phụ lục F cùng với mục này: phụ lục F có thêm các thông báo cho HLV, quản lý trường và admin mà bảng dưới đây chưa có, cùng các quy tắc bắt buộc F-R1 đến F-R10, bảng cài đặt bật/tắt và các bảng dữ liệu đi kèm.
+
 | Sự kiện | Người nhận | Kênh |
 |---|---|---|
 | OTP đăng ký/quên mật khẩu | Người đăng ký | Zalo → SMS (số VN); email (số nước ngoài) |

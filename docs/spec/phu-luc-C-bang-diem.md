@@ -61,3 +61,14 @@ Theo bảng xếp hạng League 2026. Dùng cho cả điểm xếp hạng và đ
 | Premium (năm) | **299.000 đ** (anh Long chốt 21/09/2026) |
 | Đổi điểm lấy Premium | 3.000 điểm = 1 tháng; tối đa 3 tháng/năm |
 | Mã tặng Premium | 3 tháng, tối đa 1 mã/học viên/năm học, trần 50 mã/tháng |
+
+## C5. Hạng tài khoản HLV (đợt 6–7)
+
+| Mục | Standard | Coach |
+|---|---|---|
+| Phí | **0 đ** | Chưa chốt giá — xem `phu-luc-D` D30 |
+| Số học viên | 50 | Admin đặt, cao hơn nhiều |
+| Số lớp | 5 | Admin đặt |
+| Dung lượng ảnh/video | 100 MB | Admin đặt |
+
+Anh Long chốt các con số Standard ngày 27/09/2026. Admin chỉnh lại được trong dashboard. Chi tiết tính năng theo hạng: `00-tong-quan.md` mục 7b.

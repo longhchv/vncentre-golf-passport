@@ -139,6 +139,7 @@ Nguồn gốc: trang 20 Passport — điểm được tích từ "con dấu" c�
 - **Mùa giải:** admin đặt ngày bắt đầu và kết thúc cho từng mùa (xem việc còn mở về âm lịch/dương lịch ở `phu-luc-D`).
 
 ## 7. Việc cần làm trước khi viết chi tiết
+- Thông báo của đợt này (quà, bài tự luyện, giải, huy hiệu, nhắc buổi tập) nằm ở `phu-luc-F-thong-bao.md` mục 4 — nhóm P18–P22, H9–H13, S3–S8, A7, A9. Đọc kèm mục 6 của phụ lục F về bảo vệ trẻ em: thông báo gửi cho học viên có quy tắc riêng và chặt hơn.
 - Chốt cách tính mùa giải (xem `phu-luc-D`).
 - Danh sách đối tác đầu tiên và danh mục hoạt động, điểm.
 - Danh mục quà thực tế, tồn kho ban đầu.

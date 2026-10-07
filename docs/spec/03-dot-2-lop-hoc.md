@@ -90,5 +90,6 @@ HLV dùng app để vận hành từng buổi học. Phụ huynh thấy con đi 
 - Anh Long duyệt `phu-luc-B` (kỹ năng L1–3 và ngưỡng).
 - Minh đề xuất bảng Mốc thành tích L1–3.
 - Chốt mẫu tin Zalo báo vắng.
+- Làm **thông báo đẩy (Web Push)** ở đợt này: xem `phu-luc-F-thong-bao.md` mục 3. Kèm theo là nhóm thông báo cho HLV (H4–H11 trong phụ lục F), phần hiện chưa có trong app.
 - Chốt tiêu chí nhật ký văn hoá (danh sách hành vi khen / nhắc).
 - Minh soạn nháp ngân hàng câu hỏi lý thuyết L1–3 (dạng chọn hình) để anh Long duyệt.

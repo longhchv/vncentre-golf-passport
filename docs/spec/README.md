@@ -1,6 +1,12 @@
 # VN Centre Golf Passport — Bộ tài liệu mô tả yêu cầu
 
-Phiên bản: **v0.4** · Ngày: 23/09/2026 · Người soạn: Minh (R&D đào tạo golf) · Chủ sản phẩm duyệt: Vũ Anh Long
+Phiên bản: **v0.7** · Ngày: 27/09/2026 · Người soạn: Minh (R&D đào tạo golf) · Chủ sản phẩm duyệt: Vũ Anh Long
+
+**Mới ở v0.7:** thêm mục **7b — hạng tài khoản HLV (Standard / Coach)** và mục **7c — ba mini app sẽ nhập về sau** trong `00-tong-quan.md`. Standard miễn phí với hạn mức 50 học viên · 5 lớp · 100 MB. Kèm nguyên tắc phân loại tính năng, lằn ranh không khoá paywall quyền của phụ huynh, và trường `coach_plan` phải có ngay từ đợt 6.
+
+**Mới ở v0.6:** thêm **đợt 6 — lớp 1-1 và giáo án riêng** (`08`, đủ chi tiết để build) và **đợt 7 — sàn kết nối HLV** (`09`, khung đã chốt). Kèm theo: bảng dữ liệu của hai đợt mới trong `01`, hai nhóm thông báo K và M trong `phu-luc-F`, và 8 việc còn mở D28–D35.
+
+**Mới ở v0.5:** thêm `phu-luc-F-thong-bao.md` — ma trận thông báo đầy đủ, gồm thông báo đẩy lên điện thoại (Web Push), nhóm thông báo cho HLV và cho học viên, quy tắc bảo vệ trẻ em và quy tắc chống làm phiền.
 
 ## 1. Bộ tài liệu gồm những gì
 
@@ -13,12 +19,15 @@ Phiên bản: **v0.4** · Ngày: 23/09/2026 · Người soạn: Minh (R&D đào 
 | `04-dot-3-diem-qua-bxh.md` | Đợt 3: điểm thưởng, kho quà, tem đối tác, giải đấu, BXH Golf Trường học Việt Nam | Khung đã chốt — viết chi tiết sau |
 | `05-dot-4-goi-thanh-toan-ho-so.md` | Đợt 4: gói Premium, thanh toán, hồ sơ học bổng | Khung đã chốt — viết chi tiết sau |
 | `07-dot-5-thu-vien-tro-choi.md` | Đợt 5: kho trò chơi và hoạt động dạy golf cho HLV, gợi ý theo buổi, gói VIP/Diamond | Khung đã chốt — viết chi tiết sau |
+| `08-dot-6-lop-1-1.md` | Đợt 6: chương trình 1-1, hồ sơ học viên hai mức, giáo án riêng, lịch và đặt buổi, chạy buổi học, nhận xét, bài tập, đánh giá | **Đủ chi tiết để build** |
+| `09-dot-7-san-ket-noi-hlv.md` | Đợt 7: 5 nhóm HLV, xác minh, hồ sơ công khai, tìm và so sánh, giá/combo/coupon, gói Coach, testimonial, AI soạn bài giới thiệu | Khung đã chốt — viết chi tiết sau |
 | `06-cong-nghe-chi-phi.md` | Công nghệ, tài khoản cần đăng ký, chi phí dự kiến, môi trường | Hoàn chỉnh |
 | `phu-luc-A-file-mau-nhap.md` | File Excel mẫu nhập danh sách và lịch sử khoá học | Hoàn chỉnh |
 | `phu-luc-B-ky-nang-L1-L3.md` | Danh mục kỹ năng Level 1–3 (bản nháp) | **Chờ anh Long duyệt** |
 | `phu-luc-C-bang-diem.md` | Bảng điểm thưởng, thang điểm giải đấu, hệ số | Tạm dùng, admin chỉnh được |
 | `phu-luc-D-viec-con-mo.md` | Những việc chưa chốt | Cập nhật liên tục |
 | `phu-luc-E-danh-muc-tro-choi.md` | Chỉ mục 71 trò chơi CGI R&A và SNAG Golf cho kho trò chơi đợt 5 | Hoàn chỉnh phần chỉ mục |
+| `phu-luc-F-thong-bao.md` | **Ma trận thông báo cả 5 đợt**: kênh, Web Push, ai nhận gì ở đợt nào, bật/tắt, bảo vệ trẻ em, chống làm phiền, dữ liệu, chi phí | **Đủ chi tiết để build** — chờ anh Long duyệt mục 4 |
 
 Điều khoản sử dụng và Chính sách bảo mật (V30) **chưa có trong bản này**, sẽ soạn ở giai đoạn sau và cần luật sư rà trước khi ra mắt.
 
@@ -50,3 +59,4 @@ thành các bước, mỗi bước chạy thử được. Chờ tôi duyệt r�
 7. **Thay đổi cơ sở dữ liệu bằng file migration** lưu trong repository. Có file dữ liệu mẫu (seed) để chạy thử.
 8. **Viết kiểm thử tự động** cho các quy tắc có tính tiền và điểm, kích hoạt mã, gộp học viên, phân quyền.
 9. **Khi tài liệu mơ hồ, hỏi lại, không tự đoán.**
+10. **Mọi thông báo đi qua một cơ chế duy nhất.** Không gửi tin trực tiếp từ trong code nghiệp vụ. Mỗi loại thông báo phải có một dòng trong `notification_types` (danh mục lấy từ `phu-luc-F` mục 4), và phải đi qua lớp gửi tin chung để được kiểm tra: người dùng có tắt loại này không, có đang trong giờ im lặng không, có vượt trần trong ngày không, có phải tài khoản học viên chưa được phụ huynh bật không.

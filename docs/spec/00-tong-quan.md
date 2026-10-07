@@ -161,7 +161,64 @@ Mặc định ban đầu. Admin chỉnh được.
 
 Giá các gói do admin tự nhập và chỉnh.
 
-## 8. Lộ trình build 4 đợt
+### 7b. Hạng tài khoản HLV (anh Long chốt 27/09/2026)
+
+Bảng trên là gói dành cho **phụ huynh**. HLV có bậc thang riêng, gồm hai hạng.
+
+| | **Standard** | **Coach** |
+|---|---|---|
+| Phí | **Miễn phí**, có hạn mức | Trả phí theo kỳ (tháng / quý / năm) |
+| Dùng để | Dạy và quản lý học viên **của chính mình** | Như Standard, cộng công cụ làm nhanh và nhận thêm học viên |
+| Hiện trên sàn (đợt 7) | Chỉ khi **đã được xác thực**, và luôn xếp **cuối cùng dưới mọi nhóm HLV khác** | Xếp theo nhóm HLV như mục 2 của `09` |
+| Hạn mức mặc định | **50 học viên · 5 lớp · 100 MB ảnh/video** | Cao hơn nhiều, admin đặt |
+
+**Nguyên tắc phân loại tính năng** — dùng để xếp mọi tính năng mới sau này, khỏi phải hỏi lại từng cái:
+
+> **Standard** là mọi thứ cần để **dạy được và quản lý được** học viên của mình.
+> **Coach** là mọi thứ giúp HLV **làm nhanh hơn, trông chuyên nghiệp hơn, và có thêm học viên**.
+
+| Tính năng | Standard | Coach |
+|---|---|---|
+| Quản lý học viên, lớp | Có | Có |
+| Lịch dạy, khớp lịch, nhắc buổi | Có | Có |
+| Điểm danh, bấm bắt đầu và kết thúc buổi | Có | Có |
+| Nhận xét sau buổi (thư viện câu gợi ý) | Có | Có |
+| Giao bài tập từ thư viện chung | Có | Có |
+| Báo cáo cơ bản gửi phụ huynh | Có | Có |
+| **Soạn giáo án và kế hoạch bài giảng trong 1 phút** | — | Có |
+| Thư viện trò chơi (đợt 5) | Phần miễn phí (CGI, SNAG) | Toàn bộ |
+| Hồ sơ công khai trên sàn, nhận học viên mới | Chỉ khi đã xác thực, xếp cuối | Có |
+| AI soạn bài giới thiệu HLV | — | Có |
+| Báo cáo nâng cao, xuất tài liệu mang tên HLV | — | Có |
+
+Admin bật/tắt **từng dòng** trong dashboard, và đặt lại mọi hạn mức. Không viết cứng trong code.
+
+**Ai được hạng Coach miễn phí**
+- HLV Dự án, HLV VN Centre, HLV đối tác VN Centre: **tự động** trong suốt thời hạn hợp tác. Hết hạn thì phải tự đăng ký gói.
+- **Giáo viên thể chất nhà trường có chứng nhận CGI hoặc SNAG Golf Coach**: mở được hạng Coach trong thời gian hợp tác với VN Centre và Dự án.
+- Giáo viên thể chất nhà trường **không có** hai chứng nhận trên, và **trợ giảng**: không có gói riêng. Họ mượn quyền theo lớp được gán — đủ để làm việc trong lớp của trường, không mở được tính năng Coach.
+
+**Lằn ranh không được chạm — quan trọng hơn mọi dòng ở trên**
+
+Không bao giờ khoá sau paywall những thứ thuộc về phụ huynh và các con: **nhận xét sau buổi · thông báo cho phụ huynh · tiến độ học của con · hồ sơ và level của con**. Những thứ này luôn có ở mọi hạng, kể cả khi HLV dùng Standard miễn phí.
+
+Lý do: nếu quyền theo dõi con phụ thuộc vào việc HLV có trả tiền hay không thì gia đình trở thành con tin trong một giao dịch họ không tham gia. Giới hạn của Standard nằm ở **dung lượng và số lượng**, không nằm ở **quyền của phụ huynh**.
+
+**Trường dữ liệu có từ đợt 6.** `coach_plan` phải tồn tại ngay ở đợt 6, dù lúc đó chưa thu tiền ai: HLV VN Centre mặc định là `coach`. Đến đợt 7 mới bật phần thu phí và phần chặn theo hạn mức. Làm vậy thì không phải sửa lại toàn bộ phân quyền.
+
+### 7c. Các mini app sẽ nhập về sau (anh Long chốt 27/09/2026)
+
+Ba sản phẩm đang chạy riêng để thử nghiệm thực tế, sau khi ổn định sẽ nhập vào Golf Passport:
+
+| Mini app | Dành cho | Nhập vào đâu |
+|---|---|---|
+| **Golf PE** (VN CENTRE – Golf Học Đường) | Giáo viên thể chất, HLV | Tính năng **soạn giáo án nhanh** của hạng Coach (đợt 6–7) |
+| **Finn Golf Fit** | Học viên nhỏ tuổi | Chế độ **hướng dẫn tự tập luyện**, đợt 3 mục 2c |
+| **VN Centre Golf & Fitness** | Người lớn | Cùng chỗ với trên, nhóm tuổi 13+ và người lớn |
+
+Vì vậy khi thiết kế dữ liệu của đợt 3 và đợt 6, **phải chừa chỗ** cho nội dung của ba app này, không coi chúng là sản phẩm tách rời.
+
+## 8. Lộ trình build 7 đợt
 
 | Đợt | Phạm vi | Tài liệu |
 |---|---|---|
@@ -170,6 +227,12 @@ Giá các gói do admin tự nhập và chỉnh.
 | **3 · Điểm, quà, bảng xếp hạng** | Điểm thưởng, kho quà và đổi quà, tem đối tác, giải đấu và kết quả chặng, BXH Golf Trường học Việt Nam, thu lệ phí giải và phí ship | `04` — khung |
 | **4 · Gói trả phí và hồ sơ** | Premium, thanh toán thẻ, mã tặng và đổi điểm lấy Premium, hồ sơ học bổng, dữ liệu phụ huynh tự khai, thành tích giải ngoài | `05` — khung |
 | **5 · Thư viện trò chơi cho HLV** | Kho trò chơi và hoạt động dạy golf, gợi ý theo buổi, HLV đóng góp, mở khoá theo gói VIP/Diamond | `07` — khung |
+| **6 · Lớp 1-1 và giáo án riêng** | HLV VN Centre dạy riêng một học viên: hồ sơ học viên hai mức, giáo án cá nhân hoá, lịch trống và đặt buổi, bấm bắt đầu/kết thúc, nhận xét sau buổi, giao và chấm bài tập, phụ huynh theo dõi và đánh giá | `08` — chi tiết |
+| **7 · Sàn kết nối HLV** | HLV ngoài tự đăng ký, admin duyệt mới hiển thị; 5 nhóm HLV; xác minh chứng chỉ; tìm và so sánh HLV; bảng giá, combo, coupon; gói Coach trả phí; testimonial; AI soạn bài giới thiệu HLV | `09` — khung |
+
+**Ranh giới đợt 6 và đợt 7:** đợt 6 là công cụ nội bộ cho khoảng 20 HLV đang có, rủi ro thấp, dùng lại gần hết những gì đợt 2 và 3 đã xây. Đợt 7 mới mở ra ngoài và biến VN Centre thành đơn vị vận hành nền tảng — cần quy chế sàn, quy trình xác minh và luật sư rà trước. Không gộp hai đợt.
+
+**Ba quy tắc an toàn trẻ em áp dụng cho cả hai đợt, không có ngoại lệ:** phụ huynh là người đặt lịch, không phải các con · không có tin nhắn riêng giữa HLV và học viên · HLV chưa được VN Centre xác thực không nhận dạy các con dưới 18 tuổi.
 
 ### Thí điểm đợt 1
 
