@@ -64,7 +64,7 @@ export const LEGAL: Record<'terms' | 'privacy', Record<'vi' | 'en', Doc>> = {
         { h: '2. Mục đích', p: [
           'Lưu và hiển thị hồ sơ golf, cấp sổ, chứng nhận, ghi nhận hoàn thành và điểm tích luỹ.',
           'Gửi mã xác thực và thông báo liên quan đến hồ sơ.',
-          'Chỉ khi bạn đồng ý "VN Centre được liên hệ": tư vấn, gửi thông tin các lớp golf. Bạn rút lại đồng ý này bất cứ lúc nào trong mục Tài khoản.' ] },
+          'Chỉ khi bạn đồng ý "BTC (Ban tổ chức) được liên hệ": tư vấn, gửi các thông tin golf. Bạn rút lại đồng ý này bất cứ lúc nào trong mục Tài khoản.' ] },
         { h: '3. Ai xem được', p: [
           'Phụ huynh, người giám hộ được liên kết xem hồ sơ của con. Huấn luyện viên, nhân viên sự kiện, nhà trường chỉ xem phần cần cho công việc và không xem được số điện thoại, email của phụ huynh hay người chơi.',
           'Trang xác thực chứng nhận công khai chỉ hiện tên, loại chứng nhận, chương trình và ngày cấp.',
@@ -89,7 +89,7 @@ export const LEGAL: Record<'terms' | 'privacy', Record<'vi' | 'en', Doc>> = {
         { h: '2. Purposes', p: [
           'Keeping and showing golf records; issuing passports, certificates; recording completion and points.',
           'Sending verification codes and notifications about the record.',
-          'Only if you agree that "VN Centre may contact me": advice and information about golf classes. You can withdraw this consent at any time under Account.' ] },
+          'Only if you agree that "the organisers may contact me": advice and golf information. You can withdraw this consent at any time under Account.' ] },
         { h: '3. Who can see it', p: [
           'Linked parents and guardians see their child\'s record. Coaches, event staff and schools only see what their work requires and never see parents\' or players\' phone numbers or emails.',
           'The public certificate verification page only shows the name, certificate type, programme and issue date.',
