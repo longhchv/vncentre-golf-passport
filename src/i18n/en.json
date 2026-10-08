@@ -1421,7 +1421,7 @@
     "batchCreated": "Card batch created",
     "decalHint": "Open the batch → \"Export decal PDF\". Default sticker 25 × 30 mm (7 × 8 per A4 sheet), fitting the QR area on a 90 × 55 mm card; adjustable before export. Print one test sheet with cut lines first.",
     "staff": "Event organisers (gift counter)",
-    "staffHint": "Organiser accounts only see the Gift counter: scan cards, register on behalf, enter scores, complete, redeem gifts, view live tracking; no admin access, no player phone or email. Sign in at app.vncentre.net/login, \"Staff\" tab.",
+    "staffHint": "Organiser accounts only see the Gift counter: scan cards, register on behalf, enter scores, complete, redeem gifts, review photo confirmations, view live tracking; no admin access, no player phone or email. Sign in at app.vncentre.net/login, \"Staff\" tab.",
     "addStaff": "Add",
     "staffInvited": "Invitation email sent and assigned to the event",
     "staffAdded": "Account created and assigned to the event",

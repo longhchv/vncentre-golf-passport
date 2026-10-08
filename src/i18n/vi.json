@@ -1421,7 +1421,7 @@
     "batchCreated": "Đã tạo lô thẻ",
     "decalHint": "Mở lô thẻ → \"Xuất PDF decal\". Bố cục tem mặc định 25 × 30 mm (7 × 8 tem/tờ A4), vừa ô QR trên thẻ 90 × 55 mm; chỉnh được trước khi xuất. In thử một tờ có đường cắt để căn chỉnh.",
     "staff": "BTC sự kiện trải nghiệm (quầy đổi quà)",
-    "staffHint": "Tài khoản BTC chỉ có màn hình Quầy đổi quà: quét thẻ, ghi tên hộ, nhập điểm, bấm hoàn thành, đổi quà, xem bảng theo dõi; không vào được trang quản trị, không thấy SĐT, email người chơi. Đăng nhập tại app.vncentre.net/login, chọn tab \"Nhân viên\".",
+    "staffHint": "Tài khoản BTC chỉ có màn hình Quầy đổi quà: quét thẻ, ghi tên hộ, nhập điểm, bấm hoàn thành, đổi quà, duyệt ảnh tự xác nhận, xem bảng theo dõi; không vào được trang quản trị, không thấy SĐT, email người chơi. Đăng nhập tại app.vncentre.net/login, chọn tab \"Nhân viên\".",
     "addStaff": "Thêm",
     "staffInvited": "Đã gửi email mời đặt mật khẩu và gán vào sự kiện",
     "staffAdded": "Đã tạo tài khoản và gán vào sự kiện",

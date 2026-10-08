@@ -14,11 +14,14 @@ do $$
 declare
   adm uuid := gen_random_uuid();
   staff uuid := gen_random_uuid();
+  other_staff uuid := gen_random_uuid();   -- BTC của sự kiện khác
+  ev2 uuid;
   ev uuid; batch uuid; a text; b text; r jsonb; ok boolean; cl uuid; i int; n_students bigint; n_guests bigint;
 begin
   insert into auth.users (id, instance_id, aud, role, email, email_confirmed_at) values
     (adm, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'test-ev4-adm@example.test', now()),
-    (staff, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'test-ev4-staff@example.test', now());
+    (staff, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'test-ev4-staff@example.test', now()),
+    (other_staff, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'test-ev4-other@example.test', now());
   insert into public.user_roles (user_id, role) values (adm, 'admin');
   perform pg_temp.act_as(adm);
   r := public.admin_dashboard();
@@ -26,6 +29,8 @@ begin
   ev := public.admin_create_event('{"name_vi":"Sự kiện thử S4","event_date":"2026-10-10"}');
   batch := public.create_event_card_batch(ev, 3);
   perform public.set_event_staff(ev, staff, true);
+  ev2 := public.admin_create_event('{"name_vi":"Sự kiện khác S4","event_date":"2026-10-11"}');
+  perform public.set_event_staff(ev2, other_staff, true);
   perform pg_temp.act_as(null);
   update public.events set status = 'open' where id = ev;
   select passport_code into a from public.passports where batch_id = batch order by passport_code offset 0 limit 1;
@@ -61,15 +66,21 @@ begin
     raise exception 'FAIL E-R4';
   end if;
 
-  ------------------------------------------------------------------ Hàng chờ: nhân viên sự kiện không xem được; admin thấy 1 yêu cầu
-  perform pg_temp.act_as(staff);
+  ------------------------------------------------------------------ Hàng chờ: BTC sự kiện khác không xem/duyệt được; BTC của sự kiện thấy 1 yêu cầu, không có SĐT
+  perform pg_temp.act_as(other_staff);
   ok := false;
   begin perform public.event_claims_queue(ev); exception when insufficient_privilege then ok := true; end;
-  if not ok then raise exception 'FAIL: event_staff xem hàng chờ ảnh'; end if;
-  perform pg_temp.act_as(adm);
+  if not ok then raise exception 'FAIL: BTC sự kiện khác xem hàng chờ ảnh'; end if;
+  perform pg_temp.act_as(staff);
   r := public.event_claims_queue(ev);
-  if jsonb_array_length(r) <> 1 or r -> 0 ->> 'full_name' <> 'Con Ảnh' then raise exception 'FAIL hàng chờ: %', r; end if;
+  if jsonb_array_length(r) <> 1 or r -> 0 ->> 'full_name' <> 'Con Ảnh' or r::text ~ '0912000888|\+84' then raise exception 'FAIL hàng chờ: %', r; end if;
+  if jsonb_array_length(public.event_station_list(ev)) <> 4 then raise exception 'FAIL: BTC không lấy được danh sách trạm'; end if;
   cl := (r -> 0 ->> 'id')::uuid;
+  perform pg_temp.act_as(other_staff);
+  ok := false;
+  begin perform public.event_review_claim(cl, false, '{}', 'x'); exception when insufficient_privilege then ok := true; end;
+  if not ok then raise exception 'FAIL: BTC sự kiện khác duyệt được ảnh'; end if;
+  perform pg_temp.act_as(staff);
 
   ------------------------------------------------------------------ Từ chối cần lý do → rejected, người chơi thấy lý do, gửi lại được
   ok := false;
@@ -96,8 +107,8 @@ begin
   begin perform public.event_claim_check(a); exception when invalid_parameter_value then ok := sqlerrm in ('too_many_claims', 'claim_not_allowed'); end;
   if not ok then raise exception 'FAIL: quá số yêu cầu'; end if;
 
-  ------------------------------------------------------------------ E-R6: duyệt khi thiếu trạm bị chặn; đủ 4 trạm → completed (self_claim) + chứng nhận
-  perform pg_temp.act_as(adm);
+  ------------------------------------------------------------------ E-R6: duyệt khi thiếu trạm bị chặn; đủ 4 trạm → completed (self_claim) + chứng nhận (BTC duyệt)
+  perform pg_temp.act_as(staff);
   ok := false;
   begin perform public.event_review_claim(cl, true, '{"putt":"5","chip":"5","pitch":"0"}'); exception when invalid_parameter_value then ok := sqlerrm like 'stations_incomplete:%'; end;
   if not ok then raise exception 'FAIL E-R6 khi duyệt ảnh'; end if;

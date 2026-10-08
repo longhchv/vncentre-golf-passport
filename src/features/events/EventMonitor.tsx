@@ -63,7 +63,7 @@ interface Claim {
 }
 interface StationLite { code: string; name_vi: string; name_en: string; score_step: number; min_score_to_complete: number; sort_order: number }
 
-/** Hàng chờ xác nhận ảnh của sự kiện (E5 bước 4–5; tách khỏi F12). Chỉ admin. */
+/** Hàng chờ xác nhận ảnh của sự kiện (E5 bước 4–5; tách khỏi F12). Admin và BTC của sự kiện. */
 export function ClaimsQueue({ eventId }: { eventId: string }) {
   const { t } = useTranslation()
   const [status, setStatus] = useState<'pending' | 'rejected' | 'approved'>('pending')
@@ -77,9 +77,9 @@ export function ClaimsQueue({ eventId }: { eventId: string }) {
     },
   })
   const stations = useQuery({
-    queryKey: ['event_stations', eventId],
+    queryKey: ['event_station_list', eventId],
     queryFn: async () => {
-      const { data, error } = await supabase!.from('event_stations').select('*').eq('event_id', eventId).order('sort_order')
+      const { data, error } = await supabase!.rpc('event_station_list', { p_event_id: eventId })
       if (error) throw error
       return data as StationLite[]
     },
