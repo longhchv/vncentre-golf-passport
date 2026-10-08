@@ -1442,7 +1442,7 @@
     "phoneOptionalStaff": "Có thể để trống khi ghi tên hộ.",
     "age": "Tuổi",
     "residence": "Nơi ở",
-    "contactConsent": "Tôi đồng ý để VN Centre liên hệ, gửi thông tin các lớp golf",
+    "contactConsent": "Tôi đồng ý để BTC liên hệ, gửi các thông tin golf",
     "agreeLine": "Bằng việc ghi tên, bạn đồng ý với",
     "register": "Ghi tên",
     "registeredLine": "Đã ghi tên {{name}}, thẻ số {{code}}.",

@@ -1442,7 +1442,7 @@
     "phoneOptionalStaff": "May be left empty when registering on behalf.",
     "age": "Age",
     "residence": "Where you live",
-    "contactConsent": "I agree that VN Centre may contact me about golf classes",
+    "contactConsent": "I agree that the organisers may contact me and send golf information",
     "agreeLine": "By registering you agree to the",
     "register": "Register",
     "registeredLine": "Registered {{name}}, card {{code}}.",
