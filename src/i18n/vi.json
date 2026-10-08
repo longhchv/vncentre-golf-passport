@@ -66,7 +66,7 @@
     "coach": "Huấn luyện viên",
     "school": "Nhà trường",
     "admin": "Quản trị",
-    "event": "Nhân viên sự kiện"
+    "event": "BTC sự kiện"
   },
   "status": {
     "version": "Phiên bản",
@@ -316,7 +316,7 @@
     "school_manager": "Quản lý trường",
     "pe_teacher": "Giáo viên thể chất",
     "partner": "Đối tác",
-    "event_staff": "Ban tổ chức giải"
+    "event_staff": "BTC sự kiện trải nghiệm"
   },
   "students": {
     "searchPlaceholder": "Tên, mã học viên hoặc SĐT phụ huynh",
@@ -1420,8 +1420,8 @@
     "createBatch": "Tạo lô thẻ",
     "batchCreated": "Đã tạo lô thẻ",
     "decalHint": "Mở lô thẻ → \"Xuất PDF decal\". Bố cục tem mặc định 25 × 30 mm (7 × 8 tem/tờ A4), vừa ô QR trên thẻ 90 × 55 mm; chỉnh được trước khi xuất. In thử một tờ có đường cắt để căn chỉnh.",
-    "staff": "Nhân viên quầy đổi quà / BTC",
-    "staffHint": "Nhân viên sự kiện ghi tên hộ, nhập điểm, bấm hoàn thành, đổi quà; không thấy SĐT, email người chơi.",
+    "staff": "BTC sự kiện trải nghiệm (quầy đổi quà)",
+    "staffHint": "Tài khoản BTC chỉ có màn hình Quầy đổi quà: quét thẻ, ghi tên hộ, nhập điểm, bấm hoàn thành, đổi quà, xem bảng theo dõi; không vào được trang quản trị, không thấy SĐT, email người chơi. Đăng nhập tại app.vncentre.net/login, chọn tab \"Nhân viên\".",
     "addStaff": "Thêm",
     "staffInvited": "Đã gửi email mời đặt mật khẩu và gán vào sự kiện",
     "staffAdded": "Đã tạo tài khoản và gán vào sự kiện",

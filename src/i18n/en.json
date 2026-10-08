@@ -66,7 +66,7 @@
     "coach": "Coach",
     "school": "School",
     "admin": "Admin",
-    "event": "Event staff"
+    "event": "Event organisers"
   },
   "status": {
     "version": "Version",
@@ -316,7 +316,7 @@
     "school_manager": "School manager",
     "pe_teacher": "PE teacher",
     "partner": "Partner",
-    "event_staff": "Event staff"
+    "event_staff": "Event organiser (experience)"
   },
   "students": {
     "searchPlaceholder": "Name, student code or parent phone",
@@ -1420,8 +1420,8 @@
     "createBatch": "Create batch",
     "batchCreated": "Card batch created",
     "decalHint": "Open the batch → \"Export decal PDF\". Default sticker 25 × 30 mm (7 × 8 per A4 sheet), fitting the QR area on a 90 × 55 mm card; adjustable before export. Print one test sheet with cut lines first.",
-    "staff": "Gift counter staff / organisers",
-    "staffHint": "Event staff register players, enter scores, complete and redeem gifts; they cannot see players' phone or email.",
+    "staff": "Event organisers (gift counter)",
+    "staffHint": "Organiser accounts only see the Gift counter: scan cards, register on behalf, enter scores, complete, redeem gifts, view live tracking; no admin access, no player phone or email. Sign in at app.vncentre.net/login, \"Staff\" tab.",
     "addStaff": "Add",
     "staffInvited": "Invitation email sent and assigned to the event",
     "staffAdded": "Account created and assigned to the event",

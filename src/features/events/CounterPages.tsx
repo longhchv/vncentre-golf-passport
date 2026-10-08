@@ -13,6 +13,7 @@ import { useToast } from '@/components/ui/toast'
 import { QrScanner } from '@/features/passports/QrScanner'
 import { eventErrorText, RegistrationForm, type RegistrationData } from './EventCard'
 import { EVENT_TONE, type EventStatus } from './EventsAdmin'
+import { LiveBoard } from './EventMonitor'
 
 interface MyEvent { id: string; name_vi: string; name_en: string; event_date: string; venue: string | null; status: EventStatus }
 interface Station { id: string; code: string; name_vi: string; name_en: string; score_step: number; min_score_to_complete: number; max_score: number | null; score: number | null }
@@ -102,6 +103,7 @@ export function CounterPage() {
       ) : (
         <CardPanel eventId={eventId} code={code} onNext={next} />
       )}
+      {!code && <LiveBoard eventId={eventId} />}
     </div>
   )
 }
