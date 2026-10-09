@@ -42,7 +42,7 @@ export default defineConfig({
         // Chỉ lưu sẵn phần lõi; các gói lớn của admin (Excel, PDF, camera) lưu khi dùng lần đầu
         globPatterns: ['**/*.{css,html,ico,png,svg,woff2,webmanifest}', 'assets/index-*.js', 'mascot-256.webp'],
         // Font của chứng nhận chỉ tải khi mở chứng nhận
-        globIgnores: ['**/noto-serif-*', '**/great-vibes-*', '**/montserrat-*', 'cert/**'],
+        globIgnores: ['**/noto-serif-*', '**/great-vibes-*', '**/montserrat-*', 'cert/**', 'kit/**'],
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/assets/') && url.pathname.endsWith('.js'),
@@ -57,7 +57,8 @@ export default defineConfig({
         ],
         navigateFallback: '/index.html',
         // Không cache API Supabase: dữ liệu học viên luôn lấy mới
-        navigateFallbackDenylist: [/^\/functions\//],
+        // /kit/: trang tĩnh riêng (bộ kit Đại sứ truyền thông), không trả về app
+        navigateFallbackDenylist: [/^\/functions\//, /^\/kit\//],
       },
     }),
   ],
