@@ -1626,5 +1626,49 @@
     "reasonPlaceholder": "Lý do từ chối (ảnh mờ, thiếu dấu…)",
     "approved": "Đã duyệt, chứng nhận đã cấp",
     "rejected": "Đã từ chối"
+  },
+  "crew": {
+    "title": "Nhân sự sự kiện (thẻ đeo)",
+    "hint": "Dán danh sách, mỗi dòng: Họ tên; Mã ô; SĐT hoặc email; Năm sinh (không bắt buộc). Ghép người đã có theo SĐT/email; dưới 11 tuổi thì SĐT/email là của phụ huynh. Mỗi người nhận mã VNC trọn đời và một Thẻ nhân sự; QR thẻ đeo là link bên dưới.",
+    "check": "Kiểm tra {{n}} dòng",
+    "import": "Nhập {{n}} người",
+    "imported": "Đã nhập {{n}} người",
+    "name": "Họ tên",
+    "slot": "Ô",
+    "contact": "Liên hệ",
+    "result": "Kết quả",
+    "child": "Dưới 11 tuổi",
+    "action": {
+      "reuse": "Dùng hồ sơ có sẵn",
+      "new_self": "Tạo hồ sơ mới",
+      "new_self_account": "Tạo hồ sơ, gắn tài khoản có sẵn",
+      "new_child": "Tạo hồ sơ con dưới phụ huynh"
+    },
+    "alreadyAssigned": "đã ở ô này",
+    "error": {
+      "name_required": "Thiếu họ tên",
+      "slot_not_found": "Mã ô không có",
+      "contact_none": "Thiếu SĐT hoặc email",
+      "contact_invalid": "SĐT / email chưa đúng",
+      "birth_year_invalid": "Năm sinh chưa đúng",
+      "slot_duplicated": "Ô bị trùng trong danh sách",
+      "slot_taken": "Ô đã có người: {{name}}",
+      "student_not_found": "Không tìm thấy hồ sơ đã chọn"
+    },
+    "suspect": {
+      "same_name_other_contact": "Đã có người cùng tên (khác liên hệ)",
+      "contact_other_name": "Liên hệ này đã gắn với người tên khác"
+    },
+    "chooseSkip": "Chưa chọn (bỏ qua dòng này)",
+    "useExisting": "Dùng hồ sơ {{name}} · {{code}}",
+    "createNew": "Tạo hồ sơ mới",
+    "suspectHint": "Dòng nghi trùng: chọn dùng hồ sơ có sẵn hoặc tạo mới rồi bấm Nhập. Không chọn thì dòng đó được bỏ qua.",
+    "roster": "Danh sách nhân sự ({{n}})",
+    "copy": "Sao chép bảng",
+    "vnc": "Mã VNC",
+    "link": "Link QR thẻ đeo",
+    "progress": "Việc",
+    "progressValue": "{{done}}/{{total}} xong",
+    "blockedN": "{{n}} vướng"
   }
 }

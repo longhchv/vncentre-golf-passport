@@ -1626,5 +1626,49 @@
     "reasonPlaceholder": "Reason (blurry photo, missing stamps…)",
     "approved": "Approved, certificate issued",
     "rejected": "Rejected"
+  },
+  "crew": {
+    "title": "Event crew (badges)",
+    "hint": "Paste a list, one per line: Full name; Slot; Phone or email; Birth year (optional). Existing people are matched by phone/email; under 11 the phone/email is the parent's. Each person gets a lifelong VNC code and a Staff card; the badge QR is the link below.",
+    "check": "Check {{n}} lines",
+    "import": "Import {{n}} people",
+    "imported": "Imported {{n}} people",
+    "name": "Full name",
+    "slot": "Slot",
+    "contact": "Contact",
+    "result": "Result",
+    "child": "Under 11",
+    "action": {
+      "reuse": "Use existing profile",
+      "new_self": "Create new profile",
+      "new_self_account": "Create profile, link existing account",
+      "new_child": "Create child profile under parent"
+    },
+    "alreadyAssigned": "already in this slot",
+    "error": {
+      "name_required": "Missing name",
+      "slot_not_found": "Unknown slot",
+      "contact_none": "Missing phone or email",
+      "contact_invalid": "Invalid phone / email",
+      "birth_year_invalid": "Invalid birth year",
+      "slot_duplicated": "Slot repeated in the list",
+      "slot_taken": "Slot already taken: {{name}}",
+      "student_not_found": "Selected profile not found"
+    },
+    "suspect": {
+      "same_name_other_contact": "Someone with the same name exists (different contact)",
+      "contact_other_name": "This contact belongs to someone with another name"
+    },
+    "chooseSkip": "Not chosen (skip this line)",
+    "useExisting": "Use profile {{name}} · {{code}}",
+    "createNew": "Create new profile",
+    "suspectHint": "Possible duplicates: choose an existing profile or create a new one, then Import. Unchosen lines are skipped.",
+    "roster": "Crew list ({{n}})",
+    "copy": "Copy table",
+    "vnc": "VNC code",
+    "link": "Badge QR link",
+    "progress": "Tasks",
+    "progressValue": "{{done}}/{{total}} done",
+    "blockedN": "{{n}} blocked"
   }
 }

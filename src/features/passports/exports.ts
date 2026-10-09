@@ -34,7 +34,7 @@ const MM = 72 / 25.4
 
 export const passportUrl = (baseUrl: string, code: string) => `${baseUrl}/p/${code}`
 
-function downloadBlob(data: BlobPart, fileName: string, type: string) {
+export function downloadBlob(data: BlobPart, fileName: string, type: string) {
   const url = URL.createObjectURL(new Blob([data], { type }))
   const a = document.createElement('a')
   a.href = url
