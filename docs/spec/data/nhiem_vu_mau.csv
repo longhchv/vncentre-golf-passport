@@ -1,0 +1,71 @@
+ma_vai,thu_tu,giai_doan_so,giai_doan,gio,khu_vuc,viec_can_lam
+A,1,1,1. Tối 9/10,21h00,,"Chốt danh sách nhân sự, gửi link tab nhiệm vụ cho từng người"
+A,2,1,1. Tối 9/10,21h00,App,"Quét thử thẻ tích điểm trên app.vncentre.net: check-in, nhập điểm, hoàn thành, xác thực email"
+A,3,1,1. Tối 9/10,21h30,Nhóm Zalo,"Gửi toàn đội: giờ tập kết 14h30, trang phục, chỗ gửi xe, số điện thoại điều phối"
+A,4,2,2. Sáng 10/10,10h00,,"Xác nhận với Cục TDTT: mặt bằng, điện 220V, bàn ghế, hàng rào"
+A,5,2,2. Sáng 10/10,12h00,Kho,"Kiểm đủ các thùng đồ theo tab Thùng đồ, giao xe chở"
+A,6,3,3. Setup 14h30–15h55,14h30,Khu golf,"Nhận bàn giao mặt bằng, chốt vị trí các trạm, check-in, quầy quà theo sơ đồ"
+A,7,3,3. Setup 14h30–15h55,15h45,Khu golf,"Họp toàn đội 10 phút: timeline, vị trí từng người, an toàn, cách chấm điểm"
+A,8,3,3. Setup 14h30–15h55,15h55,Khu golf,"Kiểm tra cuối: mọi vị trí sẵn sàng, mọi người đeo thẻ"
+A,9,4,4. Vận hành 16h00–17h55,16h00,Các trạm,"Phát lệnh mở cửa, điều phối cú đánh mở màn cùng Đại sứ"
+A,10,4,4. Vận hành 16h00–17h55,16h00–17h45,Toàn khu,"Đi vòng giữa các trạm, điều tiết hàng chờ, xử lý phát sinh"
+A,11,4,4. Vận hành 16h00–17h55,17h45,Check-in,Phát lệnh ngừng phát thẻ
+A,12,5,5. Kết thúc 17h55–18h30,17h55,Khu golf,"Phát lệnh ngừng đánh, tổ chức trao chứng nhận Đại sứ"
+A,13,5,5. Kết thúc 17h55–18h30,18h00–18h30,Toàn khu,"Giám sát thu dọn, kiểm đếm, bàn giao mặt bằng"
+A,14,6,6. Sau sự kiện,11/10,,"Tổng hợp số thẻ phát, số người hoàn thành, số quà đã trao"
+A,15,6,6. Sau sự kiện,11/10,,"Họp rút kinh nghiệm, điền tab Rút kinh nghiệm"
+B,1,1,1. Tối 9/10,Tối,,"Chuẩn bị lời phổ biến khoảng 2 phút: an toàn, chờ lượt, cách tích điểm, ứng xử đẹp cũng được tính điểm"
+B,2,3,3. Setup 14h30–15h55,14h30,Lối vào,"Dựng khu phổ biến, căng dây cảnh báo, đặt vòng an toàn"
+B,3,3,3. Setup 14h30–15h55,15h45,Khu golf,Dự họp toàn đội
+B,4,4,4. Vận hành 16h00–17h55,16h00–17h45,Khu phổ biến,Phổ biến cho từng nhóm trước khi vào trạm
+B,5,4,4. Vận hành 16h00–17h55,Liên tục,Toàn khu,"Nhắc khoảng cách an toàn, không vung gậy khi có người đứng gần"
+B,6,5,5. Kết thúc 17h55–18h30,18h00,Lối vào,"Thu dây cảnh báo, vòng an toàn về thùng"
+C,1,1,1. Tối 9/10,Tối,,"Xem lại cách chấm: dấu 10 điểm, dấu 5 điểm; qua trạm khi có ít nhất 1 dấu 5 điểm"
+C,2,2,2. Sáng 10/10,Trước 14h,,"Chuẩn bị đồng phục CGI, giày, mũ, nước uống"
+C,3,3,3. Setup 14h30–15h55,14h30,Trạm,"Nhận dụng cụ trạm từ thùng Thi đấu, dựng trạm theo sơ đồ"
+C,4,3,3. Setup 14h30–15h55,15h30,Trạm,"Đánh thử, kiểm tra mục tiêu và khoảng cách an toàn"
+C,5,3,3. Setup 14h30–15h55,15h45,Khu golf,Dự họp toàn đội
+C,6,3,3. Setup 14h30–15h55,15h55,Trạm,"Nhận dấu điểm, đứng đúng vị trí"
+C,7,4,4. Vận hành 16h00–17h55,16h00,Trạm,Cùng Đại sứ thực hiện cú đánh mở màn
+C,8,4,4. Vận hành 16h00–17h55,16h00–17h55,Trạm,"Hướng dẫn kỹ thuật, cho đánh, đóng dấu điểm cả kỹ thuật lẫn ứng xử"
+C,9,4,4. Vận hành 16h00–17h55,Liên tục,Trạm,"Giữ hàng chờ trật tự, an toàn; báo A khi quá đông"
+C,10,5,5. Kết thúc 17h55–18h30,17h55,Trạm,"Ngừng đánh, thu bóng"
+C,11,5,5. Kết thúc 17h55–18h30,18h00,Trạm,"Thu dọn, đếm dụng cụ, trả về thùng Thi đấu"
+C,12,6,6. Sau sự kiện,Trong 48h,,Đăng bài theo bộ kit truyền thông nếu muốn
+D,1,1,1. Tối 9/10,Tối,,"Chuẩn bị đồng phục, mũ, giày golf; đăng bài theo lịch bộ kit"
+D,2,3,3. Setup 14h30–15h55,15h30,Khu golf,"Có mặt, gặp người chăm sóc Đại sứ"
+D,3,3,3. Setup 14h30–15h55,15h45,Khu golf,Dự họp toàn đội
+D,4,4,4. Vận hành 16h00–17h55,16h00,Trạm,Thực hiện cú đánh mở màn
+D,5,4,4. Vận hành 16h00–17h55,16h00–17h45,Các trạm,"Đánh mẫu, cùng HLV chấm điểm, hướng dẫn các bạn nhỏ"
+D,6,4,4. Vận hành 16h00–17h55,17h00–17h45,Quầy quà,Trao quà cho các bạn hoàn thành
+D,7,5,5. Kết thúc 17h55–18h30,17h55,Khu golf,"Nhận chứng nhận Đại sứ, chụp ảnh tập thể"
+D,8,6,6. Sau sự kiện,Trong 48h,,Đăng bài 4 và 5 theo bộ kit
+E,1,1,1. Tối 9/10,Tối,App,"Mở app trên điện thoại, đăng nhập tài khoản check-in, sạc đầy pin"
+E,2,3,3. Setup 14h30–15h55,15h00,Bàn check-in,"Nhận thẻ tích điểm, bút, sạc dự phòng; bày bàn"
+E,3,3,3. Setup 14h30–15h55,15h30,Bàn check-in,Check-in thử 2 thẻ
+E,4,3,3. Setup 14h30–15h55,15h45,Khu golf,Dự họp toàn đội
+E,5,4,4. Vận hành 16h00–17h55,16h00–17h45,Bàn check-in,"Quét QR thẻ, ghi họ tên và số điện thoại (dưới 30 giây), phát thẻ, chỉ đường tới khu phổ biến"
+E,6,4,4. Vận hành 16h00–17h55,Liên tục,Bàn check-in,Đăng ký hộ người không dùng điện thoại
+E,7,4,4. Vận hành 16h00–17h55,17h45,Bàn check-in,"Ngừng phát thẻ, đếm thẻ còn lại, báo A"
+E,8,5,5. Kết thúc 17h55–18h30,18h00,Bàn check-in,"Thu dọn bàn, trả thẻ thừa vào thùng Check-in"
+F,1,1,1. Tối 9/10,Tối,App,Đăng nhập app quyền quầy quà; kiểm số lượng quà; chuẩn bị dấu ĐÃ ĐỔI QUÀ
+F,2,3,3. Setup 14h30–15h55,15h00,Quầy quà,"Bày quà, treo biển Đổi quà"
+F,3,3,3. Setup 14h30–15h55,15h45,Khu golf,Dự họp toàn đội
+F,4,4,4. Vận hành 16h00–17h55,16h15–17h55,Quầy quà,"Quét thẻ, nhập điểm các trạm, bấm Hoàn thành, phát quà, đóng dấu ĐÃ ĐỔI QUÀ"
+F,5,4,4. Vận hành 16h00–17h55,30 phút một lần,Quầy quà,Báo A số quà còn lại
+F,6,4,4. Vận hành 16h00–17h55,Khi hết quà,Quầy quà,Treo thông báo hết quà; vẫn xác nhận hoàn thành để người chơi nhận chứng nhận số
+F,7,5,5. Kết thúc 17h55–18h30,18h00,Quầy quà,"Kiểm kê quà còn lại, thu dấu, xuất danh sách hoàn thành"
+F,8,6,6. Sau sự kiện,Trong 7 ngày,App,Duyệt ảnh thẻ điểm người chơi tự gửi
+G,1,1,1. Tối 9/10,Tối,,"Sạc pin máy ảnh, format thẻ nhớ, chuẩn bị điện thoại livestream"
+G,2,1,1. Tối 9/10,Tối,Fanpage,Lên lịch bài ngày 10/10 theo lịch truyền thông
+G,3,3,3. Setup 14h30–15h55,15h00,Khu golf,"Chụp không khí setup, hậu trường"
+G,4,4,4. Vận hành 16h00–17h55,16h00,Các trạm,Chụp và quay cú đánh mở màn
+G,5,4,4. Vận hành 16h00–17h55,16h00–17h55,Toàn khu,Livestream hoặc đăng story; chụp các trạm và khoảnh khắc người chơi
+G,6,5,5. Kết thúc 17h55–18h30,17h55,Khu golf,"Chụp trao chứng nhận Đại sứ, ảnh tập thể toàn đội"
+G,7,6,6. Sau sự kiện,Trong 24h,Drive,Đổ ảnh vào thư mục chung đặt tên theo ngày; chọn ảnh gửi Đại sứ và khách mời
+G,8,6,6. Sau sự kiện,Trong 24h,Fanpage,Đăng album và bài tổng kết
+K,1,1,1. Tối 9/10,Tối,Zalo,"Chốt danh sách khách mời, gửi thư mời, điền giờ đón"
+K,2,3,3. Setup 14h30–15h55,Trước giờ đón,Lối vào,"Chuẩn bị thẻ đeo khách mời, nước uống"
+K,3,4,4. Vận hành 16h00–17h55,Theo giờ đón,Khu golf,"Đón khách, giới thiệu khu golf, mời trải nghiệm cú đánh, giao lưu Đại sứ"
+K,4,4,4. Vận hành 16h00–17h55,Khi khách đến,Khu golf,Báo G chụp ảnh khách mời
+K,5,6,6. Sau sự kiện,Trong 24h,Zalo,Gửi ảnh và lời cảm ơn khách mời
