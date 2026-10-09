@@ -1748,6 +1748,29 @@
       "4": "4. Vận hành",
       "5": "5. Kết thúc",
       "6": "6. Sau sự kiện"
+    },
+    "addPerson": "Thêm người",
+    "addDepartment": "Thêm bộ phận",
+    "position": "Vị trí",
+    "positionHint": "Ví dụ: Cổng số 2, Trạm Chipping, Bàn check-in 1 (không bắt buộc)",
+    "contact": "SĐT hoặc email",
+    "contactHint": "Dưới 11 tuổi: ghi SĐT/email của phụ huynh",
+    "birthYear": "Năm sinh",
+    "birthYearHint": "Không bắt buộc; dưới 11 tuổi thì hồ sơ nằm dưới phụ huynh",
+    "chooseOne": "Chọn một cách",
+    "personAdded": "Đã thêm {{name}} · thẻ {{code}}",
+    "departmentAdded": "Đã thêm bộ phận {{name}}",
+    "departmentName": "Tên bộ phận",
+    "departmentNamePlaceholder": "Ví dụ: Hậu cần, Bảo vệ, MC",
+    "badgeLabel": "Nhãn trên thẻ đeo",
+    "badgeLabelHint": "Để trống thì dùng tên bộ phận",
+    "badgeColor": "Màu thẻ đeo",
+    "departmentTasksHint": "Thêm xong, bấm \"Thêm việc cho cả bộ phận\" để giao checklist cho bộ phận mới.",
+    "errors": {
+      "department_exists": "Đã có bộ phận tên này.",
+      "too_many_departments": "Đã hết mã cho bộ phận mới.",
+      "color_invalid": "Màu không hợp lệ.",
+      "name_required": "Nhập tên bộ phận."
     }
   },
   "inv": {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { AlertTriangle, ArrowLeft, Clock, Plus, Trash2, UserMinus } from 'lucide-react'
+import { AlertTriangle, ArrowLeft, Clock, Plus, Trash2, UserMinus, UserPlus } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { formatDateTime } from '@/lib/i18nField'
 import { usePublicBaseUrl } from '@/lib/settings'
@@ -14,6 +14,7 @@ import { useToast } from '@/components/ui/toast'
 import { passportUrl } from '@/features/passports/exports'
 import { CrewAdmin, useCrewDepartments, type CrewMember } from './CrewAdmin'
 import { InventoryPanel } from './Inventory'
+import { AddDepartmentDialog, AddPersonDialog } from './CrewDialogs'
 
 interface Board {
   event: { id: string; name_vi: string; event_date: string; status: string }
@@ -139,6 +140,8 @@ function People({ eventId }: { eventId: string }) {
   const roster = useQuery({ queryKey: ['crew_roster', eventId], queryFn: () => rpc<CrewMember[]>('crew_roster', { p_event_id: eventId }) })
   const [person, setPerson] = useState<CrewMember | null>(null)
   const [deptTask, setDeptTask] = useState(false)
+  const [addPerson, setAddPerson] = useState(false)
+  const [addDept, setAddDept] = useState(false)
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ['crew_roster', eventId] })
     qc.invalidateQueries({ queryKey: ['crew_board', eventId] })
@@ -154,8 +157,12 @@ function People({ eventId }: { eventId: string }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2">
+        <Button onClick={() => setAddPerson(true)}><UserPlus className="h-4 w-4" /> {t('crewBoard.addPerson')}</Button>
         <Button variant="outline" onClick={() => setDeptTask(true)}><Plus className="h-4 w-4" /> {t('crewBoard.addDeptTask')}</Button>
+        <Button variant="outline" onClick={() => setAddDept(true)}><Plus className="h-4 w-4" /> {t('crewBoard.addDepartment')}</Button>
       </div>
+      {addPerson && <AddPersonDialog eventId={eventId} onClose={() => { setAddPerson(false); refresh() }} />}
+      {addDept && <AddDepartmentDialog eventId={eventId} onClose={() => setAddDept(false)} />}
       {[...groups.entries()].map(([role, members]) => (
         <Card key={role} className="space-y-2 p-4">
           <p className="font-bold">{role} <span className="font-normal text-navy/55">· {t('crewBoard.people', { n: members.length })}</span></p>
@@ -204,9 +211,19 @@ function PersonDialog({ eventId, member, onClose }: { eventId: string; member: C
     onError: (e) => toast((e as Error).message, 'error'),
   })
   const [confirmRemove, setConfirmRemove] = useState(false)
+  const [position, setPosition] = useState(member.position ?? '')
+  const savePosition = useMutation({
+    mutationFn: () => rpc('crew_set_position', { p_assignment_id: member.assignment_id, p_position: position }),
+    onSuccess: () => toast(t('common.saved')),
+    onError: (e) => toast((e as Error).message, 'error'),
+  })
   return (
     <Dialog open onClose={onClose} title={`${member.full_name} · ${member.role_name}`}>
       <div className="space-y-3">
+        <div className="flex items-end gap-2">
+          <Field label={t('crewBoard.position')}><Input value={position} onChange={(e) => setPosition(e.target.value)} /></Field>
+          <Button size="sm" variant="outline" disabled={savePosition.isPending || position === (member.position ?? '')} onClick={() => savePosition.mutate()}>{t('common.save')}</Button>
+        </div>
         <Button size="sm" variant="outline" onClick={() => setAdding(true)}><Plus className="h-4 w-4" /> {t('crewBoard.addPersonTask')}</Button>
         <ul className="max-h-[50vh] divide-y divide-navy/10 overflow-y-auto">
           {tasks.data?.map((x) => (

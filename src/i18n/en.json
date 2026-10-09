@@ -1748,6 +1748,29 @@
       "4": "4. Operation",
       "5": "5. Wrap-up",
       "6": "6. After the event"
+    },
+    "addPerson": "Add person",
+    "addDepartment": "Add department",
+    "position": "Position",
+    "positionHint": "E.g. Gate 2, Chipping station, Check-in desk 1 (optional)",
+    "contact": "Phone or email",
+    "contactHint": "Under 11: the parent's phone/email",
+    "birthYear": "Birth year",
+    "birthYearHint": "Optional; under 11 the profile sits under the parent",
+    "chooseOne": "Choose one",
+    "personAdded": "Added {{name}} · card {{code}}",
+    "departmentAdded": "Department {{name}} added",
+    "departmentName": "Department name",
+    "departmentNamePlaceholder": "E.g. Logistics, Security, MC",
+    "badgeLabel": "Badge label",
+    "badgeLabelHint": "Empty = department name",
+    "badgeColor": "Badge colour",
+    "departmentTasksHint": "Then use \"Add task for a department\" to give the new department its checklist.",
+    "errors": {
+      "department_exists": "A department with this name exists.",
+      "too_many_departments": "No more codes for new departments.",
+      "color_invalid": "Invalid colour.",
+      "name_required": "Enter a department name."
     }
   },
   "inv": {
