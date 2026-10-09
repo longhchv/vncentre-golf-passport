@@ -130,6 +130,7 @@ export const router = createBrowserRouter([
   workspaceRoute('event', '/event', EVENT_NAV, [
     { index: true, lazy: page(() => import('@/features/events/CounterPages'), (m) => m.EventStaffHome) },
     { path: ':eventId', lazy: page(() => import('@/features/events/CounterPages'), (m) => m.CounterPage) },
+    { path: ':eventId/crew', lazy: page(() => import('@/features/events/CrewBoard'), (m) => m.CrewBoardPage) },
   ]),
   workspaceRoute('student', '/me', STUDENT_NAV, [
     { index: true, lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.StudentMePage) },

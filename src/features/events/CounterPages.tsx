@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, CheckCircle2, Gift, QrCode, RotateCcw } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Gift, QrCode, RotateCcw, Users } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { checkCode, formatCode } from '@/lib/codes'
 import { formatDate, formatDateTime } from '@/lib/i18nField'
@@ -88,9 +88,12 @@ export function CounterPage() {
   return (
     <div className="mx-auto max-w-md space-y-4">
       <Link to="/event" className="inline-flex items-center gap-1 text-sm font-semibold text-bronze"><ArrowLeft className="h-4 w-4" /> {t('counter.myEvents')}</Link>
-      <div>
-        <h1 className="text-xl font-bold">{t('counter.title')}</h1>
-        {event && <p className="text-sm text-navy/60">{i18n.language === 'en' ? event.name_en : event.name_vi}</p>}
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h1 className="text-xl font-bold">{t('counter.title')}</h1>
+          {event && <p className="text-sm text-navy/60">{i18n.language === 'en' ? event.name_en : event.name_vi}</p>}
+        </div>
+        <Button asChild size="sm" variant="outline"><Link to={`/event/${eventId}/crew`}><Users className="h-4 w-4" /> {t('crewBoard.open')}</Link></Button>
       </div>
       {!code ? (
         <Card className="space-y-3 p-4">
@@ -150,6 +153,20 @@ function CardPanel({ eventId, code, onNext }: { eventId: string; code: string; o
   const redeem = useMutation({
     mutationFn: () => rpc<CounterCard>('counter_redeem', { p_event_id: eventId, p_code: code, p_points: Number(points), p_gift_label: gift || null }),
     onSuccess: (c) => { setErr(null); setPoints(''); setGift(''); setCard(c); toast(t('counter.redeemed', { balance: c.points.balance })) },
+    onError,
+  })
+
+  // Quà trong kho sự kiện: chọn một món → trừ đúng điểm của quà và số quà còn lại
+  const gifts = useQuery({
+    queryKey: ['inv_gifts', eventId],
+    queryFn: () => rpc<{ id: string; name: string; points: number | null; qty_out: number; remaining: number }[]>('inv_gifts', { p_event_id: eventId }),
+  })
+  const redeemGift = useMutation({
+    mutationFn: (itemId: string) => rpc<CounterCard>('counter_redeem_gift', { p_event_id: eventId, p_code: code, p_item_id: itemId }),
+    onSuccess: (c) => {
+      setErr(null); setCard(c); toast(t('counter.redeemed', { balance: c.points.balance }))
+      qc.invalidateQueries({ queryKey: ['inv_gifts', eventId] })
+    },
     onError,
   })
 
@@ -248,6 +265,23 @@ function CardPanel({ eventId, code, onNext }: { eventId: string; code: string; o
               ))}
             </ul>
           )}
+          {(gifts.data?.length ?? 0) > 0 && (
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {gifts.data!.map((g) => {
+                const disabled = redeemGift.isPending || g.remaining <= 0 || g.points == null || g.points > c.points.balance
+                return (
+                  <Button key={g.id} variant="outline" className="h-auto min-h-14 flex-col items-start py-2 text-left" disabled={disabled}
+                    onClick={() => window.confirm(t('counter.confirmGift', { gift: g.name, points: g.points, balance: c.points.balance - (g.points ?? 0) })) && redeemGift.mutate(g.id)}>
+                    <span className="font-semibold">{g.name}</span>
+                    <span className="text-xs font-normal">
+                      {g.points != null ? t('counter.giftPoints', { points: g.points }) : t('counter.giftNoPoints')} · {g.remaining > 0 ? t('counter.giftLeft', { n: g.remaining }) : t('counter.giftOut')}
+                    </span>
+                  </Button>
+                )
+              })}
+            </div>
+          )}
+          {(gifts.data?.length ?? 0) > 0 && <p className="text-xs text-navy/55">{t('counter.manualRedeem')}</p>}
           <div className="grid grid-cols-[7rem_1fr] gap-2">
             <Field label={t('counter.redeemPoints')}><Input inputMode="numeric" className="text-center text-xl font-bold" value={points} onChange={(e) => setPoints(e.target.value.replace(/[^0-9]/g, ''))} /></Field>
             <Field label={t('counter.giftLabel')}><Input value={gift} onChange={(e) => setGift(e.target.value)} /></Field>

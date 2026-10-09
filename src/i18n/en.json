@@ -1512,7 +1512,13 @@
     "confirmRedeem": "Redeem {{points}} points? {{balance}} points will be left.",
     "redeemed": "Gift redeemed · {{balance}} points left",
     "redeemedLine": "Redeemed {{points}} points · {{gift}} · {{time}}",
-    "next": "Next card"
+    "next": "Next card",
+    "confirmGift": "Redeem {{gift}} ({{points}} points)? {{balance}} points left.",
+    "giftPoints": "{{points}} points",
+    "giftNoPoints": "no points set",
+    "giftLeft": "{{n}} left",
+    "giftOut": "out of stock",
+    "manualRedeem": "Or redeem a custom number of points (not from stock):"
   },
   "eventActivate": {
     "title": "Create an account to download the certificate",
@@ -1629,7 +1635,7 @@
   },
   "crew": {
     "title": "Event crew (badges)",
-    "hint": "Paste a list, one per line: Full name; Slot; Phone or email; Birth year (optional). Existing people are matched by phone/email; under 11 the phone/email is the parent's. Each person gets a lifelong VNC code and a Staff card; the badge QR is the link below.",
+    "hint": "Paste a list, one per line: Full name; Department; Phone or email; Birth year (optional). Type the department naturally: Coordination, Safety, Coach (or Coach Chipping…), Ambassador, Check-in, Gift counter, Media, Guests. Full departments get extra spots automatically. Existing people are matched by phone/email; under 11 the phone/email is the parent's. Each person gets a lifelong VNC code and a Staff card; the badge QR is the link in the table.",
     "check": "Check {{n}} lines",
     "import": "Import {{n}} people",
     "imported": "Imported {{n}} people",
@@ -1653,7 +1659,8 @@
       "birth_year_invalid": "Invalid birth year",
       "slot_duplicated": "Slot repeated in the list",
       "slot_taken": "Slot already taken: {{name}}",
-      "student_not_found": "Selected profile not found"
+      "student_not_found": "Selected profile not found",
+      "department_not_found": "Unknown department: pick one from the list"
     },
     "suspect": {
       "same_name_other_contact": "Someone with the same name exists (different contact)",
@@ -1669,7 +1676,10 @@
     "link": "Badge QR link",
     "progress": "Tasks",
     "progressValue": "{{done}}/{{total}} done",
-    "blockedN": "{{n}} blocked"
+    "blockedN": "{{n}} blocked",
+    "department": "Department",
+    "newSlot": "new spot",
+    "recheckHint": "Department changed: press Check again before Import."
   },
   "crewToday": {
     "now": "Now {{time}}",
@@ -1688,6 +1698,90 @@
       "not_crew": "This badge has no assignment in an open event.",
       "task_not_found": "Task not found.",
       "invalid_status": "Invalid status."
+    },
+    "action": {
+      "board": "Open coordination board",
+      "counter": "Open gift counter",
+      "checkin": "Register players (scan card)",
+      "loginHint": "Requires an event organiser login."
+    }
+  },
+  "crewBoard": {
+    "title": "Crew coordination",
+    "open": "Crew",
+    "tab": {
+      "board": "Overview",
+      "people": "People & tasks",
+      "stock": "Stock & gifts"
+    },
+    "blocked": "Blocked ({{n}})",
+    "overdue": "Overdue ({{n}})",
+    "byDepartment": "By department",
+    "byPhase": "By phase",
+    "noPeople": "No crew yet. Import in People & tasks.",
+    "people": "{{n}} people",
+    "badges": "Badges",
+    "badgeCounts": "Received {{received}} · not received {{other}}",
+    "badgeReceived": "Badge received",
+    "badgeNotReceived": "Badge not received",
+    "addDeptTask": "Add task for a department",
+    "addPersonTask": "Add task for this person",
+    "department": "Department",
+    "phase": "Phase",
+    "time": "Time",
+    "area": "Area",
+    "taskText": "Task",
+    "taskAdded": "Task added for {{n}} people",
+    "removeForPerson": "Remove for this person",
+    "removeForDept": "Remove for the department",
+    "removePerson": "Remove from event",
+    "removePersonConfirm": "Remove this person from the event? Their checklist is deleted; profile, VNC code and Staff card are kept.",
+    "personRemoved": "Removed from the event",
+    "kind": {
+      "department": "department task",
+      "personal": "personal task"
+    },
+    "phaseN": {
+      "1": "1. Evening before",
+      "2": "2. Event morning",
+      "3": "3. Setup",
+      "4": "4. Operation",
+      "5": "5. Wrap-up",
+      "6": "6. After the event"
+    }
+  },
+  "inv": {
+    "hint": "Stock out for the event: enter quantities taken, tick Packed. Gifts given at the counter reduce the remaining count. On return: enter returned (including damaged) and damaged; missing is calculated.",
+    "seed": "Load sample box list",
+    "add": "Add item",
+    "seeded": "Added {{n}} items",
+    "summary": "{{n}} items · packed {{packed}} · not checked {{notChecked}}",
+    "missingTotal": "{{n}} missing",
+    "category": {
+      "equipment": "Equipment",
+      "gift": "Gifts",
+      "supply": "Other supplies"
+    },
+    "categoryLabel": "Type",
+    "box": "Box",
+    "name": "Name",
+    "namePlaceholder": "7 iron, putting mat, balls…",
+    "unit": "Unit",
+    "out": "Out",
+    "returned": "Returned",
+    "damaged": "Damaged",
+    "missing": "Missing",
+    "points": "Points",
+    "given": "Given",
+    "remaining": "Left",
+    "packed": "Packed",
+    "preparedBy": "prepared by {{role}}",
+    "surplus": "{{n}} extra",
+    "errors": {
+      "out_below_given": "{{n}} already given; cannot set fewer out.",
+      "damaged_over_returned": "Damaged cannot exceed returned.",
+      "item_has_redemptions": "This gift was given at the counter; cannot delete.",
+      "name_required": "Enter a name."
     }
   }
 }

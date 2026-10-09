@@ -53,8 +53,8 @@ begin
   x := public.crew_import(ev, r, false);
   if (select count(*) from public.event_crew_assignments where event_id = ev) <> 0 then raise exception 'FAIL: xem trước đã ghi'; end if;
   if x -> 0 ->> 'action' <> 'reuse' or x -> 1 ->> 'action' <> 'new_self' or x -> 2 ->> 'action' <> 'new_child'
-     or x -> 3 ->> 'action' <> 'new_self' or x -> 4 ->> 'status' <> 'suspect' or x -> 5 ->> 'error' <> 'slot_not_found'
-     or x -> 6 ->> 'error' <> 'slot_duplicated' or x -> 7 ->> 'error' <> 'contact_invalid' then
+     or x -> 3 ->> 'action' <> 'new_self' or x -> 4 ->> 'status' <> 'suspect' or x -> 5 ->> 'error' <> 'department_not_found'
+     or x -> 6 ->> 'error' <> 'slot_taken' or x -> 7 ->> 'error' <> 'contact_invalid' then
     raise exception 'FAIL xem trước: %', x;
   end if;
 

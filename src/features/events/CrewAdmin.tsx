@@ -11,9 +11,10 @@ import { FormError, Select, Textarea } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { downloadBlob, passportUrl } from '@/features/passports/exports'
 
-interface ImportRow { line: number; full_name: string; slot_code: string; contact: string; birth_year: string; decision?: string }
+interface ImportRow { line: number; full_name: string; department: string; contact: string; birth_year: string; decision?: string }
 interface ImportResult {
-  line: number; full_name: string; slot_code: string; contact: string | null; role_name?: string; is_child?: boolean
+  line: number; full_name: string; department: string; slot_code?: string | null; contact: string | null
+  role_code?: string; role_name?: string; position?: string | null; new_slot?: boolean; is_child?: boolean
   status: 'ok' | 'error' | 'suspect'; error?: string; taken_by?: string; reason?: string
   action?: 'reuse' | 'new_self' | 'new_self_account' | 'new_child'; already_assigned?: boolean
   student_code?: string | null; passport_code?: string | null
@@ -24,14 +25,15 @@ export interface CrewMember {
   position: string | null; badge_status: string; student_id: string; full_name: string; student_code: string; passport_code: string | null
   contact: string | null; is_child: boolean; tasks: number; done: number; blocked: number
 }
+export interface CrewDepartment { value: string; role_code: string; label: string; badge_color: string | null }
 
-/** Dán danh sách "Họ tên; Mã ô; SĐT hoặc email; Năm sinh" (dấu ; hoặc tab). Dòng tiêu đề "Họ tên…" tự bỏ qua. */
+/** Dán danh sách "Họ tên; Bộ phận; SĐT hoặc email; Năm sinh" (dấu ; hoặc tab). Dòng tiêu đề "Họ tên…" tự bỏ qua. */
 export function parseCrewList(text: string): ImportRow[] {
   return text.split(/\r?\n/).map((raw, i) => ({ raw: raw.trim(), line: i + 1 }))
     .filter(({ raw }) => raw && !/^h[oọ]\s*t[eê]n/i.test(raw))
     .map(({ raw, line }) => {
-      const [full_name = '', slot_code = '', contact = '', birth_year = ''] = raw.split(/\t|;/).map((s) => s.trim())
-      return { line, full_name, slot_code, contact, birth_year }
+      const [full_name = '', department = '', contact = '', birth_year = ''] = raw.split(/\t|;/).map((s) => s.trim())
+      return { line, full_name, department, contact, birth_year }
     })
 }
 
@@ -41,40 +43,49 @@ const rpc = async <T,>(fn: string, args: Record<string, unknown>) => {
   return data as T
 }
 
+/** 8 bộ phận + HLV theo từng trạm, để chọn khi nhập / thêm việc. */
+export function useCrewDepartments() {
+  return useQuery({ queryKey: ['crew_departments'], staleTime: 10 * 60_000, queryFn: () => rpc<CrewDepartment[]>('crew_departments', {}) })
+}
+
 /**
- * Admin · Nhân sự sự kiện (spec 11, bước 3): dán danh sách → xem trước (ghép người có sẵn theo SĐT/email, nghi trùng chờ chọn)
- * → nhập: cấp hồ sơ (mã VNC) + sổ "Thẻ nhân sự", gán ô, sinh việc. Xuất bảng Họ tên – Mã – Link QR thẻ đeo.
+ * Nhân sự sự kiện (spec 11): dán danh sách theo BỘ PHẬN → xem trước (ghép người có sẵn theo SĐT/email, nghi trùng chờ chọn,
+ * sửa bộ phận từng dòng) → nhập: cấp hồ sơ (mã VNC) + sổ "Thẻ nhân sự", tự xếp chỗ (đủ người thì thêm chỗ), sinh việc.
+ * Xuất bảng Họ tên – Bộ phận – Mã – Link QR thẻ đeo.
  */
-export function CrewAdmin({ eventId }: { eventId: string }) {
+export function CrewAdmin({ eventId, onChanged, showRoster = true }: { eventId: string; onChanged?: () => void; showRoster?: boolean }) {
   const { t } = useTranslation()
   const qc = useQueryClient()
   const toast = useToast()
   const baseUrl = usePublicBaseUrl()
+  const departments = useCrewDepartments()
   const [text, setText] = useState('')
   const [preview, setPreview] = useState<ImportResult[] | null>(null)
   const [decisions, setDecisions] = useState<Record<number, string>>({})
+  const [depts, setDepts] = useState<Record<number, string>>({})
   const rows = useMemo(() => parseCrewList(text), [text])
 
   const roster = useQuery({ queryKey: ['crew_roster', eventId], queryFn: () => rpc<CrewMember[]>('crew_roster', { p_event_id: eventId }) })
   const run = useMutation({
     mutationFn: (commit: boolean) => rpc<ImportResult[]>('crew_import', {
       p_event_id: eventId, p_commit: commit,
-      p_rows: rows.map((r) => ({ ...r, decision: decisions[r.line] ?? 'auto' })),
+      p_rows: rows.map((r) => ({ ...r, department: depts[r.line] ?? r.department, decision: decisions[r.line] ?? 'auto' })),
     }),
     onSuccess: (res, commit) => {
       setPreview(res)
       if (commit) {
-        const n = res.filter((r) => r.status === 'ok').length
-        toast(t('crew.imported', { n }))
+        toast(t('crew.imported', { n: res.filter((r) => r.status === 'ok').length }))
         qc.invalidateQueries({ queryKey: ['crew_roster', eventId] })
+        onChanged?.()
       }
     },
   })
 
   const okCount = (preview?.filter((r) => r.status === 'ok').length ?? 0) + (preview?.filter((r) => r.status === 'suspect' && decisions[r.line]).length ?? 0)
   const members = roster.data ?? []
-  const exportRows = members.map((m) => [m.full_name, m.slot_code, m.student_code, m.passport_code ?? '', m.passport_code ? passportUrl(baseUrl, m.passport_code) : ''])
-  const header = ['Họ tên', 'Mã ô', 'Mã VNC', 'Mã sổ', 'Link']
+  const exportRows = members.map((m) => [m.full_name, m.role_name, m.position ?? '', m.student_code, m.passport_code ?? '',
+    m.passport_code ? passportUrl(baseUrl, m.passport_code) : ''])
+  const header = ['Họ tên', 'Bộ phận', 'Vị trí', 'Mã VNC', 'Mã sổ', 'Link']
 
   function downloadCsv() {
     const esc = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v)
@@ -93,8 +104,8 @@ export function CrewAdmin({ eventId }: { eventId: string }) {
         <p className="text-sm text-navy/60">{t('crew.hint')}</p>
       </div>
 
-      <Textarea rows={6} value={text} onChange={(e) => { setText(e.target.value); setPreview(null) }}
-        placeholder={'Nguyễn Văn A; C2; 0912345678\nBé Trần B; D1; 0987654321; 2017\nLê Thị C; E1; c@example.com'} className="font-mono text-sm" />
+      <Textarea rows={6} value={text} onChange={(e) => { setText(e.target.value); setPreview(null); setDepts({}) }}
+        placeholder={'Nguyễn Văn A; HLV Chipping; 0912345678\nBé Trần B; Đại sứ; 0987654321; 2017\nLê Thị C; Check-in; c@example.com'} className="font-mono text-sm" />
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" disabled={!rows.length || run.isPending} onClick={() => run.mutate(false)}>{t('crew.check', { n: rows.length })}</Button>
         <Button disabled={!preview || !okCount || run.isPending} onClick={() => run.mutate(true)}>{t('crew.import', { n: okCount })}</Button>
@@ -105,7 +116,7 @@ export function CrewAdmin({ eventId }: { eventId: string }) {
         <TableWrap>
           <table className="w-full border-collapse text-sm">
             <thead><tr>
-              <th className={th}>#</th><th className={th}>{t('crew.name')}</th><th className={th}>{t('crew.slot')}</th>
+              <th className={th}>#</th><th className={th}>{t('crew.name')}</th><th className={th}>{t('crew.department')}</th>
               <th className={th}>{t('crew.contact')}</th><th className={th}>{t('crew.result')}</th>
             </tr></thead>
             <tbody className="divide-y divide-navy/10">
@@ -113,7 +124,18 @@ export function CrewAdmin({ eventId }: { eventId: string }) {
                 <tr key={r.line}>
                   <td className={td}>{r.line}</td>
                   <td className={td}>{r.full_name}{r.is_child && <Badge className="ml-1">{t('crew.child')}</Badge>}</td>
-                  <td className={td}>{r.slot_code}</td>
+                  <td className={td}>
+                    <Select value={depts[r.line] ?? ''} className="min-w-40"
+                      onChange={(e) => { setDepts((d) => ({ ...d, [r.line]: e.target.value })); setPreview(null) }}>
+                      <option value="">{r.department || '—'}</option>
+                      {departments.data?.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
+                    </Select>
+                    {r.status === 'ok' && (
+                      <span className="block text-xs text-navy/55">
+                        {[r.role_name, r.position, r.slot_code ?? (r.new_slot ? t('crew.newSlot') : null)].filter(Boolean).join(' · ')}
+                      </span>
+                    )}
+                  </td>
                   <td className={td}>{r.contact}</td>
                   <td className={td}>
                     {r.status === 'ok' && (
@@ -141,6 +163,7 @@ export function CrewAdmin({ eventId }: { eventId: string }) {
         </TableWrap>
       )}
       {preview?.some((r) => r.status === 'suspect') && <p className="text-sm text-navy/60">{t('crew.suspectHint')}</p>}
+      {Object.keys(depts).length > 0 && !preview && <p className="text-sm text-navy/60">{t('crew.recheckHint')}</p>}
 
       <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
         <p className="font-semibold">{t('crew.roster', { n: members.length })}</p>
@@ -149,21 +172,21 @@ export function CrewAdmin({ eventId }: { eventId: string }) {
           <Button size="sm" variant="outline" disabled={!members.length} onClick={downloadCsv}><Download className="h-4 w-4" /> CSV</Button>
         </div>
       </div>
-      {members.length > 0 && (
+      {showRoster && members.length > 0 && (
         <TableWrap>
           <table className="w-full border-collapse text-sm">
             <thead><tr>
-              <th className={th}>{t('crew.slot')}</th><th className={th}>{t('crew.name')}</th><th className={th}>{t('crew.vnc')}</th>
+              <th className={th}>{t('crew.department')}</th><th className={th}>{t('crew.name')}</th><th className={th}>{t('crew.vnc')}</th>
               <th className={th}>{t('crew.link')}</th><th className={th}>{t('crew.progress')}</th>
             </tr></thead>
             <tbody className="divide-y divide-navy/10">
               {members.map((m) => (
                 <tr key={m.assignment_id}>
                   <td className={td}>
-                    <span className="inline-block h-3 w-3 rounded-full align-middle" style={{ background: m.badge_color ?? '#999' }} /> {m.slot_code}
-                    <span className="block text-xs text-navy/55">{m.role_name}</span>
+                    <span className="inline-block h-3 w-3 rounded-full align-middle" style={{ background: m.badge_color ?? '#999' }} /> {m.role_name}
+                    <span className="block text-xs text-navy/55">{[m.position, m.slot_code].filter(Boolean).join(' · ')}</span>
                   </td>
-                  <td className={td}>{m.full_name}{m.is_child && <Badge className="ml-1">{t('crew.child')}</Badge>}<span className="block text-xs text-navy/55">{m.contact}</span></td>
+                  <td className={td}>{m.full_name}{m.is_child && <Badge className="ml-1">{t('crew.child')}</Badge>}{m.contact && <span className="block text-xs text-navy/55">{m.contact}</span>}</td>
                   <td className={td}>{m.student_code}</td>
                   <td className={td}>
                     {m.passport_code && <a className="text-bronze underline" href={passportUrl(baseUrl, m.passport_code)} target="_blank" rel="noreferrer">{passportUrl(baseUrl, m.passport_code)}</a>}

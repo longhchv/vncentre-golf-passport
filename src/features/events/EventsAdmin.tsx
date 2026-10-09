@@ -13,7 +13,6 @@ import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Field, FormError, Input, Select } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { ClaimsQueue, LiveBoard } from './EventMonitor'
-import { CrewAdmin } from './CrewAdmin'
 
 export type EventStatus = 'draft' | 'open' | 'closed' | 'archived'
 export const EVENT_TONE: Record<EventStatus, 'neutral' | 'good' | 'warn' | 'bad'> = { draft: 'neutral', open: 'good', closed: 'warn', archived: 'neutral' }
@@ -137,7 +136,10 @@ export function EventDetailPage() {
           <Stations eventId={eventId} />
           <CardBatches eventId={eventId} />
           <Staff eventId={eventId} />
-          <CrewAdmin eventId={eventId} />
+          <Card className="flex flex-wrap items-center justify-between gap-2 p-4">
+            <p className="font-semibold">{t('crewBoard.title')}</p>
+            <Button asChild variant="outline"><Link to={`/event/${eventId}/crew`}>{t('crewBoard.open')}</Link></Button>
+          </Card>
         </>
       )}
     </div>

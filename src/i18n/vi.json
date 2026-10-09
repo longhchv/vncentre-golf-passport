@@ -1512,7 +1512,13 @@
     "confirmRedeem": "Đổi {{points}} điểm? Còn lại {{balance}} điểm.",
     "redeemed": "Đã đổi quà · còn lại {{balance}} điểm",
     "redeemedLine": "Đã đổi {{points}} điểm · {{gift}} · {{time}}",
-    "next": "Thẻ tiếp theo"
+    "next": "Thẻ tiếp theo",
+    "confirmGift": "Đổi {{gift}} ({{points}} điểm)? Còn lại {{balance}} điểm.",
+    "giftPoints": "{{points}} điểm",
+    "giftNoPoints": "chưa đặt điểm",
+    "giftLeft": "còn {{n}}",
+    "giftOut": "hết quà",
+    "manualRedeem": "Hoặc đổi theo số điểm khác (không trừ kho):"
   },
   "eventActivate": {
     "title": "Tạo tài khoản để tải chứng nhận",
@@ -1629,7 +1635,7 @@
   },
   "crew": {
     "title": "Nhân sự sự kiện (thẻ đeo)",
-    "hint": "Dán danh sách, mỗi dòng: Họ tên; Mã ô; SĐT hoặc email; Năm sinh (không bắt buộc). Ghép người đã có theo SĐT/email; dưới 11 tuổi thì SĐT/email là của phụ huynh. Mỗi người nhận mã VNC trọn đời và một Thẻ nhân sự; QR thẻ đeo là link bên dưới.",
+    "hint": "Dán danh sách, mỗi dòng: Họ tên; Bộ phận; SĐT hoặc email; Năm sinh (không bắt buộc). Bộ phận gõ tự nhiên: Điều phối, An toàn, HLV (hoặc HLV Chipping…), Đại sứ, Check-in, Quầy quà, Truyền thông, Khách mời. Bộ phận đủ người thì tự thêm chỗ. Ghép người đã có theo SĐT/email; dưới 11 tuổi thì SĐT/email là của phụ huynh. Mỗi người nhận mã VNC trọn đời và một Thẻ nhân sự; QR thẻ đeo là link trong bảng.",
     "check": "Kiểm tra {{n}} dòng",
     "import": "Nhập {{n}} người",
     "imported": "Đã nhập {{n}} người",
@@ -1653,7 +1659,8 @@
       "birth_year_invalid": "Năm sinh chưa đúng",
       "slot_duplicated": "Ô bị trùng trong danh sách",
       "slot_taken": "Ô đã có người: {{name}}",
-      "student_not_found": "Không tìm thấy hồ sơ đã chọn"
+      "student_not_found": "Không tìm thấy hồ sơ đã chọn",
+      "department_not_found": "Không nhận ra bộ phận: chọn trong danh sách"
     },
     "suspect": {
       "same_name_other_contact": "Đã có người cùng tên (khác liên hệ)",
@@ -1669,7 +1676,10 @@
     "link": "Link QR thẻ đeo",
     "progress": "Việc",
     "progressValue": "{{done}}/{{total}} xong",
-    "blockedN": "{{n}} vướng"
+    "blockedN": "{{n}} vướng",
+    "department": "Bộ phận",
+    "newSlot": "thêm chỗ mới",
+    "recheckHint": "Đã đổi bộ phận: bấm Kiểm tra lại trước khi Nhập."
   },
   "crewToday": {
     "now": "Bây giờ {{time}}",
@@ -1688,6 +1698,90 @@
       "not_crew": "Thẻ này không còn phân công trong sự kiện đang mở.",
       "task_not_found": "Không tìm thấy việc này.",
       "invalid_status": "Trạng thái không hợp lệ."
+    },
+    "action": {
+      "board": "Mở bảng điều phối",
+      "counter": "Mở quầy đổi quà",
+      "checkin": "Ghi tên hộ người chơi (quét thẻ)",
+      "loginHint": "Cần đăng nhập tài khoản BTC sự kiện."
+    }
+  },
+  "crewBoard": {
+    "title": "Điều phối nhân sự",
+    "open": "Nhân sự",
+    "tab": {
+      "board": "Tổng quan",
+      "people": "Người & việc",
+      "stock": "Kho & quà"
+    },
+    "blocked": "Đang vướng ({{n}})",
+    "overdue": "Quá giờ chưa xong ({{n}})",
+    "byDepartment": "Theo bộ phận",
+    "byPhase": "Theo giai đoạn",
+    "noPeople": "Chưa có nhân sự. Nhập ở tab Người & việc.",
+    "people": "{{n}} người",
+    "badges": "Thẻ đeo",
+    "badgeCounts": "Đã nhận {{received}} · chưa nhận {{other}}",
+    "badgeReceived": "Đã nhận thẻ",
+    "badgeNotReceived": "Chưa nhận thẻ",
+    "addDeptTask": "Thêm việc cho cả bộ phận",
+    "addPersonTask": "Thêm việc cho người này",
+    "department": "Bộ phận",
+    "phase": "Giai đoạn",
+    "time": "Giờ",
+    "area": "Khu vực",
+    "taskText": "Việc cần làm",
+    "taskAdded": "Đã thêm việc cho {{n}} người",
+    "removeForPerson": "Bớt của người này",
+    "removeForDept": "Bớt khỏi cả bộ phận",
+    "removePerson": "Bớt người khỏi sự kiện",
+    "removePersonConfirm": "Bớt người này khỏi sự kiện? Checklist của họ bị xoá; hồ sơ, mã VNC và Thẻ nhân sự vẫn giữ.",
+    "personRemoved": "Đã bớt người khỏi sự kiện",
+    "kind": {
+      "department": "việc thêm cho bộ phận",
+      "personal": "việc riêng"
+    },
+    "phaseN": {
+      "1": "1. Tối hôm trước",
+      "2": "2. Sáng ngày sự kiện",
+      "3": "3. Setup",
+      "4": "4. Vận hành",
+      "5": "5. Kết thúc",
+      "6": "6. Sau sự kiện"
+    }
+  },
+  "inv": {
+    "hint": "Xuất kho cho sự kiện: ghi số mang đi, tích Đóng thùng. Quà phát ở quầy tự trừ số còn lại. Khi trả về kho: ghi số trả (tính cả đồ hỏng) và số hỏng, hệ thống tính số thiếu.",
+    "seed": "Lấy danh sách thùng đồ mẫu",
+    "add": "Thêm món",
+    "seeded": "Đã thêm {{n}} món",
+    "summary": "{{n}} món · đã đóng thùng {{packed}} · chưa kiểm kê {{notChecked}}",
+    "missingTotal": "thiếu {{n}}",
+    "category": {
+      "equipment": "Dụng cụ, trang thiết bị",
+      "gift": "Quà",
+      "supply": "Vật tư khác"
+    },
+    "categoryLabel": "Loại",
+    "box": "Thùng",
+    "name": "Tên",
+    "namePlaceholder": "Gậy sắt 7, thảm putting, bóng…",
+    "unit": "Đơn vị",
+    "out": "Xuất kho",
+    "returned": "Trả về",
+    "damaged": "Hỏng",
+    "missing": "Thiếu",
+    "points": "Điểm đổi",
+    "given": "Đã phát",
+    "remaining": "Còn",
+    "packed": "Đã đóng thùng",
+    "preparedBy": "bộ phận {{role}} chuẩn bị",
+    "surplus": "dư {{n}}",
+    "errors": {
+      "out_below_given": "Đã phát {{n}}, không thể xuất ít hơn.",
+      "damaged_over_returned": "Số hỏng không thể lớn hơn số trả về.",
+      "item_has_redemptions": "Quà này đã phát ở quầy, không xoá được.",
+      "name_required": "Nhập tên món."
     }
   }
 }

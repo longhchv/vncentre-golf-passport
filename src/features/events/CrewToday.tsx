@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle, Check, ChevronDown, RotateCcw } from 'lucide-react'
@@ -21,8 +22,8 @@ export interface CrewTodayData {
   slot: { slot_code: string; role_code: string; role_name: string; badge_label: string | null; badge_color: string | null; position: string | null; note: string | null }
   editable: boolean
   tasks: CrewTask[]
-  summary: { slot_code: string; role_name: string; full_name: string; total: number; done: number; blocked: number }[] | null
-  blocked: { slot_code: string; full_name: string; task_text: string; note: string; status_at: string }[] | null
+  summary: { slot_code: string; role_name: string; position: string | null; full_name: string; total: number; done: number; blocked: number }[] | null
+  blocked: { slot_code: string; role_name: string; full_name: string; task_text: string; note: string; status_at: string }[] | null
 }
 
 export function useCrewToday(code: string, enabled: boolean) {
@@ -61,14 +62,14 @@ export function CrewTodayPage({ data }: { data: CrewTodayData }) {
       <Card className="overflow-hidden p-0">
         <div className="px-4 py-3 text-white" style={{ background: color }}>
           <p className="text-sm font-semibold uppercase tracking-wide opacity-90">{data.slot.badge_label}</p>
-          <p className="text-3xl font-bold">{data.slot.slot_code} · {data.full_name}</p>
-          <p className="text-sm opacity-90">{data.slot.role_name}{data.slot.position ? ` · ${data.slot.position}` : ''}</p>
+          <p className="text-3xl font-bold">{data.full_name}</p>
+          <p className="text-base font-semibold opacity-95">{data.slot.role_name}{data.slot.position ? ` · ${data.slot.position}` : ''}</p>
         </div>
         <div className="space-y-1 p-4">
           <p className="text-sm text-navy/65">
             {i18n.language === 'en' ? data.event.name_en : data.event.name_vi} · {formatDate(data.event.event_date, i18n.language)}{data.event.venue ? ` · ${data.event.venue}` : ''}
           </p>
-          <p className="text-sm text-navy/65">{t('crewToday.now', { time: now.toLocaleTimeString(i18n.language === 'en' ? 'en-GB' : 'vi-VN', { hour: '2-digit', minute: '2-digit' }) })} · {data.student_code} · {formatCode(data.code)}</p>
+          <p className="text-sm text-navy/65">{t('crewToday.now', { time: now.toLocaleTimeString(i18n.language === 'en' ? 'en-GB' : 'vi-VN', { hour: '2-digit', minute: '2-digit' }) })} · {data.student_code} · {formatCode(data.code)} · {data.slot.slot_code}</p>
           {data.slot.note && <p className="rounded-lg bg-gold/15 px-3 py-2 text-sm text-brown">{data.slot.note}</p>}
         </div>
       </Card>
@@ -88,6 +89,7 @@ export function CrewTodayPage({ data }: { data: CrewTodayData }) {
         {blocked > 0 && <Badge tone="bad">{t('crew.blockedN', { n: blocked })}</Badge>}
       </div>
       {!data.editable && <p className="rounded-xl bg-navy/5 p-3 text-sm text-navy/70">{t('crewToday.closed')}</p>}
+      {data.editable && <RoleActions data={data} />}
 
       {data.summary && <CoordinatorPanel data={data} />}
 
@@ -178,7 +180,7 @@ function CoordinatorPanel({ data }: { data: CrewTodayData }) {
         <ul className="space-y-2">
           {data.blocked!.map((b, i) => (
             <li key={i} className="rounded-lg bg-red-50 p-2 text-sm">
-              <p className="font-semibold text-red-800">{b.slot_code} · {b.full_name} · {formatDateTime(b.status_at, i18n.language)}</p>
+              <p className="font-semibold text-red-800">{b.role_name} · {b.full_name} · {formatDateTime(b.status_at, i18n.language)}</p>
               <p>{b.task_text}</p>
               <p className="text-red-800">{b.note}</p>
             </li>
@@ -188,11 +190,31 @@ function CoordinatorPanel({ data }: { data: CrewTodayData }) {
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {rows.map((r) => (
           <div key={r.slot_code} className={`rounded-lg p-2 ${r.blocked ? 'bg-red-50' : r.done === r.total ? 'bg-emerald-50' : 'bg-navy/5'}`}>
-            <p className="text-sm font-bold">{r.slot_code} <span className="font-normal text-navy/60">{r.full_name}</span></p>
+            <p className="text-sm font-bold">{r.full_name} <span className="block text-xs font-normal text-navy/60">{[r.role_name, r.position].filter(Boolean).join(' · ')}</span></p>
             <p className="text-sm">{t('crewToday.progress', { done: r.done, total: r.total })}{r.blocked ? ` · ${t('crew.blockedN', { n: r.blocked })}` : ''}</p>
           </div>
         ))}
       </div>
+    </Card>
+  )
+}
+
+/** Nút chức năng theo vai (spec 11 mục 4.4, bản tối thiểu): mở các màn có sẵn của module 10, cần đăng nhập tài khoản BTC. */
+function RoleActions({ data }: { data: CrewTodayData }) {
+  const { t } = useTranslation()
+  const ev = data.event.id
+  const actions: { to: string; label: string }[] =
+    data.slot.role_code === 'A' ? [{ to: `/event/${ev}/crew`, label: t('crewToday.action.board') }, { to: `/event/${ev}`, label: t('crewToday.action.counter') }]
+    : data.slot.role_code === 'E' ? [{ to: `/event/${ev}`, label: t('crewToday.action.checkin') }]
+    : data.slot.role_code === 'F' ? [{ to: `/event/${ev}`, label: t('crewToday.action.counter') }]
+    : []
+  if (!actions.length) return null
+  return (
+    <Card className="space-y-2 p-4">
+      <div className="grid gap-2">
+        {actions.map((a) => <Button key={a.to + a.label} asChild size="full"><Link to={a.to}>{a.label}</Link></Button>)}
+      </div>
+      <p className="text-xs text-navy/55">{t('crewToday.action.loginHint')}</p>
     </Card>
   )
 }
