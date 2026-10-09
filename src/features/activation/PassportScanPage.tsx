@@ -11,6 +11,7 @@ import { Mascot } from '@/components/Mascot'
 import { rpc, type PassportLookup } from './api'
 import { ActivationWizard } from './ActivationWizard'
 import { EventCardPage } from '@/features/events/EventCard'
+import { CrewTodayPage, useCrewToday } from '@/features/events/CrewToday'
 
 /**
  * /p/{mã sổ} — quét QR sổ hoặc nhập mã (F2). Xử lý theo bảng trạng thái sổ × người mở.
@@ -29,7 +30,12 @@ export function PassportScanPage() {
     staleTime: 0,
   })
 
+  // Thẻ đeo nhân sự sự kiện (spec 11): trang "Hôm nay" theo vai, ưu tiên trước trang sổ
+  const crew = useCrewToday(code, check.ok)
+
   if (!check.ok) return <Message title={t('scan.wrongCode')} body={t('codes.invalidChars')} retry />
+  if (crew.isPending && !crew.isError) return <FullPageSpinner />
+  if (crew.data?.result === 'crew') return <CrewTodayPage data={crew.data} />
   if (loading || lookup.isPending) return <FullPageSpinner />
   if (lookup.isError) return <Message title={t('errors.loadFailed')} retry />
   const r = lookup.data

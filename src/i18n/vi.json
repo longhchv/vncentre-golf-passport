@@ -1670,5 +1670,24 @@
     "progress": "Việc",
     "progressValue": "{{done}}/{{total}} xong",
     "blockedN": "{{n}} vướng"
+  },
+  "crewToday": {
+    "now": "Bây giờ {{time}}",
+    "next": "Việc tiếp theo",
+    "progress": "{{done}}/{{total}} xong",
+    "closed": "Sự kiện đã đóng: checklist chỉ để xem.",
+    "done": "Xong",
+    "undo": "Bỏ đánh dấu",
+    "blocked": "Vướng",
+    "sendBlocked": "Gửi Vướng",
+    "reasonPlaceholder": "Vướng gì? (bắt buộc, ví dụ: thiếu bóng trạm C2)",
+    "coordinator": "Điều phối · toàn đội {{done}}/{{total}} việc xong",
+    "openLinkNote": "Tạm thời trong sự kiện 10/10, ai mở đúng link này cũng tích được. Mỗi lần tích đều được ghi lại thời điểm.",
+    "errors": {
+      "note_required": "Bấm Vướng cần ghi lý do.",
+      "not_crew": "Thẻ này không còn phân công trong sự kiện đang mở.",
+      "task_not_found": "Không tìm thấy việc này.",
+      "invalid_status": "Trạng thái không hợp lệ."
+    }
   }
 }

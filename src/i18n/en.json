@@ -1670,5 +1670,24 @@
     "progress": "Tasks",
     "progressValue": "{{done}}/{{total}} done",
     "blockedN": "{{n}} blocked"
+  },
+  "crewToday": {
+    "now": "Now {{time}}",
+    "next": "Next task",
+    "progress": "{{done}}/{{total}} done",
+    "closed": "The event is closed: checklist is read-only.",
+    "done": "Done",
+    "undo": "Undo",
+    "blocked": "Blocked",
+    "sendBlocked": "Report blocked",
+    "reasonPlaceholder": "What is blocking? (required, e.g. no balls at station C2)",
+    "coordinator": "Coordination · team {{done}}/{{total}} tasks done",
+    "openLinkNote": "For the 10/10 event only, anyone with this link can tick tasks. Every tick is logged with its time.",
+    "errors": {
+      "note_required": "A blocked task needs a reason.",
+      "not_crew": "This badge has no assignment in an open event.",
+      "task_not_found": "Task not found.",
+      "invalid_status": "Invalid status."
+    }
   }
 }
