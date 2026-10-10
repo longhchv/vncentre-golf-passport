@@ -99,7 +99,7 @@ export function CrewTodayPage({ data }: { data: CrewTodayData }) {
           defaultOpen={!next || next.phase_no === no || tasks.some((x) => x.phase_no === no && x.status === 'blocked')} />
       ))}
       <CrewQrCard code={data.code} fullName={data.full_name} slotCode={data.slot.slot_code} badgeLabel={data.slot.badge_label} />
-      <CrewKitButton fullName={data.full_name} code={data.code} badgeLabel={data.slot.badge_label} roleName={data.slot.role_name} position={data.slot.position} />
+      <CrewKitButton code={data.code} />
       <p className="pb-4 text-center text-xs text-navy/45">{t('crewToday.openLinkNote')}</p>
     </div>
   )

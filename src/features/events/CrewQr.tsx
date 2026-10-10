@@ -48,29 +48,19 @@ export function CrewQrCard({ code, fullName, slotCode, badgeLabel }: { code: str
 }
 
 /**
- * Link mở Bộ kit truyền thông (/kit/) đã điền sẵn họ tên, vai, vị trí, mã thẻ của người này:
- * thẻ đeo BTC (có QR), Story thư mời, Khung ảnh đại diện, Poster. Dữ liệu đi trong phần # (không gửi lên máy chủ).
+ * Link mở Bộ kit truyền thông (/kit/) cho người này: chỉ mang mã thẻ trong phần # (không gửi lên máy chủ).
+ * Bộ kit tự hỏi hệ thống tên, vai, vị trí; Điều phối chung (vai A) thấy đủ các mục, người khác cố định theo vai được giao.
  */
-export function crewKitUrl(p: { fullName: string; code: string; badgeLabel: string | null; roleName: string; position: string | null }) {
-  const n = `${p.badgeLabel ?? ''} ${p.roleName}`.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd')
-  const [role, vai] =
-    /dai su/.test(n) ? ['dai_su', 'Dai-su']
-    : /khach moi/.test(n) ? ['khach_moi', 'Khach-moi']
-    : /huan luyen|hlv|cgi/.test(n) ? ['hlv', 'HLV']
-    : /truyen thong|bao chi/.test(n) ? ['btc', 'Truyen-thong']
-    : /tinh nguyen|tnv/.test(n) ? ['btc', 'TNV']
-    : /cong tac|ctv/.test(n) ? ['btc', 'CTV']
-    : ['btc', 'BTC']
-  const q = new URLSearchParams({ name: p.fullName, role, vai, sub: p.position || p.roleName, ma: p.code })
-  return `/kit/#${q.toString()}`
+export function crewKitUrl(code: string) {
+  return `/kit/#${new URLSearchParams({ ma: code }).toString()}`
 }
 
-export function CrewKitButton(props: Parameters<typeof crewKitUrl>[0]) {
+export function CrewKitButton({ code }: { code: string }) {
   const { t } = useTranslation()
   return (
     <Card className="space-y-2 p-4 text-center">
       <Button asChild size="full">
-        <a href={crewKitUrl(props)} target="_blank" rel="noreferrer"><Images className="h-5 w-5" /> {t('crewQr.kit')}</a>
+        <a href={crewKitUrl(code)} target="_blank" rel="noreferrer"><Images className="h-5 w-5" /> {t('crewQr.kit')}</a>
       </Button>
       <p className="text-xs text-navy/55">{t('crewQr.kitHint')}</p>
     </Card>

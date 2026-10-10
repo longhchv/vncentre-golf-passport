@@ -21,18 +21,7 @@ describe('crewQrFileName', () => {
 })
 
 describe('crewKitUrl', () => {
-  const kit = (badgeLabel: string | null, roleName: string, position: string | null = null) =>
-    new URLSearchParams(crewKitUrl({ fullName: 'Phạm Anh Phương', code: '5J64CC2K', badgeLabel, roleName, position }).split('#')[1])
-  it('chọn vai trong bộ kit theo nhãn thẻ và bộ phận', () => {
-    expect(kit('Ban tổ chức', 'Check-in (thầy cô)').get('vai')).toBe('BTC')
-    expect(kit('Huấn luyện viên', 'Huấn luyện viên tại các trạm', 'Trạm Putting').get('role')).toBe('hlv')
-    expect(kit('Đại sứ', 'Đại sứ truyền thông').get('vai')).toBe('Dai-su')
-    expect(kit('Khách mời', 'Đón tiếp khách mời').get('role')).toBe('khach_moi')
-  })
-  it('điền tên, mã thẻ, vị trí; dùng phần # của link', () => {
-    const url = crewKitUrl({ fullName: 'Phạm Anh Phương', code: '5J64CC2K', badgeLabel: 'Ban tổ chức', roleName: 'Check-in', position: 'Bàn 1' })
-    expect(url.startsWith('/kit/#')).toBe(true)
-    const q = kit('Ban tổ chức', 'Check-in', 'Bàn 1')
-    expect([q.get('name'), q.get('ma'), q.get('sub')]).toEqual(['Phạm Anh Phương', '5J64CC2K', 'Bàn 1'])
+  it('chỉ mang mã thẻ trong phần # của link', () => {
+    expect(crewKitUrl('5J64CC2K')).toBe('/kit/#ma=5J64CC2K')
   })
 })
