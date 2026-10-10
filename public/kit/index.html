@@ -497,6 +497,19 @@ function loadPhoto(input, key, thumb) {
   im.onerror = () => toast('Không đọc được ảnh này, hãy chọn ảnh JPG hoặc PNG');
   im.src = url;
 }
+// Mở từ checklist nhân sự trong app: #name=…&role=btc|hlv|dai_su|khach_moi|tham_du&vai=BTC|HLV|…&sub=…&ma=<mã thẻ>
+// Dùng phần # của link nên họ tên không gửi lên máy chủ; ảnh chân dung vẫn chỉ nằm trên máy người dùng.
+function prefillFromHash() {
+  const h = new URLSearchParams(location.hash.slice(1));
+  if (!h.get('name') && !h.get('ma')) return;
+  const set = (id, val) => { if (val != null && $(id)) $(id).value = val; };
+  set('f_name', h.get('name'));
+  if (h.get('role') && ROLES[h.get('role')]) { $('f_role').value = h.get('role'); $('f_role').dispatchEvent(new Event('change')); }
+  if (h.get('vai') && [...$('bd_vai').options].some(o => o.value === h.get('vai'))) set('bd_vai', h.get('vai'));
+  set('bd_sub', h.get('sub')); set('bd_ma', h.get('ma'));
+  $('f_name').dispatchEvent(new Event('input'));
+  drawBadgePreview();
+}
 async function init() {
   buildOuts(); renderPosts();
   const st = $('stages');
@@ -509,7 +522,7 @@ async function init() {
   const fonts = [500, 600, 700, 800].map(w => document.fonts.load(`${w} 40px "Be Vietnam Pro"`, 'ĐẠI SỨ TRUYỀN THÔNG ỗ')).concat([document.fonts.load('800 40px "Playfair Display"', 'GIẤY CHỨNG NHẬN'), document.fonts.load('700 40px "Dancing Script"', 'Nguyễn Văn Ánh'), document.fonts.load('italic 500 14px "Be Vietnam Pro"', 'Hà Nội')]);
   await Promise.race([Promise.all([...loads, ...fonts]), new Promise(r => setTimeout(r, 6000))]);
   await document.fonts.ready;
-  extractAll(); S.ready = true; $('st').textContent = ''; drawBadgePreview();
+  extractAll(); S.ready = true; $('st').textContent = ''; drawBadgePreview(); prefillFromHash();
 }
 ['f_name'].forEach(id => $(id).addEventListener('input', () => { syncCur(); if (S.ready) extractAll(); renderPosts(); }));
 ['f_ten', 'f_fan', 'f_xung', 'f_lh', 'f_kinh'].forEach(id => $(id).addEventListener('input', () => { syncCur(); renderPosts(); }));

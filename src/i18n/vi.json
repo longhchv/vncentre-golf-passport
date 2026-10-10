@@ -1810,6 +1810,8 @@
   "crewQr": {
     "title": "Mã QR thẻ {{label}}",
     "download": "Tải mã QR (PNG) để in thẻ",
-    "hint": "Ảnh 1024 × 1024 px, in cỡ tối thiểu 2,5 × 2,5 cm. Quét mã này mở đúng trang checklist của bạn."
+    "hint": "Ảnh 1024 × 1024 px, in cỡ tối thiểu 2,5 × 2,5 cm. Quét mã này mở đúng trang checklist của bạn.",
+    "kit": "Bộ ảnh truyền thông của tôi",
+    "kitHint": "Mở bộ kit đã điền sẵn tên, vai và mã của bạn: thẻ đeo (có QR), Story thư mời, Khung ảnh đại diện, Poster. Thêm ảnh chân dung để hoàn thiện; ảnh chỉ nằm trên máy bạn."
   }
 }

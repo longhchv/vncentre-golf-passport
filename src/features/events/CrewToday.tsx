@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Badge, Card } from '@/components/ui/card'
 import { FormError, Textarea } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
-import { CrewQrCard } from './CrewQr'
+import { CrewKitButton, CrewQrCard } from './CrewQr'
 
 interface CrewTask { id: string; phase_no: number; phase_label: string; time_label: string | null; area: string | null; task_text: string
   status: 'open' | 'done' | 'blocked'; note: string | null; status_at: string | null }
@@ -99,6 +99,7 @@ export function CrewTodayPage({ data }: { data: CrewTodayData }) {
           defaultOpen={!next || next.phase_no === no || tasks.some((x) => x.phase_no === no && x.status === 'blocked')} />
       ))}
       <CrewQrCard code={data.code} fullName={data.full_name} slotCode={data.slot.slot_code} badgeLabel={data.slot.badge_label} />
+      <CrewKitButton fullName={data.full_name} code={data.code} badgeLabel={data.slot.badge_label} roleName={data.slot.role_name} position={data.slot.position} />
       <p className="pb-4 text-center text-xs text-navy/45">{t('crewToday.openLinkNote')}</p>
     </div>
   )

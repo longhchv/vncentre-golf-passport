@@ -1810,6 +1810,8 @@
   "crewQr": {
     "title": "{{label}} badge QR code",
     "download": "Download QR (PNG) for printing",
-    "hint": "1024 × 1024 px image; print at least 2.5 × 2.5 cm. Scanning it opens this checklist."
+    "hint": "1024 × 1024 px image; print at least 2.5 × 2.5 cm. Scanning it opens this checklist.",
+    "kit": "My media kit",
+    "kitHint": "Opens the media kit pre-filled with your name, role and code: badge (with QR), invitation story, profile frame, poster. Add a portrait to finish; the photo stays on your device."
   }
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseCrewList } from './CrewAdmin'
-import { crewQrFileName } from './CrewQr'
+import { crewKitUrl, crewQrFileName } from './CrewQr'
 
 describe('parseCrewList', () => {
   it('đọc dấu ; và tab, bỏ dòng tiêu đề và dòng trống, giữ số dòng gốc', () => {
@@ -17,5 +17,22 @@ describe('crewQrFileName', () => {
   it('bỏ dấu tiếng Việt, gắn ô và mã thẻ', () => {
     expect(crewQrFileName('Đặng Thị Ngọc Ánh', 'E1', 'WZUV8VMK')).toBe('QR-E1-Dang-Thi-Ngoc-Anh-WZUV8VMK.png')
     expect(crewQrFileName('  Lê  Văn  B ', null, 'ABCD2345')).toBe('QR-Le-Van-B-ABCD2345.png')
+  })
+})
+
+describe('crewKitUrl', () => {
+  const kit = (badgeLabel: string | null, roleName: string, position: string | null = null) =>
+    new URLSearchParams(crewKitUrl({ fullName: 'Phạm Anh Phương', code: '5J64CC2K', badgeLabel, roleName, position }).split('#')[1])
+  it('chọn vai trong bộ kit theo nhãn thẻ và bộ phận', () => {
+    expect(kit('Ban tổ chức', 'Check-in (thầy cô)').get('vai')).toBe('BTC')
+    expect(kit('Huấn luyện viên', 'Huấn luyện viên tại các trạm', 'Trạm Putting').get('role')).toBe('hlv')
+    expect(kit('Đại sứ', 'Đại sứ truyền thông').get('vai')).toBe('Dai-su')
+    expect(kit('Khách mời', 'Đón tiếp khách mời').get('role')).toBe('khach_moi')
+  })
+  it('điền tên, mã thẻ, vị trí; dùng phần # của link', () => {
+    const url = crewKitUrl({ fullName: 'Phạm Anh Phương', code: '5J64CC2K', badgeLabel: 'Ban tổ chức', roleName: 'Check-in', position: 'Bàn 1' })
+    expect(url.startsWith('/kit/#')).toBe(true)
+    const q = kit('Ban tổ chức', 'Check-in', 'Bàn 1')
+    expect([q.get('name'), q.get('ma'), q.get('sub')]).toEqual(['Phạm Anh Phương', '5J64CC2K', 'Bàn 1'])
   })
 })
