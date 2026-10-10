@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseCrewList } from './CrewAdmin'
+import { crewQrFileName } from './CrewQr'
 
 describe('parseCrewList', () => {
   it('đọc dấu ; và tab, bỏ dòng tiêu đề và dòng trống, giữ số dòng gốc', () => {
@@ -9,5 +10,12 @@ describe('parseCrewList', () => {
       { line: 4, full_name: 'Bé B', department: 'D1', contact: '0987654321', birth_year: '2017' },
       { line: 5, full_name: 'Lê C', department: 'e1', contact: 'c@x.vn', birth_year: '' },
     ])
+  })
+})
+
+describe('crewQrFileName', () => {
+  it('bỏ dấu tiếng Việt, gắn ô và mã thẻ', () => {
+    expect(crewQrFileName('Đặng Thị Ngọc Ánh', 'E1', 'WZUV8VMK')).toBe('QR-E1-Dang-Thi-Ngoc-Anh-WZUV8VMK.png')
+    expect(crewQrFileName('  Lê  Văn  B ', null, 'ABCD2345')).toBe('QR-Le-Van-B-ABCD2345.png')
   })
 })

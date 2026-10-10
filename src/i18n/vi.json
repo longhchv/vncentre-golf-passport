@@ -1806,5 +1806,10 @@
       "item_has_redemptions": "Quà này đã phát ở quầy, không xoá được.",
       "name_required": "Nhập tên món."
     }
+  },
+  "crewQr": {
+    "title": "Mã QR thẻ {{label}}",
+    "download": "Tải mã QR (PNG) để in thẻ",
+    "hint": "Ảnh 1024 × 1024 px, in cỡ tối thiểu 2,5 × 2,5 cm. Quét mã này mở đúng trang checklist của bạn."
   }
 }

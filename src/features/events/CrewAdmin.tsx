@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Copy, Download } from 'lucide-react'
+import { Copy, Download, QrCode } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { formatCode } from '@/lib/codes'
 import { usePublicBaseUrl } from '@/lib/settings'
@@ -10,6 +10,7 @@ import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { FormError, Select, Textarea } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { downloadBlob, passportUrl } from '@/features/passports/exports'
+import { crewQrFileName, downloadCrewQr } from './CrewQr'
 
 interface ImportRow { line: number; full_name: string; department: string; contact: string; birth_year: string; decision?: string }
 interface ImportResult {
@@ -189,7 +190,15 @@ export function CrewAdmin({ eventId, onChanged, showRoster = true }: { eventId: 
                   <td className={td}>{m.full_name}{m.is_child && <Badge className="ml-1">{t('crew.child')}</Badge>}{m.contact && <span className="block text-xs text-navy/55">{m.contact}</span>}</td>
                   <td className={td}>{m.student_code}</td>
                   <td className={td}>
-                    {m.passport_code && <a className="text-bronze underline" href={passportUrl(baseUrl, m.passport_code)} target="_blank" rel="noreferrer">{passportUrl(baseUrl, m.passport_code)}</a>}
+                    {m.passport_code && (
+                      <span className="flex items-center gap-2">
+                        <a className="text-bronze underline" href={passportUrl(baseUrl, m.passport_code)} target="_blank" rel="noreferrer">{formatCode(m.passport_code)}</a>
+                        <Button size="sm" variant="outline" aria-label={t('crewQr.download')} title={t('crewQr.download')}
+                          onClick={() => downloadCrewQr(passportUrl(baseUrl, m.passport_code!), crewQrFileName(m.full_name, m.slot_code, m.passport_code!))}>
+                          <QrCode className="h-4 w-4" /> PNG
+                        </Button>
+                      </span>
+                    )}
                   </td>
                   <td className={td}>{t('crew.progressValue', { done: m.done, total: m.tasks })}{m.blocked > 0 && <Badge tone="bad" className="ml-1">{t('crew.blockedN', { n: m.blocked })}</Badge>}</td>
                 </tr>

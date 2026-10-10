@@ -1806,5 +1806,10 @@
       "item_has_redemptions": "This gift was given at the counter; cannot delete.",
       "name_required": "Enter a name."
     }
+  },
+  "crewQr": {
+    "title": "{{label}} badge QR code",
+    "download": "Download QR (PNG) for printing",
+    "hint": "1024 × 1024 px image; print at least 2.5 × 2.5 cm. Scanning it opens this checklist."
   }
 }
