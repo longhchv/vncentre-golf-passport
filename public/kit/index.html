@@ -493,7 +493,7 @@ async function saveZip() {
 function loadPhoto(input, key, thumb) {
   const f = input.files && input.files[0]; if (!f) return;
   const url = URL.createObjectURL(f); const im = new Image();
-  im.onload = () => { S.photos[key] = im; (S.files || (S.files = {}))[key] = f; $(thumb).src = url; queue(); if (CUR) renderTable(); kitAutosave(); };
+  im.onload = () => { S.photos[key] = im; (S.files || (S.files = {}))[key] = f; (S.dirty || (S.dirty = new Set())).add(key); $(thumb).src = url; queue(); if (CUR) renderTable(); kitAutosave(); };
   im.onerror = () => toast('Không đọc được ảnh này, hãy chọn ảnh JPG hoặc PNG');
   im.src = url;
 }
@@ -522,53 +522,131 @@ function kitLock(msg) {
 }
 function kitHide(el) { if (el) el.style.display = 'none'; }
 function kitSection(title) { return [...document.querySelectorAll('section h2')].find(h => h.textContent.trim().startsWith(title))?.closest('section'); }
-// Lưu trên máy (IndexedDB), theo mã thẻ: thông tin đã nhập, ảnh gốc, chỉnh phóng to / vị trí. Không gửi lên máy chủ.
-const KIT_SAVE = {ma: null, fixed: [], timer: 0, ready: false};
+// Lưu bộ kit theo mã thẻ, hai nơi:
+// - Trên máy (IndexedDB): luôn có, mở lại nhanh, dùng được khi mất mạng.
+// - Trên máy chủ (Edge Function crew-kit, kho riêng tư): sau khi xác minh SĐT / email đã đăng ký, mở được ở mọi thiết bị.
+//   Khoá phiên giữ trong localStorage của thiết bị; ảnh nén ≤ 2000 px trước khi tải lên.
+const KIT_SAVE = {ma: null, fixed: [], timer: 0, ready: false, token: null, cloudTimer: 0};
+const KIT_FN = () => KIT_API.url + '/functions/v1/crew-kit';
+const KIT_HDR = () => ({apikey: KIT_API.key, Authorization: 'Bearer ' + KIT_API.key});
 function kitDb() {
   return new Promise((res, rej) => { const r = indexedDB.open('golf-kit', 1); r.onupgradeneeded = () => r.result.createObjectStore('saves'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
 }
 async function kitStore(mode, fn) { const db = await kitDb(); return new Promise((res, rej) => { const tx = db.transaction('saves', mode); const q = fn(tx.objectStore('saves')); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); }); }
-function kitFields() { return [...document.querySelectorAll('main input[id], main select[id], main textarea[id]')].filter(e => e.type !== 'file' && !KIT_SAVE.fixed.includes(e.id)); }
+function kitFields() { return [...document.querySelectorAll('main input[id], main select[id], main textarea[id]')].filter(e => e.type !== 'file' && !e.id.startsWith('kit_') && !KIT_SAVE.fixed.includes(e.id)); }
+function kitSnapshot() { const fields = {}; kitFields().forEach(e => { fields[e.id] = e.type === 'checkbox' ? e.checked : e.value; }); return {fields, adj: S.adj}; }
+const kitTime = t => new Date(t).toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+function kitStatus(msg) { $('kit_saved').textContent = msg; }
+function kitTokenKey() { return 'kit_token_' + KIT_SAVE.ma; }
+function kitGetToken() { try { return localStorage.getItem(kitTokenKey()); } catch (e) { return null; } }
+function kitSetToken(t) { try { if (t) localStorage.setItem(kitTokenKey(), t); else localStorage.removeItem(kitTokenKey()); } catch (e) {} KIT_SAVE.token = t; kitCloudUi(); }
+
 async function kitSave(manual) {
   if (!KIT_SAVE.ma || !KIT_SAVE.ready) return;
-  const fields = {}; kitFields().forEach(e => { fields[e.id] = e.type === 'checkbox' ? e.checked : e.value; });
-  const data = {fields, adj: S.adj, photos: {P: (S.files || {}).P || null, S: (S.files || {}).S || null}, savedAt: Date.now()};
+  const data = {...kitSnapshot(), photos: {P: (S.files || {}).P || null, S: (S.files || {}).S || null}, savedAt: Date.now()};
   try {
     await kitStore('readwrite', st => st.put(data, KIT_SAVE.ma));
-    $('kit_saved').textContent = 'Đã lưu lúc ' + new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'}) + ' trên máy này';
-    if (manual) toast('Đã lưu. Lần sau mở lại từ checklist sẽ hiện đúng như bây giờ.');
-  } catch (e) { $('kit_saved').textContent = 'Trình duyệt này không cho lưu (chế độ ẩn danh?). Hãy tải ảnh về trước khi đóng.'; }
+    if (!KIT_SAVE.token) kitStatus('Đã lưu lúc ' + kitTime(Date.now()) + ' trên máy này');
+  } catch (e) { if (!KIT_SAVE.token) kitStatus('Trình duyệt này không cho lưu (chế độ ẩn danh?). Hãy tải ảnh về trước khi đóng.'); }
+  if (KIT_SAVE.token) { clearTimeout(KIT_SAVE.cloudTimer); KIT_SAVE.cloudTimer = setTimeout(kitCloudSave, manual ? 0 : 1500); }
+  if (manual) toast(KIT_SAVE.token ? 'Đang lưu lên máy chủ…' : 'Đã lưu trên máy này. Xác minh SĐT/email để mở được ở máy khác.');
 }
 function kitAutosave() { clearTimeout(KIT_SAVE.timer); KIT_SAVE.timer = setTimeout(() => kitSave(false), 800); }
+
+// Nén ảnh trước khi tải lên máy chủ
+function kitShrink(im) {
+  return new Promise(res => {
+    const k = Math.min(1, 2000 / Math.max(im.naturalWidth || im.width, im.naturalHeight || im.height));
+    const c = document.createElement('canvas'); c.width = Math.round((im.naturalWidth || im.width) * k); c.height = Math.round((im.naturalHeight || im.height) * k);
+    c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); c.toBlob(res, 'image/jpeg', 0.88);
+  });
+}
+async function kitCloudSave() {
+  if (!KIT_SAVE.token) return;
+  const fd = new FormData(); fd.append('token', KIT_SAVE.token); fd.append('data', JSON.stringify(kitSnapshot()));
+  const sent = [...(S.dirty || [])];
+  for (const k of sent) if (S.photos[k]) fd.append(k, await kitShrink(S.photos[k]), k + '.jpg');
+  kitStatus('Đang lưu lên máy chủ…');
+  try {
+    const r = await fetch(KIT_FN(), {method: 'POST', headers: KIT_HDR(), body: fd});
+    if (r.status === 401) { kitSetToken(null); kitStatus('Phiên đã hết hạn, hãy xác minh lại SĐT / email để lưu lên máy chủ.'); return; }
+    if (!r.ok) throw new Error('save');
+    sent.forEach(k => S.dirty.delete(k));
+    kitStatus('Đã lưu lên máy chủ lúc ' + kitTime(Date.now()) + ' · mở được ở mọi thiết bị');
+  } catch (e) { kitStatus('Chưa lưu lên máy chủ được (mạng?). Đã lưu trên máy này, sẽ thử lại khi bạn sửa tiếp.'); }
+}
+async function kitCloudLogin() {
+  const contact = $('kit_contact').value.trim(); if (!contact) return;
+  const btn = $('kit_login'); btn.disabled = true; btn.textContent = 'Đang kiểm tra…';
+  try {
+    const r = await fetch(KIT_FN(), {method: 'POST', headers: {...KIT_HDR(), 'Content-Type': 'application/json'}, body: JSON.stringify({action: 'login', code: KIT_SAVE.ma, contact})});
+    const d = await r.json();
+    if (d.result === 'ok') {
+      kitSetToken(d.token);
+      const cloud = await kitCloudFetch();
+      if (cloud && !cloud.empty) { await kitApply(cloud.data, cloud.photos, true); extractAll(); renderPosts(); drawBadgePreview(); toast('Đã mở bản lưu trên máy chủ'); }
+      else { S.dirty = new Set(['P', 'S'].filter(k => S.photos[k])); await kitCloudSave(); toast('Đã xác minh. Từ giờ bộ kit tự lưu lên máy chủ.'); }
+    } else if (d.result === 'wrong') toast(`SĐT / email không khớp với danh sách nhân sự. Còn ${d.remaining} lần thử.`);
+    else if (d.result === 'locked') toast('Nhập sai quá số lần, tạm khoá 24 giờ. Liên hệ Điều phối chung.');
+    else toast('SĐT / email chưa đúng định dạng.');
+  } catch (e) { toast('Chưa kết nối được máy chủ, thử lại sau.'); }
+  if ($('kit_login')) { $('kit_login').disabled = false; $('kit_login').textContent = 'Lưu lên máy chủ (mở ở mọi máy)'; }
+}
+async function kitCloudFetch() {
+  if (!KIT_SAVE.token) return null;
+  try {
+    const r = await fetch(KIT_FN(), {method: 'POST', headers: {...KIT_HDR(), 'Content-Type': 'application/json'}, body: JSON.stringify({action: 'load', token: KIT_SAVE.token})});
+    if (r.status === 401) { kitSetToken(null); return null; }
+    return r.ok ? await r.json() : null;
+  } catch (e) { return null; }
+}
+// Áp bản lưu: ô nhập, chỉnh ảnh, ảnh (Blob trên máy hoặc link có hạn từ máy chủ)
+async function kitApply(d, photos, fromCloud) {
+  const f = (d && d.fields) || {};
+  if (f.f_role != null && !KIT_SAVE.fixed.includes('f_role')) { $('f_role').value = f.f_role; $('f_role').dispatchEvent(new Event('change')); }
+  Object.entries(f).forEach(([id, val]) => { const e = $(id); if (!e || id === 'f_role' || id.startsWith('kit_') || KIT_SAVE.fixed.includes(id)) return; if (e.type === 'checkbox') e.checked = !!val; else e.value = val; });
+  Object.entries((d && d.adj) || {}).forEach(([k, a]) => { if (!S.adj[k]) return; S.adj[k] = {...S.adj[k], ...a}; ['z', 'x', 'y'].forEach(q => { const r = $(`${q}_${k}`); if (r && a[q] != null) r.value = a[q]; }); });
+  await Promise.all(Object.entries(photos || {}).filter(([, v]) => v).map(async ([key, src]) => {
+    let blob = src;
+    if (typeof src === 'string') { try { blob = await (await fetch(src)).blob(); } catch (e) { return; } }
+    const url = URL.createObjectURL(blob);
+    await new Promise(res => { const im = new Image(); im.onload = () => { S.photos[key] = im; (S.files || (S.files = {}))[key] = blob; $(key === 'P' ? 't_p' : 't_s').src = url; res(); }; im.onerror = res; im.src = url; });
+  }));
+  if (fromCloud && S.dirty) S.dirty.clear();
+}
 async function kitRestore() {
+  KIT_SAVE.token = kitGetToken(); kitCloudUi();
+  const cloud = await kitCloudFetch();
+  if (cloud && !cloud.empty) { await kitApply(cloud.data, cloud.photos, true); kitStatus('Đã mở bản lưu trên máy chủ (lúc ' + kitTime(cloud.updated_at) + ')'); return true; }
   let d = null; try { d = await kitStore('readonly', st => st.get(KIT_SAVE.ma)); } catch (e) { d = null; }
   if (!d) return false;
-  const f = d.fields || {};
-  if (f.f_role != null && !KIT_SAVE.fixed.includes('f_role')) { $('f_role').value = f.f_role; $('f_role').dispatchEvent(new Event('change')); }
-  Object.entries(f).forEach(([id, val]) => { const e = $(id); if (!e || id === 'f_role' || KIT_SAVE.fixed.includes(id)) return; if (e.type === 'checkbox') e.checked = !!val; else e.value = val; });
-  Object.entries(d.adj || {}).forEach(([k, a]) => { if (!S.adj[k]) return; S.adj[k] = {...S.adj[k], ...a}; ['z', 'x', 'y'].forEach(q => { const r = $(`${q}_${k}`); if (r && a[q] != null) r.value = a[q]; }); });
-  const loads = Object.entries(d.photos || {}).filter(([, b]) => b).map(([key, blob]) => new Promise(res => {
-    const url = URL.createObjectURL(blob); const im = new Image();
-    im.onload = () => { S.photos[key] = im; (S.files || (S.files = {}))[key] = blob; $(key === 'P' ? 't_p' : 't_s').src = url; res(); };
-    im.onerror = () => res(); im.src = url;
-  }));
-  await Promise.all(loads);
-  $('kit_saved').textContent = 'Đã mở bản lưu lúc ' + new Date(d.savedAt).toLocaleString('vi-VN', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit'});
+  await kitApply(d, d.photos, false);
+  kitStatus('Đã mở bản lưu trên máy này lúc ' + new Date(d.savedAt).toLocaleString('vi-VN', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit'}));
+  if (KIT_SAVE.token) S.dirty = new Set(['P', 'S'].filter(k => S.photos[k]));
   return true;
 }
 async function kitClear() {
   try { await kitStore('readwrite', st => st.delete(KIT_SAVE.ma)); } catch (e) {}
   location.reload();
 }
+function kitCloudUi() {
+  const box = $('kit_cloud'); if (!box) return;
+  box.innerHTML = KIT_SAVE.token
+    ? '<span class="note">Đã xác minh: bộ kit tự lưu lên máy chủ, mở được ở mọi thiết bị.</span><button class="sec" type="button" id="kit_logout">Thoát trên máy này</button>'
+    : '<input type="text" id="kit_contact" placeholder="SĐT hoặc email đã đăng ký với BTC" autocomplete="off" style="flex:1;min-width:200px"><button class="pri" type="button" id="kit_login">Lưu lên máy chủ (mở ở mọi máy)</button>';
+  if (KIT_SAVE.token) $('kit_logout').onclick = () => { kitSetToken(null); kitStatus('Đã thoát. Bản lưu trên máy chủ vẫn còn, xác minh lại để mở.'); };
+  else $('kit_login').onclick = kitCloudLogin;
+}
 function kitSaveBar() {
   const bar = document.createElement('div');
-  bar.style.cssText = 'position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;margin:0 0 12px;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(8,6,52,.12)';
-  bar.innerHTML = '<button class="gold" type="button" id="kit_save">Lưu thông tin và ảnh</button><span class="note" id="kit_saved">Tự lưu trên máy này mỗi khi bạn thay đổi.</span><button class="sec" type="button" id="kit_clear" style="margin-left:auto">Xoá bản lưu</button>';
+  bar.style.cssText = 'position:sticky;top:0;z-index:20;display:flex;flex-direction:column;gap:8px;padding:10px 14px;margin:0 0 12px;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(8,6,52,.12)';
+  bar.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><button class="gold" type="button" id="kit_save">Lưu thông tin và ảnh</button><span class="note" id="kit_saved">Tự lưu mỗi khi bạn thay đổi.</span><button class="sec" type="button" id="kit_clear" style="margin-left:auto">Xoá bản lưu trên máy này</button></div><div id="kit_cloud" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>';
   document.querySelector('main').insertAdjacentElement('afterbegin', bar);
   $('kit_save').onclick = () => kitSave(true);
   $('kit_clear').onclick = kitClear;
-  document.querySelector('main').addEventListener('input', e => { if (e.target.type !== 'file') kitAutosave(); });
-  document.querySelector('main').addEventListener('change', e => { if (e.target.type !== 'file') kitAutosave(); });
+  document.querySelector('main').addEventListener('input', e => { if (e.target.type !== 'file' && !String(e.target.id).startsWith('kit_')) kitAutosave(); });
+  document.querySelector('main').addEventListener('change', e => { if (e.target.type !== 'file' && !String(e.target.id).startsWith('kit_')) kitAutosave(); });
+  kitCloudUi();
 }
 async function prefillFromHash() {
   const ma = new URLSearchParams(location.hash.slice(1)).get('ma');

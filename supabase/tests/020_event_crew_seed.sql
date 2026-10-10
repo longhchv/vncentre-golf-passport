@@ -4,7 +4,9 @@ do $$
 declare
   v_event uuid; v_student uuid; v_slot uuid; v_asg uuid; ok boolean; n int;
 begin
-  if (select count(*) from public.event_crew_slots) <> 20 then raise exception 'FAIL: số ô vai %', (select count(*) from public.event_crew_slots); end if;
+  -- 20 ô mẫu từ seed; bộ phận đầy thì hệ thống thêm ô (D2, C5…) nên chỉ kiểm tra đủ 20 ô gốc
+  if (select count(*) from public.event_crew_slots where slot_code in ('A','B','C1','C2','C3','C4','D1','E1','E2','E3','F1','F2','K1')) < 13
+     or (select count(*) from public.event_crew_slots) < 20 then raise exception 'FAIL: số ô vai %', (select count(*) from public.event_crew_slots); end if;
   if (select count(*) from public.event_crew_task_templates) <> 70 then raise exception 'FAIL: số việc mẫu'; end if;
   if (select count(*) from public.event_crew_supplies) <> 26 then raise exception 'FAIL: số vật dụng'; end if;
   if (select count(distinct role_code) from public.event_crew_slots) <> 8 then raise exception 'FAIL: số vai'; end if;
