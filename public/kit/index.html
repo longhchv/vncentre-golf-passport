@@ -493,7 +493,7 @@ async function saveZip() {
 function loadPhoto(input, key, thumb) {
   const f = input.files && input.files[0]; if (!f) return;
   const url = URL.createObjectURL(f); const im = new Image();
-  im.onload = () => { S.photos[key] = im; $(thumb).src = url; queue(); if (CUR) renderTable(); };
+  im.onload = () => { S.photos[key] = im; (S.files || (S.files = {}))[key] = f; $(thumb).src = url; queue(); if (CUR) renderTable(); kitAutosave(); };
   im.onerror = () => toast('Không đọc được ảnh này, hãy chọn ảnh JPG hoặc PNG');
   im.src = url;
 }
@@ -522,6 +522,54 @@ function kitLock(msg) {
 }
 function kitHide(el) { if (el) el.style.display = 'none'; }
 function kitSection(title) { return [...document.querySelectorAll('section h2')].find(h => h.textContent.trim().startsWith(title))?.closest('section'); }
+// Lưu trên máy (IndexedDB), theo mã thẻ: thông tin đã nhập, ảnh gốc, chỉnh phóng to / vị trí. Không gửi lên máy chủ.
+const KIT_SAVE = {ma: null, fixed: [], timer: 0, ready: false};
+function kitDb() {
+  return new Promise((res, rej) => { const r = indexedDB.open('golf-kit', 1); r.onupgradeneeded = () => r.result.createObjectStore('saves'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+}
+async function kitStore(mode, fn) { const db = await kitDb(); return new Promise((res, rej) => { const tx = db.transaction('saves', mode); const q = fn(tx.objectStore('saves')); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); }); }
+function kitFields() { return [...document.querySelectorAll('main input[id], main select[id], main textarea[id]')].filter(e => e.type !== 'file' && !KIT_SAVE.fixed.includes(e.id)); }
+async function kitSave(manual) {
+  if (!KIT_SAVE.ma || !KIT_SAVE.ready) return;
+  const fields = {}; kitFields().forEach(e => { fields[e.id] = e.type === 'checkbox' ? e.checked : e.value; });
+  const data = {fields, adj: S.adj, photos: {P: (S.files || {}).P || null, S: (S.files || {}).S || null}, savedAt: Date.now()};
+  try {
+    await kitStore('readwrite', st => st.put(data, KIT_SAVE.ma));
+    $('kit_saved').textContent = 'Đã lưu lúc ' + new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'}) + ' trên máy này';
+    if (manual) toast('Đã lưu. Lần sau mở lại từ checklist sẽ hiện đúng như bây giờ.');
+  } catch (e) { $('kit_saved').textContent = 'Trình duyệt này không cho lưu (chế độ ẩn danh?). Hãy tải ảnh về trước khi đóng.'; }
+}
+function kitAutosave() { clearTimeout(KIT_SAVE.timer); KIT_SAVE.timer = setTimeout(() => kitSave(false), 800); }
+async function kitRestore() {
+  let d = null; try { d = await kitStore('readonly', st => st.get(KIT_SAVE.ma)); } catch (e) { d = null; }
+  if (!d) return false;
+  const f = d.fields || {};
+  if (f.f_role != null && !KIT_SAVE.fixed.includes('f_role')) { $('f_role').value = f.f_role; $('f_role').dispatchEvent(new Event('change')); }
+  Object.entries(f).forEach(([id, val]) => { const e = $(id); if (!e || id === 'f_role' || KIT_SAVE.fixed.includes(id)) return; if (e.type === 'checkbox') e.checked = !!val; else e.value = val; });
+  Object.entries(d.adj || {}).forEach(([k, a]) => { if (!S.adj[k]) return; S.adj[k] = {...S.adj[k], ...a}; ['z', 'x', 'y'].forEach(q => { const r = $(`${q}_${k}`); if (r && a[q] != null) r.value = a[q]; }); });
+  const loads = Object.entries(d.photos || {}).filter(([, b]) => b).map(([key, blob]) => new Promise(res => {
+    const url = URL.createObjectURL(blob); const im = new Image();
+    im.onload = () => { S.photos[key] = im; (S.files || (S.files = {}))[key] = blob; $(key === 'P' ? 't_p' : 't_s').src = url; res(); };
+    im.onerror = () => res(); im.src = url;
+  }));
+  await Promise.all(loads);
+  $('kit_saved').textContent = 'Đã mở bản lưu lúc ' + new Date(d.savedAt).toLocaleString('vi-VN', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit'});
+  return true;
+}
+async function kitClear() {
+  try { await kitStore('readwrite', st => st.delete(KIT_SAVE.ma)); } catch (e) {}
+  location.reload();
+}
+function kitSaveBar() {
+  const bar = document.createElement('div');
+  bar.style.cssText = 'position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;margin:0 0 12px;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(8,6,52,.12)';
+  bar.innerHTML = '<button class="gold" type="button" id="kit_save">Lưu thông tin và ảnh</button><span class="note" id="kit_saved">Tự lưu trên máy này mỗi khi bạn thay đổi.</span><button class="sec" type="button" id="kit_clear" style="margin-left:auto">Xoá bản lưu</button>';
+  document.querySelector('main').insertAdjacentElement('afterbegin', bar);
+  $('kit_save').onclick = () => kitSave(true);
+  $('kit_clear').onclick = kitClear;
+  document.querySelector('main').addEventListener('input', e => { if (e.target.type !== 'file') kitAutosave(); });
+  document.querySelector('main').addEventListener('change', e => { if (e.target.type !== 'file') kitAutosave(); });
+}
 async function prefillFromHash() {
   const ma = new URLSearchParams(location.hash.slice(1)).get('ma');
   if (!ma) { kitLock('Mở Bộ ảnh truyền thông từ checklist của bạn trên app.vncentre.net (quét QR thẻ đeo, bấm "Bộ ảnh truyền thông của tôi").'); return; }
@@ -538,6 +586,11 @@ async function prefillFromHash() {
   $('bd_vai').value = vai;
   $('bd_sub').value = d.slot.position || d.slot.role_name || '';
   $('bd_ma').value = d.code;
+  KIT_SAVE.ma = d.code;
+  KIT_SAVE.fixed = full ? [] : ['f_role', 'bd_vai', 'bd_ma', 'bd_url'];
+  kitSaveBar();
+  await kitRestore();
+  if (!full) { $('bd_vai').value = vai; $('bd_ma').value = d.code; }
   if (!full) {
     kitHide($('batch'));
     kitHide($('f_role').closest('div'));
@@ -551,7 +604,8 @@ async function prefillFromHash() {
     const hd = document.querySelector('header p'); if (hd) hd.textContent = `${d.full_name} · ${d.slot.badge_label || ''} · ${d.slot.role_name || ''}`;
   }
   $('f_name').dispatchEvent(new Event('input'));
-  drawBadgePreview();
+  extractAll(); renderPosts(); drawBadgePreview();
+  KIT_SAVE.ready = true;
 }
 async function init() {
   buildOuts(); renderPosts();
