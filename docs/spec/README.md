@@ -1,6 +1,8 @@
 # VN Centre Golf Passport — Bộ tài liệu mô tả yêu cầu
 
-Phiên bản: **v0.8** · Ngày: 07/10/2026 · Người soạn: Minh (R&D đào tạo golf) · Chủ sản phẩm duyệt: Vũ Anh Long
+Phiên bản: **v0.9** · Ngày: 14/10/2026 · Người soạn: Minh (R&D đào tạo golf) · Chủ sản phẩm duyệt: Vũ Anh Long
+
+**Mới ở v0.9:** thêm `12-module-chuyen-thi-dau.md` — quản lý chuyến đi giải của golfer (hậu cần, hành lý, thời gian biểu trước vòng tee time/shotgun, ăn uống, kết quả và phân tích theo cấp độ, tài chính chuyến đi, giải trong nước/quốc tế, xác thực kết quả qua Livescore đối chiếu VGA, thời tiết và sức khoẻ từ Open-Meteo, chế độ nâng cao: scorecard, gậy, yardage, pin location, chiến lược từng hố và phân tích AI), kèm seed `data/chuyen-thi-dau/` và bản thử `prototypes/chuyen-thi-dau.html`.
 
 **Mới ở v0.8:** thêm `10-module-trai-nghiem-su-kien.md`, module ngoại lệ trong đợt 1 cho Lễ phát động 10/10/2026.
 
@@ -24,6 +26,7 @@ Phiên bản: **v0.8** · Ngày: 07/10/2026 · Người soạn: Minh (R&D đào 
 | `08-dot-6-lop-1-1.md` | Đợt 6: chương trình 1-1, hồ sơ học viên hai mức, giáo án riêng, lịch và đặt buổi, chạy buổi học, nhận xét, bài tập, đánh giá | **Đủ chi tiết để build** |
 | `09-dot-7-san-ket-noi-hlv.md` | Đợt 7: 5 nhóm HLV, xác minh, hồ sơ công khai, tìm và so sánh, giá/combo/coupon, gói Coach, testimonial, AI soạn bài giới thiệu | Khung đã chốt — viết chi tiết sau |
 | `10-module-trai-nghiem-su-kien.md` | Module ngoại lệ trong đợt 1: thẻ hạng "Trải nghiệm sự kiện", ghi tên tại chỗ, quầy đổi quà (nhập điểm 4 trạm, hoàn thành, đổi quà), tự xác nhận bằng ảnh, chứng nhận theo người, kích hoạt qua email | **Đủ chi tiết để build** — có hạn 10/10/2026 |
+| `12-module-chuyen-thi-dau.md` | Module chuyến thi đấu: thành viên và phân quyền theo chuyến, hậu cần, hành lý tự tính, ngày tập/vòng đấu (tee time, shotgun), thời gian biểu tính ngược, ăn uống theo hố, lưu ý trước vòng, kết quả và phân tích theo cấp độ, kho đồ, tài chính và so sánh chuyến | **Đủ chi tiết để build** — ngoại lệ trong đợt 1 (chốt 14/10/2026) |
 | `06-cong-nghe-chi-phi.md` | Công nghệ, tài khoản cần đăng ký, chi phí dự kiến, môi trường | Hoàn chỉnh |
 | `phu-luc-A-file-mau-nhap.md` | File Excel mẫu nhập danh sách và lịch sử khoá học | Hoàn chỉnh |
 | `phu-luc-B-ky-nang-L1-L3.md` | Danh mục kỹ năng Level 1–3 (bản nháp) | **Chờ anh Long duyệt** |

@@ -80,3 +80,21 @@ Các câu hỏi phát sinh và quyết định đã chốt trong lúc Claude Cod
 | B19 | Tên miền `app.vncentre.net`: DNS `vncentre.net` ở Namecheap nên Worker không gắn thẳng được. Dùng thêm Cloudflare **Pages** build từ cùng repo, Namecheap thêm 1 bản ghi CNAME `app`; các bản ghi DNS khác giữ nguyên. Cân nhắc chuyển DNS sang Cloudflare khi dựng bản chạy thật | 1 | Anh Long | **Xong 08/10/2026** |
 | B20 | Sự kiện 10/10 dùng tạm Supabase staging (gói Free, không có sao lưu tự động) cho dữ liệu thật; nâng gói Pro sau. Bù lại: `scripts/backup.mjs` sao lưu CSDL + tài khoản đăng nhập + file kho, lịch Windows mỗi giờ (9–11/10) và hằng ngày 23:00, chép sang Google Drive (`sao-luu`); `scripts/restore-backup.mjs` khôi phục. Xem `docs/van-hanh/sao-luu-khoi-phuc.md` | 1 | Anh Long | **Đã chốt 07/10/2026** |
 | B21 | Module sự kiện: vai trò **BTC sự kiện trải nghiệm** (`event_staff`, gán theo sự kiện) chỉ có màn hình Quầy đổi quà, không vào trang quản trị. Ngoài E4 (ghi tên hộ, nhập điểm, hoàn thành, đổi quà), BTC được **duyệt / từ chối ảnh tự xác nhận** của sự kiện mình (đổi E5 bước 4: trước chỉ admin) và xem bảng theo dõi trực tiếp. BTC vẫn không thấy SĐT, email người chơi (E-R12) | 1 (sự kiện) | Anh Long | **Đã chốt 08/10/2026** |
+
+## Module chuyến thi đấu (v0.9, 14/10/2026)
+
+| # | Việc | Ảnh hưởng | Ai quyết | Trạng thái |
+|---|---|---|---|---|
+| CT1 | Xếp module vào lộ trình | Thứ tự build | Anh Long | **Chốt 14/10/2026**: ngoại lệ trong đợt 1; giải 15/10 chạy bằng bản thử |
+| CT2 | Bảng quy đổi Level 10–20 → handicap tương đương (`quy_doi_level_hdc.csv`) | Phân tích sau vòng | Anh Long | **Tạm dùng, chốt 14/10/2026**; chỉnh lại sau |
+| CT3 | Admin có được xem tài chính chuyến không | Phân quyền | Anh Long | **Chốt 14/10/2026**: admin xem được (chỉ xem). Số liệu tổng hợp ẩn danh để làm báo cáo chi phí trung bình: chưa bàn |
+| CT4 | Mốc chỉ số theo handicap (`moc_chi_so_theo_hdc.csv`) đang là số liệu tham khảo của golfer nghiệp dư; thay bằng số liệu golfer trẻ VN Centre khi đủ dữ liệu | Phân tích | Minh đề xuất, anh Long duyệt | Tạm dùng |
+| CT5 | Xác nhận kết quả giải để vào hồ sơ học bổng | Đợt 1 (trạng thái), đợt 4 (`external_results`) | Anh Long | **Chốt 14/10/2026**: VĐV đưa link Livescore, hệ thống đối chiếu với kết quả VGA (spec 12 mục 5.7) |
+| CT6 | Bản tiếng Anh cho các bảng mẫu (hành lý, checklist, lịch, ăn uống, lưu ý) | Song ngữ | Minh | Chưa bắt đầu |
+| CT7 | Thông báo nhắc: hạn hậu cần, tối trước vòng (giờ ngủ), giờ rời khách sạn — thêm vào `phu-luc-F` | Thông báo | Minh soạn, anh Long duyệt | Chưa bắt đầu |
+| CT8 | Ảnh hoá đơn cho khoản chi (kho file riêng tư, dung lượng) và tỷ giá tự động | Tài chính | Anh Long | Để sau bản 1 |
+| CT9 | Nguồn dữ liệu kết quả từ VGA (vHandicap hoặc file kết quả) để đối chiếu tự động; giải quốc tế không có trên hệ thống VGA thì đối chiếu với trang của BTC | Tự động hoá CT5 | Anh Long làm việc với VGA | Chờ |
+| CT10 | Giấy phép Open-Meteo: dùng gói miễn phí vì module không thu phí (chốt 14/10/2026). Điều khoản của Open-Meteo xếp **app có gói thu phí (subscription) hoặc quảng cáo** vào loại thương mại; khi Golf Passport mở gói Premium (đợt 4) phải chuyển sang gói trả phí (Standard 29 USD/tháng) bằng cách đổi cấu hình. Nên gửi email info@open-meteo.com mô tả dự án golf trẻ phi lợi nhuận để xin xác nhận bằng văn bản | Thời tiết | Anh Long | Đang dùng gói miễn phí |
+| CT11 | Thư viện sân dùng chung: lưu scorecard, yardage, toạ độ theo **sân và tee** để chuyến sau và VĐV khác dùng lại, thay vì nhập theo từng chuyến | Chế độ nâng cao | Minh đề xuất, anh Long duyệt | Để sau bản 1 |
+| CT12 | Nhà cung cấp AI cho đọc ảnh và phân tích chiến lược (gắn D35), mẫu văn bản phụ huynh đồng ý `ai_processing` | Chế độ nâng cao | Anh Long | **Chốt 14/10/2026: Claude API** (Haiku 5.5 đọc ảnh, Sonnet 5.5 phân tích), đặt trần chi tiêu tháng. Còn: văn bản đồng ý của phụ huynh |
+| CT13 | Phương án AI miễn phí hoàn toàn: Cloudflare Workers AI làm dự phòng khi Claude lỗi hoặc hết trần chi tiêu | Chế độ nâng cao | Anh Long | **Chốt 14/10/2026.** Còn: anh Long gửi 5 ảnh scorecard và 3 ảnh pin sheet thật để chạy thử so sánh (bước 7d) |
