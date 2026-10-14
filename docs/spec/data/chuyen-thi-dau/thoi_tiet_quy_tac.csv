@@ -1,0 +1,18 @@
+chi_so,tu_gia_tri,duoi_gia_tri,muc,ten_vi,khuyen_nghi_vi,them_vao_checklist_vi
+feels,27,32,1,Nóng — cẩn trọng,"Uống vài ngụm nước sau mỗi hố, không đợi khát | Đội mũ, đứng bóng râm khi chờ đánh",
+feels,32,39,2,Nóng — rất cẩn trọng,"Mang thêm 1 chai nước và 2 gói điện giải | Khăn lạnh quàng cổ, che ô giữa các cú đánh | Khởi động trong bóng râm, rút bãi tập xuống 15 phút","Khăn lạnh + thêm 1 chai nước, 2 gói điện giải"
+feels,39,51,3,Nắng nóng nguy hiểm,"Làm đủ các việc ở mức ""rất cẩn trọng"" | Người đi cùng theo sát dấu hiệu say nóng: chóng mặt, đau đầu, buồn nôn, chuột rút, da nóng đỏ, lơ mơ | Có dấu hiệu là dừng chơi, đưa vào bóng mát, làm mát, báo BTC và y tế giải | Hỏi BTC vị trí điểm nước và khu nghỉ trên sân","Khăn lạnh + thêm 1 chai nước, 2 gói điện giải | Hỏi BTC điểm nước, khu nghỉ, số y tế giải"
+feels,51,999,4,Nắng nóng cực kỳ nguy hiểm,"Đề nghị BTC xem xét đổi giờ hoặc hoãn | Hạn chế ở ngoài trời trước giờ xuất phát | Làm đủ các việc ở mức ""nguy hiểm""","Hỏi BTC điểm nước, khu nghỉ, số y tế giải"
+uv,6,8,1,UV cao,"Kem chống nắng trước khi ra sân, mũ, kính râm",
+uv,8,11,2,UV rất cao,"Kem chống nắng SPF 50, bôi lại sau 9 hố | Ống tay chống nắng, mũ rộng vành",Bôi lại kem chống nắng sau 9 hố
+uv,11,99,3,UV cực cao,"Kem SPF 50 bôi lại sau 9 hố, ống tay, mũ rộng vành | Che ô khi chờ, hạn chế đứng nắng ở bãi tập",Bôi lại kem chống nắng sau 9 hố
+rain,30,60,1,Có thể mưa,Áo mưa và khăn khô để sẵn trong túi gậy,Áo mưa + khăn khô trong túi gậy
+rain,60,101,2,Khả năng mưa cao,"Áo mưa, găng tay đánh mưa, 2–3 khăn khô | Đôi giày thứ hai, áo mưa trùm túi gậy | Giữ tay cầm gậy khô: lau trước mỗi cú","Áo mưa + khăn khô trong túi gậy | Găng mưa, giày dự phòng, áo trùm túi gậy"
+wind,30,50,1,Gió mạnh,"Đánh bóng thấp, tính thêm gậy khi ngược gió | Áo gió mỏng",
+wind,50,999,2,Gió rất mạnh,"Theo dõi thông báo của BTC | Tránh đứng gần cây cao khi gió giật | Đánh thấp, ưu tiên an toàn hơn khoảng cách",
+tmin,-99,10,2,Rét buổi sáng,"Mặc nhiều lớp, mũ len, găng giữ ấm giữa các cú | Khởi động lâu hơn 10 phút | Mang nước ấm","Áo nhiều lớp, mũ len, găng giữ ấm, nước ấm"
+tmin,10,16,1,Lạnh buổi sáng,"Áo khoác mỏng hoặc áo giữ nhiệt, cởi dần khi ấm | Khởi động lâu hơn 5 phút",Áo giữ nhiệt / áo khoác mỏng
+aqi,101,151,1,Không khí kém,"Đeo khẩu trang khi di chuyển | Khởi động nhẹ, tránh gắng sức lâu ngoài trời trước giờ thi đấu | Các bạn có vấn đề hô hấp làm theo hướng dẫn của bác sĩ, mang theo thuốc đang dùng",Khẩu trang khi di chuyển
+aqi,151,201,2,Không khí xấu,Khởi động trong nhà nếu có thể | Khẩu trang khi chờ đánh và di chuyển | Các bạn có vấn đề hô hấp nên hỏi ý kiến bác sĩ trước khi thi đấu,Khẩu trang khi di chuyển
+aqi,201,9999,3,Không khí rất xấu,"Cân nhắc rút lui, trao đổi với BTC | Hạn chế tối đa thời gian ngoài trời trước giờ thi đấu",Khẩu trang khi di chuyển
+storm,1,,4,"Có dông, sét","Khi BTC hú còi tạm dừng: đánh dấu bóng, dừng ngay, không đánh nốt cú | Vào nhà câu lạc bộ, xe ô tô kín hoặc nhà trú có chống sét | Không trú dưới cây đơn độc, tránh xa gậy, ô, cột kim loại, mặt nước | Chưa có còi mà đã thấy sét, nghe sấm: báo trưởng nhóm, chuẩn bị vào nơi trú | Chỉ quay lại sân khi BTC cho phép",Biết trước nơi trú sét gần nhất và hiệu lệnh còi của BTC

@@ -1,0 +1,14 @@
+khoa,gia_tri,ghi_chu
+arrive_before_min.tee,75,Có mặt ở sân trước tee time (phút); người dùng sửa theo từng chuyến
+arrive_before_min.practice,45,Ngày tập
+assembly_before_min.shotgun,30,Tập trung trước giờ còi; sửa theo từng vòng
+shotgun.min_gap_after_arrive,55,"arrive = min(start - arrive_before, assembly - 55)"
+wake.before_start_min.round,165,"wake = min(start - 165, leave - 60)"
+wake.before_leave_min.round,60,
+wake.before_start_min.practice,150,"wake = min(start - 150, leave - 50)"
+wake.before_leave_min.practice,50,
+sleep_hours,9,bed = wake - sleep_hours
+minutes_per_hole,15,Ước tính thời gian mỗi hố để đặt giờ ăn nhẹ trên sân
+travel_min.default,20,Khách sạn → sân mặc định
+par.default,72,
+hcp.default_when_unknown,18,Dùng khi chưa có cấp độ và handicap

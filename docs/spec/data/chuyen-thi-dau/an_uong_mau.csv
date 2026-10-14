@@ -1,0 +1,11 @@
+moc,gia_tri,ten_vi,mo_ta_vi
+bed,-150,Bữa tối hôm trước,"Cơm/mì/khoai + thịt gà, cá + rau. Tránh món lạ, chiên nhiều dầu, cay. Uống đủ nước cả buổi tối."
+wake,15,Bữa sáng,"Tinh bột dễ tiêu (cháo, phở, bánh mì, yến mạch) + trứng hoặc sữa chua + hoa quả. Ít dầu mỡ, không ăn quá no."
+start,-30,Trước khi ra tee,Nửa quả chuối hoặc bánh ngũ cốc nhỏ + vài ngụm nước.
+every_hole,0,Uống nước,"Vài ngụm sau mỗi hố, không đợi khát. Trời nóng: pha gói điện giải ở hố thứ 6 và thứ 12."
+hole_n,4,Ăn nhẹ,Nửa quả chuối hoặc vài miếng hạt.
+hole_n,8,Bữa phụ chính (giữa vòng),Nửa sandwich hoặc thanh ngũ cốc + hoa quả.
+hole_n,12,Ăn nhẹ,Hoa quả sấy hoặc chuối. Đây là lúc năng lượng hay tụt nhất.
+hole_n,15,Giữ năng lượng 3 hố cuối,Miếng nhỏ + nước.
+finish,30,Bữa phục hồi (30–45 phút sau vòng),"Tinh bột + đạm (cơm gà, phở, sữa). Bù nước."
+avoid,0,Tránh,"Nước tăng lực, đồ uống có caffeine, kẹo ngọt nhiều, món lần đầu ăn. Kiểm tra dị ứng của con trước khi chọn đồ."

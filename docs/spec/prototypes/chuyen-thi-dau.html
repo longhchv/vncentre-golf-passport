@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chuyến thi đấu — VN Centre Golf Passport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Bộ màu Golf Passport (docs/spec/00-tong-quan.md mục 10, src/index.css) */
+  --navy:#080634; --navy-soft:#1c1a4f; --bronze:#b06829; --gold:#f9c74f; --brown:#6a3a16; --cream:#fbf7ef;
+  --bg:var(--cream); --surface:#FFFFFF; --sunk:#F3EFE7; --ink:var(--navy); --muted:#5B5A78; --line:#E3E1E8;
+  --brand:var(--navy); --green:var(--navy); --green-ink:#FFFFFF; --flag:var(--gold); --flag-ink:var(--navy);
+  --warn:#C0262D; --ok:#2F7D4F; --info:#1c1a4f; --cta:linear-gradient(90deg,var(--bronze),var(--gold)); --cta-ink:var(--navy);
+  --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --num:"Be Vietnam Pro",system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D0B2A; --surface:#15133A; --sunk:#1F1D4D; --ink:#F4F1EA; --muted:#AAA8C8; --line:#2C2A5C;
+  --brand:#080634; --green:var(--gold); --green-ink:var(--navy); --warn:#F07167; --ok:#6CCB8F; color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#0D0B2A; --surface:#15133A; --sunk:#1F1D4D; --ink:#F4F1EA; --muted:#AAA8C8; --line:#2C2A5C;
+  --brand:#080634; --green:var(--gold); --green-ink:var(--navy); --warn:#F07167; --ok:#6CCB8F; color-scheme:dark;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+.top{position:relative;z-index:5;background:var(--brand);color:#fff;padding:10px 16px 12px}
+.brand{display:flex;align-items:center;gap:10px;max-width:820px;margin:0 auto 8px}
+.brand svg{width:36px;height:36px;border-radius:9px;flex:none}
+.brand b{display:block;font-weight:600;font-size:15px;line-height:1.2}
+.brand span{display:block;font-size:12px;opacity:.7}
+.top-row{display:flex;gap:8px;align-items:center;max-width:820px;margin:0 auto}
+.top select{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:12px;padding:6px 10px;max-width:100%;min-height:38px;font-size:14px}
+.top select option{color:#080634}
+.trip-sel{flex:1;min-width:0;font-weight:500}
+.sync{max-width:820px;margin:6px auto 0;font-size:12px;opacity:.8}
+main{max-width:820px;margin:0 auto;padding:16px 16px 110px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);
+  display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs[hidden]{display:none}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:9;max-width:520px;margin:0 auto;background:var(--navy);color:#fff;border-radius:12px;padding:10px 14px;font-size:14px;box-shadow:0 4px 16px rgba(8,6,52,.25)}
+#toast[hidden]{display:none}
+.btn.danger.armed{background:var(--warn);color:#fff;border-color:var(--warn)}
+nav.tabs .in{display:flex;width:100%;max-width:820px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{flex:1 0 auto;min-width:0;white-space:nowrap;background:none;border:0;padding:10px 9px 12px;font-size:12px;color:var(--muted);cursor:pointer;border-top:3px solid transparent}
+nav.tabs button.on{color:var(--green);border-top-color:var(--flag);font-weight:600}
+h1{font-size:21px;line-height:1.25;margin:4px 0 6px;font-weight:700}
+h2{font-size:16px;margin:24px 0 10px;font-weight:600}
+h3{font-size:15px;margin:18px 0 8px;font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 1px 2px rgba(8,6,52,.06)}
+.panel+.panel{margin-top:10px}
+.grid2>.panel{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.stat .n{font-family:var(--num);font-size:22px;line-height:1.15;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--muted);margin-top:4px}
+.bar{height:6px;background:var(--sunk);border-radius:3px;overflow:hidden;margin-top:8px}
+.bar>i{display:block;height:100%;background:var(--cta)}
+.bar.over>i{background:var(--warn)}
+.hero{border-left:6px solid var(--flag);padding:4px 0 4px 14px;margin-bottom:14px}
+.count{font-family:var(--num);font-size:32px;line-height:1.1;font-weight:700;color:var(--green);letter-spacing:-.02em}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .grow{flex:1;min-width:0}
+.row .title{font-weight:500}
+.row.done .title{color:var(--muted);text-decoration:line-through}
+.chk{width:22px;height:22px;accent-color:var(--green);flex:none}
+.pill{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:3px 10px;font-size:12px;white-space:nowrap;cursor:pointer}
+.pill.s-done{background:var(--ok);color:#fff;border-color:transparent}
+.pill.s-doing{background:var(--flag);color:var(--flag-ink);border-color:transparent}
+.btn{background:var(--cta);color:var(--cta-ink);border:0;border-radius:12px;padding:9px 16px;font-weight:600;cursor:pointer;min-height:44px;box-shadow:0 1px 2px rgba(8,6,52,.12)}
+.btn:hover{filter:brightness(1.05)}
+.btn.ghost{background:var(--surface);color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.sm{padding:6px 12px;font-size:14px;min-height:36px}
+.btn.danger{background:transparent;color:var(--warn);border:1px solid var(--warn)}
+.x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px}
+input[type=text],input[type=number],input[type=date],input[type=time],select.f,textarea{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;width:100%;min-width:0;font-size:16px}
+input.q{width:68px;text-align:center;padding:6px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;align-items:end}
+.form label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:6px 12px;cursor:pointer;text-align:center}
+.chip b{display:block;font-family:var(--num);font-size:14px;font-weight:600;line-height:1.3}
+.chip span{font-size:11px;color:var(--muted)}
+.chip.on{background:var(--green);color:var(--green-ink);border-color:var(--green)}
+.chip.on span{color:inherit;opacity:.85}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:right;padding:7px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:500;color:var(--muted);font-size:12px}
+td.n{font-family:var(--num);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.warn{color:var(--warn)}
+.okc{color:var(--ok)}
+.tag{font-size:11px;border-radius:5px;padding:1px 6px;background:var(--sunk);color:var(--muted)}
+.tag.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.tag.cut{background:color-mix(in srgb,var(--warn) 15%,transparent);color:var(--warn)}
+.note{font-size:13px;color:var(--muted);background:var(--sunk);border-radius:8px;padding:8px 10px;margin-top:8px}
+.ghead{display:flex;justify-content:space-between;align-items:baseline}
+details summary{cursor:pointer;color:var(--green);font-weight:600;padding:6px 0}
+.lock{padding:30px 10px;text-align:center;color:var(--muted)}
+@media (min-width:700px){h1{font-size:24px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="gpgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F9C74F"/><stop offset="1" stop-color="#B06829"/></linearGradient></defs><rect width="512" height="512" rx="96" fill="#080634"/><rect x="136" y="96" width="240" height="320" rx="24" fill="url(#gpgold)"/><rect x="160" y="120" width="192" height="272" rx="12" fill="none" stroke="#080634" stroke-width="8" opacity=".35"/><line x1="236" y1="170" x2="236" y2="330" stroke="#080634" stroke-width="14" stroke-linecap="round"/><path d="M243 170 L318 196 L243 222 Z" fill="#080634"/><ellipse cx="256" cy="336" rx="64" ry="14" fill="#080634" opacity=".85"/></svg><div><b>Chuyến thi đấu</b><span>VN Centre Golf Passport</span></div></div>
+  <div class="top-row">
+    <select class="trip-sel" id="tripSel" aria-label="Chọn chuyến"></select>
+    <select id="roleSel" aria-label="Vai trò"></select>
+  </div>
+  <div class="sync" id="sync">Đang kết nối…</div>
+</header>
+<main id="app"></main>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<nav class="tabs" id="tabs"><div class="in"></div></nav>
+
+<script>
+/* ===== Hằng số ===== */
+const ROLES={ph:'Phụ huynh',hlv:'HLV / Trưởng đoàn',caddie:'Caddie (uỷ quyền)',golfer:'Golfer',admin:'Admin VN Centre'};
+const TABS=[['tongquan','Tổng quan'],['haucan','Hậu cần'],['hanhly','Hành lý'],['san','Sân & gậy'],['thidau','Thi đấu'],['kho','Kho đồ'],['taichinh','Tài chính']];
+const LOG_TYPES={flight:'Vé máy bay',visa:'Visa & giấy tờ',hotel:'Khách sạn',transfer:'Xe đưa đón',daily:'Đi lại hàng ngày',event:'Đăng ký giải'};
+const STATUS={todo:'Chưa làm',doing:'Đang làm',done:'Xong'};
+const CATS=['Lệ phí giải','Vé máy bay','Visa & giấy tờ','Bảo hiểm','Khách sạn','Xe & đi lại','Ăn uống','HLV / Caddie','Đồ tiêu hao','Thiết bị & gậy','Phát sinh'];
+const TAGS={fixed:'Cố định',var:'Biến đổi',cut:'Có thể cắt'};
+
+/* ===== Mẫu checklist ===== */
+// f: fixed n | days a,b (số ngày*a+b) | play a,b ((vòng+tập)*a+b) | rounds a,b | half b (ceil(ngày/2)+b)
+const PACK_TPL={
+ 'Giấy tờ':[['Hộ chiếu (còn hạn ≥ 6 tháng) + bản photo',{f:'fixed',n:1},'intl'],['Visa / xác nhận nhập cảnh',{f:'fixed',n:1},'intl'],['CCCD hoặc hộ chiếu (bản gốc)',{f:'fixed',n:1},'dom'],['Bản sao giấy khai sinh (con dưới 14 tuổi chưa có CCCD/hộ chiếu)',{f:'fixed',n:1},'dom'],['Vé máy bay bản in',{f:'fixed',n:1}],['Xác nhận đăng ký giải',{f:'fixed',n:1}],['Bảo hiểm du lịch',{f:'fixed',n:1}],['Giấy uỷ quyền của bố mẹ (khi con đi cùng HLV/caddie)',{f:'fixed',n:1}],['Thẻ handicap / thẻ hội viên',{f:'fixed',n:1}],['Ảnh thẻ dự phòng',{f:'fixed',n:4}],['Tiền mặt ngoại tệ + thẻ',{f:'fixed',n:1},'intl'],['Tiền mặt + thẻ',{f:'fixed',n:1},'dom']],
+ 'Quần áo thi đấu':[['Áo polo thi đấu',{f:'play',a:1,b:1}],['Quần / váy golf',{f:'half',b:1}],['Tất thể thao',{f:'days',a:1,b:2}],['Mũ / visor',{f:'fixed',n:2}],['Áo khoác gió / áo giữ nhiệt',{f:'fixed',n:1}],['Bộ áo mưa',{f:'fixed',n:1}],['Giày golf (1 đôi dự phòng)',{f:'fixed',n:2}],['Ống tay chống nắng',{f:'fixed',n:2}]],
+ 'Quần áo sinh hoạt':[['Áo phông thường',{f:'half',b:1}],['Quần sinh hoạt',{f:'fixed',n:2}],['Đồ lót',{f:'days',a:1,b:1}],['Đồ ngủ',{f:'fixed',n:2}],['Dép',{f:'fixed',n:1}],['Bộ đồ lịch sự (lễ khai mạc / trao giải)',{f:'fixed',n:1}]],
+ 'Đồ thi đấu':[['Bộ gậy (tối đa 14 gậy — đếm lại)',{f:'fixed',n:14}],['Túi gậy + vỏ bọc đi máy bay',{f:'fixed',n:1}],['Bóng thi đấu (cùng một loại)',{f:'play',a:6,b:6}],['Găng tay',{f:'rounds',a:1,b:2}],['Tee',{f:'fixed',n:30}],['Marker đánh dấu bóng',{f:'fixed',n:3}],['Dụng cụ sửa dấu bóng',{f:'fixed',n:2}],['Khăn lau gậy',{f:'fixed',n:2}],['Ô golf',{f:'fixed',n:1}],['Máy đo khoảng cách (kiểm tra luật giải)',{f:'fixed',n:1}],['Sổ yardage / sổ ghi chú sân',{f:'fixed',n:1}],['Sách luật golf',{f:'fixed',n:1}],['Bút chì ghi điểm',{f:'fixed',n:4}]],
+ 'Đồ dùng cá nhân':[['Kem chống nắng',{f:'fixed',n:2}],['Son chống nắng',{f:'fixed',n:1}],['Kính râm',{f:'fixed',n:1}],['Bình nước cá nhân',{f:'fixed',n:1}],['Đồ vệ sinh cá nhân',{f:'fixed',n:1}],['Sạc điện thoại + pin dự phòng',{f:'fixed',n:1}],['Ổ cắm chuyển đổi theo nước đến',{f:'fixed',n:1},'intl'],['Đồ ăn nhẹ mang từ nhà',{f:'play',a:2,b:0}]],
+ 'Y tế':[['Thuốc dùng riêng của con',{f:'fixed',n:1}],['Băng dán cá nhân',{f:'fixed',n:10}],['Băng thể thao',{f:'fixed',n:1}],['Xịt / cao giảm đau cơ',{f:'fixed',n:1}],['Thuốc hạ sốt, tiêu hoá cơ bản',{f:'fixed',n:1}]]
+};
+const PRE_TPL=['Đếm gậy: không quá 14','Bóng đủ số + đánh dấu bóng riêng','Găng tay 2 chiếc','Tee, marker, dụng cụ sửa dấu bóng','Thẻ điểm + bút chì','Sổ yardage đã ghi vị trí cờ','Nước 2 chai + gói điện giải','Đồ ăn nhẹ cho 18 hố','Kem chống nắng đã bôi + mang theo','Ô / áo mưa theo dự báo','Xác nhận giờ xuất phát, có mặt trước 60 phút','Khởi động + tập putting trước giờ đánh'];
+const PRAC_TPL=['Đếm gậy: không quá 14','Bóng tập + bóng thi đấu','Sổ yardage để ghi chú sân','Đo tốc độ green, ghi hướng gió','Ghi khoảng cách các hố khó','Nước + đồ ăn nhẹ','Kem chống nắng'];
+const INV_TPL=[['Bóng golf','quả',{f:'play',a:6,b:6},4],['Găng tay','chiếc',{f:'rounds',a:1,b:2},1],['Tee','cái',{f:'fixed',n:30},5],['Nước uống','chai',{f:'play',a:2,b:0},2],['Gói điện giải','gói',{f:'play',a:2,b:2},2],['Đồ ăn nhẹ','phần',{f:'play',a:2,b:0},2],['Kem chống nắng','tuýp',{f:'fixed',n:2},0]];
+
+/* ===== Tiện ích ===== */
+const $=s=>document.querySelector(s);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const vnd=n=>Math.round(n||0).toLocaleString('vi-VN')+' đ';
+const short=n=>{n=Math.round(n||0);if(Math.abs(n)>=1e9)return (n/1e9).toFixed(1).replace('.',',')+' tỷ';if(Math.abs(n)>=1e6)return (n/1e6).toFixed(1).replace('.',',')+' tr';return n.toLocaleString('vi-VN')};
+const D=s=>s?new Date(s+'T00:00:00'):null;
+const pad2=n=>String(n).padStart(2,'0');
+// Ngày theo giờ máy (không qua UTC) — tránh lệch 1 ngày ở múi giờ Việt Nam
+const isoLocal=d=>d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
+const addDays=(s,k)=>{const d=D(s);d.setDate(d.getDate()+k);return isoLocal(d)};
+const dmy=s=>{if(!s)return '';const [y,m,d]=s.split('-');return d+'/'+m+'/'+y};
+function parseDmy(v){v=(v||'').trim();const m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(!m)return null;
+  const d=+m[1],mo=+m[2],y=+m[3],x=new Date(y,mo-1,d);if(x.getFullYear()!==y||x.getMonth()!==mo-1||x.getDate()!==d)return null;return isoLocal(x)}
+const dmyInput=(name,val,req)=>`<input type="text" class="dmy" name="${name}" inputmode="numeric" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off" value="${val?dmy(val):''}" ${req?'required':''}>`;
+const dd=s=>{if(!s)return '';const d=D(s);return d.getDate()+'/'+(d.getMonth()+1)};
+const today=()=>isoLocal(new Date());
+const diffDays=(a,b)=>Math.round((D(b)-D(a))/864e5);
+const clone=o=>JSON.parse(JSON.stringify(o));
+function lsGet(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+/* ===== Trạng thái ===== */
+let store={trips:{}};
+let ui=lsGet('tda_ui',{trip:null,role:'ph',tab:'tongquan',round:null,creating:false});
+let db=null, mode='local', pending={}, writing={}, timers={};
+
+const inScope=(t,x)=>!x.scope||x.scope===(t.scope||'intl');
+const packOf=t=>t.packing.filter(p=>inScope(t,p));
+const logOf=t=>t.logistics.filter(l=>inScope(t,l));
+const logName=(t,k)=>k==='visa'&&t.scope==='dom'?'Giấy tờ':LOG_TYPES[k];
+function dayName(t,x){if(x.type==='round')return 'Vòng '+x.key.slice(1);return 'Ngày tập '+(t.rounds.filter(p=>p.type==='practice').indexOf(x)+1)}
+function ensureScopeItems(t){Object.entries(PACK_TPL).forEach(([g,items])=>items.forEach(([n,rule,sc])=>{if(sc&&!t.packing.some(p=>p.name===n))t.packing.push({id:uid(),group:g,name:n,rule,override:null,packed:false,scope:sc})}))}
+// Sửa chuyến tạo trước 14/10/2026 bị lệch ngày (-1) do múi giờ
+function fixDates(t){
+  if(t.dv>=2)return false;t.dv=2;
+  const probe=[['Đặt khách sạn gần sân',-30],['Đăng ký giải + đóng lệ phí',-45],['Mua bảo hiểm du lịch',-14]];
+  let shifted=false;for(const [ti,off] of probe){const l=t.logistics.find(x=>x.title===ti&&x.date);if(l){shifted=diffDays(l.date,t.start)===-off+1;break}}
+  if(!shifted)return true;
+  const auto=new Set(['Đặt khách sạn gần sân','Đăng ký giải + đóng lệ phí','Mua bảo hiểm du lịch','Nộp hồ sơ visa (nếu cần)','Kiểm tra hạn hộ chiếu (còn ≥ 6 tháng)','Kiểm tra CCCD/hộ chiếu của con còn hạn','Công chứng giấy uỷ quyền đưa con đi']);
+  t.rounds.forEach(r=>{r.date=addDays(r.date,1)});
+  t.logistics.forEach(l=>{if(auto.has(l.title)&&l.date)l.date=addDays(l.date,1);else if(l.type==='daily'){const r=t.rounds.find(r=>l.title.includes('('+r.label+')'));if(r)l.date=r.date}});
+  return true;
+}
+function tripDays(t){return Math.max(1,diffDays(t.start,t.end)+1)}
+function playCount(t){return t.rounds.length}
+function roundCount(t){return t.rounds.filter(r=>r.type==='round').length}
+function qtyOf(t,rule,override){
+  if(override!=null&&override!=='')return +override;
+  const days=tripDays(t),rc=roundCount(t),pc=playCount(t);
+  switch(rule.f){case 'fixed':return rule.n;case 'days':return days*rule.a+rule.b;case 'play':return pc*rule.a+rule.b;case 'rounds':return rc*rule.a+rule.b;case 'half':return Math.ceil(days/2)+rule.b;default:return 1}
+}
+function ruleText(rule){switch(rule.f){case 'days':return `= số ngày${rule.a>1?' × '+rule.a:''}${rule.b?' + '+rule.b:''}`;case 'play':return `= số ngày ra sân${rule.a>1?' × '+rule.a:''}${rule.b?' + '+rule.b:''}`;case 'rounds':return `= số vòng${rule.a>1?' × '+rule.a:''}${rule.b?' + '+rule.b:''}`;case 'half':return `= nửa số ngày${rule.b?' + '+rule.b:''}`;default:return ''}}
+
+/* ===== Phân quyền (bản thử: mô phỏng theo vai trò chọn ở trên) ===== */
+function tabsFor(role){return role==='golfer'?['tongquan','hanhly','thidau','san','kho']:TABS.map(x=>x[0])}
+const can={
+  editTrip:(r,t)=>r==='ph'||(!!t&&t.createdBy===r),
+  editLog:r=>r==='ph'||r==='hlv',
+  editPackList:r=>r==='ph'||r==='hlv',
+  editInv:r=>r!=='golfer',
+  addExpense:r=>r!=='golfer'&&r!=='admin',
+  seeFinance:(r,t)=>r==='ph'||r==='admin'||(r==='hlv'&&t.share?.hlvFinance)||(r==='caddie'&&t.share?.caddieFinance),
+};
+
+/* ===== Lưu trữ ===== */
+function saveTrip(t){
+  t.updated=Date.now();store.trips[t.id]=t;
+  if(mode==='db'){pending[t.id]=true;clearTimeout(timers[t.id]);timers[t.id]=setTimeout(()=>flush(t.id),600)}
+  else lsSet('tda_trips',store.trips);
+  render();
+}
+async function flush(id){
+  if(writing[id]){timers[id]=setTimeout(()=>flush(id),400);return}
+  const t=store.trips[id];if(!t)return;
+  writing[id]=true;
+  try{await db.collection('trips').doc(id).set(clone(t));setSync('Đã đồng bộ cho cả đoàn')}
+  catch(e){setSync(e.code==='invalid_argument'?'Bạn chỉ có quyền xem dữ liệu chuyến này':'Chưa lưu được lên máy chủ — thử lại sau')}
+  finally{writing[id]=false;delete pending[id]}
+}
+let delArm=null;
+async function deleteTrip(id){
+  const backup=store.trips[id],name=backup?.name||'';
+  clearTimeout(timers[id]);delete pending[id];delete store.trips[id];
+  ui.trip=Object.keys(store.trips)[0]||null;ui.round=null;ui.tab='tongquan';saveUi();render();
+  if(mode==='db'){try{await db.collection('trips').doc(id).delete();toast('Đã xoá chuyến “'+name+'”')}
+    catch(e){store.trips[id]=backup;ui.trip=id;saveUi();render();toast(e&&e.code==='invalid_argument'?'Bạn không có quyền xoá chuyến này (cần quyền Contributor trở lên).':'Chưa xoá được trên máy chủ, thử lại sau.')}}
+  else{lsSet('tda_trips',store.trips);toast('Đã xoá chuyến “'+name+'”')}
+}
+function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>{el.hidden=true},4000)}
+function setSync(s){$('#sync').textContent=s}
+function saveUi(){lsSet('tda_ui',ui)}
+
+/* ===== Tạo chuyến ===== */
+function buildTrip(o){
+  const dom=o.scope==='dom';if(dom){o.cur='VND';o.rate=1}
+  const t={id:uid(),dv:2,adv:o.adv==='on',scope:dom?'dom':'intl',name:o.name,golfer:o.golfer,place:o.place,course:o.course,start:o.start,end:o.end,cur:(o.cur||'USD').toUpperCase(),rate:+o.rate||25000,
+    createdBy:ui.role,share:{hlvFinance:false,caddieFinance:false},members:[{id:uid(),name:o.golfer||'Golfer',role:'golfer'}],
+    rounds:[],logistics:[],packing:[],inventory:[],expenses:[],budget:{},created:Date.now()};
+  const np=+o.practice||0,nr=Math.min(4,Math.max(1,+o.nrounds||3));
+  for(let i=np;i>=1;i--)t.rounds.push({key:'P'+i,label:'Ngày tập '+(np-i+1),type:'practice',date:addDays(o.r1,-i)});
+  t.rounds=t.rounds.sort((a,b)=>a.date<b.date?-1:1);
+  for(let i=1;i<=nr;i++)t.rounds.push({key:'R'+i,label:'Vòng '+i,type:'round',date:addDays(o.r1,i-1)});
+  t.rounds.forEach(r=>{r.pre=(r.type==='round'?PRE_TPL:PRAC_TPL).map(n=>({id:uid(),name:n,done:false}));r.used={};r.buys=[];r.score='';r.note=''});
+  const L=(type,title,date,detail='',sc)=>t.logistics.push({id:uid(),type,title,date,time:'',detail,status:'todo',...(sc?{scope:sc}:{})});
+  L('event','Đăng ký giải + đóng lệ phí',addDays(o.start,-45));
+  L('visa','Nộp hồ sơ visa (nếu cần)',addDays(o.start,-30),'','intl');
+  L('visa','Kiểm tra hạn hộ chiếu (còn ≥ 6 tháng)',addDays(o.start,-45),'','intl');
+  L('visa','Kiểm tra CCCD/hộ chiếu của con còn hạn',addDays(o.start,-14),'Con dưới 14 tuổi chưa có: mang bản sao giấy khai sinh','dom');
+  L('visa','Công chứng giấy uỷ quyền đưa con đi',addDays(o.start,-21),'Cần khi con đi cùng HLV/caddie, không có bố mẹ');
+  L('visa','Mua bảo hiểm du lịch',addDays(o.start,-14));
+  L('flight','Vé chiều đi',o.start);L('flight','Vé chiều về',o.end);
+  L('hotel','Đặt khách sạn gần sân',addDays(o.start,-30));
+  L('transfer','Xe sân bay → khách sạn',o.start);L('transfer','Xe khách sạn → sân bay',o.end);
+  t.rounds.forEach(r=>L('daily',`Xe khách sạn ↔ sân (${r.label})`,r.date));
+  Object.entries(PACK_TPL).forEach(([g,items])=>items.forEach(([n,rule,sc])=>t.packing.push({id:uid(),group:g,name:n,rule,override:null,packed:false,...(sc?{scope:sc}:{})})));
+  INV_TPL.forEach(([n,unit,rule,th])=>t.inventory.push({id:uid(),name:n,unit,carried:qtyOf(t,rule),threshold:th}));
+  return t;
+}
+function demoTrip(){
+  const s=addDays(today(),20);
+  const t=buildTrip({name:'Giải Junior mẫu (dữ liệu thử)',golfer:'Golfer mẫu',place:'Pattaya, Thái Lan',course:'Sân mẫu',start:s,end:addDays(s,6),r1:addDays(s,2),nrounds:3,practice:2,cur:'THB',rate:720});
+  t.members.push({id:uid(),name:'Bố/mẹ',role:'ph'},{id:uid(),name:'HLV đi cùng',role:'hlv'});
+  t.budget={'Lệ phí giải':4500000,'Vé máy bay':14000000,'Khách sạn':12000000,'Xe & đi lại':3000000,'Ăn uống':6000000,'HLV / Caddie':8000000,'Đồ tiêu hao':2000000,'Visa & giấy tờ':500000,'Bảo hiểm':600000};
+  const E=(cat,desc,amt,cur,tag,payer)=>t.expenses.push({id:uid(),date:today(),cat,desc,amt,cur,tag,payer,by:'ph'});
+  E('Lệ phí giải','Lệ phí đăng ký',6500,'THB','fixed','Gia đình');E('Vé máy bay','Vé khứ hồi 2 người',13600000,'VND','fixed','Gia đình');
+  E('Khách sạn','Đặt cọc 6 đêm',9000,'THB','fixed','Gia đình');E('Bảo hiểm','Bảo hiểm du lịch',550000,'VND','fixed','Gia đình');
+  t.logistics.forEach((l,i)=>{if(i<3)l.status='done'});
+  t.rounds.forEach(r=>{r.tee=r.type==='round'?'08:00':'09:30'});
+  t.packing.forEach((p,i)=>{if(i%3===0)p.packed=true});
+  return t;
+}
+
+/* ===== Render ===== */
+function render(){
+  const ids=Object.keys(store.trips).sort((a,b)=>(store.trips[b].start||'').localeCompare(store.trips[a].start||''));
+  if(ui.trip&&!store.trips[ui.trip])ui.trip=null;
+  if(!ui.trip&&ids.length)ui.trip=ids[0];
+  const ts=$('#tripSel');ts.innerHTML=ids.map(id=>`<option value="${id}" ${id===ui.trip?'selected':''}>${esc(store.trips[id].name)}</option>`).join('')+`<option value="__new">+ Tạo chuyến mới</option>`;
+  if(!ids.length||ui.creating)ts.value='__new';
+  $('#roleSel').innerHTML=Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${k===ui.role?'selected':''}>${v}</option>`).join('');
+  const t=store.trips[ui.trip];
+  const nav=$('#tabs .in');
+  if(!t||ui.creating){nav.parentElement.hidden=true;$('#app').innerHTML=viewCreate(ids.length);return}
+  nav.parentElement.hidden=false;
+  const allowed=tabsFor(ui.role).filter(k=>k!=='san'||isAdv(t));if(!allowed.includes(ui.tab))ui.tab='tongquan';
+  nav.innerHTML=TABS.filter(x=>allowed.includes(x[0])).map(([k,v])=>`<button data-tab="${k}" class="${k===ui.tab?'on':''}">${v}</button>`).join('');
+  const V={tongquan:viewOverview,haucan:viewLog,hanhly:viewPack,thidau:viewDay,san:viewSan,kho:viewInv,taichinh:viewFin}[ui.tab];
+  $('#app').innerHTML=V(t);
+}
+
+function viewCreate(hasTrips){
+  
+  const s=addDays(today(),30);
+  return `<div class="hero"><h1>Tạo chuyến thi đấu</h1><p class="muted">Ai trong đoàn cũng tạo được chuyến; người tạo được sửa thông tin chuyến và danh sách đoàn, phụ huynh luôn có toàn quyền. Nhập lịch giải, app tự lập danh sách hậu cần, hành lý, checklist từng vòng và kho đồ tiêu hao theo số ngày, số vòng.</p></div>
+  <div class="panel"><form id="fCreate" class="form">
+    <label style="grid-column:1/-1">Tên giải<input type="text" name="name" required placeholder="VD: Faldo Series Asia – Thái Lan"></label>
+    <label>Golfer<input type="text" name="golfer" required></label>
+    <label>Địa điểm<input type="text" name="place" placeholder="Thành phố, quốc gia"></label>
+    <label>Sân thi đấu<input type="text" name="course"></label>
+    <label>Ngày bay đi (dd/mm/yyyy)${dmyInput('start',s,1)}</label>
+    <label>Ngày bay về${dmyInput('end',addDays(s,6),1)}</label>
+    <label>Ngày vòng 1${dmyInput('r1',addDays(s,2),1)}</label>
+    <label>Số vòng đấu<select class="f" name="nrounds"><option>1</option><option>2</option><option selected>3</option><option>4</option></select></label>
+    <label>Số ngày đánh tập<select class="f" name="practice"><option>0</option><option>1</option><option selected>2</option><option>3</option></select></label>
+    <label class="row" style="grid-column:1/-1;border:0;flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" class="chk" name="adv"><span class="grow">Chế độ nâng cao: scorecard, khoảng cách gậy, yardage, pin location, chiến lược từng hố</span></label>
+    <label>Loại giải<select class="f" name="scope"><option value="dom">Trong nước</option><option value="intl">Quốc tế</option></select></label>
+    <label>Tiền tệ nơi đến (giải quốc tế)<input type="text" name="cur" value="USD" maxlength="3"></label>
+    <label>Tỷ giá VND / 1 đơn vị (giải quốc tế)<input type="number" name="rate" value="25000" min="1"></label>
+    <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="btn" type="submit">Tạo chuyến</button>
+    ${hasTrips?'<button class="btn ghost" type="button" data-act="cancelCreate">Huỷ</button>':''}</div>
+  </form></div>
+  ${hasTrips?'':`<p class="small muted" style="margin-top:14px">Muốn xem thử trước? <button class="btn sm ghost" data-act="demo">Tạo chuyến mẫu</button></p>`}`;
+}
+
+function viewOverview(t){
+  const td=today();let headline,cap;
+  if(td<t.start){headline=diffDays(td,t.start);cap='ngày nữa bay'}
+  else if(td<=t.end){const r=t.rounds.find(r=>r.date===td);headline=r?r.label:'Đang ở giải';cap=r?'hôm nay':'ngày '+(diffDays(t.start,td)+1)+'/'+tripDays(t)}
+  else{headline='Đã về';cap='chuyến đã kết thúc'}
+  const LG=logOf(t),PK=packOf(t),ld=LG.filter(l=>l.status==='done').length,pk=PK.filter(p=>p.packed).length;
+  const fin=can.seeFinance(ui.role,t);const tot=sumExp(t),bud=sumBudget(t);
+  const upcoming=LG.filter(l=>l.status!=='done').sort((a,b)=>(a.date||'9')<(b.date||'9')?-1:1).slice(0,5);
+  const scores=t.rounds.filter(r=>r.type==='round'&&r.score!=='');
+  return `<div class="hero"><div class="small muted">${t.scope==='dom'?'Giải trong nước':'Giải quốc tế'} · ${esc(t.place)}${t.course?' · '+esc(t.course):''}</div><h1>${esc(t.name)}</h1>
+   <div style="display:flex;align-items:flex-end;gap:10px"><div class="count">${esc(headline)}</div><div class="muted" style="padding-bottom:6px">${cap}</div></div>
+   <div class="small muted">Golfer: <b>${esc(t.golfer)}</b>${t.level?' · Level '+t.level:''}${t.hcp!==undefined&&t.hcp!==''&&t.hcp!=null?' · HDC '+esc(t.hcp):''} · ${dmy(t.start)} – ${dmy(t.end)} · ${tripDays(t)} ngày · ${roundCount(t)} vòng + ${playCount(t)-roundCount(t)} ngày tập</div></div>
+  <div class="grid2">
+   <div class="panel stat"><div class="n">${ld}/${LG.length}</div><div class="l">việc hậu cần đã xong</div><div class="bar"><i style="width:${pct(ld,LG.length)}%"></i></div></div>
+   <div class="panel stat"><div class="n">${pk}/${PK.length}</div><div class="l">món đã xếp vào hành lý</div><div class="bar"><i style="width:${pct(pk,PK.length)}%"></i></div></div>
+   ${fin?`<div class="panel stat"><div class="n">${short(tot)}</div><div class="l">thực chi / dự toán ${short(bud)}</div><div class="bar ${tot>bud&&bud?'over':''}"><i style="width:${Math.min(100,pct(tot,bud||tot||1))}%"></i></div></div>`:''}
+   ${scores.length?`<div class="panel stat"><div class="n">${scores.map(r=>esc(r.score)).join(' · ')}</div><div class="l">điểm các vòng đã đánh</div></div>`:''}
+  </div>
+  ${ui.role!=='admin'?`<label class="panel row" style="margin-top:12px;gap:10px;cursor:pointer"><input type="checkbox" class="chk" data-act="advOn" ${t.adv?'checked':''}><span class="grow"><b>Chế độ nâng cao</b><span class="small muted" style="display:block">Scorecard, khoảng cách gậy, yardage, pin location và chiến lược từng hố (thêm tab “Sân & gậy”)</span></span></label>`:''}
+  <h2>Việc sắp đến hạn</h2>
+  <div class="panel">${upcoming.length?upcoming.map(l=>`<div class="row"><div class="grow"><div class="title">${esc(l.title)}</div><div class="small muted">${logName(t,l.type)} · ${dd(l.date)}${l.date&&l.date<td?' <span class="warn">quá hạn</span>':''}</div></div><span class="pill s-${l.status}">${STATUS[l.status]}</span></div>`).join(''):'<p class="muted">Hậu cần đã xong hết.</p>'}</div>
+  <h2>Đoàn đi</h2>
+  <div class="panel">${t.members.map(m=>`<div class="row"><div class="grow"><span class="title">${esc(m.name)}</span> <span class="tag">${ROLES[m.role]}</span></div>${can.editTrip(ui.role,t)?`<button class="x" data-act="delMember" data-id="${m.id}" aria-label="Xoá">×</button>`:''}</div>`).join('')}
+   ${can.editTrip(ui.role,t)?`<form id="fMember" class="form" style="margin-top:8px"><input type="text" name="name" placeholder="Tên" required><select class="f" name="role">${Object.entries(ROLES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select><button class="btn sm">Thêm người</button></form>`:''}</div>
+  ${ui.role==='ph'?`<h2>Uỷ quyền của phụ huynh</h2><div class="panel">
+   <label class="row"><input type="checkbox" class="chk" data-act="share" data-k="hlvFinance" ${t.share.hlvFinance?'checked':''}><span class="grow">HLV / trưởng đoàn được xem toàn bộ tài chính</span></label>
+   <label class="row"><input type="checkbox" class="chk" data-act="share" data-k="caddieFinance" ${t.share.caddieFinance?'checked':''}><span class="grow">Caddie được xem toàn bộ tài chính</span></label>
+   <p class="note">Mặc định HLV và caddie chỉ ghi được khoản chi và thấy những khoản do vai trò đó ghi. Golfer không thấy tài chính.</p></div>`:''}
+  ${can.editTrip(ui.role,t)?`<details style="margin-top:18px"><summary>Sửa thông tin chuyến</summary><div class="panel"><form id="fTrip" class="form">
+   <label>Tên giải<input type="text" name="name" value="${esc(t.name)}"></label><label>Golfer<input type="text" name="golfer" value="${esc(t.golfer)}"></label>
+   <label>Địa điểm<input type="text" name="place" value="${esc(t.place)}"></label><label>Sân<input type="text" name="course" value="${esc(t.course)}"></label>
+   <label>Loại giải<select class="f" name="scope"><option value="dom" ${t.scope==='dom'?'selected':''}>Trong nước</option><option value="intl" ${t.scope!=='dom'?'selected':''}>Quốc tế</option></select></label>${t.scope==='dom'?'':`<label>Tiền tệ<input type="text" name="cur" value="${esc(t.cur)}" maxlength="3"></label><label>Tỷ giá VND<input type="number" name="rate" value="${t.rate}"></label>`}
+   <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm">Lưu thay đổi</button><button type="button" class="btn sm danger" data-act="delTrip">Xoá chuyến này</button></div></form></div></details>`:''}`;
+}
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+
+function viewLog(t){
+  const ed=can.editLog(ui.role);
+  const groups=Object.keys(LOG_TYPES).map(k=>{const items=logOf(t).filter(l=>l.type===k).sort((a,b)=>(a.date||'')<(b.date||'')?-1:1);if(!items.length)return '';
+    return `<h3>${logName(t,k)}</h3><div class="panel">${items.map(l=>`<div class="row ${l.status==='done'?'done':''}"><div class="grow">
+      <div class="title">${esc(l.title)}</div><div class="small muted">${l.date?dd(l.date):''}${l.time?' · '+esc(l.time):''}${l.detail?' · '+esc(l.detail):''}</div></div>
+      <button class="pill s-${l.status}" ${ed?`data-act="cycleLog" data-id="${l.id}"`:'disabled'}>${STATUS[l.status]}</button>
+      ${ed?`<button class="x" data-act="delLog" data-id="${l.id}" aria-label="Xoá">×</button>`:''}</div>`).join('')}</div>`}).join('');
+  return `<h1>Hậu cần</h1><p class="muted small">Chạm vào trạng thái để chuyển Chưa làm → Đang làm → Xong. Chi phí của từng khoản ghi ở tab Tài chính.</p>${groups}
+  ${ed?`<h2>Thêm việc</h2><div class="panel"><form id="fLog" class="form">
+   <label>Loại<select class="f" name="type">${Object.entries(LOG_TYPES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></label>
+   <label style="grid-column:span 2">Nội dung<input type="text" name="title" required placeholder="VD: Chuyến VN615 HAN–BKK 08:10"></label>
+   <label>Ngày${dmyInput('date','')}</label><label>Giờ<input type="time" name="time"></label>
+   <label style="grid-column:1/-1">Ghi chú<input type="text" name="detail" placeholder="Mã đặt chỗ, số điện thoại tài xế, địa chỉ…"></label>
+   <div><button class="btn sm">Thêm</button></div></form></div>`:''}`;
+}
+
+function viewPack(t){
+  const ed=can.editPackList(ui.role);
+  const groups=[...new Set(packOf(t).map(p=>p.group))];
+  return `<h1>Hành lý trước khi đi</h1><p class="muted small">Số lượng tự tính theo ${tripDays(t)} ngày, ${roundCount(t)} vòng, ${playCount(t)} ngày ra sân. ${ed?'Sửa ô số lượng để ghi đè; xoá trắng để quay về công thức.':''}</p>
+  ${groups.map(g=>{const it=packOf(t).filter(p=>p.group===g),done=it.filter(p=>p.packed).length;
+   return `<div class="ghead"><h3>${esc(g)}</h3><span class="small muted">${done}/${it.length}</span></div><div class="panel">
+   ${it.map(p=>`<div class="row ${p.packed?'done':''}"><input type="checkbox" class="chk" data-act="pack" data-id="${p.id}" ${p.packed?'checked':''} aria-label="Đã xếp">
+    <div class="grow"><div class="title">${esc(p.name)}</div>${p.override==null&&ruleText(p.rule)?`<div class="small muted">${ruleText(p.rule)}</div>`:''}</div>
+    ${ed?`<input class="q" type="number" min="0" data-act="packQty" data-id="${p.id}" value="${qtyOf(t,p.rule,p.override)}" aria-label="Số lượng"><button class="x" data-act="delPack" data-id="${p.id}" aria-label="Xoá">×</button>`:`<b class="n" style="font-family:var(--num);font-size:15px;font-weight:600">${qtyOf(t,p.rule,p.override)}</b>`}</div>`).join('')}
+   ${ed?`<form class="form fPack" data-group="${esc(g)}" style="margin-top:8px;grid-template-columns:1fr 70px auto"><input type="text" name="name" placeholder="Thêm món vào ${esc(g.toLowerCase())}" required><input type="number" name="qty" value="1" min="0"><button class="btn sm">Thêm</button></form>`:''}</div>`}).join('')}`;
+}
+
+/* ===== Thi đấu: tee time, lịch trình, dinh dưỡng, kết quả, phân tích ===== */
+const toMin=s=>{if(!s)return null;const [h,m]=s.split(':').map(Number);return h*60+m};
+const hm=m=>{m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+/* ===== Thời tiết & sức khoẻ (ngưỡng là cấu hình — seed thoi_tiet_quy_tac.csv) ===== */
+const WX_FIELDS=[['feels','Cảm giác như cao nhất (°C)'],['tmax','Nhiệt độ cao nhất (°C)'],['tmin','Nhiệt độ thấp nhất buổi sáng (°C)'],['uv','Chỉ số UV cao nhất'],['rain','Khả năng mưa (%)'],['wind','Gió / gió giật (km/h)'],['aqi','Chất lượng không khí (AQI)']];
+// k: chỉ số; lo ≤ giá trị < hi; lv: 1 lưu ý · 2 cẩn trọng · 3 nguy hiểm · 4 rất nguy hiểm
+const WX_RULES=[
+ {k:'feels',lo:27,hi:32,lv:1,name:'Nóng — cẩn trọng',tips:['Uống vài ngụm nước sau mỗi hố, không đợi khát','Đội mũ, đứng bóng râm khi chờ đánh'],add:[]},
+ {k:'feels',lo:32,hi:39,lv:2,name:'Nóng — rất cẩn trọng',tips:['Mang thêm 1 chai nước và 2 gói điện giải','Khăn lạnh quàng cổ, che ô giữa các cú đánh','Khởi động trong bóng râm, rút bãi tập xuống 15 phút'],add:['Khăn lạnh + thêm 1 chai nước, 2 gói điện giải']},
+ {k:'feels',lo:39,hi:51,lv:3,name:'Nắng nóng nguy hiểm',tips:['Làm đủ các việc ở mức "rất cẩn trọng"','Người đi cùng theo sát dấu hiệu say nóng: chóng mặt, đau đầu, buồn nôn, chuột rút, da nóng đỏ, lơ mơ','Có dấu hiệu là dừng chơi, đưa vào bóng mát, làm mát, báo BTC và y tế giải','Hỏi BTC vị trí điểm nước và khu nghỉ trên sân'],add:['Khăn lạnh + thêm 1 chai nước, 2 gói điện giải','Hỏi BTC điểm nước, khu nghỉ, số y tế giải']},
+ {k:'feels',lo:51,hi:999,lv:4,name:'Nắng nóng cực kỳ nguy hiểm',tips:['Đề nghị BTC xem xét đổi giờ hoặc hoãn','Hạn chế ở ngoài trời trước giờ xuất phát','Làm đủ các việc ở mức "nguy hiểm"'],add:['Hỏi BTC điểm nước, khu nghỉ, số y tế giải']},
+ {k:'uv',lo:6,hi:8,lv:1,name:'UV cao',tips:['Kem chống nắng trước khi ra sân, mũ, kính râm'],add:[]},
+ {k:'uv',lo:8,hi:11,lv:2,name:'UV rất cao',tips:['Kem chống nắng SPF 50, bôi lại sau 9 hố','Ống tay chống nắng, mũ rộng vành'],add:['Bôi lại kem chống nắng sau 9 hố']},
+ {k:'uv',lo:11,hi:99,lv:3,name:'UV cực cao',tips:['Kem SPF 50 bôi lại sau 9 hố, ống tay, mũ rộng vành','Che ô khi chờ, hạn chế đứng nắng ở bãi tập'],add:['Bôi lại kem chống nắng sau 9 hố']},
+ {k:'rain',lo:30,hi:60,lv:1,name:'Có thể mưa',tips:['Áo mưa và khăn khô để sẵn trong túi gậy'],add:['Áo mưa + khăn khô trong túi gậy']},
+ {k:'rain',lo:60,hi:101,lv:2,name:'Khả năng mưa cao',tips:['Áo mưa, găng tay đánh mưa, 2–3 khăn khô','Đôi giày thứ hai, áo mưa trùm túi gậy','Giữ tay cầm gậy khô: lau trước mỗi cú'],add:['Áo mưa + khăn khô trong túi gậy','Găng mưa, giày dự phòng, áo trùm túi gậy']},
+ {k:'wind',lo:30,hi:50,lv:1,name:'Gió mạnh',tips:['Đánh bóng thấp, tính thêm gậy khi ngược gió','Áo gió mỏng'],add:[]},
+ {k:'wind',lo:50,hi:999,lv:2,name:'Gió rất mạnh',tips:['Theo dõi thông báo của BTC','Tránh đứng gần cây cao khi gió giật','Đánh thấp, ưu tiên an toàn hơn khoảng cách'],add:[]},
+ {k:'tmin',lo:-99,hi:10,lv:2,name:'Rét buổi sáng',tips:['Mặc nhiều lớp, mũ len, găng giữ ấm giữa các cú','Khởi động lâu hơn 10 phút','Mang nước ấm'],add:['Áo nhiều lớp, mũ len, găng giữ ấm, nước ấm']},
+ {k:'tmin',lo:10,hi:16,lv:1,name:'Lạnh buổi sáng',tips:['Áo khoác mỏng hoặc áo giữ nhiệt, cởi dần khi ấm','Khởi động lâu hơn 5 phút'],add:['Áo giữ nhiệt / áo khoác mỏng']},
+ {k:'aqi',lo:101,hi:151,lv:1,name:'Không khí kém',tips:['Đeo khẩu trang khi di chuyển','Khởi động nhẹ, tránh gắng sức lâu ngoài trời trước giờ thi đấu','Các bạn có vấn đề hô hấp làm theo hướng dẫn của bác sĩ, mang theo thuốc đang dùng'],add:['Khẩu trang khi di chuyển']},
+ {k:'aqi',lo:151,hi:201,lv:2,name:'Không khí xấu',tips:['Khởi động trong nhà nếu có thể','Khẩu trang khi chờ đánh và di chuyển','Các bạn có vấn đề hô hấp nên hỏi ý kiến bác sĩ trước khi thi đấu'],add:['Khẩu trang khi di chuyển']},
+ {k:'aqi',lo:201,hi:9999,lv:3,name:'Không khí rất xấu',tips:['Cân nhắc rút lui, trao đổi với BTC','Hạn chế tối đa thời gian ngoài trời trước giờ thi đấu'],add:['Khẩu trang khi di chuyển']},
+];
+const WX_STORM={lv:4,name:'Có dông, sét',tips:['Khi BTC hú còi tạm dừng: đánh dấu bóng, dừng ngay, không đánh nốt cú','Vào nhà câu lạc bộ, xe ô tô kín hoặc nhà trú có chống sét','Không trú dưới cây đơn độc, tránh xa gậy, ô, cột kim loại, mặt nước','Chưa có còi mà đã thấy sét, nghe sấm: báo trưởng nhóm, chuẩn bị vào nơi trú','Chỉ quay lại sân khi BTC cho phép'],add:['Biết trước nơi trú sét gần nhất và hiệu lệnh còi của BTC']};
+const WX_LV=['','Lưu ý','Cẩn trọng','Nguy hiểm','Rất nguy hiểm'];
+function wxEval(r){const w=r.wx||{},out=[];
+  for(const rule of WX_RULES){const v=w[rule.k==='wind'?'wind':rule.k];if(v===undefined||v==='')continue;const x=+v;if(x>=rule.lo&&x<rule.hi)out.push(rule)}
+  if(w.feels===undefined&&w.tmax!==undefined&&w.tmax!==''){const x=+w.tmax;const rr=WX_RULES.find(q=>q.k==='feels'&&x>=q.lo&&x<q.hi);if(rr)out.push({...rr,name:rr.name+' (theo nhiệt độ, chưa có cảm giác như)'})}
+  if(w.storm)out.unshift(WX_STORM);
+  return out.sort((a,b)=>b.lv-a.lv)}
+function wxPanel(t,r){const w=r.wx||{},ev=wxEval(r),top=ev.length?Math.max(...ev.map(x=>x.lv)):0;
+  const adds=[...new Set(ev.flatMap(x=>x.add))].filter(a=>!r.pre.some(p=>p.name===a));
+  return `<h3>Thời tiết & sức khoẻ</h3><div class="panel">
+   <p class="small muted" style="margin:0 0 8px">Mở app Thời tiết trên điện thoại, chọn đúng địa điểm sân, xem khung giờ từ lúc khởi động đến khi xong vòng, nhập số cao nhất (riêng nhiệt độ buổi sáng nhập số thấp nhất).</p>
+   <div class="form">${WX_FIELDS.map(([f,l])=>`<label>${l}<input type="number" inputmode="decimal" data-act="wx" data-r="${r.key}" data-f="${f}" value="${w[f]??''}"></label>`).join('')}
+   <label class="row" style="grid-column:1/-1;border:0;flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" class="chk" data-act="wxStorm" data-r="${r.key}" ${w.storm?'checked':''}><span class="grow">Dự báo có dông, sét</span></label></div>
+   ${w.at?`<p class="small muted" style="margin:4px 0 0">Cập nhật ${esc(w.at)}${w.by?' · '+esc(ROLES[w.by]||w.by):''}</p>`:''}
+   ${ev.length?`<div class="row" style="margin-top:8px"><span class="grow"><b>Mức chung: ${WX_LV[top]}</b></span><span class="tag ${top>=3?'cut':''}">${ev.length} cảnh báo</span></div>
+     ${ev.map(x=>`<div style="padding:8px 0;border-top:1px solid var(--line)"><div class="title ${x.lv>=3?'warn':''}">${x.name} <span class="tag ${x.lv>=3?'cut':''}">${WX_LV[x.lv]}</span></div><ul style="margin:4px 0 0;padding-left:20px">${x.tips.map(s=>`<li>${s}</li>`).join('')}</ul></div>`).join('')}
+     ${adds.length?`<button class="btn sm" style="margin-top:8px" data-act="wxAdd" data-r="${r.key}">Thêm ${adds.length} việc vào checklist trước khi ra sân</button>`:'<p class="small okc" style="margin:8px 0 0">Các việc cần chuẩn bị đã có trong checklist.</p>'}`
+   :(Object.keys(w).some(k=>k!=='at'&&k!=='by'&&w[k]!==''&&w[k]!==undefined&&w[k]!==false)?'<p class="small okc" style="margin:8px 0 0">Thời tiết thuận lợi, giữ kế hoạch bình thường.</p>':'')}
+   <p class="note">Ngưỡng nắng nóng tham khảo thang chỉ số nhiệt của NOAA (Mỹ); AQI theo thang US AQI mà app Thời tiết đang hiển thị. Đây là gợi ý chuẩn bị, không thay thế quyết định của BTC và nhân viên y tế giải.</p></div>`}
+
+function ensureRound(r){r.startType=r.startType||'tee';r.assembly=r.assembly??30;r.stats=r.stats||{};r.eval=r.eval||{};r.startHole=r.startHole||1;r.group=r.group||'';r.plan=r.plan||'';r.tee=r.tee||'';return r}
+const holeAt=(r,k)=>((+r.startHole-1)+k-1)%18+1;
+
+function schedule(t,r){
+  const tee=toMin(r.tee);if(tee==null)return null;
+  const travel=+(t.travel??20);
+  if(r.type==='practice'){
+    const arrive=tee-45,leave=arrive-travel,wake=Math.min(tee-150,leave-50);
+    return [[wake-540,'Tối hôm trước: đi ngủ','Ngủ đủ 9 tiếng. Chuẩn bị sẵn túi gậy, sổ yardage, quần áo.'],
+      [wake,'Thức dậy','Uống 1 cốc nước, vận động nhẹ cho tỉnh người.'],
+      [wake+15,'Ăn sáng','Xong trước giờ ra sân ít nhất 1,5–2 tiếng.'],
+      [leave,'Rời khách sạn',`Di chuyển khoảng ${travel} phút.`],
+      [arrive,'Có mặt ở sân','Check-in vòng tập, lấy bản đồ sân, hỏi luật địa phương.'],
+      [tee-40,'Khởi động thể lực 10 phút','Động tác động: hông, vai, chân, cổ tay.'],
+      [tee-30,'Bãi tập 15 phút','Kiểm tra khoảng cách thực tế từng gậy ở sân này (độ cao, gió, độ ẩm).'],
+      [tee-15,'Putting 10 phút','Ghi lại tốc độ green: nhanh/chậm hơn sân nhà bao nhiêu.'],
+      [tee-5,'Có mặt ở tee',''],[tee,'Xuất phát vòng tập','Mục tiêu: ghi chú sân, không phải ghi điểm.',1]];
+  }
+  let arrive=tee-(+(t.arriveBefore??75)),leave=arrive-travel,wake=Math.min(tee-165,leave-60);
+  if(r.startType==='shotgun'){
+    const A=Math.max(15,+r.assembly||30);
+    arrive=Math.min(arrive,tee-A-55);leave=arrive-travel;wake=Math.min(tee-165,leave-60);
+    return [[wake-540,'Tối hôm trước: đi ngủ','Ngủ đủ 9 tiếng. Túi gậy, quần áo, đồ ăn, nước xếp xong từ tối theo checklist.'],
+      [wake,'Thức dậy','Uống 1 cốc nước, vận động nhẹ 5–10 phút, xem dự báo thời tiết.'],
+      [wake+15,'Ăn sáng (25 phút)','Xong trước giờ còi ít nhất 2 tiếng để tiêu hoá.'],
+      [leave-15,'Kiểm tra lần cuối','Đếm gậy (≤14), bóng đã đánh dấu, găng, thẻ, nước, đồ ăn cho cả vòng (không quay về được giữa chừng), áo mưa/ô.'],
+      [leave,'Rời khách sạn',`Di chuyển khoảng ${travel} phút. Dự phòng tắc đường.`],
+      [arrive,'Có mặt ở sân','Check-in, xác nhận hố xuất phát và nhóm, nhận thẻ điểm, pin sheet, luật địa phương. Hỏi BTC giờ đóng bãi tập.'],
+      [tee-A-45,'Khởi động thể lực 10 phút','Động tác động: xoay hông vai, chân, cổ tay.'],
+      [tee-A-35,'Bãi tập 20 phút','Wedge → sắt → driver. Kết thúc bằng gậy sẽ dùng ở cú đầu tiên của hố '+r.startHole+'.'],
+      [tee-A-15,'Ăn nhẹ + uống nước','Nửa quả chuối hoặc 1 bánh nhỏ.'],
+      [tee-A-12,'Putting 10 phút','Putt dài lấy tốc độ green, kết thúc bằng putt 1m vào lỗ.'],
+      [tee-A,'Có mặt tại điểm tập trung shotgun','Lên xe/đi bộ ra hố '+r.startHole+' theo hướng dẫn BTC. Túi gậy, nước, đồ ăn mang theo đủ.',1],
+      [tee-10,'Có mặt tại tee hố '+r.startHole,'Chào nhóm, báo loại bóng và dấu bóng, kiểm tra 14 gậy, thẻ điểm. Vài cú vung không bóng, hít thở.',1],
+      [tee,'Còi shotgun — xuất phát','Hố '+r.startHole+'. Vòng kết thúc ở hố '+holeAt(r,18)+'.',1]];
+  }
+  return [[wake-540,'Tối hôm trước: đi ngủ','Ngủ đủ 9 tiếng. Túi gậy, quần áo, đồ ăn, nước xếp xong từ tối theo checklist.'],
+    [wake,'Thức dậy','Uống 1 cốc nước, vận động nhẹ 5–10 phút, xem dự báo thời tiết.'],
+    [wake+15,'Ăn sáng (25 phút)','Bữa chính trong ngày, xong trước tee time ít nhất 2 tiếng để tiêu hoá.'],
+    [leave-15,'Kiểm tra lần cuối','Đếm gậy (≤14), bóng đã đánh dấu, găng, thẻ, nước, đồ ăn, áo mưa/ô.'],
+    [leave,'Rời khách sạn',`Di chuyển khoảng ${travel} phút. Dự phòng tắc đường.`],
+    [arrive,'Có mặt ở sân','Check-in, nhận thẻ điểm, pin sheet, đọc luật địa phương, xác nhận nhóm đấu.'],
+    [tee-65,'Khởi động thể lực 10 phút','Động tác động: xoay hông vai, chân, cổ tay. Không giãn tĩnh lâu.'],
+    [tee-55,'Bãi tập 25 phút','Wedge → sắt → gỗ/driver. Không sửa swing. 3 cú cuối mô phỏng hố xuất phát, đủ quy trình trước cú đánh.'],
+    [tee-30,'Ăn nhẹ + uống nước','Nửa quả chuối hoặc 1 bánh ngũ cốc nhỏ.'],
+    [tee-28,'Chip & bunker 8 phút','Vài cú chip, 2–3 cú bunker để cảm nhận cát.'],
+    [tee-20,'Putting 5 phút','Putt dài 6–12m lấy tốc độ green, kết thúc bằng loạt putt 1m vào lỗ liên tục.'],
+    [tee-15,'Có mặt ở tee box','Chào nhóm, báo loại bóng và dấu bóng, kiểm tra 14 gậy, thẻ điểm, bút. Hít thở, giữ im lặng.',1],
+    [tee-10,'Starter phổ biến','Nghe gọi tên, luật địa phương, thứ tự đánh.'],
+    [tee,'Xuất phát',`Hố ${r.startHole}.`,1]];
+}
+function foodPlan(t,r){
+  const tee=toMin(r.tee),sc=schedule(t,r);const at=v=>tee==null?'':hm(v);
+  const wake=sc?sc[1][0]:null,bed=sc?sc[0][0]:null,perHole=15;
+  const holeT=k=>tee==null?'':'~'+hm(tee+k*perHole);
+  return [
+    [bed!=null?at(bed-150):'Tối hôm trước','Bữa tối hôm trước','Cơm/mì/khoai + thịt gà, cá + rau. Tránh món lạ, chiên nhiều dầu, cay. Uống đủ nước cả buổi tối.'],
+    [wake!=null?at(wake+15):'Sáng','Bữa sáng','Tinh bột dễ tiêu (cháo, phở, bánh mì, yến mạch) + trứng hoặc sữa chua + hoa quả. Ít dầu mỡ, không ăn quá no.'],
+    [at(tee-30)||'Trước tee 30\'','Trước khi ra tee','Nửa quả chuối hoặc bánh ngũ cốc nhỏ + vài ngụm nước.'],
+    ['Mỗi hố','Uống nước','Vài ngụm sau mỗi hố, không đợi khát. Trời nóng: pha gói điện giải ở hố thứ 6 và thứ 12.'],
+    [holeT(4),`Sau hố ${holeAt(r,4)}`,'Ăn nhẹ: nửa quả chuối hoặc vài miếng hạt.'],
+    [holeT(8),`Sau hố ${holeAt(r,8)} (giữa vòng)`,'Bữa phụ chính: nửa sandwich hoặc thanh ngũ cốc + hoa quả.'],
+    [holeT(12),`Sau hố ${holeAt(r,12)}`,'Ăn nhẹ: hoa quả sấy hoặc chuối. Đây là lúc năng lượng hay tụt nhất.'],
+    [holeT(15),`Sau hố ${holeAt(r,15)}`,'Miếng nhỏ + nước để giữ tập trung 3 hố cuối.'],
+    [tee==null?'Sau vòng':at(tee+18*perHole+30),'Sau vòng 30–45 phút','Bữa phục hồi: tinh bột + đạm (cơm gà, phở, sữa). Bù nước.'],
+  ];
+}
+const NOTES=[
+ ['Luật & thủ tục',['Đọc luật địa phương và pin sheet trước khi ra bãi tập.','Kiểm tra quy định giải về caddie, phụ huynh và máy đo khoảng cách.','Ghi điểm cho bạn chơi cùng, đối chiếu thẻ từng hố, ký trước khi nộp. Sai thẻ có thể bị loại.','Nghi bóng mất hoặc ra ngoài biên: đánh bóng tạm, báo rõ cho nhóm.','Giữ nhịp chơi, không để nhóm bị nhắc chậm.']],
+ ['Chiến thuật',['Cờ sát chướng ngại: đánh vào giữa green.','Hố khó: chấp nhận bogey, không đánh liều.','Gặp rắc rối: ưu tiên đưa bóng về chỗ an toàn trước.','Hố hẹp: dùng gậy chắc chắn nhất từ tee, không nhất thiết driver.']],
+ ['Tâm lý',['Mục tiêu là quá trình (đủ quy trình trước mỗi cú), không phải con số điểm.','Không xem bảng xếp hạng trong vòng.','Cú hỏng: cho phép bực trong 10 bước, sau đó bỏ lại.','Hít thở chậm 4 nhịp vào, 4 nhịp ra trước cú đánh quan trọng.']],
+ ['Ứng xử trên sân',['Chào và chúc bạn chơi trước khi xuất phát, bắt tay khi kết thúc.','Sửa dấu bóng, cào bunker, đặt lại divot.','Đứng yên, giữ im lặng khi người khác đánh.']],
+ ['Phụ huynh & caddie',['Đứng ở khu vực cho phép, không chỉ đạo chiến thuật trong vòng nếu luật giải cấm.','Chỉ động viên, không bình luận cú đánh.','Phân tích để sau bữa phục hồi, không làm ngay khi rời green 18.']]
+];
+/* Mốc chỉ số theo cấp độ / handicap */
+const LEVEL_HCP={10:38,11:30,12:25,13:20,14:18,15:16,16:15,17:12,18:10,19:8,20:4};
+// [hcp, fairway %, GIR (số hố), putt, 3-putt, gậy phạt, up&down %, hố double+]
+const BENCH=[[0,57,10,30,0.6,0.5,50,0.5],[5,53,8,31,1,1,40,1],[10,50,6,32,1.5,1.5,32,2],[15,46,4.5,33,2,2,25,3.5],[20,43,3,34,2.5,2.5,20,5],[28,38,2,35.5,3.2,3.5,15,7],[38,33,1,37,4,5,10,9]];
+function bench(h){h=Math.max(0,Math.min(38,h));let i=0;while(i<BENCH.length-2&&BENCH[i+1][0]<h)i++;const a=BENCH[i],b=BENCH[i+1],k=(h-a[0])/(b[0]-a[0]);const v=j=>a[j]+(b[j]-a[j])*k;
+  return {fw:v(1),gir:v(2),putts:v(3),three:v(4),pen:v(5),ud:v(6),dbl:v(7)}}
+function effHcp(t){if(t.hcp!==undefined&&t.hcp!==null&&t.hcp!=='')return {h:+t.hcp,src:'handicap thực tế'};if(t.level&&LEVEL_HCP[t.level]!=null)return {h:LEVEL_HCP[t.level],src:'Level '+t.level};return {h:18,src:'mặc định HDC 18 (chưa chọn cấp độ)'}}
+const f1=x=>(Math.round(x*10)/10).toString().replace('.',',');
+const pctS=(a,b)=>(a===undefined||!b)?null:Math.round(a/b*100);
+function analyze(t,r){
+  const s=r.stats;if(r.score===''&&s.putts===undefined)return null;
+  const E=effHcp(t),B=bench(E.h),par=+(t.par||72),score=+r.score||null,fw=pctS(s.fw,s.fwt||14);
+  const out=[],drills=[],strong=[];const add=(txt,dr)=>{out.push(txt);if(dr)drills.push(dr)};
+  if(s.putts!==undefined){if(s.putts>B.putts+2||(s.three||0)>B.three+2)add(`Putting tốn gậy: ${s.putts} putt (mốc ${Math.round(B.putts)})${s.three?`, ${s.three} lần 3-putt (mốc ${f1(B.three)})`:''}.`,'20 phút putt dài 6–12m kiểm soát tốc độ + 10 phút putt 1–1,5m.');else if(s.putts<=B.putts-2)strong.push(`Putting: ${s.putts} putt, tốt hơn mốc ${Math.round(B.putts)}.`)}
+  if(fw!==null){if(fw<B.fw-10)add(`Tee shot chưa ổn định: fairway ${fw}% (mốc ${Math.round(B.fw)}%).`,'15 phút tee shot với gậy an toàn, nhắm mục tiêu hẹp; xem lại lựa chọn gậy ở hố hẹp.');else if(fw>=B.fw+10)strong.push(`Tee shot: fairway ${fw}%, tốt hơn mốc ${Math.round(B.fw)}%.`)}
+  if(s.gir!==undefined){if(s.gir<B.gir-2)add(`Cú tiếp cận chưa lên green: GIR ${s.gir}/18 (mốc ${f1(B.gir)}).`,'20 phút sắt tầm trung vào mục tiêu, kiểm tra khoảng cách thực tế ở sân này.');else if(s.gir>=B.gir+2)strong.push(`Tiếp cận: GIR ${s.gir}/18, tốt hơn mốc ${f1(B.gir)}.`)}
+  if(s.udt>=3){const p=pctS(s.ud||0,s.udt);if(p<B.ud-15)add(`Short game cứu điểm thấp: up & down ${s.ud||0}/${s.udt} (${p}%, mốc ${Math.round(B.ud)}%).`,'15 phút chip quanh green từ nhiều thế bóng, 10 phút bunker.');else if(p>=B.ud+15)strong.push(`Short game: up & down ${p}%, tốt hơn mốc ${Math.round(B.ud)}%.`)}
+  if((s.pen||0)>B.pen+1.5)add(`${s.pen} gậy phạt (mốc ${f1(B.pen)}): xem lại quản lý rủi ro.`,null);
+  if((s.dbl||0)>B.dbl+2)add(`${s.dbl} hố double bogey trở lên (mốc ${f1(B.dbl)}): điểm mất chủ yếu ở vài hố hỏng nặng.`,null);
+  if(s.front&&s.back&&s.back-s.front>=3)add(`9 hố sau kém hơn 9 hố đầu ${s.back-s.front} gậy: kiểm tra năng lượng, nước, ăn đúng giờ giữa vòng.`,null);
+  if(r.eval.energy&&+r.eval.energy<=2)add('Con tự chấm năng lượng cuối vòng thấp: xem lại bữa sáng và ăn nhẹ trên sân.',null);
+  if(r.eval.mental&&+r.eval.mental<=2)add('Tinh thần thấp: nói chuyện nhẹ nhàng, bắt đầu từ điều con làm tốt.',null);
+  const prev=t.rounds.filter(x=>x.type==='round'&&x.date<r.date&&x.score!=='').pop();
+  let cmp='';if(prev&&score){const d=score-(+prev.score);cmp=`So với ${prev.label}: ${d>0?'+':''}${d} gậy${s.putts!==undefined&&prev.stats?.putts!==undefined?`, putt ${s.putts-prev.stats.putts>0?'+':''}${s.putts-prev.stats.putts}`:''}.`}
+  const rows=[['Fairway',fw!=null?fw+'%':'–',Math.round(B.fw)+'%'],['GIR',s.gir??'–',f1(B.gir)],['Putt',s.putts??'–',Math.round(B.putts)],['3-putt',s.three??'–',f1(B.three)],['Gậy phạt',s.pen??'–',f1(B.pen)],['Up & down',s.udt?pctS(s.ud||0,s.udt)+'%':'–',Math.round(B.ud)+'%'],['Double+',s.dbl??'–',f1(B.dbl)]];
+  return {vs:score?score-par:null,exp:score?score-(par+E.h):null,fw,gir:pctS(s.gir,18),out,drills,strong,cmp,E,rows};
+}
+
+function viewDay(t){
+  if(!ui.round||!t.rounds.find(r=>r.key===ui.round)){const td=today();ui.round=(t.rounds.find(r=>r.date>=td)||t.rounds[0]).key}
+  const r=ensureRound(t.rounds.find(x=>x.key===ui.round)),isR=r.type==='round';
+  const chips=t.rounds.map(x=>`<button class="chip ${x.key===r.key?'on':''}" data-act="pickRound" data-k="${x.key}"><b>${x.type==='round'?'Vòng '+x.key.slice(1):dayName(t,x).replace('Ngày t','T')}</b><span>${dd(x.date)}${x.tee?' · '+x.tee:''}</span></button>`).join('');
+  const done=r.pre.filter(p=>p.done).length;
+  const sc=schedule(t,r);
+  const invRows=t.inventory.map(i=>{const left=invLeft(t,i);return `<div class="row"><div class="grow"><div class="title">${esc(i.name)}</div><div class="small ${left<=i.threshold?'warn':'muted'}">Còn ${left} ${esc(i.unit)}${left<=i.threshold?' — sắp hết':''}</div></div>
+    <input class="q" type="number" min="0" data-act="used" data-r="${r.key}" data-id="${i.id}" value="${r.used[i.id]??''}" placeholder="0" aria-label="Đã dùng"></div>`}).join('');
+  const sugg=t.inventory.filter(i=>invLeft(t,i)<=i.threshold&&!r.buys.some(b=>b.invId===i.id));
+  const S=(f,label,ph='')=>`<label>${label}<input type="number" min="0" data-act="st" data-r="${r.key}" data-f="${f}" value="${r.stats[f]??''}" placeholder="${ph}"></label>`;
+  const A=isR?analyze(t,r):null;
+  const rounds=t.rounds.filter(x=>x.type==='round');
+  return `<h1>Thi đấu tại giải</h1><div class="chips">${chips}</div>
+  <div class="hero"><h2 style="margin:0">${dayName(t,r)} — ${dd(r.date)}${r.tee?(r.startType==='shotgun'?' · shotgun '+r.tee+' · hố '+r.startHole:' · tee '+r.tee):''}</h2><div class="small muted">${isR?'Ngày thi đấu':'Ngày đánh tập (practice round) trước giải: đánh thử sân thi đấu, không tính điểm. Mục tiêu: làm quen sân, ghi chú yardage, đo tốc độ green'}</div></div>
+
+  <h3>Xuất phát & nhóm đấu</h3>
+  <div class="panel"><div class="form">
+    <label>Kiểu xuất phát<select class="f" data-act="rf" data-r="${r.key}" data-f="startType"><option value="tee" ${r.startType==='tee'?'selected':''}>Theo tee time</option><option value="shotgun" ${r.startType==='shotgun'?'selected':''}>Shotgun</option></select></label>
+    <label>${r.startType==='shotgun'?'Giờ còi shotgun':'Tee time'}<input type="time" data-act="rf" data-r="${r.key}" data-f="tee" value="${esc(r.tee)}"></label>
+    <label>Hố xuất phát<select class="f" data-act="rf" data-r="${r.key}" data-f="startHole">${(r.startType==='shotgun'?Array.from({length:18},(_,i)=>i+1):[1,10]).map(h=>`<option ${r.startHole==h?'selected':''}>${h}</option>`).join('')}</select></label>
+    ${r.startType==='shotgun'?`<label>Tập trung trước giờ còi (phút)<input type="number" min="15" data-act="rf" data-r="${r.key}" data-f="assembly" value="${r.assembly}"></label>`:''}
+    <label>Khách sạn → sân (phút)<input type="number" min="0" data-act="tripNum" data-f="travel" value="${t.travel??20}"></label>
+    ${isR?`<label>Có mặt ở sân trước tee (phút)<input type="number" min="30" data-act="tripNum" data-f="arriveBefore" value="${t.arriveBefore??75}"></label>`:''}
+    <label style="grid-column:1/-1">Nhóm đấu (mỗi người một dòng: tên, CLB/quốc gia)<textarea rows="3" data-act="rf" data-r="${r.key}" data-f="group">${esc(r.group)}</textarea></label>
+  </div></div>
+
+  ${wxPanel(t,r)}
+
+  <h3>Thời gian biểu đề xuất</h3>
+  <div class="panel">${sc?sc.map(([m,ti,de,hi])=>`<div class="row" style="align-items:flex-start${hi?';background:color-mix(in srgb,var(--flag) 18%,transparent);margin:0 -14px;padding:9px 14px':''}">
+     <div style="font-family:var(--num);font-size:16px;font-weight:600;line-height:1.4;width:56px;flex:none;${hi?'color:var(--green)':''}">${hm(m)}</div>
+     <div class="grow"><div class="title">${ti}</div>${de?`<div class="small muted">${de}</div>`:''}</div></div>`).join('')
+     +`<p class="note">Tính ngược từ tee time và thời gian di chuyển. ${r.startType==='shotgun'?'Shotgun: mọi nhóm xuất phát cùng lúc ở các hố khác nhau, nên tập trung sớm và bãi tập có thể đóng sớm. Nếu bãi tập đóng, khởi động không bóng + putting.':'Lịch có mặt ở tee trước 15 phút.'} Nếu giải yêu cầu check-in sớm hơn, sửa ô “Có mặt ở sân trước tee”.</p>`
+   :'<p class="muted">Nhập tee time để app tính lịch từ giờ thức dậy đến lúc xuất phát.</p>'}</div>
+
+  <h3>Năng lượng & ăn uống trong ngày</h3>
+  <div class="panel">${foodPlan(t,r).map(([w,ti,de])=>`<div class="row" style="align-items:flex-start"><div style="font-family:var(--num);font-size:14px;font-weight:600;width:56px;flex:none">${esc(w)}</div><div class="grow"><div class="title">${ti}</div><div class="small muted">${de}</div></div></div>`).join('')}
+   <p class="note">Tránh: nước tăng lực, đồ uống có caffeine, kẹo ngọt nhiều, món lần đầu ăn. Kiểm tra dị ứng của con trước khi chọn đồ (ví dụ bơ lạc). Đồ ăn nhẹ và gói điện giải trừ vào Kho đồ.</p></div>
+
+  ${isR?`<h3>Lưu ý trước vòng</h3>
+  <div class="panel">${NOTES.map(([g,items])=>`<details><summary>${g}</summary><ul style="margin:4px 0 8px;padding-left:20px">${items.map(x=>`<li>${x}</li>`).join('')}</ul></details>`).join('')}
+   <label class="small muted" style="display:block;margin-top:8px">Kế hoạch riêng cho vòng này (mục tiêu quá trình, hố cần cẩn trọng, gậy từ tee từng hố khó)
+   <textarea rows="3" data-act="rf" data-r="${r.key}" data-f="plan" style="margin-top:4px">${esc(r.plan)}</textarea></label></div>`:''}
+
+  ${advDay(t,r)}
+
+  <div class="ghead"><h3>Checklist trước khi ra sân</h3><span class="small muted">${done}/${r.pre.length}</span></div>
+  <div class="panel">${r.pre.map(p=>`<div class="row ${p.done?'done':''}"><input type="checkbox" class="chk" data-act="pre" data-r="${r.key}" data-id="${p.id}" ${p.done?'checked':''}><div class="grow title">${esc(p.name)}</div><button class="x" data-act="delPre" data-r="${r.key}" data-id="${p.id}" aria-label="Xoá">×</button></div>`).join('')}
+   <form class="form fPre" data-r="${r.key}" style="margin-top:8px;grid-template-columns:1fr auto"><input type="text" name="name" placeholder="Thêm việc riêng cho ngày này" required><button class="btn sm">Thêm</button></form></div>
+
+  ${isR?`<h3>Kết quả vòng</h3>
+  <div class="panel"><div class="form">
+    <label>Tổng gậy<input type="number" data-act="score" data-r="${r.key}" value="${esc(r.score)}"></label>
+    ${S('front','9 hố đầu')}${S('back','9 hố sau')}
+    <label>Thứ hạng sau vòng<input type="text" data-act="rf" data-r="${r.key}" data-f="rank" value="${esc(r.rank||'')}" placeholder="VD: T5/42"></label>
+    ${S('fw','Fairway trúng')}${S('fwt','Số hố tính fairway','14')}${S('gir','Lên green đúng chuẩn (GIR)')}${S('putts','Số putt')}
+    ${S('three','Số lần 3-putt')}${S('pen','Gậy phạt')}${S('ud','Up & down thành công')}${S('udt','Cơ hội up & down')}
+    ${S('birdie','Số birdie')}${S('dbl','Hố double bogey trở lên')}
+    <label>Năng lượng cuối vòng (con tự chấm)<select class="f" data-act="ev" data-r="${r.key}" data-f="energy"><option value="">–</option>${[1,2,3,4,5].map(n=>`<option ${r.eval.energy==n?'selected':''}>${n}</option>`).join('')}</select></label>
+    <label>Tinh thần (con tự chấm)<select class="f" data-act="ev" data-r="${r.key}" data-f="mental"><option value="">–</option>${[1,2,3,4,5].map(n=>`<option ${r.eval.mental==n?'selected':''}>${n}</option>`).join('')}</select></label>
+    <label style="grid-column:1/-1">3 điều con làm tốt<textarea rows="2" data-act="ev" data-r="${r.key}" data-f="good">${esc(r.eval.good||'')}</textarea></label>
+    <label style="grid-column:1/-1">1 điều cần làm khác ở vòng sau<textarea rows="2" data-act="ev" data-r="${r.key}" data-f="improve">${esc(r.eval.improve||'')}</textarea></label>
+  </div><div class="form" style="margin-top:10px"><label>Cấp độ của con<select class="f" data-act="tripStr" data-f="level"><option value="">Chưa chọn</option>${Object.keys(LEVEL_HCP).map(l=>`<option value="${l}" ${t.level==l?'selected':''}>Level ${l} (≈ HDC ${LEVEL_HCP[l]})</option>`).join('')}</select></label>
+    <label>Handicap thực tế (nếu có, ưu tiên hơn cấp độ)<input type="number" step="0.1" data-act="tripStr" data-f="hcp" value="${esc(t.hcp??'')}"></label>
+    <label>Par sân<input type="number" data-act="tripNum" data-f="par" value="${t.par||72}"></label></div>
+  <p class="note"> Fairway thường tính trên các hố par 4 và par 5 (sân par 72 thường là 14 hố).</p></div>
+
+  ${holeScoreGrid(t,r)}
+  <h3>Phân tích sau vòng</h3>
+  <div class="panel">${A?`<p class="small muted" style="margin-top:0">So với mốc của ${esc(A.E.src)} (≈ HDC ${A.E.h}).</p>
+     <div class="grid2" style="margin-bottom:8px">
+     <div class="stat"><div class="n">${A.vs==null?'–':(A.vs>0?'+':'')+A.vs}</div><div class="l">so với par</div></div>
+     <div class="stat"><div class="n">${A.exp==null?'–':(A.exp>0?'+':'')+A.exp}</div><div class="l">so với mức kỳ vọng (par + HDC)</div></div></div>
+     <div class="scroll"><table><thead><tr><th>Chỉ số</th><th>Của con</th><th>Mốc cấp độ</th></tr></thead><tbody>${A.rows.map(x=>`<tr><td>${x[0]}</td><td class="n">${x[1]}</td><td class="n muted">${x[2]}</td></tr>`).join('')}</tbody></table></div>
+     ${A.cmp?`<p class="small">${A.cmp}</p>`:''}
+     ${A.strong.length?`<h3>Điểm mạnh</h3>${A.strong.map(x=>`<div class="row"><span class="okc" style="flex:none">●</span><span class="grow">${x}</span></div>`).join('')}`:''}
+     <h3>Cần chú ý</h3>${A.out.length?A.out.map(x=>`<div class="row"><span class="warn" style="flex:none">●</span><span class="grow">${x}</span></div>`).join(''):'<p class="small okc">Không chỉ số nào kém hơn mốc cấp độ. Giữ nguyên kế hoạch cho vòng sau.</p>'}
+     ${A.drills.length?`<h3>Buổi tập sau vòng (tối đa 45 phút)</h3><ul style="margin:0;padding-left:20px">${A.drills.slice(0,2).map(d=>`<li>${d}</li>`).join('')}</ul>`:''}
+     <p class="note">Mốc là số liệu tham khảo của golfer nghiệp dư cùng handicap, chỉ báo khi con lệch rõ so với mốc. Sau vòng ưu tiên ăn, nghỉ, ngủ; không tập quá sức.</p>`
+   :'<p class="muted">Nhập kết quả ở trên, app sẽ chỉ ra chỗ mất gậy và gợi ý buổi tập.</p>'}</div>`:''}
+
+  <h3>Sau ${isR?'vòng':'buổi tập'}: đồ đã dùng</h3>
+  <div class="panel">${invRows}<p class="note">Nhập số đã dùng hôm nay. Tồn kho cập nhật ngay; món nào chạm ngưỡng sẽ hiện ở “Cần mua thêm”.</p></div>
+  <h3>Ghi chú</h3>
+  <div class="panel"><textarea rows="2" data-act="note" data-r="${r.key}" placeholder="${isR?'Sân, thời tiết, tinh thần của con':'Tốc độ green, hướng gió, hố khó, khoảng cách thực tế'}">${esc(r.note)}</textarea></div>
+  <h3>Cần mua thêm</h3>
+  <div class="panel">
+   ${sugg.map(i=>`<div class="row"><div class="grow small">Gợi ý: <b>${esc(i.name)}</b> còn ${invLeft(t,i)} ${esc(i.unit)}</div><button class="btn sm ghost" data-act="suggBuy" data-r="${r.key}" data-id="${i.id}">Thêm vào danh sách</button></div>`).join('')}
+   ${r.buys.map(b=>`<div class="row ${b.done?'done':''}"><input type="checkbox" class="chk" data-act="buyDone" data-r="${r.key}" data-id="${b.id}" ${b.done?'checked':''} aria-label="Đã mua"><div class="grow"><div class="title">${esc(b.name)} × ${b.qty}</div><div class="small muted">${b.cost?vnd(b.cost*(b.cur==='VND'?1:t.rate))+(b.done?' · đã ghi vào Tài chính':' · ghi vào Tài chính khi tick đã mua'):''}</div></div><button class="x" data-act="delBuy" data-r="${r.key}" data-id="${b.id}" aria-label="Xoá">×</button></div>`).join('')}
+   ${!r.buys.length&&!sugg.length?'<p class="muted small">Chưa có gì cần mua.</p>':''}
+   <form class="form fBuy" data-r="${r.key}" style="margin-top:8px">
+    <label>Món<select class="f" name="inv"><option value="">Món khác (ghi tên)</option>${t.inventory.map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join('')}</select></label>
+    <label>Tên món khác<input type="text" name="name"></label><label>Số lượng<input type="number" name="qty" value="1" min="1"></label>
+    <label>Giá dự kiến (tổng)<input type="number" name="cost" min="0"></label>
+    <label>Đơn vị tiền<select class="f" name="cur">${[...new Set([t.cur,'VND'])].map(c=>`<option>${esc(c)}</option>`).join('')}</select></label>
+    <div><button class="btn sm">Thêm</button></div></form></div>
+
+  <h2>Tổng hợp các vòng</h2>
+  <div class="panel scroll"><table><thead><tr><th>Vòng</th><th>Tee</th><th>Gậy</th><th>+/- par</th><th>FW</th><th>GIR</th><th>Putt</th><th>Phạt</th><th>Hạng</th></tr></thead><tbody>
+   ${rounds.map(x=>{ensureRound(x);const s=x.stats,v=x.score!==''?(+x.score-(t.par||72)):null;return `<tr><td>${x.label}</td><td>${x.tee?(x.startType==='shotgun'?'SG '+x.tee+' · H'+x.startHole:x.tee):'–'}</td><td class="n">${x.score||'–'}</td><td class="n">${v==null?'–':(v>0?'+':'')+v}</td><td class="n">${s.fw!==undefined?s.fw+'/'+(s.fwt||14):'–'}</td><td class="n">${s.gir??'–'}</td><td class="n">${s.putts??'–'}</td><td class="n">${s.pen??'–'}</td><td>${esc(x.rank||'–')}</td></tr>`}).join('')}
+  </tbody></table></div>
+  ${verifyPanel(t)}`;
+}
+const VST={none:['Chưa gửi','tag'],submitted:['Đang chờ đối chiếu','tag'],verified:['Đã khớp kết quả VGA — đưa vào hồ sơ học bổng','tag ok'],rejected:['Chưa khớp — cần bổ sung','tag cut']};
+function verifyPanel(t){
+  const v=t.verify||{status:'none'},[lab,cls]=VST[v.status]||VST.none,adm=ui.role==='admin';
+  return `<h2>Xác thực kết quả giải</h2><div class="panel">
+   <label class="small muted" style="display:block">Link Livescore / trang kết quả chính thức của giải
+   <input type="text" inputmode="url" data-act="tripStr" data-f="livescore" value="${esc(t.livescore||'')}" placeholder="https://…" style="margin-top:4px"></label>
+   ${t.livescore?`<p class="small" style="margin:6px 0 0"><a href="${esc(t.livescore)}" target="_blank" rel="noopener">Mở trang kết quả</a></p>`:''}
+   <div class="row"><span class="grow">Trạng thái</span><span class="${cls}">${lab}</span></div>
+   ${v.note?`<p class="small" style="margin:4px 0">Ghi chú đối chiếu: ${esc(v.note)}</p>`:''}
+   ${adm?`<div class="form" style="margin-top:8px;grid-template-columns:1fr"><label>Ghi chú đối chiếu<input type="text" id="vNote" value="${esc(v.note||'')}" placeholder="VD: khớp 3 vòng, hạng T5/42"></label></div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn sm" data-act="vSet" data-s="verified">Khớp — đưa vào hồ sơ</button><button class="btn sm danger" data-act="vSet" data-s="rejected">Chưa khớp</button></div>`
+   :`<button class="btn sm" style="margin-top:8px" data-act="vSubmit">${v.status==='none'?'Gửi đối chiếu với VGA':'Gửi lại để đối chiếu'}</button>`}
+   <p class="note">VĐV hoặc phụ huynh dán link Livescore rồi bấm gửi. VN Centre đối chiếu điểm từng vòng với kết quả chính thức trên hệ thống của VGA. Khớp thì kết quả vào hồ sơ học bổng. Bản thử: admin đối chiếu thủ công; bản tích hợp: tự động khi có nguồn dữ liệu từ VGA.</p></div>`;
+}
+
+/* ===== Chế độ nâng cao: scorecard, gậy, yardage, pin, chiến lược ===== */
+const DEF_BAG=['Driver','Gỗ 3','Hybrid 4','Sắt 5','Sắt 6','Sắt 7','Sắt 8','Sắt 9','PW','Wedge 52°','Wedge 56°'];
+const LOG_KINDS={home:'Tập ở nhà / CLB',practice:'Ngày tập tại giải',range:'Bãi tập trước vòng'};
+const isAdv=t=>!!t.adv;
+/* ---- tee & đơn vị ---- */
+function teeKey(s){s=String(s||'').toLowerCase().replace(/đ/g,'d').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const M=[[/\bred\b|\bdo\b/,'red'],[/white|trang/,'white'],[/xanh la|green/,'green'],[/blue|xanh/,'blue'],[/gold|yellow|vang/,'gold'],[/black|den/,'black'],[/silver|bac|grey|gray|xam/,'silver'],[/orange|\bcam\b/,'orange'],[/pink|hong/,'pink']];
+  for(const [re,k] of M)if(re.test(s))return k;return s.replace(/tee|\s+/g,'')}
+const TEE_VI={red:'Đỏ',white:'Trắng',blue:'Xanh dương',green:'Xanh lá',gold:'Vàng',black:'Đen',silver:'Bạc',orange:'Cam',pink:'Hồng'};
+const TEE_DOT={red:'#d33',white:'#fff',blue:'#2563eb',green:'#16a34a',gold:'#eab308',black:'#111',silver:'#9ca3af',orange:'#f97316',pink:'#ec4899'};
+function teeLabel(name){const k=teeKey(name);return TEE_VI[k]&&!new RegExp(TEE_VI[k],'i').test(name)?`${name} (${TEE_VI[k]})`:name}
+function teeTotal(T){return (T.d||[]).reduce((a,b)=>a+(+b||0),0)}
+function applyTee(C,name){const T=(C.tees||[]).find(x=>x.name===name);if(!T)return false;C.tee=T.name;
+  C.holes.forEach((h,i)=>{if(T.d&&T.d[i]!=null&&T.d[i]!=='')h.d=+T.d[i];if(T.par&&T.par[i]!=null)h.par=+T.par[i];else if(C.par&&C.par[i]!=null)h.par=+C.par[i];
+    if(T.si&&T.si[i]!=null)h.si=+T.si[i];else if(C.si&&C.si[i]!=null)h.si=+C.si[i]});return true}
+const cv=(v,f,to)=>v===''||v==null||isNaN(+v)?v:Math.round(conv(+v,f,to));
+function convertCardUnit(t,to){const C=card(t),f=C.unit;if(f===to)return;C.holes.forEach(h=>h.d=cv(h.d,f,to));(C.tees||[]).forEach(T=>T.d=(T.d||[]).map(v=>cv(v,f,to)));
+  t.rounds.forEach(r=>Object.values(r.pins||{}).forEach(p=>{p.f=cv(p.f,f,to);p.depth=cv(p.depth,f,to)}));C.unit=to}
+function convertBagUnit(t,to){const B=bag(t),f=B.unit;if(f===to)return;B.clubs.forEach(c=>c.carry=cv(c.carry,f,to));t.bagLogs.forEach(l=>Object.keys(l.v).forEach(k=>l.v[k]=cv(l.v[k],f,to)));B.unit=to}
+function mergeCardRead(t,res){const C=card(t);C.tees=C.tees||[];C.par=C.par||Array(18).fill(null);C.si=C.si||Array(18).fill(null);
+  const src=res.unit==='m'?'m':'yd',fix=v=>v==null||v===''||isNaN(+v)?null:Math.round(conv(+v,src,C.unit));
+  const arr=a=>Array.isArray(a)&&a.length===18?a:null;
+  if(arr(res.par))res.par.forEach((v,i)=>{if(v!=null&&!isNaN(+v))C.par[i]=+v});
+  if(arr(res.si))res.si.forEach((v,i)=>{if(v!=null&&!isNaN(+v))C.si[i]=+v});
+  (res.tees||[]).forEach(rt=>{if(!rt||!rt.name)return;let T=C.tees.find(x=>teeKey(x.name)===teeKey(rt.name));if(!T){T={name:String(rt.name).trim(),d:Array(18).fill(null),par:null,si:null};C.tees.push(T)}
+    if(arr(rt.d))rt.d.forEach((v,i)=>{const x=fix(v);if(x!=null)T.d[i]=x});
+    ['par','si'].forEach(k=>{if(arr(rt[k])){T[k]=T[k]||Array(18).fill(null);rt[k].forEach((v,i)=>{if(v!=null&&!isNaN(+v))T[k][i]=+v})}})});
+  C.tees.sort((a,b)=>teeTotal(b)-teeTotal(a));
+  // chọn tee: ưu tiên tee người dùng đã chọn/ghi
+  const want=C.teeWanted||C.tee;let sel=want&&C.tees.find(x=>teeKey(x.name)===teeKey(want));
+  if(!sel&&C.tees.length===1)sel=C.tees[0];
+  if(sel){applyTee(C,sel.name);C.teeWanted=sel.name}
+  else{C.par.forEach((v,i)=>{if(v!=null)C.holes[i].par=v});C.si.forEach((v,i)=>{if(v!=null)C.holes[i].si=v})}
+  const s=C.holes.reduce((x,h)=>x+(+h.par||0),0);if(s>=27)t.par=s;
+  return {sel,names:C.tees.map(x=>x.name),wantMissing:want&&!sel}}
+
+function card(t){if(!t.card)t.card={tee:'',tees:[],unit:'yd',holes:Array.from({length:18},(_,i)=>({n:i+1,par:'',d:'',si:''}))};const C=t.card;
+  if(!C.tees){C.tees=[];if(!C.teeWanted)C.tee='';if(C.unit==='m'&&!C.holes.some(h=>h.d!==''&&h.d!=null))C.unit='yd'}return C}
+function bag(t){if(!t.bag)t.bag={unit:'yd',fav:'',clubs:DEF_BAG.map(n=>({id:uid(),name:n,carry:''}))};if(t.bag.unit==='m'&&!t.bag.clubs.some(c=>c.carry!==''&&c.carry!=null)&&!(t.bagLogs||[]).length)t.bag.unit='yd';if(!t.bagLogs)t.bagLogs=[];if(!t.yardage)t.yardage=[];return t.bag}
+const conv=(v,from,to)=>from===to?v:(from==='m'?v*1.0936:v/1.0936);
+function clubAvg(t,c){const xs=t.bagLogs.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(l=>l.v&&l.v[c.id]).filter(v=>v!==undefined&&v!==''&&+v>0).slice(0,3).map(Number);
+  return xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:null}
+function clubUse(t,c){const a=clubAvg(t,c);return a!=null?a:(c.carry!==''&&+c.carry>0?+c.carry:null)}
+function clubsFor(t){const B=bag(t),u=card(t).unit;return B.clubs.map(c=>({name:c.name,d:clubUse(t,c)})).filter(c=>c.d).map(c=>({...c,d:Math.round(conv(c.d,B.unit,u))})).sort((a,b)=>b.d-a.d)}
+function pick(cl,target){if(!cl.length||!(target>0))return null;const ok=cl.filter(c=>c.d>=target-3);return ok.length?ok[ok.length-1]:cl[0]}
+function strokesOn(h,si){if(!(si>0))return 0;let s=0;if(h>=si)s++;if(h>=18+si)s++;if(h>=36+si)s++;return s}
+function favDist(t,cl){const B=bag(t);const f=cl.find(c=>c.name===B.fav);if(f)return f;const pw=cl.find(c=>/^PW$/i.test(c.name));return pw||cl[cl.length-1]||null}
+
+const STYLES={attack:'Tấn công',safe:'An toàn',mixed:'Tuỳ hố'};
+function holePlan(t,r){
+  const C=card(t),cl=clubsFor(t),E=effHcp(t),h=E.h,u=C.unit,style=r.style||'mixed',ov=r.holeMode||{};
+  const prevR=t.rounds.filter(x=>x.type==='round'&&x.date<r.date&&x.stats);
+  const last=prevR[prevR.length-1];const B=bench(h);
+  const fwBad=last&&last.stats.fw!==undefined&&pctS(last.stats.fw,last.stats.fwt||14)<B.fw-10;
+  const penBad=last&&(last.stats.pen||0)>B.pen+1.5;
+  const drv=cl[0],fw=cl.find(c=>c!==drv&&/gỗ|wood|hybrid|rescue/i.test(c.name))||cl[1],W=favDist(t,cl);
+  const noDrv=cl.filter(x=>x!==drv),irons=noDrv.filter(c=>!/gỗ|wood/i.test(c.name));
+  const order=Array.from({length:18},(_,k)=>holeAt(r,k+1));
+  return order.map(n=>{
+    const H=C.holes[n-1],par=+H.par,d=+H.d,si=+H.si,pp=par?par+strokesOn(h,si):null;
+    const pin=(r.pins||{})[n]||{},notes=[];let tee='',next='',aim='';
+    if(!par||!d||!cl.length)return {n,par,pp,d,si,tee:'',next:'',aim:'',mode:'',notes:!cl.length?['Chưa có khoảng cách gậy']:['Chưa có par/khoảng cách']};
+    const depth=+pin.depth||(u==='yd'?27:25),hasPin=pin.f!==undefined&&pin.f!=='';
+    const toPin=hasPin?Math.round(d-depth/2+(+pin.f)):d;
+    const front=hasPin&&+pin.f<=5,back=hasPin&&depth-(+pin.f)<=5,side=hasPin&&pin.side&&pin.side!=='C',edge=front||back||side;
+    const hs=prevR.map(x=>x.holeScores&&+x.holeScores[n]).filter(v=>v>0);
+    const prevAvg=hs.length&&pp?hs.reduce((a,b)=>a+b,0)/hs.length-pp:null;
+    const hard=si&&si<=6,troubled=prevAvg!=null&&prevAvg>=1;
+    const auto=style!=='mixed'?style:((hard||troubled||edge)?'safe':'attack');
+    const mode=ov[n]||auto,atk=mode==='attack';
+    const tgtGreen=atk&&hasPin?toPin:d;
+    aim=atk?(hasPin?'Nhắm cờ':'Nhắm cờ nếu thế bóng tốt, không thì giữa green'):(side?`Giữa green, lệch nhẹ về phía cờ (${pin.side==='L'?'trái':'phải'})`:'Giữa green');
+    if(par===3){const c=pick(cl,tgtGreen);tee=c?`${c.name} (${c.d}${u})`:'';if(c&&c.d<tgtGreen-10)notes.push('Gậy dài nhất chưa tới green: đánh về khu an toàn trước green, chip lên')}
+    else{
+      let tc=drv;
+      if(par===4){const shortP4=fw&&d-fw.d<=W.d+15&&d-fw.d>0;
+        if(atk){if(shortP4&&d-drv.d<40){tc=fw;notes.push('Driver để lại cú quá ngắn, khó: dùng '+fw.name)}}
+        else if(fw&&(shortP4||d-fw.d<=(irons[0]||fw).d+5)){tc=fw;notes.push(shortP4?'Hố par 4 ngắn: không cần driver':'An toàn: '+fw.name+' từ tee, vẫn còn cú 2 vừa sức')}
+        if(tc===drv&&(fwBad||penBad)&&fw&&!atk){tc=fw;notes.push('Vòng trước fairway/gậy phạt kém mốc: ưu tiên giữ bóng trên fairway')}
+      }else if(!atk&&fw&&par===5){tc=fw;notes.push('An toàn: '+fw.name+' từ tee, par 5 chia 3 cú')}
+      tee=`${tc.name} (${tc.d}${u})`;
+      const rem=d-tc.d,remT=rem+(atk&&hasPin?toPin-d:0),longSecond=fw||drv,comfort=(irons[0]||longSecond).d;
+      if(par===4){
+        const pureIron=(noDrv.find(c=>!/gỗ|wood|hybrid|rescue/i.test(c.name))||{d:comfort}).d;
+        const reach=atk?remT<=longSecond.d+5:remT<=(pp>par?pureIron:comfort)+3;
+        if(reach){const c=pick(atk?noDrv:irons.length?irons:noDrv,remT);next=`Còn ~${Math.max(0,Math.round(remT))}${u}: ${c?c.name:''}`}
+        else{const lay=Math.max(0,Math.round(rem-W.d));const c=pick(noDrv,lay);next=`Cú 2 đánh ngắn ~${lay}${u} (${c?c.name:''}) để lại ~${W.d}${u} cho ${W.name}, cú 3 lên green`;
+          notes.push(pp>par?`Par cá nhân ${pp}: lên green 3 cú là đúng kế hoạch`:(atk?'Cú 2 chưa tới green: đánh ngắn về khoảng cách yêu thích':'An toàn: không dùng gỗ đánh vào green'))}
+      }else{
+        if(atk&&rem<=longSecond.d+5)next=`Tấn công: cú 2 lên green bằng ${longSecond.name} nếu tee shot trên fairway và không có chướng ngại trước green; không thì đánh về ~${W.d}${u}`;
+        else{const left=rem-W.d;const c=pick(noDrv,left);next=c&&left>c.d+10?`2 cú bằng ${longSecond.name}/${c.name} để lại ~${W.d}${u} cho ${W.name}`:`Cú 2: ${c?c.name:''} ~${Math.round(left)}${u} để lại ~${W.d}${u} cho ${W.name}, cú 3 lên green`}
+      }
+    }
+    if(atk&&edge)notes.push('Cờ sát mép: nhắm cờ nhưng nếu lỡ thì lỡ về phía giữa green');
+    if(!atk&&front)notes.push('Cờ đầu green: đủ gậy qua mép trước, thà dài một chút');
+    if(!atk&&back)notes.push('Cờ cuối green: đánh vào giữa, đừng vượt green');
+    if(si&&si<=4)notes.push('Một trong những hố khó nhất sân');
+    if(prevAvg!=null){if(prevAvg>=1)notes.push(`Các vòng trước TB +${f1(prevAvg)} so với par cá nhân`);else if(prevAvg<=-0.5)notes.push('Hố con chơi tốt ở vòng trước')}
+    return {n,par,pp,d,si,toPin:hasPin?toPin:null,tee,next,aim,notes,mode,auto,over:!!ov[n]};
+  });
+}
+function planSummary(t,r,plan){
+  const out=[],E=effHcp(t),B=bench(E.h),w=r.wx||{};
+  const tot=plan.reduce((a,p)=>a+(p.pp||0),0);
+  const C=card(t),st=r.style||'mixed',na=plan.filter(p=>p.mode==='attack').length,ns=plan.filter(p=>p.mode==='safe').length;
+  if(na+ns)out.push(`Phong cách: <b>${STYLES[st]}</b> — ${na} hố tấn công, ${ns} hố an toàn${plan.some(p=>p.over)?' (có hố chỉnh tay)':''}.`);
+  if(plan.every(p=>p.pp)){if(C.holes.some(h=>+h.si>0))out.push(`Par cá nhân cả vòng (theo ${E.src}, HDC ${E.h}): ${tot}. Mục tiêu là đạt par cá nhân từng hố, không đuổi theo par sân.`);else out.push('Chưa có index từng hố nên chưa tính được par cá nhân. Nhập index ở tab Sân & gậy.')}
+  const last=t.rounds.filter(x=>x.type==='round'&&x.date<r.date&&x.score!=='').pop();
+  if(last){const s=last.stats||{};
+    if(s.putts!==undefined&&s.putts>B.putts+2)out.push(`Vòng trước ${s.putts} putt: ưu tiên putt dài về sát lỗ (trong 1 m), không cố đẩy vào.`);
+    if(s.fw!==undefined&&pctS(s.fw,s.fwt||14)<B.fw-10)out.push('Vòng trước trượt fairway nhiều: dùng gậy chắc chắn ở hố hẹp, ưu tiên bóng trên fairway hơn khoảng cách.');
+    if(s.gir!==undefined&&s.gir<B.gir-2)out.push('Vòng trước ít lên green: tính đủ gậy, nhắm giữa green.');
+    if((s.dbl||0)>B.dbl+2)out.push('Vòng trước nhiều hố double+: gặp rắc rối thì đưa bóng về chỗ an toàn trước, chấp nhận bogey.');
+  }
+  if(+w.wind>=30)out.push('Gió mạnh: ngược gió thêm 1–2 gậy, xuôi gió bớt 1 gậy; đánh bóng thấp.');
+  if(+w.rain>=60)out.push('Mưa: bóng lăn ít, tính theo khoảng cách bay (carry); lau tay cầm trước mỗi cú.');
+  if(+w.feels>=35)out.push('Nóng: bóng bay xa hơn một chút; giữ nhịp, uống nước đều để không mất tập trung cuối vòng.');
+  return out;
+}
+
+async function shrink(file,max=1600,q=0.82){try{const img=await createImageBitmap(file);const k=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);return await new Promise(res=>c.toBlob(b=>res(b||file),'image/jpeg',q))}catch(e){return file}}
+async function aiRead(file,prompt){const S=await claude.use('sample');if(!S)throw {code:'unavailable'};let lim=null;try{lim=await S.limits()}catch(e){}if(!lim||!lim.images)throw {code:'images_unavailable'};
+  const blob=await shrink(file,1568,0.85);return await S.json(prompt,{images:[blob],modelTier:'default'})}
+const aiErr=e=>({not_granted:'Bạn chưa cho phép trang dùng Claude.',images_unavailable:'Trang này chưa gửi được ảnh cho Claude.',unavailable:'Mở trang trong Claude để dùng tính năng này.',rate_limited:'Đang có nhiều yêu cầu, thử lại sau ít phút.'}[e&&e.code]||'Chưa đọc được, thử ảnh rõ hơn hoặc nhập tay.');
+
+function viewSan(t){
+  const C=card(t),B=bag(t),ed=ui.role!=='admin',cl=clubsFor(t);
+  const totPar=C.holes.reduce((a,h)=>a+(+h.par||0),0),totD=C.holes.reduce((a,h)=>a+(+h.d||0),0);
+  const inp=(act,n,f,v,w=56)=>`<input class="q" style="width:${w}px" type="number" inputmode="numeric" data-act="${act}" data-n="${n}" data-f="${f}" value="${v??''}" ${ed?'':'disabled'}>`;
+  const half=(a,b)=>`<div class="scroll"><table><thead><tr><th>Hố</th><th>Par</th><th>KC (${C.unit})</th><th>Index</th></tr></thead><tbody>${C.holes.slice(a,b).map(h=>`<tr><td>${h.n}</td><td>${inp('cardH',h.n,'par',h.par,48)}</td><td>${inp('cardH',h.n,'d',h.d,64)}</td><td>${inp('cardH',h.n,'si',h.si,48)}</td></tr>`).join('')}
+   <tr><td class="muted">${a?'In':'Out'}</td><td class="n">${C.holes.slice(a,b).reduce((s,h)=>s+(+h.par||0),0)||''}</td><td class="n">${C.holes.slice(a,b).reduce((s,h)=>s+(+h.d||0),0)||''}</td><td></td></tr></tbody></table></div>`;
+  const logs=t.bagLogs.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  return `<h1>Sân & gậy</h1><p class="muted small">Dữ liệu cho chiến lược từng hố. Có scorecard và khoảng cách gậy là app lập được kế hoạch; thêm pin location ở tab Thi đấu để kế hoạch sát hơn.</p>
+  <h2>Scorecard của giải</h2><div class="panel">
+   <div class="form">${(C.tees||[]).length?'':`<label>Tee thi đấu của con<input type="text" data-act="teeWant" value="${esc(C.teeWanted||C.tee||'')}" placeholder="VD: Đỏ, Red, Trắng" ${ed?'':'disabled'}></label>`}
+   <label>Đơn vị khoảng cách<select class="f" data-act="cardF" data-f="unit" ${ed?'':'disabled'}><option value="yd" ${C.unit==='yd'?'selected':''}>yard</option><option value="m" ${C.unit==='m'?'selected':''}>mét</option></select></label></div>
+   ${(C.tees||[]).length?`<div class="small muted" style="margin-top:10px">Tee trên scorecard (bấm để chọn):</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${C.tees.map(T=>{const k=teeKey(T.name);return `<button class="chip ${T.name===C.tee?'on':''}" style="padding:4px 10px" data-act="teePick" data-name="${esc(T.name)}" ${ed?'':'disabled'}><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:1px solid var(--line);background:${TEE_DOT[k]||'transparent'};margin-right:6px;vertical-align:-1px"></span>${esc(teeLabel(T.name))}</button>`}).join('')}</div>
+     <p class="small muted" style="margin:6px 0 0">Tee thi đấu của con: ${C.tee?`Đang dùng số liệu tee <b>${esc(teeLabel(C.tee))}</b>. Bấm tee khác để đổi, bảng bên dưới tự cập nhật.`:'<span class="warn">Chưa chọn tee — bấm tee của con để điền khoảng cách đúng tee.</span>'}</p>`:''}
+   ${ed?`<label class="btn sm ghost" style="display:inline-flex;align-items:center;margin-top:10px;cursor:pointer">Đọc scorecard từ ảnh (AI)<input type="file" accept="image/*" data-act="aiCard" hidden></label><span class="small muted" style="margin-left:8px" id="aiCardMsg"></span>`:''}
+   <div class="grid2" style="margin-top:10px">${half(0,9)}${half(9,18)}</div>
+   <p class="small" style="margin:6px 0 0">Tổng: par <b>${totPar||'–'}</b> · ${totD||'–'} ${C.unit}</p>
+   <p class="note">Ghi tee của con trước rồi đọc ảnh: app đọc tất cả các hàng tee trên scorecard và tự chọn đúng tee đó. Đổi đơn vị yard ↔ mét thì app tự quy đổi các số đã có. Khoảng cách trên scorecard thường tính tới giữa green. Index (độ khó hố, 1 là khó nhất) dùng để tính par cá nhân theo handicap của con. Đọc từ ảnh xong, anh chị kiểm tra lại từng số.</p></div>
+
+  <h2>Yardage book</h2><div class="panel">
+   ${t.yardage.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px">${t.yardage.slice().sort((a,b)=>(+a.hole||99)-(+b.hole||99)).map(y=>`<div><a href="/_blob/${esc(y.id)}" target="_blank" rel="noopener"><img src="/_blob/${esc(y.id)}" alt="${y.hole?'Hố '+y.hole:'Yardage'}" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid var(--line)"></a>
+     <div style="display:flex;gap:4px;align-items:center;margin-top:4px"><select class="f" style="padding:4px;font-size:13px" data-act="yHole" data-id="${y.id}" ${ed?'':'disabled'}><option value="">Cả sổ</option>${Array.from({length:18},(_,i)=>`<option value="${i+1}" ${+y.hole===i+1?'selected':''}>Hố ${i+1}</option>`).join('')}</select>${ed?`<button class="x" data-act="yDel" data-id="${y.id}" aria-label="Bỏ ảnh">×</button>`:''}</div></div>`).join('')}</div>`:'<p class="muted small">Chưa có ảnh. Chụp từng trang yardage hoặc tải ảnh BTC gửi.</p>'}
+   ${ed?`<label class="btn sm" style="display:inline-flex;align-items:center;margin-top:10px;cursor:pointer">Tải ảnh yardage<input type="file" accept="image/*" multiple data-act="yUp" hidden></label><span class="small muted" style="margin-left:8px" id="yMsg"></span>`:''}</div>
+
+  <h2>Khoảng cách gậy của con</h2><div class="panel">
+   <div class="form"><label>Đơn vị<select class="f" data-act="bagF" data-f="unit" ${ed?'':'disabled'}><option value="yd" ${B.unit==='yd'?'selected':''}>yard</option><option value="m" ${B.unit==='m'?'selected':''}>mét</option></select></label>
+   <label>Khoảng cách yêu thích để vào green<select class="f" data-act="bagF" data-f="fav" ${ed?'':'disabled'}><option value="">Tự chọn (PW)</option>${B.clubs.map(c=>`<option ${B.fav===c.name?'selected':''}>${esc(c.name)}</option>`).join('')}</select></label></div>
+   <div class="scroll" style="margin-top:8px"><table><thead><tr><th>Gậy</th><th>Bay TB (carry)</th><th>TB 3 lần đo gần nhất</th><th>App dùng</th><th></th></tr></thead><tbody>
+   ${B.clubs.map(c=>{const a=clubAvg(t,c),u=clubUse(t,c);return `<tr><td><input type="text" style="width:110px;padding:5px 8px" data-act="clubN" data-id="${c.id}" value="${esc(c.name)}" ${ed?'':'disabled'}></td><td><input class="q" type="number" data-act="clubC" data-id="${c.id}" value="${c.carry??''}" ${ed?'':'disabled'}></td><td class="n">${a!=null?Math.round(a):'–'}</td><td class="n"><b>${u!=null?Math.round(u):'–'}</b></td><td>${ed?`<button class="x" data-act="clubDel" data-id="${c.id}" aria-label="Xoá gậy">×</button>`:''}</td></tr>`}).join('')}
+   </tbody></table></div>
+   ${ed?`<button class="btn sm ghost" style="margin-top:8px" data-act="clubAdd">Thêm gậy</button> <button class="btn sm ghost" style="margin-top:8px" data-act="bagCopy">Lấy bộ gậy từ chuyến trước</button>`:''}
+   <p class="note">Chỉ nhập khoảng cách bóng bay (carry), không tính lăn. Có số đo trong nhật ký thì app dùng trung bình 3 lần đo gần nhất, không thì dùng số cơ bản.</p></div>
+
+  <h2>Nhật ký đo khoảng cách</h2><div class="panel">
+   ${ed?`<form id="fBagLog" class="form"><label>Ngày${dmyInput('date',today())}</label><label>Buổi<select class="f" name="kind">${Object.entries(LOG_KINDS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></label>
+   ${B.clubs.map(c=>`<label>${esc(c.name)}<input type="number" name="c_${c.id}" inputmode="numeric"></label>`).join('')}
+   <div style="grid-column:1/-1"><button class="btn sm">Lưu lần đo</button></div></form>`:''}
+   ${logs.length?`<div class="scroll" style="margin-top:10px"><table><thead><tr><th>Ngày</th>${B.clubs.map(c=>`<th>${esc(c.name)}</th>`).join('')}<th></th></tr></thead><tbody>${logs.map(l=>`<tr><td>${dmy(l.date)}<div class="small muted">${LOG_KINDS[l.kind]||''}</div></td>${B.clubs.map(c=>`<td class="n">${l.v[c.id]??''}</td>`).join('')}<td>${ed?`<button class="x" data-act="logDel" data-id="${l.id}" aria-label="Xoá">×</button>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="muted small" style="margin-top:8px">Chưa có lần đo nào.</p>'}</div>`;
+}
+
+function advDay(t,r){
+  if(!isAdv(t))return '';
+  const C=card(t),pins=r.pins||{},ed=ui.role!=='admin';
+  const plan=holePlan(t,r),sum=planSummary(t,r,plan),ready=C.holes.some(h=>h.par&&h.d)&&clubsFor(t).length;
+  const pinRow=n=>{const p=pins[n]||{};return `<tr><td>${n}</td><td><input class="q" type="number" data-act="pin" data-r="${r.key}" data-n="${n}" data-f="f" value="${p.f??''}" ${ed?'':'disabled'}></td>
+    <td><select class="f" style="padding:5px;width:72px" data-act="pin" data-r="${r.key}" data-n="${n}" data-f="side" ${ed?'':'disabled'}><option value="">–</option><option value="L" ${p.side==='L'?'selected':''}>Trái</option><option value="C" ${p.side==='C'?'selected':''}>Giữa</option><option value="R" ${p.side==='R'?'selected':''}>Phải</option></select></td>
+    <td><input class="q" type="number" data-act="pin" data-r="${r.key}" data-n="${n}" data-f="depth" value="${p.depth??''}" ${ed?'':'disabled'}></td></tr>`};
+  const nPins=Object.values(pins).filter(p=>p.f!==undefined&&p.f!=='').length;
+  return `<h3>Pin location ${r.type==='round'?'(BTC gửi trước vòng)':'(nếu có)'}</h3><div class="panel">
+   <details><summary>${nPins?`Đã có pin ${nPins}/18 hố — xem, sửa`:'Nhập vị trí cờ 18 hố'}</summary>
+   ${ed?`<label class="btn sm ghost" style="display:inline-flex;align-items:center;margin:6px 0;cursor:pointer">Đọc pin sheet từ ảnh (AI)<input type="file" accept="image/*" data-act="aiPin" data-r="${r.key}" hidden></label><span class="small muted" style="margin-left:8px" id="aiPinMsg"></span>`:''}
+   <div class="grid2">${[[1,9],[10,18]].map(([a,b])=>`<div class="scroll"><table><thead><tr><th>Hố</th><th>Cách mép trước (${C.unit})</th><th>Lệch</th><th>Sâu green</th></tr></thead><tbody>${Array.from({length:b-a+1},(_,i)=>pinRow(a+i)).join('')}</tbody></table></div>`).join('')}</div>
+   <p class="note">Pin sheet thường ghi số bước/mét tính từ mép trước green và từ mép trái hoặc phải. Độ sâu green lấy từ yardage book; để trống thì app tính ${C.unit==='yd'?27:25} ${C.unit}.</p></details></div>
+
+  <h3>Chiến lược ${r.type==='round'?'vòng đấu':'cho ngày tập'}</h3><div class="panel">
+   <div class="form" style="grid-template-columns:1fr">
+    <label>Handicap Index của con<input type="number" step="0.1" inputmode="decimal" data-act="tripStr" data-f="hcp" value="${esc(t.hcp??'')}" placeholder="VD: 18.4" ${ed?'':'disabled'}><span class="small muted">${t.hcp!==undefined&&t.hcp!==''&&t.hcp!=null?'Dùng để tính par cá nhân và mốc chỉ số.':'Chưa nhập: app đang dùng '+esc(effHcp(t).src)+' (HDC '+effHcp(t).h+').'}</span></label></div>
+   <div class="small muted" style="margin:10px 0 6px">Phong cách thi đấu vòng này</div>
+   <div style="display:flex;gap:6px;flex-wrap:wrap">${Object.entries(STYLES).map(([k,v])=>`<button class="chip ${(r.style||'mixed')===k?'on':''}" style="padding:6px 14px" data-act="style" data-r="${r.key}" data-v="${k}" ${ed?'':'disabled'}>${v}</button>`).join('')}</div>
+   <p class="small muted" style="margin:6px 0 10px">${{attack:'Tấn công: driver ở hầu hết hố, nhắm cờ khi có pin, par 5 thử lên green 2 cú nếu tới.',safe:'An toàn: gậy chắc chắn từ tee, luôn nhắm giữa green, không dùng gỗ đánh vào green, par 5 chia 3 cú.',mixed:'Tuỳ hố: hố khó, cờ sát mép hoặc hố con hay mất gậy thì an toàn; còn lại tấn công. Bấm nhãn ở từng hố để đổi.'}[r.style||'mixed']}</p>
+   ${!ready?'<p class="muted small">Nhập scorecard và khoảng cách gậy ở tab <b>Sân & gậy</b> để app lập kế hoạch từng hố.</p>':`
+   ${sum.length?`<ul style="margin:0 0 8px;padding-left:20px">${sum.map(s=>`<li>${s}</li>`).join('')}</ul>`:''}
+   ${plan.map(p=>`<div style="padding:10px 0;border-top:1px solid var(--line)">
+     <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b>Hố ${p.n}</b>${p.mode?`<button class="tag ${p.mode==='attack'?'cut':'ok'}" style="border:0;cursor:pointer" data-act="holeMode" data-r="${r.key}" data-n="${p.n}" title="Bấm để đổi" ${ed?'':'disabled'}>${p.mode==='attack'?'Tấn công':'An toàn'}${p.over?' · chỉnh tay':''}</button>`:''}<span class="small muted">Par ${p.par||'–'}${p.pp&&p.pp!==p.par?` · par cá nhân <b style="color:var(--ink)">${p.pp}</b>`:''} · ${p.d||'–'}${p.d?C.unit:''}${p.toPin&&p.toPin!==p.d?` · tới cờ ${p.toPin}${C.unit}`:''}${p.si?` · index ${p.si}`:''}</span></div>
+     ${p.tee?`<div><span class="muted small">Cú đầu:</span> ${esc(p.tee)}</div>`:''}${p.next?`<div><span class="muted small">Tiếp theo:</span> ${esc(p.next)}</div>`:''}${p.aim?`<div><span class="muted small">Mục tiêu:</span> ${p.aim}</div>`:''}
+     ${p.notes.length?`<div class="small" style="color:var(--bronze)">${p.notes.map(esc).join('. ')}</div>`:''}</div>`).join('')}
+   <p class="note">Kế hoạch tính từ khoảng cách bay trung bình của con, chưa tính gió, độ dốc và chướng ngại cụ thể. HLV xem yardage book để chỉnh lại các hố có nước, bunker hoặc OB.</p>
+   <h3 style="margin-top:14px">Phân tích sâu bằng AI</h3>
+   <div id="aiPlanOut" class="small" style="white-space:pre-wrap">${r.aiPlan?esc(r.aiPlan):''}</div>
+   ${ed?`<button class="btn sm" style="margin-top:8px" data-act="aiPlan" data-r="${r.key}">${r.aiPlan?'Phân tích lại':'Nhờ AI phân tích chiến lược'}</button>`:''}
+   ${r.aiPlanAt?`<p class="small muted" style="margin:4px 0 0">Phân tích lúc ${esc(r.aiPlanAt)}</p>`:''}`}</div>`;
+}
+
+function holeScoreGrid(t,r){
+  if(!isAdv(t)||r.type!=='round')return '';
+  const C=card(t),hs=r.holeScores||{},ed=ui.role!=='admin';
+  const row=(a,b)=>`<div class="scroll"><table><thead><tr><th>Hố</th>${Array.from({length:b-a+1},(_,i)=>`<th>${a+i}</th>`).join('')}</tr></thead><tbody>
+    <tr><td class="muted">Par</td>${Array.from({length:b-a+1},(_,i)=>`<td class="n muted">${C.holes[a+i-1].par||''}</td>`).join('')}</tr>
+    <tr><td>Gậy</td>${Array.from({length:b-a+1},(_,i)=>`<td><input class="q" style="width:38px;padding:4px" type="number" inputmode="numeric" data-act="hs" data-r="${r.key}" data-n="${a+i}" value="${hs[a+i]??''}" ${ed?'':'disabled'}></td>`).join('')}</tr></tbody></table></div>`;
+  return `<h3>Điểm từng hố (chế độ nâng cao)</h3><div class="panel">${row(1,9)}${row(10,18)}<p class="note">Nhập đủ 18 hố thì app tự cộng tổng gậy, 9 hố đầu, 9 hố sau. Vòng sau, kế hoạch từng hố sẽ dùng các số này.</p></div>`;
+}
+
+async function runAiPlan(t,r,btn){
+  const S=await claude.use('sample');const out=$('#aiPlanOut');
+  if(!S){toast('Mở trang trong Claude để dùng phân tích AI.');return}
+  const C=card(t),E=effHcp(t),plan=holePlan(t,r);
+  const prev=t.rounds.filter(x=>x.type==='round'&&x.date<r.date&&x.score!=='').map(x=>({vong:dayName(t,x),tong:x.score,chiSo:x.stats,diemTungHo:x.holeScores||null,tuDanhGia:x.eval}));
+  const data={phongCach:STYLES[r.style||'mixed'],handicapIndex:t.hcp!==undefined&&t.hcp!==''?+t.hcp:null,giai:t.name,san:t.course,vong:dayName(t,r),ngay:dmy(r.date),xuatPhat:{kieu:r.startType,gio:r.tee,ho:r.startHole},capDo:E.src,handicap:E.h,
+    donVi:C.unit,tee:C.tee,scorecard:C.holes,gay:clubsFor(t),gayYeuThich:bag(t).fav||'PW',pin:r.pins||{},thoiTiet:r.wx||{},cacVongTruoc:prev,keHoachTuDong:plan};
+  // ảnh yardage: ưu tiên hố khó (index nhỏ), sau đó ảnh cả sổ; không vượt giới hạn số ảnh mỗi lần gọi
+  btn.disabled=true;out.textContent='Đang chuẩn bị dữ liệu…';
+  let imgs=[],imgDesc=[];
+  try{const lim=await S.limits();const max=lim&&lim.images?lim.images.maxCount:0;
+    if(max&&t.yardage.length){const si=n=>+(C.holes[(+n||0)-1]||{}).si||99;
+      const chosen=t.yardage.filter(y=>y.hole).sort((a,b)=>si(a.hole)-si(b.hole)).concat(t.yardage.filter(y=>!y.hole)).slice(0,max)
+        .sort((a,b)=>(+a.hole||99)-(+b.hole||99));
+      for(const y of chosen){out.textContent=`Đang chuẩn bị ảnh yardage ${imgs.length+1}/${chosen.length}…`;
+        try{const res=await fetch('/_blob/'+y.id);if(!res.ok)continue;const b=await shrink(await res.blob(),1280,0.8);imgs.push(b);imgDesc.push(y.hole?`ảnh ${imgs.length}: hố ${y.hole}`:`ảnh ${imgs.length}: một trang yardage chưa gắn số hố`)}catch(e){}}
+      if(t.yardage.length>chosen.length)imgDesc.push(`(có ${t.yardage.length} ảnh, chỉ gửi ${chosen.length} ảnh của các hố khó nhất)`)}}catch(e){}
+  const imgNote=imgs.length?`Kèm theo ${imgs.length} ảnh yardage book (${imgDesc.join('; ')}). Dùng ảnh để nhận diện chướng ngại (nước, bunker, OB, cây), hình dạng hố (dogleg), độ dốc và vị trí an toàn, rồi chỉnh chọn gậy và hướng đánh cho các hố đó. Ảnh nào không đọc rõ thì nói rõ.`:'Không có ảnh yardage: không được tự suy ra chướng ngại hay độ dốc.';
+  const prompt=`Bạn là HLV golf trẻ hàng đầu thế giới, đang chuẩn bị cho một vận động viên trẻ trước ${dayName(t,r).toLowerCase()}. Dựa vào dữ liệu JSON dưới đây${imgs.length?' và các ảnh yardage kèm theo':''}, không bịa thêm thông tin không có, viết chiến lược thi đấu bằng tiếng Việt, gọi vận động viên là "con".
+${imgNote}
+Tôn trọng phong cách thi đấu đã chọn (trường "phongCach") và chế độ từng hố trong "keHoachTuDong" (mode: attack = tấn công, safe = an toàn); với "Tuỳ hố", nói rõ vì sao hố đó tấn công hay an toàn. Nếu thấy hố nào nên đổi chế độ thì đề xuất và giải thích.
+Cấu trúc:
+1. Mục tiêu cả vòng (1–2 câu, dựa trên par cá nhân theo handicap).
+2. 3–5 điểm chiến lược chung rút ra từ khoảng cách gậy, kết quả vòng trước và thời tiết.
+3. Các hố cần chú ý nhất (tối đa 6 hố): hố, chọn gậy, đánh về đâu, vì sao.
+4. Một câu nhắc tâm lý ngắn.
+Ngắn gọn, tối đa 450 từ, không dùng bảng. Chỗ nào dữ liệu thiếu thì nói rõ là thiếu.
+
+${JSON.stringify(data)}`;
+  out.textContent=imgs.length?`Đang phân tích (kèm ${imgs.length} ảnh yardage)…`:'Đang phân tích…';
+  try{const {text}=await S(prompt,{modelTier:'default',...(imgs.length?{images:imgs}:{}),onText:({text})=>{out.textContent=text}});
+    r.aiPlan=text;const d=new Date();r.aiPlanAt=pad2(d.getHours())+':'+pad2(d.getMinutes())+' '+dmy(today())+(imgs.length?` · có xem ${imgs.length} ảnh yardage`:'');saveTrip(t)}
+  catch(e){out.textContent=(e&&e.text)||r.aiPlan||'';toast(aiErr(e))}
+  finally{btn.disabled=false}
+}
+
+/* sự kiện riêng của chế độ nâng cao */
+document.addEventListener('click',async ev=>{
+  const el=ev.target.closest('[data-act]');if(!el)return;const a=el.dataset.act,t=T&&T();if(!t)return;
+  if(a==='style'){const r=R(el.dataset.r);r.style=el.dataset.v;r.holeMode={};saveTrip(t)}
+  else if(a==='holeMode'){const r=R(el.dataset.r),n=el.dataset.n;const p=holePlan(t,r).find(x=>x.n==n);const nx=p.mode==='attack'?'safe':'attack';r.holeMode=r.holeMode||{};if(nx===p.auto)delete r.holeMode[n];else r.holeMode[n]=nx;saveTrip(t)}
+  else if(a==='teePick'){const C=card(t),n=el.dataset.name;if(applyTee(C,n)){C.teeWanted=n;const s=C.holes.reduce((x,h)=>x+(+h.par||0),0);if(s>=27)t.par=s;saveTrip(t);toast('Đã dùng số liệu tee '+teeLabel(n))}}
+  else if(a==='clubAdd'){bag(t).clubs.push({id:uid(),name:'Gậy mới',carry:''});saveTrip(t)}
+  else if(a==='clubDel'){bag(t).clubs=bag(t).clubs.filter(c=>c.id!==el.dataset.id);saveTrip(t)}
+  else if(a==='logDel'){t.bagLogs=t.bagLogs.filter(l=>l.id!==el.dataset.id);saveTrip(t)}
+  else if(a==='yDel'){t.yardage=t.yardage.filter(y=>y.id!==el.dataset.id);saveTrip(t);try{const A=await claude.use('assets');A&&A.delete(el.dataset.id).catch(()=>{})}catch(e){}}
+  else if(a==='bagCopy'){const src=Object.values(store.trips).filter(x=>x.id!==t.id&&x.bag&&x.bag.clubs.some(c=>c.carry)).sort((a,b)=>(b.start||'').localeCompare(a.start||''))[0];
+    if(!src){toast('Chưa có chuyến nào khác có bộ gậy.');return}t.bag=JSON.parse(JSON.stringify(src.bag));t.bag.clubs.forEach(c=>c.id=c.id||uid());saveTrip(t);toast('Đã lấy bộ gậy từ “'+src.name+'”')}
+  else if(a==='aiPlan'){const r=R(el.dataset.r);runAiPlan(t,r,el)}
+});
+document.addEventListener('change',async ev=>{
+  const el=ev.target,a=el.dataset&&el.dataset.act;if(!a)return;const t=T&&T();if(!t)return;
+  if(a==='advOn'){t.adv=el.checked;if(t.adv){card(t);bag(t)}saveTrip(t);return}
+  if(a==='cardF'){if(el.dataset.f==='unit'){convertCardUnit(t,el.value);toast('Đã đổi sang '+(el.value==='yd'?'yard':'mét')+' và quy đổi các số đã có')}else card(t)[el.dataset.f]=el.value;saveTrip(t)}
+  else if(a==='teeWant'){const C=card(t);C.teeWanted=el.value.trim();C.tee=C.teeWanted;saveTrip(t)}
+  else if(a==='teeSel'){const C=card(t);if(el.value&&applyTee(C,el.value)){C.teeWanted=el.value;const s=C.holes.reduce((x,h)=>x+(+h.par||0),0);if(s>=27)t.par=s;saveTrip(t);toast('Đã dùng số liệu tee '+teeLabel(el.value))}}
+  else if(a==='cardH'){const C=card(t),i=+el.dataset.n-1,h=C.holes[i],f=el.dataset.f,v=el.value===''?'':+el.value;h[f]=v;const T=(C.tees||[]).find(x=>x.name===C.tee);if(T){if(f==='d')T.d[i]=v===''?null:v;else if(T[f])T[f][i]=v===''?null:v;else{C[f]=C[f]||Array(18).fill(null);C[f][i]=v===''?null:v}}if(el.dataset.f==='par'){const s=card(t).holes.reduce((x,h)=>x+(+h.par||0),0);if(s>=27)t.par=s}saveTrip(t)}
+  else if(a==='bagF'){if(el.dataset.f==='unit'){convertBagUnit(t,el.value);toast('Đã quy đổi khoảng cách gậy sang '+(el.value==='yd'?'yard':'mét'))}else bag(t)[el.dataset.f]=el.value;saveTrip(t)}
+  else if(a==='clubN'){const c=bag(t).clubs.find(c=>c.id===el.dataset.id);c.name=el.value.trim()||c.name;saveTrip(t)}
+  else if(a==='clubC'){const c=bag(t).clubs.find(c=>c.id===el.dataset.id);c.carry=el.value===''?'':+el.value;saveTrip(t)}
+  else if(a==='yHole'){const y=t.yardage.find(y=>y.id===el.dataset.id);y.hole=el.value;saveTrip(t)}
+  else if(a==='pin'){const r=R(el.dataset.r);r.pins=r.pins||{};const p=r.pins[el.dataset.n]=r.pins[el.dataset.n]||{};const f=el.dataset.f;if(el.value==='')delete p[f];else p[f]=f==='side'?el.value:+el.value;saveTrip(t)}
+  else if(a==='hs'){const r=R(el.dataset.r);r.holeScores=r.holeScores||{};if(el.value==='')delete r.holeScores[el.dataset.n];else r.holeScores[el.dataset.n]=+el.value;
+    const v=Array.from({length:18},(_,i)=>+r.holeScores[i+1]||0);if(v.slice(0,9).every(Boolean))r.stats.front=v.slice(0,9).reduce((a,b)=>a+b,0);if(v.slice(9).every(Boolean))r.stats.back=v.slice(9).reduce((a,b)=>a+b,0);if(v.every(Boolean))r.score=String(v.reduce((a,b)=>a+b,0));saveTrip(t)}
+  else if(a==='yUp'){const files=[...el.files];el.value='';const A=await claude.use('assets');const msg=$('#yMsg');
+    if(!A){toast('Mở trang trong Claude (quyền Contributor trở lên) để tải ảnh.');return}
+    let ok=0;for(const f of files){msg&&(msg.textContent=`Đang tải ${ok+1}/${files.length}…`);try{const b=await shrink(f,2000,0.85);const res=await A.upload(b);t.yardage.push({id:res.id,hole:'',name:f.name});ok++}catch(e){toast('Không tải được '+f.name)}}
+    if(ok){saveTrip(t);toast(`Đã tải ${ok} ảnh yardage`)}}
+  else if(a==='aiCard'){const f=el.files[0];el.value='';if(!f)return;const msg=$('#aiCardMsg');msg&&(msg.textContent='Đang đọc ảnh…');
+    try{const res=await aiRead(f,'Ảnh là scorecard sân golf, có thể chỉ có 1 mặt (9 hố đầu hoặc 9 hố sau). Đọc TẤT CẢ các hàng tee (Black/Blue/White/Red/Gold… hoặc tên tiếng Việt) và các hàng Par, Handicap/HCP/Index. Trả về DUY NHẤT JSON dạng: {"unit":"yd" hoặc "m","par":[18 số],"si":[18 số],"tees":[{"name":"tên tee đúng như in trên ảnh","d":[18 số],"par":null hoặc [18 số nếu tee này có par riêng],"si":null hoặc [18 số nếu có hàng index riêng cho tee này, ví dụ Ladies HCP của tee đỏ]}]}. Mỗi mảng có ĐÚNG 18 phần tử, vị trí 0 là hố 1 … vị trí 17 là hố 18; hố không có trong ảnh hoặc không đọc được thì để null (ảnh 9 hố sau thì vị trí 0–8 là null). Bỏ qua cột Out, In, Total. Không đoán số.');
+      if(!res||!Array.isArray(res.tees)||!res.tees.length)throw {};
+      const out=mergeCardRead(t,res);saveTrip(t);msg&&(msg.textContent='');
+      toast(out.sel?`Đọc được ${out.names.length} tee (${out.names.map(teeLabel).join(', ')}). Đang dùng tee ${teeLabel(out.sel.name)} — kiểm tra lại từng số`:out.wantMissing?`Không thấy tee “${card(t).teeWanted}” trên ảnh. Đọc được: ${out.names.map(teeLabel).join(', ')} — bấm chọn tee của con`:`Đọc được ${out.names.length} tee — bấm chọn tee của con`)}
+    catch(e){msg&&(msg.textContent='');toast(aiErr(e))}}
+  else if(a==='aiPin'){const f=el.files[0];el.value='';if(!f)return;const r=R(el.dataset.r);const msg=$('#aiPinMsg');msg&&(msg.textContent='Đang đọc ảnh…');
+    try{const res=await aiRead(f,`Ảnh là pin sheet (vị trí cờ) của một vòng golf. Trả về JSON {"unit":"m" | "yd" | "paces","pins":[{"n":1,"f":12,"side":"L"|"C"|"R","depth":30}]}. "f" là khoảng cách từ mép trước green tới cờ; "side": L nếu cờ gần mép trái, R nếu gần mép phải, C nếu ở giữa; "depth" là độ sâu green nếu ảnh có. Ô không đọc được để null. Chỉ trả JSON.`);
+      if(res&&Array.isArray(res.pins)){r.pins=r.pins||{};const k=res.unit==='paces'?0.8:1;res.pins.forEach(p=>{if(!(+p.n>=1&&+p.n<=18))return;const o=r.pins[p.n]=r.pins[p.n]||{};if(p.f!=null)o.f=Math.round(+p.f*k);if(p.side)o.side=p.side;if(p.depth!=null)o.depth=Math.round(+p.depth*k)});saveTrip(t);toast('Đã điền pin location — kiểm tra lại'+(res.unit==='paces'?' (đã đổi bước chân ra mét)':''))}else throw {}}
+    catch(e){msg&&(msg.textContent='');toast(aiErr(e))}}
+});
+document.addEventListener('submit',ev=>{const f=ev.target;if(f.id!=='fBagLog')return;const t=T();if(!t)return;
+  const fd=Object.fromEntries(new FormData(f));const date=parseDmy(fd.date);if(!date){toast('Ngày chưa đúng dạng dd/mm/yyyy.');return}
+  const v={};bag(t).clubs.forEach(c=>{const x=fd['c_'+c.id];if(x!==''&&x!=null&&+x>0)v[c.id]=+x});
+  if(!Object.keys(v).length){toast('Nhập khoảng cách ít nhất 1 gậy.');return}
+  t.bagLogs.push({id:uid(),date,kind:fd.kind,v});saveTrip(t);toast('Đã lưu lần đo');
+},true);
+
+function invUsed(t,i){return t.rounds.reduce((s,r)=>s+(+r.used[i.id]||0),0)}
+function invBought(t,i){return t.rounds.reduce((s,r)=>s+r.buys.filter(b=>b.done&&b.invId===i.id).reduce((a,b)=>a+(+b.qty||0),0),0)}
+function invLeft(t,i){return (+i.carried||0)+invBought(t,i)-invUsed(t,i)}
+
+function viewInv(t){
+  const ed=can.editInv(ui.role);
+  const played=t.rounds.filter(r=>Object.values(r.used).some(v=>v!==''&&v!=null)).length;
+  return `<h1>Kho đồ tiêu hao</h1><p class="muted small">Mang theo + mua thêm − đã dùng = còn lại. Sau vài ngày ra sân, app tính mức dùng trung bình để gợi ý số mang đi cho chuyến sau.</p>
+  <div class="panel scroll"><table><thead><tr><th>Món</th><th>Mang</th><th>Mua</th><th>Dùng</th><th>Còn</th><th>Ngưỡng</th></tr></thead><tbody>
+  ${t.inventory.map(i=>{const left=invLeft(t,i);return `<tr><td>${esc(i.name)} <span class="small muted">(${esc(i.unit)})</span></td>
+   <td>${ed?`<input class="q" type="number" min="0" data-act="invCarried" data-id="${i.id}" value="${i.carried}">`:i.carried}</td>
+   <td class="n">${invBought(t,i)}</td><td class="n">${invUsed(t,i)}</td><td class="n ${left<=i.threshold?'warn':'okc'}">${left}</td>
+   <td>${ed?`<input class="q" type="number" min="0" data-act="invTh" data-id="${i.id}" value="${i.threshold}">`:i.threshold}</td></tr>`}).join('')}
+  </tbody></table></div>
+  ${ed?`<form id="fInv" class="form" style="margin-top:10px"><input type="text" name="name" placeholder="Thêm món tiêu hao" required><input type="text" name="unit" placeholder="Đơn vị" value="cái"><input type="number" name="carried" placeholder="Mang theo" value="0"><button class="btn sm">Thêm</button></form>`:''}
+  <h2>Gợi ý cho chuyến sau</h2>
+  <div class="panel">${played?`<div class="scroll"><table><thead><tr><th>Món</th><th>TB / ngày ra sân</th><th>Nên mang (${playCount(t)} ngày)</th></tr></thead><tbody>
+   ${t.inventory.map(i=>{const avg=invUsed(t,i)/played;return `<tr><td>${esc(i.name)}</td><td class="n">${avg.toFixed(1).replace('.',',')}</td><td class="n">${Math.ceil(avg*playCount(t)+i.threshold)}</td></tr>`}).join('')}
+   </tbody></table></div><p class="note">Tính trên ${played} ngày đã nhập số dùng, cộng thêm ngưỡng dự phòng.</p>`:'<p class="muted">Nhập đồ đã dùng sau mỗi ngày ở tab Thi đấu để có gợi ý.</p>'}</div>`;
+}
+
+const toVnd=(t,e)=>(+e.amt||0)*(e.cur==='VND'?1:(+t.rate||1));
+const sumExp=t=>t.expenses.reduce((s,e)=>s+toVnd(t,e),0);
+const sumBudget=t=>Object.values(t.budget||{}).reduce((s,v)=>s+(+v||0),0);
+
+function viewFin(t){
+  const full=can.seeFinance(ui.role,t);
+  const list=full?t.expenses:t.expenses.filter(e=>e.by===ui.role);
+  const form=can.addExpense(ui.role)?`<h2>Ghi khoản chi</h2><div class="panel"><form id="fExp" class="form">
+   <label>Hạng mục<select class="f" name="cat">${CATS.map(c=>`<option>${c}</option>`).join('')}</select></label>
+   <label style="grid-column:span 2">Nội dung<input type="text" name="desc" required></label>
+   <label>Số tiền<input type="number" name="amt" min="0" step="any" required></label>
+   <label>Đơn vị<select class="f" name="cur">${[...new Set(['VND',t.cur])].map(c=>`<option>${esc(c)}</option>`).join('')}</select></label>
+   <label>Ngày${dmyInput('date',today())}</label>
+   <label>Tính chất<select class="f" name="tag">${Object.entries(TAGS).map(([k,v])=>`<option value="${k}" ${k==='var'?'selected':''}>${v}</option>`).join('')}</select></label>
+   <label>Ai trả<input type="text" name="payer" value="${ui.role==='ph'?'Gia đình':ROLES[ui.role]}"></label>
+   <div><button class="btn sm">Ghi</button></div></form><p class="note">Nhãn “Có thể cắt” dùng để sau chuyến lọc ra những khoản có thể rút gọn.</p></div>`:'';
+  const listHtml=`<h2>${full?'Tất cả khoản chi':'Khoản chi do bạn ghi'} (${list.length})</h2><div class="panel">${list.length?list.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(e=>`<div class="row"><div class="grow"><div class="title">${esc(e.desc)}</div><div class="small muted">${esc(e.cat)} · ${dd(e.date)} · ${esc(e.payer||'')} <span class="tag ${e.tag==='cut'?'cut':''}">${TAGS[e.tag]||''}</span></div></div>
+   <div style="text-align:right"><div style="font-family:var(--num);font-size:15px;font-weight:600">${vnd(toVnd(t,e))}</div>${e.cur!=='VND'?`<div class="small muted">${(+e.amt).toLocaleString('vi-VN')} ${esc(e.cur)}</div>`:''}</div>
+   ${(ui.role==='ph'||e.by===ui.role)?`<button class="x" data-act="delExp" data-id="${e.id}" aria-label="Xoá">×</button>`:''}</div>`).join(''):'<p class="muted">Chưa có khoản chi.</p>'}</div>`;
+  if(!full)return `<h1>Tài chính</h1><p class="muted small">Bạn ghi được khoản chi phát sinh. Tổng hợp và dự toán chỉ phụ huynh xem, trừ khi phụ huynh uỷ quyền.</p>${form}${listHtml}`;
+
+  const tot=sumExp(t),bud=sumBudget(t),rc=Math.max(1,roundCount(t)),days=tripDays(t);
+  const byCat=CATS.map(c=>({c,a:t.expenses.filter(e=>e.cat===c).reduce((s,e)=>s+toVnd(t,e),0),b:+(t.budget[c]||0)}));
+  const maxv=Math.max(1,...byCat.map(x=>Math.max(x.a,x.b)));
+  const byTag=Object.keys(TAGS).map(k=>({k,a:t.expenses.filter(e=>e.tag===k).reduce((s,e)=>s+toVnd(t,e),0)}));
+  const payers={};t.expenses.forEach(e=>{const p=e.payer||'Khác';payers[p]=(payers[p]||0)+toVnd(t,e)});
+  const over=byCat.filter(x=>x.b&&x.a>x.b);
+  const all=Object.values(store.trips).sort((a,b)=>(a.start||'').localeCompare(b.start||''));
+  return `<h1>Tài chính chuyến đi</h1>${t.cur==='VND'?'':`<p class="muted small">Quy đổi 1 ${esc(t.cur)} = ${(+t.rate).toLocaleString('vi-VN')} đ (sửa ở Tổng quan).</p>`}
+  <div class="grid2">
+   <div class="panel stat"><div class="n">${short(tot)}</div><div class="l">thực chi</div></div>
+   <div class="panel stat"><div class="n ${tot>bud&&bud?'warn':''}">${short(bud)}</div><div class="l">dự toán${bud?` · ${tot>bud?'vượt':'còn'} ${short(Math.abs(bud-tot))}`:''}</div></div>
+   <div class="panel stat"><div class="n">${short(tot/rc)}</div><div class="l">chi phí / vòng đấu</div></div>
+   <div class="panel stat"><div class="n">${short(tot/days)}</div><div class="l">chi phí / ngày</div></div>
+  </div>
+  ${over.length?`<p class="note warn">Vượt dự toán: ${over.map(x=>`${x.c} (+${short(x.a-x.b)})`).join(', ')}</p>`:''}
+  <h2>Theo hạng mục</h2><div class="panel">
+  ${byCat.map(x=>`<div class="row" style="display:block"><div style="display:flex;gap:8px;align-items:center"><span class="grow title">${x.c}</span>
+    <span style="font-family:var(--num);font-size:15px;font-weight:600" class="${x.b&&x.a>x.b?'warn':''}">${short(x.a)}</span><span class="small muted">/</span>
+    <input class="q" style="width:110px" type="number" min="0" data-act="budget" data-c="${x.c}" value="${x.b||''}" placeholder="dự toán" aria-label="Dự toán ${x.c}"></div>
+    <div class="bar ${x.b&&x.a>x.b?'over':''}"><i style="width:${x.a/maxv*100}%"></i></div></div>`).join('')}
+  <p class="note">Ô bên phải là dự toán (VND). Thanh màu là thực chi.</p></div>
+  <h2>Cái gì rút gọn được</h2><div class="panel">
+   ${byTag.map(x=>`<div class="row"><span class="grow">${TAGS[x.k]}</span><span style="font-family:var(--num);font-size:15px;font-weight:600" class="${x.k==='cut'?'warn':''}">${vnd(x.a)}</span><span class="small muted" style="width:42px;text-align:right">${pct(x.a,tot)}%</span></div>`).join('')}
+   <p class="note">“Có thể cắt” là phần dư địa tiết kiệm cho chuyến sau. “Biến đổi” là phần cần theo dõi, thường lệch so với dự toán.</p></div>
+  <h2>Ai chi trả</h2><div class="panel">${Object.entries(payers).map(([p,a])=>`<div class="row"><span class="grow">${esc(p)}</span><span style="font-family:var(--num);font-size:15px;font-weight:600">${vnd(a)}</span></div>`).join('')||'<p class="muted">Chưa có dữ liệu.</p>'}</div>
+  ${form}${listHtml}
+  <h2>So sánh các chuyến</h2><div class="panel scroll"><table><thead><tr><th>Chuyến</th><th>Ngày</th><th>Vòng</th><th>Tổng</th><th>/ vòng</th><th>Có thể cắt</th></tr></thead><tbody>
+   ${all.map(x=>{const s=sumExp(x),cut=x.expenses.filter(e=>e.tag==='cut').reduce((a,e)=>a+toVnd(x,e),0);return `<tr><td>${esc(x.name)}</td><td class="n">${tripDays(x)}</td><td class="n">${roundCount(x)}</td><td class="n">${short(s)}</td><td class="n">${short(s/Math.max(1,roundCount(x)))}</td><td class="n">${short(cut)}</td></tr>`}).join('')}
+  </tbody></table></div>
+  <p style="margin-top:14px"><button class="btn ghost sm" data-act="csv">Tải bảng chi phí (CSV)</button></p>`;
+}
+
+/* ===== Sự kiện ===== */
+const T=()=>store.trips[ui.trip];
+const R=k=>ensureRound(T().rounds.find(r=>r.key===k));
+document.addEventListener('click',async ev=>{
+  const tb=ev.target.closest('[data-tab]');if(tb){ui.tab=tb.dataset.tab;saveUi();render();window.scrollTo(0,0);return}
+  const el=ev.target.closest('[data-act]');if(!el||el.tagName==='INPUT'||el.tagName==='TEXTAREA')return;
+  const a=el.dataset.act,id=el.dataset.id,t=T();
+  if(a==='demo'){const d=demoTrip();ui.trip=d.id;ui.creating=false;saveUi();saveTrip(d);return}
+  if(a==='cancelCreate'){ui.creating=false;saveUi();render();return}
+  if(!t)return;
+  if(a==='cycleLog'){const l=t.logistics.find(x=>x.id===id);l.status={todo:'doing',doing:'done',done:'todo'}[l.status];saveTrip(t)}
+  else if(a==='delLog'){t.logistics=t.logistics.filter(x=>x.id!==id);saveTrip(t)}
+  else if(a==='delPack'){t.packing=t.packing.filter(x=>x.id!==id);saveTrip(t)}
+  else if(a==='delMember'){t.members=t.members.filter(x=>x.id!==id);saveTrip(t)}
+  else if(a==='pickRound'){ui.round=el.dataset.k;saveUi();render()}
+  else if(a==='delPre'){const r=R(el.dataset.r);r.pre=r.pre.filter(x=>x.id!==id);saveTrip(t)}
+  else if(a==='delBuy'){const r=R(el.dataset.r);r.buys=r.buys.filter(x=>x.id!==id);saveTrip(t)}
+  else if(a==='wxAdd'){const r=R(el.dataset.r);[...new Set(wxEval(r).flatMap(x=>x.add))].forEach(n=>{if(!r.pre.some(p=>p.name===n))r.pre.push({id:uid(),name:n,done:false})});saveTrip(t);toast('Đã thêm vào checklist trước khi ra sân')}
+  else if(a==='suggBuy'){const r=R(el.dataset.r),i=t.inventory.find(x=>x.id===id);r.buys.push({id:uid(),name:i.name,invId:i.id,qty:Math.max(1,i.threshold*2||1),cost:0,cur:t.cur,done:false});saveTrip(t)}
+  else if(a==='vSubmit'){if(!t.livescore){toast('Dán link Livescore hoặc trang kết quả giải trước khi gửi.');return}if(!t.rounds.some(x=>x.type==='round'&&x.score!=='')){toast('Nhập điểm ít nhất một vòng trước khi gửi.');return}t.verify={status:'submitted',at:today(),by:ui.role};saveTrip(t)}
+  else if(a==='vSet'){t.verify={...(t.verify||{}),status:el.dataset.s,note:($('#vNote')?.value||'').trim(),checkedAt:today()};saveTrip(t)}
+  else if(a==='delExp'){t.expenses=t.expenses.filter(x=>x.id!==id);saveTrip(t)}
+  else if(a==='delTrip'){if(delArm!==t.id){delArm=t.id;el.textContent='Bấm lần nữa để xoá hẳn';el.classList.add('armed');setTimeout(()=>{if(delArm===t.id){delArm=null;el.textContent='Xoá chuyến này';el.classList.remove('armed')}},5000);return}delArm=null;deleteTrip(t.id)}
+  else if(a==='csv'){
+    const rows=[['Ngày','Hạng mục','Nội dung','Số tiền','Đơn vị','Quy đổi VND','Tính chất','Người trả']].concat(t.expenses.map(e=>[e.date,e.cat,e.desc,e.amt,e.cur,Math.round(toVnd(t,e)),TAGS[e.tag],e.payer]));
+    const csv='\ufeff'+rows.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+    const dl=await claude.use('downloads');
+    if(!dl){toast('Mở trang trong Claude để tải file.');return}
+    try{await dl.save({filename:'chi-phi-'+t.name.replace(/[^\p{L}\p{N}]+/gu,'-').slice(0,40)+'.csv',data:csv})}catch(e){}
+  }
+});
+document.addEventListener('input',ev=>{const el=ev.target;if(!el.classList||!el.classList.contains('dmy'))return;
+  const dg=el.value.replace(/\D/g,'').slice(0,8);let v=dg;if(dg.length>4)v=dg.slice(0,2)+'/'+dg.slice(2,4)+'/'+dg.slice(4);else if(dg.length>2)v=dg.slice(0,2)+'/'+dg.slice(2);
+  if(ev.inputType&&ev.inputType.startsWith('delete'))return;el.value=v});
+document.addEventListener('change',ev=>{
+  const el=ev.target;
+  if(el.id==='tripSel'){if(el.value==='__new'){ui.creating=true}else{ui.trip=el.value;ui.creating=false;ui.round=null}saveUi();render();return}
+  if(el.id==='roleSel'){ui.role=el.value;saveUi();render();return}
+  const a=el.dataset.act;if(!a)return;const t=T();if(!t)return;const id=el.dataset.id;
+  if(a==='pack'){t.packing.find(x=>x.id===id).packed=el.checked}
+  else if(a==='packQty'){t.packing.find(x=>x.id===id).override=el.value===''?null:+el.value}
+  else if(a==='pre'){R(el.dataset.r).pre.find(x=>x.id===id).done=el.checked}
+  else if(a==='used'){const r=R(el.dataset.r);if(el.value==='')delete r.used[id];else r.used[id]=+el.value}
+  else if(a==='score'){R(el.dataset.r).score=el.value}
+  else if(a==='rf'){const r=R(el.dataset.r),f=el.dataset.f;r[f]=(f==='startHole'||f==='assembly')?+el.value:el.value;if(f==='startType'&&r.startType==='tee'&&r.startHole!=1&&r.startHole!=10)r.startHole=1}
+  else if(a==='st'){const r=R(el.dataset.r);if(el.value==='')delete r.stats[el.dataset.f];else r.stats[el.dataset.f]=+el.value}
+  else if(a==='ev'){R(el.dataset.r).eval[el.dataset.f]=el.value}
+  else if(a==='wx'||a==='wxStorm'){const r=R(el.dataset.r);r.wx=r.wx||{};if(a==='wxStorm')r.wx.storm=el.checked;else if(el.value==='')delete r.wx[el.dataset.f];else r.wx[el.dataset.f]=+el.value;const d=new Date();r.wx.at=pad2(d.getHours())+':'+pad2(d.getMinutes())+' '+dmy(today());r.wx.by=ui.role}
+  else if(a==='tripNum'){t[el.dataset.f]=+el.value}
+  else if(a==='tripStr'){t[el.dataset.f]=el.value}
+  else if(a==='note'){R(el.dataset.r).note=el.value}
+  else if(a==='buyDone'){const r=R(el.dataset.r),b=r.buys.find(x=>x.id===id);b.done=el.checked;
+    if(b.done&&+b.cost>0&&!b.expId){const e={id:uid(),date:today(),cat:'Đồ tiêu hao',desc:`${b.name} × ${b.qty} (${r.label})`,amt:+b.cost,cur:b.cur,tag:'var',payer:ui.role==='ph'?'Gia đình':ROLES[ui.role],by:ui.role};t.expenses.push(e);b.expId=e.id}
+    if(!b.done&&b.expId){t.expenses=t.expenses.filter(x=>x.id!==b.expId);b.expId=null}}
+  else if(a==='invCarried'){t.inventory.find(x=>x.id===id).carried=+el.value||0}
+  else if(a==='invTh'){t.inventory.find(x=>x.id===id).threshold=+el.value||0}
+  else if(a==='budget'){if(el.value==='')delete t.budget[el.dataset.c];else t.budget[el.dataset.c]=+el.value}
+  else if(a==='share'){t.share[el.dataset.k]=el.checked}
+  else return;
+  saveTrip(t);
+});
+document.addEventListener('submit',ev=>{
+  ev.preventDefault();const f=ev.target,o=Object.fromEntries(new FormData(f));
+  if(f.querySelector('.dmy')){for(const inp of f.querySelectorAll('.dmy')){if(!inp.value.trim()&&!inp.required){o[inp.name]='';continue}const v=parseDmy(inp.value);if(!v){toast('Ngày “'+inp.value+'” chưa đúng dạng dd/mm/yyyy.');inp.focus();return}o[inp.name]=v}}
+  if(f.id==='fCreate'){if(o.end<o.start||o.r1<o.start||o.r1>o.end){toast('Kiểm tra lại ngày: ngày vòng 1 phải nằm trong khoảng ngày đi – ngày về.');return}
+    const nr=+o.nrounds;if(addDays(o.r1,nr-1)>o.end){toast('Ngày về sớm hơn ngày đánh vòng cuối.');return}
+    const t=buildTrip(o);ui.trip=t.id;ui.creating=false;ui.tab='tongquan';ui.round=null;saveUi();saveTrip(t);return}
+  const t=T();if(!t)return;
+  if(f.id==='fMember')t.members.push({id:uid(),name:o.name,role:o.role});
+  else if(f.id==='fTrip'){const dom=o.scope==='dom';Object.assign(t,{name:o.name,golfer:o.golfer,place:o.place,course:o.course,scope:dom?'dom':'intl',cur:dom?'VND':(o.cur||(t.cur==='VND'?'USD':t.cur)).toUpperCase(),rate:dom?1:(+o.rate||(t.rate>1?t.rate:25000))});ensureScopeItems(t)}
+  else if(f.id==='fLog')t.logistics.push({id:uid(),type:o.type,title:o.title,date:o.date,time:o.time,detail:o.detail,status:'todo'});
+  else if(f.classList.contains('fPack'))t.packing.push({id:uid(),group:f.dataset.group,name:o.name,rule:{f:'fixed',n:+o.qty||1},override:null,packed:false});
+  else if(f.classList.contains('fPre'))R(f.dataset.r).pre.push({id:uid(),name:o.name,done:false});
+  else if(f.classList.contains('fBuy')){const inv=t.inventory.find(i=>i.id===o.inv);const name=inv?inv.name:o.name.trim();if(!name){toast('Chọn món hoặc ghi tên món.');return}
+    R(f.dataset.r).buys.push({id:uid(),name,invId:inv?inv.id:null,qty:+o.qty||1,cost:+o.cost||0,cur:o.cur,done:false})}
+  else if(f.id==='fInv')t.inventory.push({id:uid(),name:o.name,unit:o.unit||'cái',carried:+o.carried||0,threshold:0});
+  else if(f.id==='fExp')t.expenses.push({id:uid(),date:o.date,cat:o.cat,desc:o.desc,amt:+o.amt,cur:o.cur,tag:o.tag,payer:o.payer,by:ui.role});
+  else return;
+  saveTrip(t);
+});
+
+/* ===== Khởi động ===== */
+store.trips=lsGet('tda_trips',{});
+if(Object.values(store.trips).map(fixDates).some(Boolean))lsSet('tda_trips',store.trips);
+render();setSync('Đang lưu trên máy này');
+(async()=>{
+  const c=window.claude&&window.claude.use?await window.claude.use('db'):null;
+  if(!c){setSync('Đang lưu trên máy này — mở trong Claude để cả đoàn dùng chung');return}
+  db=c;mode='db';setSync('Đang tải dữ liệu chung…');
+  db.collection('trips').onSnapshot(snap=>{
+    const next={};snap.docs.forEach(d=>{next[d.id]=pending[d.id]&&store.trips[d.id]?store.trips[d.id]:clone(d.data())});
+    Object.keys(pending).forEach(id=>{if(store.trips[id])next[id]=store.trips[id]});
+    store.trips=next;setSync('Đồng bộ cho cả đoàn');
+    const fixed=Object.values(store.trips).filter(t=>!(t.dv>=2)&&!pending[t.id]);if(fixed.length)setTimeout(()=>fixed.forEach(t=>{if(store.trips[t.id]===t&&fixDates(t))saveTrip(t)}),0);
+    const ae=document.activeElement;
+    if(ae&&$('#app').contains(ae)&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName)){ae.addEventListener('blur',()=>render(),{once:true})}else render();
+  },e=>setSync('Mất kết nối dữ liệu chung — tải lại trang'));
+})();
+</script>
+</body>
+</html>
