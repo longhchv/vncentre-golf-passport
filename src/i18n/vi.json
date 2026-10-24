@@ -1949,7 +1949,9 @@
       "capEn": "Chú thích tiếng Anh",
       "del": "Xoá ảnh",
       "delConfirm": "Xoá hẳn ảnh này khỏi kho? Không lấy lại được.",
-      "next": "Xong, sang Cảm nhận"
+      "next": "Xong, sang Cảm nhận",
+      "ratedNote": "Sân đo: ảnh đoàn đo chụp đang nằm trong app CSR VN và sẽ tự đưa lên trang sân khi Đăng. Ở đây chỉ thêm ảnh bổ sung nếu cần (tự đóng logo VN Centre).",
+      "emptyRated": "Chưa có ảnh bổ sung. Ảnh đoàn đo vẫn nằm trong app CSR VN."
     },
     "unsaved": {
       "title": "Chưa lưu thay đổi",
@@ -1965,6 +1967,7 @@
       "photoType": "Không đọc được tệp ảnh này.",
       "photoLarge": "Ảnh quá lớn, không nén được dưới 3 MB.",
       "generic": "Có lỗi: {{msg}}"
-    }
+    },
+    "photosExtraN": "{{n}} ảnh bổ sung"
   }
 }

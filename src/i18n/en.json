@@ -1949,7 +1949,9 @@
       "capEn": "English caption",
       "del": "Delete photo",
       "delConfirm": "Delete this photo from storage for good? It cannot be recovered.",
-      "next": "Done, go to Review"
+      "next": "Done, go to Review",
+      "ratedNote": "Rated course: the rating team's photos are kept in the CSR VN app and are added to the course page automatically when published. Add extra photos here only if needed (VN Centre logo added automatically).",
+      "emptyRated": "No extra photos yet. The rating team's photos are still in the CSR VN app."
     },
     "unsaved": {
       "title": "Unsaved changes",
@@ -1965,6 +1967,7 @@
       "photoType": "Cannot read this image file.",
       "photoLarge": "Photo too large to compress under 3 MB.",
       "generic": "Error: {{msg}}"
-    }
+    },
+    "photosExtraN": "{{n}} extra photos"
   }
 }
