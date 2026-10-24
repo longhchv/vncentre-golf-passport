@@ -5,9 +5,11 @@
 // Hành động:
 //   viet-cam-nhan { course, country, y, scores }        → { vi, en }  đoạn cảm nhận theo giọng anh Long, chỉ dựa vào ý được đưa
 //   viet-mo-ta    { course, places: [{key,name,cat,area}] } → { items: [{ key, vi, en }] }  mô tả ngắn từng địa điểm
+//   mo-link       { url }  → { url, lat, lng }  mở link rút gọn Google Maps (maps.app.goo.gl) lấy toạ độ; không cần khoá Claude
 
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { corsHeaders, json } from '../_shared/cors.ts'
+import { resolveMapsLink } from './maps-link.ts'
 
 const MODEL = 'claude-haiku-5-5'
 const CAT_VI: Record<string, string> = {
@@ -55,11 +57,20 @@ Deno.serve(async (req) => {
   const { data: ok } = await caller.rpc('gc_is_admin')
   if (!ok) return json({ error: 'forbidden' }, 403)
 
-  const key = Deno.env.get('ANTHROPIC_API_KEY')
-  if (!key) return json({ error: 'missing_anthropic_key' }, 500)
-
   let body: Record<string, unknown>
   try { body = await req.json() } catch { return json({ error: 'invalid_json' }, 400) }
+
+  if (body.action === 'mo-link') {
+    try {
+      return json(await resolveMapsLink(clip(body.url, 2000)))
+    } catch (e) {
+      return json({ error: (e as Error).message || 'failed' }, 400)
+    }
+  }
+
+  // Các hành động còn lại dùng Claude
+  const key = Deno.env.get('ANTHROPIC_API_KEY')
+  if (!key) return json({ error: 'missing_anthropic_key' }, 500)
 
   try {
     switch (body.action) {
