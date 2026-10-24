@@ -78,7 +78,7 @@ export function CoursesPage() {
           const st = stats.data?.[c.id]
           const meta = [
             c.holes ? t('courses.holesN', { n: c.holes }) : null,
-            st ? t('courses.photosN', { n: st.photos }) : null,
+            st ? t(c.kind === 'rated' ? 'courses.photosExtraN' : 'courses.photosN', { n: st.photos }) : null,
             st?.places ? t('courses.placesN', { n: st.places }) : null,
             t('courses.updated', { d: fmtDate(c.updated_at, lang) }),
           ].filter(Boolean).join(' · ')

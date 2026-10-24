@@ -99,6 +99,9 @@ export function CoursePhotosPage() {
           <div className="h-full bg-bronze transition-all" style={{ width: `${(progress.done / progress.total) * 100}%` }} />
         </div>
       )}
+      {course.kind === 'rated' && (
+        <p className="rounded-xl bg-[#E8EEF8] px-4 py-3 text-sm text-[#1F3A6B]">{t('courses.photos.ratedNote')}</p>
+      )}
       <p className="text-sm text-navy/65">{t('courses.photos.hint')}</p>
 
       {failed.length > 0 && (
@@ -128,7 +131,7 @@ export function CoursePhotosPage() {
           ))}
         </div>
       ) : (
-        <p className="rounded-2xl border border-dashed border-navy/20 bg-white p-6 text-center text-navy/60">{t('courses.photos.empty')}</p>
+        <p className="rounded-2xl border border-dashed border-navy/20 bg-white p-6 text-center text-navy/60">{t(course.kind === 'rated' ? 'courses.photos.emptyRated' : 'courses.photos.empty')}</p>
       )}
 
       <PhotoEditor
