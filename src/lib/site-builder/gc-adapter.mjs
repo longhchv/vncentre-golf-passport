@@ -19,7 +19,11 @@ export function packFromGc({ course, tees = [], photos = [], review = null, plac
     tees: tees.map(t => ({ id: t.id, title: t.name, gender: t.gender === 'F' ? 'F' : 'M', color: t.color,
       holes: (t.holes || []).map(h => ({ par: h.par, si: h.si, len: h.len == null ? null : yd(+h.len, c.units) })), photos: [] })),
     guide: {
-      info: { introVi: c.intro_vi || '', introEn: c.intro_en || '', facilities: c.facilities || [], booking: c.booking || {} },
+      // booking (jsonb) giữ đặt sân + thông tin thêm đúng tên trường bộ tạo trang đọc: bookPhone, bookZalo, bookWeb,
+      // designer, openYear, hours, grass. Tiện ích: mảng khoá → object {range:true,...} như app CSR. (B2, 24/10/2026)
+      info: { ...(c.booking || {}), nameEn: c.name_en || '', introVi: c.intro_vi || '', introEn: c.intro_en || '',
+        fac: Object.fromEntries((c.facilities || []).map(k => [k, true])) },
+      heroId: photos[0] ? photos[0].id : undefined, // ảnh đứng đầu (sort nhỏ nhất) là ảnh đại diện
       travel: {},
       places: placesFromGc(places),
       photos: photos.map(p => ({ id: p.id, url: photoUrl(p), kind: p.kind, hole: p.hole, caption: p.caption_vi, captionEn: p.caption_en })),
