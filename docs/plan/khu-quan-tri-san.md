@@ -40,6 +40,10 @@ Minh · 23/10/2026 · Theo `docs/spec/khu-quan-tri-san.md`, `docs/spec/goi-y-qua
 
 1. **B1 – Nền:** migration, Edge Function, site-builder, `api.ts`, `importFormat.ts`, `coords.ts` + kiểm thử. Chưa có màn hình.
 2. **B2 – Nhập sân:** màn 1–4 (Danh sách, Thêm sân, Thông tin & tee, Ảnh). Chụp màn hình khổ điện thoại để duyệt.
+   - XONG 24/10/2026 (chờ anh Long duyệt): `CoursesPage`, `NewCoursePage`, `CourseShell`, `CourseInfoPage`, `CoursePhotosPage`, `parts.tsx`, `meta.ts`, `teesFormat.ts` (+ test), `watermark.ts`; route `/admin/courses…`; khoá `courses.*` vi/en; mục Cảm nhận, Quanh sân, Đăng hiện "Sắp ra mắt".
+   - Không cần migration mới. Đặt sân + thông tin thêm (thiết kế, năm mở cửa, giờ, cỏ) lưu trong cột `booking` (jsonb) đúng tên trường bộ tạo trang đọc.
+   - Sửa `gc-adapter.mjs`: tiện ích chuyển thành `info.fac`, thêm `info.nameEn`, `heroId` = ảnh đứng đầu (trước đây web sẽ không hiện tiện ích và tên tiếng Anh).
+   - Sân đo: màn Thông tin chỉ xem; danh sách mở thẳng màn Ảnh.
 3. **B3 – Cảm nhận & Quanh sân:** màn 5–6.
 4. **B4 – Xem trước & Đăng:** màn 7, đăng `site_courses`, website thêm tầng quốc gia, nhãn Đã đo / Trải nghiệm.
 
