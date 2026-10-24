@@ -126,3 +126,12 @@ export function UnsavedGuard({ dirty }: { dirty: boolean }) {
     </Dialog>
   )
 }
+
+/** Câu gợi ý / cảnh báo dưới ô "Link Google Maps". */
+export function mapsMessage(state: string, coords: { lat: number; lng: number } | null, t: (k: string, o?: Record<string, unknown>) => string, approx?: boolean): { hint?: string; warn?: string | null } {
+  if (state === 'ok' && coords) return { hint: t(approx ? 'courses.f.coordsApprox' : 'courses.f.coordsOk', { lat: coords.lat, lon: coords.lng }) }
+  if (state === 'resolving') return { hint: t('courses.f.mapsResolving') }
+  if (state === 'shortFail') return { warn: t('courses.f.mapsShortFail') }
+  if (state === 'bad') return { warn: t('courses.f.mapsBad') }
+  return { hint: t('courses.f.mapsHint') }
+}

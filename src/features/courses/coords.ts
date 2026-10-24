@@ -30,3 +30,13 @@ export function distanceKm(a: LatLng, b: LatLng): number {
   const h = Math.sin(r(b.lat - a.lat) / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(r(b.lng - a.lng) / 2) ** 2
   return Math.round(2 * R * Math.asin(Math.sqrt(h)) * 10) / 10
 }
+
+/** Link rút gọn của Google Maps (không chứa toạ độ, phải mở mới biết). */
+export function isShortMapsLink(input: string): boolean {
+  return /^https?:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|g\.co\/kgs)\//i.test((input || '').trim())
+}
+
+/** Link Google Maps bất kỳ (rút gọn hoặc đầy đủ) — không có toạ độ thì nhờ máy chủ đọc tên/Plus Code trong link. */
+export function isGoogleMapsLink(input: string): boolean {
+  return isShortMapsLink(input) || /^https?:\/\/((www\.)?google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test((input || '').trim())
+}

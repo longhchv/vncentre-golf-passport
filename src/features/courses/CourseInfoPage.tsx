@@ -12,10 +12,10 @@ import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import type { GcCourse, GcHole, GcTee } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useSaveCourse, useSaveTees, useTees } from './api'
-import { parseLatLng } from './coords'
+import { useMapsCoords } from './useMapsCoords'
 import { COUNTRIES, FACILITIES, facLabel, teePreset, TEE_PRESETS } from './meta'
 import { parseTeesBlock, teeTotals, type TeeDraft } from './teesFormat'
-import { Chip, Section, Seg, StickyActions, UnsavedGuard, errText } from './parts'
+import { Chip, Section, Seg, StickyActions, UnsavedGuard, errText, mapsMessage } from './parts'
 import { useCourseCtx } from './CourseShell'
 
 /** Thông tin thêm hiện trên website; lưu trong cột booking (jsonb) của gc_courses, đúng tên trường bộ tạo trang đang đọc. */
@@ -75,7 +75,10 @@ function InfoForm({ course, tees }: { course: GcCourse; tees: GcTee[] }) {
 
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setD((x) => ({ ...x, [k]: v }))
   const setExtra = (k: keyof Extra, v: string) => setD((x) => ({ ...x, extra: { ...x.extra, [k]: v } }))
-  const coords = parseLatLng(d.maps)
+  const { coords, state: mapsState, approx } = useMapsCoords(d.maps)
+  const mapsMsg = mapsMessage(mapsState, coords, t, approx)
+  // Link không đọc được: giữ toạ độ đang lưu; ô trống: xoá toạ độ
+  const keepOld = mapsState === 'bad' || mapsState === 'shortFail'
 
   // Đổi số hố → cắt/thêm ô trong mọi tee
   const setHoles = (n: number) => { setD((x) => ({ ...x, holes: n, tees: x.tees.map((tee) => ({ ...tee, holes: fit(tee.holes, n) })) })); setHalf(0) }
@@ -105,7 +108,6 @@ function InfoForm({ course, tees }: { course: GcCourse; tees: GcTee[] }) {
   async function save() {
     setError(null)
     if (!d.name.trim()) return setError(t('courses.new.needName'))
-    if (d.maps.trim() && !coords) return setError(t('courses.new.badMaps'))
     if (d.website.trim() && !/^https?:\/\//i.test(d.website.trim())) return setError(t('courses.new.badWeb'))
     const unnamed = d.tees.findIndex((x) => !x.name.trim())
     if (unnamed >= 0) return setError(t('courses.info.teeNeedsName', { n: unnamed + 1 }))
@@ -114,7 +116,7 @@ function InfoForm({ course, tees }: { course: GcCourse; tees: GcTee[] }) {
     try {
       await saveCourse.mutateAsync({
         id: course.id, name: d.name.trim(), name_en: d.name_en.trim() || null, country: d.country, province: d.province.trim() || null,
-        lat: coords?.lat ?? null, lng: coords?.lng ?? null, phone: d.phone.trim() || null, website: d.website.trim() || null,
+        lat: keepOld ? course.lat : coords?.lat ?? null, lng: keepOld ? course.lng : coords?.lng ?? null, phone: d.phone.trim() || null, website: d.website.trim() || null,
         holes: d.holes, par: par || null, units: d.units, played_on: d.played_on || null, facilities: d.facilities, booking,
       })
       await saveTees.mutateAsync(d.tees.map((x, i) => ({ name: x.name.trim(), color: x.color, gender: x.gender, holes: x.holes, source: 'scorecard', sort: i })))
@@ -128,7 +130,7 @@ function InfoForm({ course, tees }: { course: GcCourse; tees: GcTee[] }) {
 
   if (readOnly) return <RatedInfo course={course} tees={tees} />
 
-  const busy = saveCourse.isPending || saveTees.isPending
+  const busy = saveCourse.isPending || saveTees.isPending || mapsState === 'resolving'
   const cell = 'h-9 w-11 rounded-md border border-navy/15 bg-white px-1 text-center text-sm tabular-nums focus:border-bronze focus:outline-none focus:ring-2 focus:ring-gold/50'
   const totals = d.tees.map((x) => teeTotals(x.holes))
 
@@ -298,7 +300,7 @@ function InfoForm({ course, tees }: { course: GcCourse; tees: GcTee[] }) {
             </Select>
           </Field>
           <Field label={t('courses.f.province')}><Input value={d.province} onChange={(e) => set('province', e.target.value)} /></Field>
-          <Field label={t('courses.f.maps')} className="sm:col-span-2" hint={coords ? t('courses.f.coordsOk', { lat: coords.lat, lon: coords.lng }) : t('courses.f.mapsHint')} error={d.maps.trim() && !coords ? t('courses.new.badMaps') : null}>
+          <Field label={t('courses.f.maps')} className="sm:col-span-2" hint={mapsMsg.hint} error={mapsMsg.warn}>
             <Input value={d.maps} onChange={(e) => set('maps', e.target.value)} />
           </Field>
           <Field label={t('courses.f.phone')}><Input value={d.phone} onChange={(e) => set('phone', e.target.value)} inputMode="tel" /></Field>

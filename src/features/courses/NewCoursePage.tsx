@@ -9,9 +9,9 @@ import { useToast } from '@/components/ui/toast'
 import type { GcCourse } from '@/lib/types'
 import { useCourses, useSaveCourse } from './api'
 import { parseCourseBlock } from './importFormat'
-import { parseLatLng } from './coords'
+import { useMapsCoords } from './useMapsCoords'
 import { COUNTRIES, similarCourse, uniqueSlug } from './meta'
-import { StickyActions, errText } from './parts'
+import { StickyActions, errText, mapsMessage } from './parts'
 import { cn } from '@/lib/utils'
 
 const today = () => new Date().toISOString().slice(0, 10)
@@ -40,7 +40,8 @@ export function NewCoursePage() {
   const [playedOn, setPlayedOn] = useState(today())
   const [error, setError] = useState<string | null>(null)
 
-  const coords = useMemo(() => parseLatLng(maps), [maps])
+  const { coords, state: mapsState, approx } = useMapsCoords(maps)
+  const mapsMsg = mapsMessage(mapsState, coords, t, approx)
   const cc = country === '__' ? otherCountry.trim().toUpperCase() : country
   const dup = useMemo(() => (name.trim() ? similarCourse(name, courses.data ?? []) : undefined), [name, courses.data])
 
@@ -67,7 +68,6 @@ export function NewCoursePage() {
     setError(null)
     if (!name.trim()) return setError(t('courses.new.needName'))
     if (!/^[A-Z]{2}$/.test(cc)) return setError(t('courses.new.needCountry'))
-    if (maps.trim() && !coords) return setError(t('courses.new.badMaps'))
     if (kind === 'rated' && !csrId.trim()) return setError(t('courses.new.needCsr'))
     const web = website.trim()
     if (web && !/^https?:\/\//i.test(web)) return setError(t('courses.new.badWeb'))
@@ -157,8 +157,8 @@ export function NewCoursePage() {
 
       <Field
         label={t('courses.f.maps')}
-        hint={coords ? t('courses.f.coordsOk', { lat: coords.lat, lon: coords.lng }) : t('courses.f.mapsHint')}
-        error={maps.trim() && !coords ? t('courses.new.badMaps') : null}
+        hint={mapsMsg.hint}
+        error={mapsMsg.warn}
       >
         <Input value={maps} onChange={(e) => setMaps(e.target.value)} placeholder={t('courses.f.mapsPh')} inputMode="url" />
       </Field>
@@ -201,7 +201,7 @@ export function NewCoursePage() {
 
       <FormError message={error} />
       <StickyActions>
-        <Button type="submit" size="full" disabled={save.isPending}>
+        <Button type="submit" size="full" disabled={save.isPending || mapsState === 'resolving'}>
           {save.isPending ? t('common.loading') : t('courses.new.submit')}
         </Button>
       </StickyActions>

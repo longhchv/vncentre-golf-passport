@@ -235,3 +235,8 @@ export function useReorderPhotos(courseId: string) {
     onError: () => qc.invalidateQueries({ queryKey: courseKeys.photos(courseId) }),
   })
 }
+
+/** Mở link rút gọn Google Maps ở máy chủ (Edge Function goi-y-quanh-san, hành động mo-link) để lấy toạ độ. */
+export function resolveMapsLink(url: string) {
+  return invokeFunction<{ url: string; lat: number | null; lng: number | null; how: 'link' | 'pluscode' | 'address' | null; approx: boolean }>('goi-y-quanh-san', { action: 'mo-link', url })
+}
