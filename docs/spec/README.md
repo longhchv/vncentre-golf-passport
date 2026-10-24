@@ -4,6 +4,8 @@ Phiên bản: **v0.9** · Ngày: 14/10/2026 · Người soạn: Minh (R&D đào 
 
 **Mới ở v0.9:** thêm `12-module-chuyen-thi-dau.md` — quản lý chuyến đi giải của golfer (hậu cần, hành lý, thời gian biểu trước vòng tee time/shotgun, ăn uống, kết quả và phân tích theo cấp độ, tài chính chuyến đi, giải trong nước/quốc tế, xác thực kết quả qua Livescore đối chiếu VGA, thời tiết và sức khoẻ từ Open-Meteo, chế độ nâng cao: scorecard, gậy, yardage, pin location, chiến lược từng hố và phân tích AI), kèm seed `data/chuyen-thi-dau/` và bản thử `prototypes/chuyen-thi-dau.html`.
 
+**Mới ở v0.9:** thêm `11-module-ho-so-nhan-su.md`, hồ sơ nhân sự và xuất CV.
+
 **Mới ở v0.8:** thêm `10-module-trai-nghiem-su-kien.md`, module ngoại lệ trong đợt 1 cho Lễ phát động 10/10/2026.
 
 **Mới ở v0.7:** thêm mục **7b — hạng tài khoản HLV (Standard / Coach)** và mục **7c — ba mini app sẽ nhập về sau** trong `00-tong-quan.md`. Standard miễn phí với hạn mức 50 học viên · 5 lớp · 100 MB. Kèm nguyên tắc phân loại tính năng, lằn ranh không khoá paywall quyền của phụ huynh, và trường `coach_plan` phải có ngay từ đợt 6.
@@ -26,6 +28,7 @@ Phiên bản: **v0.9** · Ngày: 14/10/2026 · Người soạn: Minh (R&D đào 
 | `08-dot-6-lop-1-1.md` | Đợt 6: chương trình 1-1, hồ sơ học viên hai mức, giáo án riêng, lịch và đặt buổi, chạy buổi học, nhận xét, bài tập, đánh giá | **Đủ chi tiết để build** |
 | `09-dot-7-san-ket-noi-hlv.md` | Đợt 7: 5 nhóm HLV, xác minh, hồ sơ công khai, tìm và so sánh, giá/combo/coupon, gói Coach, testimonial, AI soạn bài giới thiệu | Khung đã chốt — viết chi tiết sau |
 | `10-module-trai-nghiem-su-kien.md` | Module ngoại lệ trong đợt 1: thẻ hạng "Trải nghiệm sự kiện", ghi tên tại chỗ, quầy đổi quà (nhập điểm 4 trạm, hoàn thành, đổi quà), tự xác nhận bằng ảnh, chứng nhận theo người, kích hoạt qua email | **Đủ chi tiết để build** — có hạn 10/10/2026 |
+| `11-module-ho-so-nhan-su.md` | Module hồ sơ nhân sự: mỗi nhân sự (thầy cô, HLV, admin, BTC, TNV, CTV) có trang Hồ sơ của tôi, quá trình tích luỹ (đã xác thực / đã duyệt), chứng chỉ tự khai kèm hàng chờ duyệt riêng, xuất CV PDF 3 mẫu có QR xác thực | **Đủ chi tiết để build** — bước 1; bước 2 sau đợt 2 |
 | `12-module-chuyen-thi-dau.md` | Module chuyến thi đấu: thành viên và phân quyền theo chuyến, hậu cần, hành lý tự tính, ngày tập/vòng đấu (tee time, shotgun), thời gian biểu tính ngược, ăn uống theo hố, lưu ý trước vòng, kết quả và phân tích theo cấp độ, kho đồ, tài chính và so sánh chuyến | **Đủ chi tiết để build** — ngoại lệ trong đợt 1 (chốt 14/10/2026) |
 | `06-cong-nghe-chi-phi.md` | Công nghệ, tài khoản cần đăng ký, chi phí dự kiến, môi trường | Hoàn chỉnh |
 | `phu-luc-A-file-mau-nhap.md` | File Excel mẫu nhập danh sách và lịch sử khoá học | Hoàn chỉnh |

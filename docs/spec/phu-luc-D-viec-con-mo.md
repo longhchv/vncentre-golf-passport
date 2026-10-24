@@ -47,6 +47,17 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D44 | Cấu hình OTP Zalo (mẫu tin được duyệt) và SMS, sau đó build E6b (xác thực SĐT) | 1 | Anh Long (D7, D8) | Chờ |
 | D45 | `validity_months` của hạng event_experience (đề xuất 12 tháng) | 1 (sự kiện) | Anh Long | Tạm đặt 12 tháng, admin sửa được |
 | D46 | Nội dung Điều khoản và Chính sách tối thiểu để dùng cho sự kiện (V30 chưa có) | 1 (sự kiện) | Anh Long | Claude Code soạn bản tạm theo tinh thần đã thống nhất, chờ luật sư rà (D3) |
+| D47 | Hồ sơ nhân sự: bước 2 in **số buổi** đứng lớp, không in số giờ (`sessions` không lưu giờ kết thúc) | Hồ sơ nhân sự | Anh Long | **Đã chốt 09/10/2026** |
+| D48 | Hồ sơ nhân sự: mỗi người **một** `cv_type`; admin gán và đổi được, người dùng không tự đổi | Hồ sơ nhân sự | Anh Long | **Đã chốt 09/10/2026** |
+| D49 | Hồ sơ nhân sự: chữ tiếng Anh trên CV do **chủ hồ sơ tự nhập**; app không tự dịch | Hồ sơ nhân sự | Anh Long | **Đã chốt 09/10/2026** |
+| D50 | Hồ sơ nhân sự: link tải CV hết hạn sau **24 giờ**, như chứng nhận | Hồ sơ nhân sự | Anh Long | **Đã chốt 09/10/2026** |
+| D51 | Hồ sơ nhân sự: engagement sự kiện tự sinh từ **cả** vai trò `event_staff` lẫn phân công crew (`event_crew_assignments`) khi hồ sơ crew đã gắn tài khoản (hồ sơ tự chơi `self`); kích hoạt tài khoản sau thì app tự sinh bù. Nhóm theo nhãn thẻ đeo của ô: "Huấn luyện viên" → coach, "Ban tổ chức" hoặc ô A → organizer, còn lại → volunteer; chỉ có `event_staff` → organizer | Hồ sơ nhân sự | Anh Long | **Đã chốt 24/10/2026** |
+| D52 | Hồ sơ nhân sự: "người phụ trách sự kiện" là **dấu riêng theo từng sự kiện** (bảng `event_managers`), admin bật cho từng người; không tự ghi nhận cho dòng của chính mình | Hồ sơ nhân sự | Anh Long | **Đã chốt 24/10/2026** |
+| D53 | Hồ sơ nhân sự: ghi nhận cho nhân sự lớp do **HLV trưởng của chính lớp đó** (`class_staff.role = head_coach`) và **HLV trưởng toàn trung tâm** làm, cùng admin | Hồ sơ nhân sự | Anh Long | **Đã chốt 24/10/2026** |
+| D55 | Hồ sơ nhân sự: CV dài quá một trang thì in "và N mục khác". Trang xác thực `/verify/{mã}` công khai chỉ hiện tên, vai trò, ngày xuất, trạng thái (S-R7); **chủ hồ sơ hoặc admin đã đăng nhập** quét QR thì thấy thêm toàn bộ nội dung của bản CV đó | Hồ sơ nhân sự | Anh Long | **Đã chốt 24/10/2026** |
+| D56 | Hồ sơ nhân sự: font CV là Be Vietnam Pro, lấy từ gói `@fontsource/be-vietnam-pro` của repo (bản WOFF tách hai tập chữ Latin + tiếng Việt, giấy phép OFL), lưu cùng kho `certificate-assets` như font chứng nhận. Môi trường mới chạy lại `scripts/upload-cert-assets.mjs` để tải font lên | Hồ sơ nhân sự | Claude Code đề xuất | Đã làm (chặng C) |
+| D57 | Hồ sơ nhân sự: chưa có cơ chế thông báo chung (`notification_types`), nên **chưa báo chủ hồ sơ trước 60 ngày** khi chứng chỉ sắp hết hạn (S4). Chứng chỉ quá hạn đã tự không in ra CV | Hồ sơ nhân sự | Anh Long | Chờ cơ chế thông báo |
+| D54 | Hồ sơ nhân sự: gỡ khỏi `event_staff`, crew hoặc `class_staff` thì dòng tự sinh **chưa ai ghi nhận** bị xoá mềm; dòng **đã ghi nhận** (vị trí do người phụ trách điền, số giờ, kết quả, kỹ năng) được giữ. Gán lại thì dòng cũ hiện lại | Hồ sơ nhân sự | Anh Long | **Đã chốt 24/10/2026** |
 | D31 | **Thư viện câu nhận xét sau buổi** theo kỹ năng và mức độ — thứ quyết định chất lượng đợt 6 | 6 | Minh soạn, HLV trưởng duyệt | Chưa bắt đầu |
 | D32 | Bộ mẫu giáo án 1-1 cho Level 1–5 | 6 | Minh soạn, anh Long duyệt | Chưa bắt đầu |
 | D33 | Quy định nội bộ về lỗi hẹn và buổi bù, để điều khoản trong app khớp điều khoản ngoài đời | 6 | Anh Long | Chưa bắt đầu |

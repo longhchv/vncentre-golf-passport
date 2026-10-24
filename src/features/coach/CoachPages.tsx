@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card'
 import { RosterTable } from '@/features/classes/RosterTable'
 import { ClassCode } from '@/features/classes/ClassCode'
 import { CoachLinkRequests } from '@/features/review/LinkRequestActions'
+import { StaffRecordPanel } from '@/features/staff/StaffRecordPanel'
 import type { AcademicYear, ClassRow, RosterRow, School } from '@/lib/types'
 
 interface MyClass extends ClassRow {
@@ -143,6 +144,7 @@ export function CoachClassPage() {
       ) : (
         <RosterTable rows={roster.data} rowHref={(r) => `/coach/students/${r.student_id}`} />
       )}
+      <StaffRecordPanel scope={{ classId: cls.id }} />
     </div>
   )
 }

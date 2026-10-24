@@ -15,6 +15,7 @@ const ENTITY_TYPES = [
   'student_guardians', 'student_accounts', 'students', 'student_merges', 'level_records', 'course_history',
   'classes', 'class_staff', 'enrollments', 'passport_batches', 'passports', 'certificates', 'orders',
   'invoice_requests', 'consents', 'link_requests', 'support_requests',
+  'staff_engagements', 'staff_skill_records', 'staff_credentials', 'staff_cv_exports', 'staff_skills', 'event_managers',
 ]
 
 /** Các trường khác nhau giữa bản trước và bản sau (bỏ updated_at). */

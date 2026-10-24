@@ -221,7 +221,8 @@
       "orders": "Orders & invoices",
       "messages": "Messages & costs",
       "settings": "Settings",
-      "audit": "Audit log"
+      "audit": "Audit log",
+      "staffQueue": "Staff profiles to review"
     },
     "years": {
       "current": "Current year",
@@ -1813,5 +1814,192 @@
     "hint": "1024 × 1024 px image; print at least 2.5 × 2.5 cm. Scanning it opens this checklist.",
     "kit": "My media kit",
     "kitHint": "Opens the media kit for your assigned role: badge (with QR), invitation story, profile frame, poster. Add a portrait to finish; the photo stays on your device."
+  },
+  "staff": {
+    "title": "Staff profile",
+    "identity": "ID",
+    "joinedOn": "Joined {{date}}",
+    "noCvType": "No CV template yet",
+    "noCvTypeHint": "An admin has not assigned you a CV template yet, so there are no summary figures. Your history and certificates are still recorded.",
+    "cvTypeLabel": "CV template",
+    "joinedLabel": "Joined VN Centre on",
+    "viewProfile": "View staff profile",
+    "cvType": {
+      "coach": "Coach",
+      "volunteer": "Volunteer, collaborator",
+      "organizer": "Organising team"
+    },
+    "group": {
+      "coach": "Coach",
+      "volunteer": "Volunteer",
+      "collaborator": "Collaborator",
+      "organizer": "Organising team"
+    },
+    "kind": {
+      "event": "Event",
+      "project": "Project",
+      "class": "Teaching"
+    },
+    "badge": {
+      "verified": "Verified",
+      "approved": "Approved",
+      "pending": "Pending review",
+      "rejected": "Rejected"
+    },
+    "legend": {
+      "verified": "Verified: recorded by the app or confirmed by the person in charge",
+      "approved": "Approved: self-reported, reviewed and approved by VN Centre"
+    },
+    "stats": {
+      "years": "Years of experience",
+      "sessions": "Sessions taught",
+      "students": "Students taught",
+      "level_ups": "Student level-ups",
+      "events": "Events joined",
+      "hours": "Hours contributed",
+      "roles": "Roles held",
+      "certificates": "Participation certificates",
+      "projects": "Projects and events",
+      "participants": "Attendees",
+      "schools_partners": "Schools and partners"
+    },
+    "engagements": "History",
+    "addEngagement": "Add past work",
+    "editEngagement": "Edit past work",
+    "noEngagements": "Nothing here yet. When you are assigned to a class or event, the app records it here.",
+    "credentials": "Certificates and experience",
+    "addCredential": "Add certificate or experience",
+    "editCredential": "Edit certificate or experience",
+    "noCredentials": "No certificates or experience yet.",
+    "credentialType": {
+      "certificate": "Certificate",
+      "prior_experience": "Experience before joining"
+    },
+    "skills": "Recorded skills",
+    "hoursN": "{{count}} h",
+    "yearsN": "{{count}} years",
+    "expiresOn": "expires {{date}}",
+    "expired": "Expired",
+    "expiredHint": "Expired certificates are not printed on the CV. Once renewed, update the expiry date and upload the new copy.",
+    "confirmedBy": "Confirmed by {{name}}",
+    "rejectedReason": "Reason: {{reason}}",
+    "confirmDelete": "Remove this item from your profile?",
+    "viewFile": "View file",
+    "selfHint": "Self-reported items must be approved by VN Centre before they appear on the CV. Editing an approved item sends it back for review.",
+    "f": {
+      "projectNameVi": "Work or project name (Vietnamese)",
+      "projectNameEn": "Work or project name (English)",
+      "enHint": "Optional. Only needed for an English CV; the app does not translate.",
+      "positionVi": "Position (Vietnamese)",
+      "positionEn": "Position (English)",
+      "group": "Group",
+      "startedOn": "From",
+      "endedOn": "To",
+      "hours": "Hours",
+      "scale": "Scale",
+      "outcomeVi": "Key result (Vietnamese)",
+      "outcomeEn": "Key result (English)",
+      "credentialType": "Type",
+      "titleVi": "Name (Vietnamese)",
+      "titleEn": "Name (English)",
+      "issuer": "Issued by",
+      "workplace": "Workplace",
+      "issuedOn": "Issued on",
+      "expiresOn": "Expires on",
+      "expiresHint": "Leave empty if it does not expire",
+      "years": "Years",
+      "file": "Photo or PDF of the certificate",
+      "fileHint": "Photo or PDF, up to 5 MB. Only you and admins can see it.",
+      "fileKept": "A file is attached. Pick another file to replace it."
+    },
+    "scale": {
+      "participants": "Attendees",
+      "schools": "Schools",
+      "partners": "Partners"
+    },
+    "errors": {
+      "project_name_required": "Please enter the work or project name.",
+      "started_on_required": "Please enter the start date.",
+      "title_required": "Please enter the certificate or experience name.",
+      "reason_required": "A reason is required to reject.",
+      "not_pending": "This item has already been handled.",
+      "bad_file_path": "Invalid file.",
+      "file_too_large": "The PDF is larger than 5 MB.",
+      "file_type": "Only photos or PDFs are accepted.",
+      "photo_type": "This photo cannot be read.",
+      "photo_too_large": "The photo is too large to compress under the limit."
+    },
+    "record": {
+      "panelTitle": "Staff profile records",
+      "panelHint": "Fill in each person's position, hours, skills and key result. Saving is final; no extra review needed.",
+      "empty": "No staff to record yet.",
+      "title": "Record",
+      "action": "Record",
+      "notRecorded": "Not recorded",
+      "recordedBy": "Recorded by {{name}} on {{date}}",
+      "positionPlaceholder": "e.g. Check-in guide",
+      "outcomeHint": "Mainly for the organising team"
+    },
+    "manage": {
+      "title": "Records I am in charge of",
+      "youManage": "You record staff for {{count}} events or classes",
+      "open": "Open",
+      "none": "You are not in charge of any event or class yet."
+    },
+    "managers": {
+      "title": "People in charge of staff records",
+      "hint": "People added here record position, hours and skills for this event's staff (except their own row).",
+      "add": "Add person in charge",
+      "notFound": "No account found with this email."
+    },
+    "queue": {
+      "title": "Staff profiles to review",
+      "hint": "Certificates and past work reported by staff. Kept separate from the student review queue.",
+      "reason": "Reason for rejecting (the staff member will see it)",
+      "submittedAt": "sent {{at}}",
+      "noFile": "No file attached"
+    },
+    "cv": {
+      "title": "Staff CV",
+      "export": "Export CV",
+      "exporting": "Creating PDF…",
+      "needCvType": "An admin needs to assign a CV template before you can export.",
+      "language": "Language",
+      "missingEn": "{{count}} lines have no English text yet. Fill them in to export the English CV; the app does not translate.",
+      "field": {
+        "project_name": "Work or project name",
+        "position": "Position",
+        "outcome": "Key result",
+        "title": "Certificate or experience name"
+      },
+      "saveEn": "Save English text",
+      "ownerMustEnter": "English text is entered by the profile owner.",
+      "showContact": "Print phone number and email on the CV",
+      "showContactHint": "If unticked, the CV has no contact details.",
+      "snapshotHint": "The CV only includes verified and approved items. An exported copy keeps its content even if the profile changes later.",
+      "ready": "Your CV is ready",
+      "readyHint": "The download link works for 24 hours. After that, download again from the list below.",
+      "codeLine": "Verification code {{code}}",
+      "download": "Download PDF",
+      "revoke": "Revoke",
+      "confirmRevoke": "Revoke this CV? Scanning its QR code will show \"Revoked\".",
+      "revoked": "CV revoked",
+      "revokedBadge": "Revoked",
+      "verifyPage": "Open verification page",
+      "errors": {
+        "no_cv_type": "No CV template yet. Ask an admin to assign one.",
+        "missing_en": "Some lines still have no English text.",
+        "revoked": "This CV has been revoked."
+      }
+    },
+    "verify": {
+      "valid": "Valid CV",
+      "revoked": "This CV has been revoked",
+      "name": "Name",
+      "role": "Role",
+      "exportedAt": "Exported on",
+      "fullTitle": "Full copy",
+      "fullHint": "Only you (the profile owner) and admins see this part. Others who scan the QR code only see the box above."
+    }
   }
 }

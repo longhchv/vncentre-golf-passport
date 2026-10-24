@@ -35,7 +35,8 @@ const files = {
   'assets/ra-vga.pdf': [join(dir, 'ra-vga.pdf'), 'application/pdf'],
   'templates/default/background.jpg': [join(dir, 'background.jpg'), 'image/jpeg'],
 }
-for (const f of readdirSync(join(dir, 'fonts'))) files[`fonts/${f}`] = [join(dir, 'fonts', f), 'font/ttf']
+// Font chứng nhận (.ttf) và font Be Vietnam Pro của CV nhân sự (.woff, hai tập chữ Latin + tiếng Việt)
+for (const f of readdirSync(join(dir, 'fonts'))) files[`fonts/${f}`] = [join(dir, 'fonts', f), f.endsWith('.woff') ? 'font/woff' : 'font/ttf']
 if (signature) files['signatures/default.png'] = [signature, 'image/png']
 
 let failed = 0

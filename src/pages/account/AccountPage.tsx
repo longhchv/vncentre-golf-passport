@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
-import { Navigate } from 'react-router'
+import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle2, AlertCircle, LogOut } from 'lucide-react'
+import { CheckCircle2, AlertCircle, ChevronRight, IdCard, LogOut } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/auth/AuthProvider'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
@@ -23,7 +23,7 @@ import { isVietnamese, toE164 } from '@/features/auth/phone'
  */
 export function AccountPage() {
   const { t } = useTranslation()
-  const { session, loading, profile, signOut, changeLanguage, guardianId } = useAuth()
+  const { session, loading, profile, roles, signOut, changeLanguage, guardianId } = useAuth()
   if (loading) return <FullPageSpinner />
   if (!session) return <Navigate to="/login?next=/account" replace />
   const user = session.user
@@ -32,6 +32,14 @@ export function AccountPage() {
     <div className="mx-auto max-w-lg space-y-5">
       <h1 className="text-2xl font-bold">{t('account.title')}</h1>
       <NameCard initial={profile?.full_name ?? ''} userId={user.id} />
+      {(profile?.cv_type || roles.length > 0) && (
+        <Link to="/staff">
+          <Card className="flex items-center justify-between gap-2 p-4 hover:bg-navy/5">
+            <span className="flex items-center gap-2 font-bold"><IdCard className="h-5 w-5 text-bronze" /> {t('staff.title')}</span>
+            <ChevronRight className="h-5 w-5 text-navy/40" />
+          </Card>
+        </Link>
+      )}
 
       <Card className="space-y-3 p-4">
         <h2 className="font-bold">{t('account.language')}</h2>
