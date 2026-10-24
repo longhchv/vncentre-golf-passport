@@ -1877,7 +1877,11 @@
       "kind": "Loại sân",
       "csrId": "Mã sân bên app CSR",
       "csrIdHint": "Như trong app CSR VN, vd xuanthanh. Số đo tee lấy từ app CSR.",
-      "playedOn": "Ngày chơi"
+      "playedOn": "Ngày chơi",
+      "mapsResolving": "Đang đọc link Google Maps để lấy toạ độ…",
+      "mapsShortFail": "Không lấy được toạ độ từ link này. Vẫn tạo được sân; muốn có toạ độ: trong app Google Maps chạm giữ vào giữa sân, chép dãy số hiện ở ô tìm kiếm rồi dán vào đây.",
+      "mapsBad": "Không đọc được toạ độ từ nội dung này. Vẫn lưu được; dán link Google Maps hoặc gõ \"vĩ độ, kinh độ\" (vd 18.78, 105.73).",
+      "coordsApprox": "Toạ độ ước lượng theo địa chỉ: {{lat}}, {{lon}} — bấm Mở bản đồ để kiểm tra, sai thì dán toạ độ đúng"
     },
     "new": {
       "title": "Thêm sân",

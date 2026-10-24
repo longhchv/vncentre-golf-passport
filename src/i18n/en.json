@@ -1877,7 +1877,11 @@
       "kind": "Course type",
       "csrId": "Course code in the CSR app",
       "csrIdHint": "As in the CSR VN app, e.g. xuanthanh. Tee data comes from the CSR app.",
-      "playedOn": "Date played"
+      "playedOn": "Date played",
+      "mapsResolving": "Reading the Google Maps link to get coordinates…",
+      "mapsShortFail": "Could not get coordinates from this link. You can still save; for coordinates, long-press the course in the Google Maps app, copy the numbers shown in the search box and paste them here.",
+      "mapsBad": "Could not read coordinates from this. You can still save; paste a Google Maps link or type \"lat, lng\" (e.g. 18.78, 105.73).",
+      "coordsApprox": "Approximate coordinates from the address: {{lat}}, {{lon}} — open the map to check; paste exact coordinates if wrong"
     },
     "new": {
       "title": "Add course",
