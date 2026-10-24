@@ -42,3 +42,27 @@ src (web | visited), cat, name, area, note, note_en, phone, km, drive_min, g_rat
 - `cat` là một trong 8 key ở bảng trên. `pass=false` kèm `why` = nơi "gần đạt", app để không tích sẵn.
 - `pid` có thể trống; khi đó app so trùng theo tên.
 - Danh sách thật của Xuân Thành và Cửa Lò đã nằm trong bảng gc_places (chuyển từ app CSR ngày 23/10/2026).
+
+### Bảng tee (màn Thông tin sân, thêm ngày 24/10/2026)
+Long gửi ảnh scorecard vào chat, Minh đọc ra một trong hai dạng sau; admin dán vào ô "Dán bảng tee Minh gửi" rồi bấm "Điền vào bảng" (bảng cũ được thay).
+
+Dạng JSON:
+```json
+{"type":"tees","units":"m","holes":18,
+ "par":[4,4,3,5,4,4,3,4,5,4,3,4,5,4,4,3,4,5],
+ "si":[7,3,15,1,9,11,17,5,13,8,18,2,10,4,12,16,6,14],
+ "tees":[{"name":"Black","color":"#111111","gender":"M","len":[395,412,178,548,401,367,203,430,562,418,168,389,541,377,426,192,404,571]},
+         {"name":"Red","gender":"F","len":[300,317,83,453,306,272,108,335,467,323,73,294,446,282,331,97,309,476]}]}
+```
+Dạng bảng (cột cách nhau bằng Tab, dấu | hoặc dấu cách; chép thẳng từ bảng tính được):
+```
+Đơn vị: m
+Hố	1	2	3	4	5	6	7	8	9	Out	10	…	18	In	Tot
+Par	4	4	3	5	4	4	3	4	5	36	4	…	5	36	72
+SI	7	3	15	1	9	11	17	5	13		8	…	14
+Black	395	412	178	548	401	367	203	430	562	3496	418	…	571	3486	6982
+Red (Nữ)	300	…
+```
+- Cột Out/In/Tot tự bỏ (theo dòng "Hố"; không có dòng "Hố" thì app nhận ra cột tổng bằng cách cộng thử).
+- Màu và giới tính đoán theo tên tee (Đen/Black, Xanh/Blue, Trắng/White, Vàng/Yellow, Đỏ/Red/Ladies…); "(Nữ)", "Ladies" → nữ. Sửa lại được trong mục "Các bộ tee".
+- Par và SI dùng chung cho mọi tee. Đơn vị giữ đúng scorecard (yd hoặc m), website tự đổi sang yard.
