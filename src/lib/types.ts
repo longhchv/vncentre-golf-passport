@@ -300,6 +300,7 @@ export interface GcPhoto {
   caption_vi: string | null
   caption_en: string | null
   sort: number
+  taken_on?: string | null
 }
 
 export interface GcReview {
