@@ -35,6 +35,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/imports', labelKey: 'admin.nav.imports', lazy: page(() => import('@/features/imports/ImportsPage'), (m) => m.ImportsPage) },
   { to: '/admin/queue', labelKey: 'admin.nav.queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
+  { to: '/admin/courses', labelKey: 'admin.nav.courses', lazy: page(() => import('@/features/courses/CoursesPage'), (m) => m.CoursesPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
@@ -161,6 +162,20 @@ export const router = createBrowserRouter([
     })),
     { path: 'classes/:classId', lazy: page(() => import('@/features/admin/ClassDetailPage'), (m) => m.ClassDetailPage) },
     { path: 'events/:eventId', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventDetailPage) },
+    // Khu quản trị sân (docs/plan/khu-quan-tri-san.md): màn 2–4 làm ở B2; Cảm nhận, Quanh sân (B3), Đăng (B4) tạm hiện "Sắp ra mắt"
+    { path: 'courses/new', lazy: page(() => import('@/features/courses/NewCoursePage'), (m) => m.NewCoursePage) },
+    {
+      path: 'courses/:id',
+      lazy: page(() => import('@/features/courses/CourseShell'), (m) => m.CourseShell),
+      children: [
+        { index: true, lazy: page(() => import('@/features/courses/CourseShell'), (m) => m.CourseIndexRedirect) },
+        { path: 'info', lazy: page(() => import('@/features/courses/CourseInfoPage'), (m) => m.CourseInfoPage) },
+        { path: 'photos', lazy: page(() => import('@/features/courses/CoursePhotosPage'), (m) => m.CoursePhotosPage) },
+        { path: 'review', element: <ComingSoon /> },
+        { path: 'places', element: <ComingSoon /> },
+        { path: 'publish', element: <ComingSoon /> },
+      ],
+    },
     { path: 'passports/:batchId', lazy: page(() => import('@/features/passports/BatchDetailPage'), (m) => m.BatchDetailPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
