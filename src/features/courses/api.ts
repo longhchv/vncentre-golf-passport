@@ -135,3 +135,103 @@ export function writeReviewText(input: { course: string; country: string; y: str
 export function writePlaceNotes(input: { course: string; places: { key: string; name: string; cat: string; area: string | null }[] }) {
   return invokeFunction<{ items: { key: string; vi: string; en: string }[] }>('goi-y-quanh-san', { action: 'viet-mo-ta', ...input })
 }
+
+// ===== B2: danh sách sân, ảnh (Minh · 24/10/2026) =====
+export const PHOTO_BUCKET = 'site-photos'
+
+/** Link công khai của ảnh trong kho site-photos (kho công khai). */
+export function photoUrl(path: string): string {
+  return db().storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl
+}
+
+/** Đếm ảnh và địa điểm quanh sân theo từng sân (cho màn Danh sách sân). */
+export function useCourseStats() {
+  return useQuery({
+    queryKey: ['gc_stats'] as const,
+    queryFn: async () => {
+      const [ph, pl] = await Promise.all([
+        rows<{ course_id: string }[]>(db().from('gc_photos').select('course_id')),
+        rows<{ course_id: string; auto: boolean; src: string }[]>(db().from('gc_places').select('course_id, auto, src').eq('hidden', false)),
+      ])
+      const out: Record<string, { photos: number; places: number }> = {}
+      const get = (id: string) => (out[id] ??= { photos: 0, places: 0 })
+      ph.forEach((p) => get(p.course_id).photos++)
+      pl.forEach((p) => get(p.course_id).places++)
+      return out
+    },
+  })
+}
+
+/** Xoá sân nháp (kèm tee, ảnh, cảm nhận, địa điểm – cơ sở dữ liệu tự xoá theo; ảnh trong kho xoá ở đây). */
+export function useDeleteCourse() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const ph = await rows<{ path: string }[]>(db().from('gc_photos').select('path').eq('course_id', id))
+      await rows(db().from('gc_courses').delete().eq('id', id))
+      if (ph.length) await db().storage.from(PHOTO_BUCKET).remove(ph.map((p) => p.path))
+    },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: courseKeys.list }); qc.invalidateQueries({ queryKey: ['gc_stats'] }) },
+  })
+}
+
+/** Tải một ảnh đã đóng logo lên kho (thư mục riêng gc/<mã sân>/, không đụng thư mục của app CSR) rồi ghi gc_photos. */
+export function useAddPhoto(courseId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ blob, sort, kind, hole, takenOn }: { blob: Blob; sort: number; kind: string; hole: number | null; takenOn: string | null }) => {
+      const path = `gc/${courseId}/${crypto.randomUUID()}.jpg`
+      const up = await db().storage.from(PHOTO_BUCKET).upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false })
+      if (up.error) throw up.error
+      try {
+        return await rows<GcPhoto>(db().from('gc_photos').insert({ course_id: courseId, path, sort, kind, hole, taken_on: takenOn }).select().single())
+      } catch (e) {
+        await db().storage.from(PHOTO_BUCKET).remove([path])
+        throw e
+      }
+    },
+    onSuccess: (p) => {
+      qc.setQueryData<GcPhoto[]>(courseKeys.photos(courseId), (old) => [...(old ?? []), p].sort((a, b) => a.sort - b.sort))
+      qc.invalidateQueries({ queryKey: ['gc_stats'] })
+    },
+  })
+}
+
+export function useUpdatePhoto(courseId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, ...v }: Partial<GcPhoto> & { id: string }) => rows<GcPhoto>(db().from('gc_photos').update(v).eq('id', id).select().single()),
+    onSuccess: (p) => qc.setQueryData<GcPhoto[]>(courseKeys.photos(courseId), (old) => (old ?? []).map((x) => (x.id === p.id ? p : x))),
+  })
+}
+
+export function useDeletePhoto(courseId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (p: GcPhoto) => {
+      await rows(db().from('gc_photos').delete().eq('id', p.id))
+      await db().storage.from(PHOTO_BUCKET).remove([p.path])
+      return p.id
+    },
+    onSuccess: (id) => {
+      qc.setQueryData<GcPhoto[]>(courseKeys.photos(courseId), (old) => (old ?? []).filter((x) => x.id !== id))
+      qc.invalidateQueries({ queryKey: ['gc_stats'] })
+    },
+  })
+}
+
+/** Ghi lại thứ tự ảnh. Ảnh đầu tiên (sort nhỏ nhất) là ảnh đại diện của sân trên website. */
+export function useReorderPhotos(courseId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (ids: string[]) => {
+      await Promise.all(ids.map((id, i) => rows(db().from('gc_photos').update({ sort: i }).eq('id', id))))
+      return ids
+    },
+    onMutate: (ids) => {
+      qc.setQueryData<GcPhoto[]>(courseKeys.photos(courseId), (old) =>
+        ids.map((id, i) => ({ ...(old ?? []).find((p) => p.id === id)!, sort: i })).filter((p) => p.id))
+    },
+    onError: () => qc.invalidateQueries({ queryKey: courseKeys.photos(courseId) }),
+  })
+}
