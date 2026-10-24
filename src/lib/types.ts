@@ -247,3 +247,91 @@ export const STAFF_ROLES: Role[] = [
   'partner',
   'event_staff',
 ]
+
+// ===== Khu quản trị sân golf (bảng gc_*, migration 20261023000001) =====
+export type GcCourseKind = 'rated' | 'experience'
+export type GcPlaceCat = 'lodging' | 'food' | 'cafe' | 'kids' | 'heritage' | 'nature' | 'fun' | 'shop' | 'move' | 'see' | 'family' | 'spa' | 'night'
+
+export interface GcCourse {
+  id: string
+  slug: string | null
+  kind: GcCourseKind
+  csr_course_id: string | null
+  name: string
+  name_en: string | null
+  country: string
+  province: string | null
+  lat: number | null
+  lng: number | null
+  google_place_id: string | null
+  phone: string | null
+  website: string | null
+  holes: number | null
+  par: number | null
+  units: 'yd' | 'm'
+  intro_vi: string | null
+  intro_en: string | null
+  facilities: string[]
+  booking: Record<string, unknown>
+  played_on: string | null
+  status: 'draft' | 'published'
+  updated_at: string
+}
+
+export interface GcHole { par: number | null; len: number | null; si?: number | null }
+
+export interface GcTee {
+  id: string
+  course_id: string
+  name: string
+  color: string | null
+  gender: 'M' | 'F' | 'X'
+  holes: GcHole[]
+  source: string
+  sort: number
+}
+
+export interface GcPhoto {
+  id: string
+  course_id: string
+  path: string
+  kind: string | null
+  hole: number | null
+  caption_vi: string | null
+  caption_en: string | null
+  sort: number
+}
+
+export interface GcReview {
+  course_id: string
+  scores: Record<string, number>
+  text_vi: string | null
+  text_en: string | null
+  tips: { hole: number; vi: string; en: string }[]
+  played_on: string | null
+}
+
+export interface GcPlace {
+  id: string
+  course_id: string
+  legacy_id: string | null
+  src: 'web' | 'visited'
+  cat: GcPlaceCat
+  name: string
+  area: string | null
+  note: string | null
+  note_en: string | null
+  phone: string | null
+  km: number | null
+  drive_min: number | null
+  g_rating: number | null
+  g_count: number | null
+  g_at: string | null
+  pid: string | null
+  family: boolean
+  auto: boolean
+  hidden: boolean
+  data: Record<string, unknown>
+  version: number
+  updated_via: 'csr' | 'passport' | 'import' | 'auto'
+}
