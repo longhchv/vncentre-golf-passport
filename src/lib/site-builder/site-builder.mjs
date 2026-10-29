@@ -1,4 +1,4 @@
-/* @vncentre/site-builder – bộ tạo trang sân dùng chung cho app CSR và Golf Passport. Sinh từ app26.js + app30.js của app CSR (mã nguồn csr-vn 2026-10-23f). KHÔNG sửa tay: sửa app26/app30 bên app CSR rồi sinh lại. */
+/* @vncentre/site-builder – bộ tạo trang sân dùng chung cho app CSR và Golf Passport. Sinh từ app26.js + app30.js của app CSR (mã nguồn csr-vn 2026-10-26d + 29/10 gợi ý 3 địa điểm). KHÔNG sửa tay: sửa app26/app30 bên app CSR rồi sinh lại. */
 /* ===== GĐ2 · Tạo website giới thiệu sân từ dữ liệu đo (trang tĩnh, song ngữ, tông Golf Passport + người xem tự đổi giao diện) =====
    Hàm thuần sgModel / sgCourseHTML / sgIndexHTML dùng được cả trong app lẫn Node (để thử). */
 const SG = {
@@ -145,6 +145,11 @@ td.l,th.l{text-align:left}
 .gytab{all:unset;cursor:pointer;flex:none;display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:600 .85rem/1 var(--body);white-space:nowrap}
 .gytab .n{font-weight:500;color:var(--muted);font-size:.75rem}.gytab[aria-selected="true"]{background:var(--btn);border-color:transparent;color:var(--btnInk)}.gytab[aria-selected="true"] .n{color:var(--btnInk);opacity:.8}
 .gyp[hidden],.gycrit[hidden]{display:none}
+.gyp:not(.open)>.place:nth-child(n+4){display:none}
+.gymore{all:unset;box-sizing:border-box;cursor:pointer;grid-column:1/-1;justify-self:center;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:1.5px solid var(--accent);color:var(--accent);background:var(--surface);font:600 .88rem/1.2 var(--body)}
+.gymore svg{transition:transform .2s}.gyp.open .gymore svg{transform:rotate(180deg)}
+.gyp.open .gym-a,.gyp:not(.open) .gym-b{display:none}
+.gymore:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .gytab:focus-visible,.gyinfo:focus-visible,.gymap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .gymeta{display:flex;flex-wrap:wrap;gap:4px 14px;margin:4px 0 2px;font-size:.85rem;color:var(--muted)}.gymeta b{color:var(--ink,inherit)}.gystar{color:#c98a00}
 .gymap{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:10px 12px;border:1.5px solid var(--accent);border-radius:10px;color:var(--accent);text-decoration:none;font:600 .88rem/1.2 var(--body);text-align:center}
@@ -235,6 +240,10 @@ function sgGyMeta(p) {
   if (+p.gR) { const n = +p.gN || 0; a.push(`<span><span class="gystar" aria-hidden="true">★</span> <b class="num" data-vi="${(+p.gR).toFixed(1).replace('.', ',')}" data-en="${(+p.gR).toFixed(1)}">${(+p.gR).toFixed(1).replace('.', ',')}</b> Google${n ? ` · <span data-vi="${n.toLocaleString('de-DE')} lượt" data-en="${n.toLocaleString('en-US')} reviews">${n.toLocaleString('de-DE')} lượt</span>` : ''}</span>`); }
   return a.length ? `<p class="gymeta">${a.join('')}</p>` : '';
 }
+/* Mỗi tab chỉ hiện 3 địa điểm đầu (gần sân nhất), bấm mũi tên để xem thêm / thu gọn (29/10/2026). */
+const SG_GY_TOP = 3;
+const SG_CHEV = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>';
+const sgGyMore = n => `<button type="button" class="gymore" aria-expanded="false">${sgBi(`Xem thêm ${n} địa điểm`, `Show ${n} more`, 'span', 'class="gym-a"')}${sgBi('Thu gọn', 'Show less', 'span', 'class="gym-b"')}${SG_CHEV}</button>`;
 function sgGySection(list, card) {
   const tabOf = c => SG.TABS.findIndex(t => t.includes(c));
   const groups = SG.TABS.map(() => []);
@@ -255,9 +264,11 @@ function sgGySection(list, card) {
     ${sgBi('Thông tin tra cứu từ nguồn công khai, đoàn đo chưa trực tiếp ghé. Nên gọi trước để kiểm tra.', 'Compiled from public sources; not yet visited by our team. Please check before you go.', 'p', 'class="muted" style="font-size:.85rem;margin:4px 0 0"')}
     <div class="gycrit" id="gyCrit" hidden>${sgBi('Các địa điểm này được chọn thế nào?', 'How were these places chosen?', 'h4')}<ul>${crit.map(c => sgBi(c[0], c[1], 'li')).join('')}</ul></div>
     <div class="gytabs" role="tablist" aria-label="Nhóm gợi ý">${tabs.map((t, i) => `<button class="gytab" role="tab" id="gyt-${t[0]}" aria-controls="gyp-${t[0]}" aria-selected="${!i}" tabindex="${i ? -1 : 0}" data-gt="${t[0]}">${sgBi(SG.CAT[t[0]][0], SG.CAT[t[0]][1])}<span class="n">${t[1].length}</span></button>`).join('')}</div>
-    ${tabs.map((t, i) => `<div class="places gyp" role="tabpanel" id="gyp-${t[0]}" aria-labelledby="gyt-${t[0]}"${i ? ' hidden' : ''}>${t[1].map(card).join('')}</div>`).join('')}`;
+    ${tabs.map((t, i) => `<div class="places gyp" role="tabpanel" id="gyp-${t[0]}" aria-labelledby="gyt-${t[0]}"${i ? ' hidden' : ''}>${t[1].map(card).join('')}${t[1].length > SG_GY_TOP ? sgGyMore(t[1].length - SG_GY_TOP) : ''}</div>`).join('')}`;
 }
-const SG_GY_JS = `document.addEventListener('click',function(e){var b=e.target.closest('.gytab,#gyInfo');if(!b)return;
+const SG_GY_JS = `document.addEventListener('click',function(e){var m=e.target.closest('.gymore');if(!m)return;var p=m.closest('.gyp'),on=p.classList.toggle('open');m.setAttribute('aria-expanded',on);
+ if(!on){var t=p.getBoundingClientRect().top;if(t<0)window.scrollBy(0,t-80)}});
+document.addEventListener('click',function(e){var b=e.target.closest('.gytab,#gyInfo');if(!b)return;
  if(b.id==='gyInfo'){var c=document.getElementById('gyCrit');c.hidden=!c.hidden;b.setAttribute('aria-expanded',!c.hidden);return}
  [].forEach.call(document.querySelectorAll('.gytab'),function(x){var on=x===b;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById('gyp-'+x.dataset.gt).hidden=!on});
  if(b.scrollIntoView)b.scrollIntoView({block:'nearest',inline:'center'})});
