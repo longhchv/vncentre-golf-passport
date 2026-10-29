@@ -47,4 +47,18 @@ describe('bộ tạo trang dùng chung', () => {
     expect(html).toContain('Xem thêm 2 địa điểm')
     expect(html.indexOf('Quán 4')).toBeLessThan(html.indexOf('Quán 0')) // gần sân trước
   })
+
+  it('Thư viện ảnh: chia tab theo nhóm, mỗi tab 6 ảnh, có nút xem thêm', () => {
+    const kinds = ['clubhouse', 'clubhouse', 'restaurant', 'view', 'view', 'view', 'view', 'view', 'view', 'view', 'view', 'other', 'sunset']
+    const pack = packFromGc({
+      course: { id: 'g4', name: 'Sân D', country: 'VN', holes: 9, units: 'yd', kind: 'experience' },
+      tees: [{ id: 't1', name: 'Blue', gender: 'M', holes: Array.from({ length: 9 }, () => ({ par: 4, len: 350 })) }],
+      photos: kinds.map((k, i) => ({ id: 'p' + i, path: i + '.jpg', kind: k })),
+    })
+    const html = sgCourseHTML(sgModel(pack, { preview: true }), () => 'x.jpg', { home: '#' })
+    expect(html).toContain('id="galp-welcome"')
+    expect(html).toContain('id="galp-course"')
+    expect(html).toContain('id="galp-more"')
+    expect(html.match(/class="gymore"/g)).toHaveLength(1) // chỉ tab Trên sân có hơn 6 ảnh
+  })
 })

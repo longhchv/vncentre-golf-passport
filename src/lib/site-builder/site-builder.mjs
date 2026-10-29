@@ -1,4 +1,4 @@
-/* @vncentre/site-builder – bộ tạo trang sân dùng chung cho app CSR và Golf Passport. Sinh từ app26.js + app30.js của app CSR (mã nguồn csr-vn 2026-10-26d + 29/10 gợi ý 3 địa điểm). KHÔNG sửa tay: sửa app26/app30 bên app CSR rồi sinh lại. */
+/* @vncentre/site-builder – bộ tạo trang sân dùng chung cho app CSR và Golf Passport. Sinh từ app26.js + app30.js của app CSR (mã nguồn csr-vn 2026-10-26d + 29/10 gợi ý 3 địa điểm, ảnh theo nhóm). KHÔNG sửa tay: sửa app26/app30 bên app CSR rồi sinh lại. */
 /* ===== GĐ2 · Tạo website giới thiệu sân từ dữ liệu đo (trang tĩnh, song ngữ, tông Golf Passport + người xem tự đổi giao diện) =====
    Hàm thuần sgModel / sgCourseHTML / sgIndexHTML dùng được cả trong app lẫn Node (để thử). */
 const SG = {
@@ -141,16 +141,18 @@ td.l,th.l{text-align:left}
 .gyinfo{all:unset;cursor:pointer;flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;font:italic 600 1rem/1 Georgia,serif}
 .gyinfo[aria-expanded="true"]{background:var(--accent);color:var(--surface)}
 .gycrit{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:12px;font-size:.88rem}.gycrit h4{margin:0;color:var(--accent);font-size:.92rem}.gycrit ul{margin:8px 0 2px;padding-left:20px}.gycrit li{margin:3px 0}
-.gytabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0;margin-top:12px;border-bottom:1px solid var(--line)}.gytabs::-webkit-scrollbar{display:none}
-.gytab{all:unset;cursor:pointer;flex:none;display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:600 .85rem/1 var(--body);white-space:nowrap}
-.gytab .n{font-weight:500;color:var(--muted);font-size:.75rem}.gytab[aria-selected="true"]{background:var(--btn);border-color:transparent;color:var(--btnInk)}.gytab[aria-selected="true"] .n{color:var(--btnInk);opacity:.8}
-.gyp[hidden],.gycrit[hidden]{display:none}
+.gytabs,.galtabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0;margin-top:12px;border-bottom:1px solid var(--line)}.gytabs::-webkit-scrollbar,.galtabs::-webkit-scrollbar{display:none}
+.gytab,.galtab{all:unset;cursor:pointer;flex:none;display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:600 .85rem/1 var(--body);white-space:nowrap}
+.gytab .n,.galtab .n{font-weight:500;color:var(--muted);font-size:.75rem}.gytab[aria-selected="true"],.galtab[aria-selected="true"]{background:var(--btn);border-color:transparent;color:var(--btnInk)}.gytab[aria-selected="true"] .n,.galtab[aria-selected="true"] .n{color:var(--btnInk);opacity:.8}
+.gyp[hidden],.galp[hidden],.gycrit[hidden]{display:none}
+.galp:not(.open)>figure:nth-child(n+7){display:none}
+.gal.galp{grid-template-columns:repeat(2,minmax(0,1fr))}@media(min-width:600px){.gal.galp{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(min-width:900px){.gal.galp{grid-template-columns:repeat(6,minmax(0,1fr))}}
 .gyp:not(.open)>.place:nth-child(n+4){display:none}
 .gymore{all:unset;box-sizing:border-box;cursor:pointer;grid-column:1/-1;justify-self:center;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:1.5px solid var(--accent);color:var(--accent);background:var(--surface);font:600 .88rem/1.2 var(--body)}
-.gymore svg{transition:transform .2s}.gyp.open .gymore svg{transform:rotate(180deg)}
-.gyp.open .gym-a,.gyp:not(.open) .gym-b{display:none}
+.gymore svg{transition:transform .2s}.open>.gymore svg{transform:rotate(180deg)}
+.open>.gymore .gym-a,:not(.open)>.gymore .gym-b{display:none}
 .gymore:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.gytab:focus-visible,.gyinfo:focus-visible,.gymap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.gytab:focus-visible,.galtab:focus-visible,.gyinfo:focus-visible,.gymap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .gymeta{display:flex;flex-wrap:wrap;gap:4px 14px;margin:4px 0 2px;font-size:.85rem;color:var(--muted)}.gymeta b{color:var(--ink,inherit)}.gystar{color:#c98a00}
 .gymap{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:10px 12px;border:1.5px solid var(--accent);border-radius:10px;color:var(--accent);text-decoration:none;font:600 .88rem/1.2 var(--body);text-align:center}
 .copy{all:unset;cursor:pointer;font:600 .75rem/1 var(--body);color:var(--accent);border:1px solid var(--line);border-radius:6px;padding:5px 8px;margin-left:6px}
@@ -243,7 +245,7 @@ function sgGyMeta(p) {
 /* Mỗi tab chỉ hiện 3 địa điểm đầu (gần sân nhất), bấm mũi tên để xem thêm / thu gọn (29/10/2026). */
 const SG_GY_TOP = 3;
 const SG_CHEV = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>';
-const sgGyMore = n => `<button type="button" class="gymore" aria-expanded="false">${sgBi(`Xem thêm ${n} địa điểm`, `Show ${n} more`, 'span', 'class="gym-a"')}${sgBi('Thu gọn', 'Show less', 'span', 'class="gym-b"')}${SG_CHEV}</button>`;
+const sgGyMore = (n, u = ['địa điểm', 'more']) => `<button type="button" class="gymore" aria-expanded="false">${sgBi(`Xem thêm ${n} ${u[0]}`, `Show ${n} ${u[1]}`, 'span', 'class="gym-a"')}${sgBi('Thu gọn', 'Show less', 'span', 'class="gym-b"')}${SG_CHEV}</button>`;
 function sgGySection(list, card) {
   const tabOf = c => SG.TABS.findIndex(t => t.includes(c));
   const groups = SG.TABS.map(() => []);
@@ -266,7 +268,7 @@ function sgGySection(list, card) {
     <div class="gytabs" role="tablist" aria-label="Nhóm gợi ý">${tabs.map((t, i) => `<button class="gytab" role="tab" id="gyt-${t[0]}" aria-controls="gyp-${t[0]}" aria-selected="${!i}" tabindex="${i ? -1 : 0}" data-gt="${t[0]}">${sgBi(SG.CAT[t[0]][0], SG.CAT[t[0]][1])}<span class="n">${t[1].length}</span></button>`).join('')}</div>
     ${tabs.map((t, i) => `<div class="places gyp" role="tabpanel" id="gyp-${t[0]}" aria-labelledby="gyt-${t[0]}"${i ? ' hidden' : ''}>${t[1].map(card).join('')}${t[1].length > SG_GY_TOP ? sgGyMore(t[1].length - SG_GY_TOP) : ''}</div>`).join('')}`;
 }
-const SG_GY_JS = `document.addEventListener('click',function(e){var m=e.target.closest('.gymore');if(!m)return;var p=m.closest('.gyp'),on=p.classList.toggle('open');m.setAttribute('aria-expanded',on);
+const SG_GY_JS = `document.addEventListener('click',function(e){var m=e.target.closest('.gymore');if(!m)return;var p=m.parentNode,on=p.classList.toggle('open');m.setAttribute('aria-expanded',on);
  if(!on){var t=p.getBoundingClientRect().top;if(t<0)window.scrollBy(0,t-80)}});
 document.addEventListener('click',function(e){var b=e.target.closest('.gytab,#gyInfo');if(!b)return;
  if(b.id==='gyInfo'){var c=document.getElementById('gyCrit');c.hidden=!c.hidden;b.setAttribute('aria-expanded',!c.hidden);return}
@@ -274,6 +276,29 @@ document.addEventListener('click',function(e){var b=e.target.closest('.gytab,#gy
  if(b.scrollIntoView)b.scrollIntoView({block:'nearest',inline:'center'})});
 document.addEventListener('keydown',function(e){var b=e.target.closest&&e.target.closest('.gytab');if(!b||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;e.preventDefault();
  var l=[].slice.call(document.querySelectorAll('.gytab')),n=l[(l.indexOf(b)+(e.key==='ArrowRight'?1:-1)+l.length)%l.length];n.focus();n.click()});`;
+
+/* Thư viện ảnh theo nhóm như lúc chụp (Đón tiếp, Tiện ích, Trên sân, Lưu trú & gia đình, Khác); mỗi nhóm hiện 6 ảnh (29/10/2026) */
+const SG_GAL_TOP = 6;
+const SG_GAL_TABS = [
+  ['welcome', 'Đón tiếp', 'Welcome', ['gate', 'clubhouse', 'reception', 'price', 'map', 'scorecard', 'bagdrop', 'starter', 'signpost', 'lounge', 'caddiemaster', 'rental', 'evcharge']],
+  ['facilities', 'Tiện ích', 'Facilities', ['range', 'putting', 'restaurant', 'terrace', 'locker', 'proshop', 'cart', 'halfway', 'dish', 'toilet', 'rulesboard', 'meeting', 'bunkerpractice', 'cleaning', 'firstaid', 'academy', 'shortcourse']],
+  ['course', 'Trên sân', 'On the course', ['signature', 'hole', 'view', 'sunset', 'condition', 'nightlight', 'scenery', 'cartpath', 'shelter', 'markers', 'teemarkers', 'flag', 'sand', 'water', 'nature']],
+  ['stay', 'Lưu trú & gia đình', 'Stay & family', ['hotel', 'room', 'familyfac']],
+  ['more', 'Khác', 'More', []]];
+function sgGalSection(list, fig) {
+  const ix = k => SG_GAL_TABS.findIndex(t => t[3].includes(k)), groups = SG_GAL_TABS.map(() => []);
+  list.forEach(p => { const i = ix(p.kind); groups[i < 0 ? groups.length - 1 : i].push(p); });
+  groups.forEach((g, gi) => { const ord = SG_GAL_TABS[gi][3]; g.forEach((p, i) => { p.__o = i; }); g.sort((a, b) => ((ord.indexOf(a.kind) + 1 || 99) - (ord.indexOf(b.kind) + 1 || 99)) || a.__o - b.__o); g.forEach(p => { delete p.__o; }); });
+  const tabs = SG_GAL_TABS.map((t, i) => [t, groups[i]]).filter(x => x[1].length);
+  if (!tabs.length) return '';
+  return `<div class="galtabs" role="tablist" aria-label="Nhóm ảnh">${tabs.map(([t, g], i) => `<button class="galtab" role="tab" id="galt-${t[0]}" aria-controls="galp-${t[0]}" aria-selected="${!i}" tabindex="${i ? -1 : 0}" data-gl="${t[0]}">${sgBi(t[1], t[2])}<span class="n">${g.length}</span></button>`).join('')}</div>
+    ${tabs.map(([t, g], i) => `<div class="gal galp" role="tabpanel" id="galp-${t[0]}" aria-labelledby="galt-${t[0]}"${i ? ' hidden' : ''}>${g.map(p => fig(p, 'gal')).join('')}${g.length > SG_GAL_TOP ? sgGyMore(g.length - SG_GAL_TOP, ['ảnh', 'more']) : ''}</div>`).join('')}`;
+}
+const SG_GAL_JS = `document.addEventListener('click',function(e){var b=e.target.closest('.galtab');if(!b)return;
+ [].forEach.call(document.querySelectorAll('.galtab'),function(x){var on=x===b;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById('galp-'+x.dataset.gl).hidden=!on});
+ if(b.scrollIntoView)b.scrollIntoView({block:'nearest',inline:'center'})});
+document.addEventListener('keydown',function(e){var b=e.target.closest&&e.target.closest('.galtab');if(!b||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;e.preventDefault();
+ var l=[].slice.call(document.querySelectorAll('.galtab')),n=l[(l.indexOf(b)+(e.key==='ArrowRight'?1:-1)+l.length)%l.length];n.focus();n.click()});`;
 function sgCourseHTML(M, img, o = {}) {
   const src = p => p ? img(p) : '', flag = o.flag || null;
   const shotLab = p => SG.SHOT[p.kind] || ['', ''];
@@ -320,7 +345,7 @@ function sgCourseHTML(M, img, o = {}) {
     ${travelRows.length ? `<div class="card" style="margin-top:14px"><dl class="kv">${travelRows.map(r => `${sgBi(r[1], r[2], 'dt')}<dd>${sgEsc(r[3])}</dd>`).join('')}</dl>${tr.tips ? `<p style="margin:12px 0 0;font-size:.9rem">${sgEsc(tr.tips)}</p>` : ''}</div>` : ''}
     ${M.places.some(p => p.src !== 'web') ? `<div class="places">${M.places.filter(p => p.src !== 'web').map(placeCard).join('')}</div>` : ''}
     ${M.places.some(p => p.src === 'web') ? sgGySection(M.places.filter(p => p.src === 'web'), placeCard) : ''}</section>` : ''}
-  ${M.show.photos && M.gal.length > 1 ? `<section><div class="eyebrow">${sgBi('Thư viện ảnh', 'Gallery')}</div><h2>${sgBi('Sân qua ống kính đoàn đo', "Through the rating team's lens")}</h2><div class="gal">${M.gal.filter(p => p !== M.heroP).map(p => { const l = shotLab(p); return `<figure><div class="ph">${lbImg(p, 'gal', l[0], l[1])}</div>${l[0] ? sgBi(l[0], l[1], 'figcaption') : ''}</figure>`; }).join('')}</div></section>` : ''}
+  ${M.show.photos && M.gal.length > 1 ? `<section><div class="eyebrow">${sgBi('Thư viện ảnh', 'Gallery')}</div><h2>${sgBi('Sân qua ống kính đoàn đo', "Through the rating team's lens")}</h2>${sgGalSection(M.gal.filter(p => p !== M.heroP), (p, grp) => { const l = shotLab(p); return `<figure><div class="ph">${lbImg(p, grp, l[0], l[1])}</div>${l[0] ? sgBi(l[0], l[1], 'figcaption') : ''}</figure>`; })}</section>` : ''}
   <footer>${sgBi(`Số liệu và ảnh do VN Centre – CSR Vietnam Team đo, chụp tại sân${M.measuredAt ? ', ' + M.measuredAt : ''}. Thông tin có thể thay đổi theo điều kiện sân.`, `Data and photos measured and taken on site by VN Centre – CSR Vietnam Team${M.measuredAt ? ', ' + M.measuredAt : ''}. Details may change with course conditions.`)}</footer></div>
 <script>${SG_JS_BASE}
 var H=${JSON.stringify(H).replace(/</g, '\\u003c')},TE=${JSON.stringify(TJ).replace(/</g, '\\u003c')},MX=${maxLen},cur=0;
@@ -336,6 +361,7 @@ window.sgLbList=function(g){if(!/^h\\d+$/.test(g))return null;var h=H[cur];retur
 document.addEventListener('click',function(e){var t=e.target.closest('#hole .thumbs button');if(!t)return;H[cur].k=+t.dataset.k;window.sgRender();var n=document.querySelector('#hole .thumbs button[data-k="'+H[cur].k+'"]');if(n)n.focus({preventScroll:true})});
 document.addEventListener('click',function(e){var b=e.target.closest('#hn button');if(!b)return;cur=+b.dataset.i;window.sgRender();var n=document.querySelector('#hn button[data-i="'+cur+'"]');if(n)n.focus({preventScroll:true})});
 ${SG_GY_JS}
+${SG_GAL_JS}
 paint();<\/script></body></html>`;
 }
 function sgIndexHTML(list, img) {
