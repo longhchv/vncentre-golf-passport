@@ -1,4 +1,4 @@
-/* @vncentre/site-builder – bộ tạo trang sân dùng chung cho app CSR và Golf Passport. Sinh từ app26.js + app30.js của app CSR (mã nguồn csr-vn 2026-10-26d + 29/10 gợi ý 3 địa điểm, ảnh theo nhóm). KHÔNG sửa tay: sửa app26/app30 bên app CSR rồi sinh lại. */
+/* @vncentre/site-builder – bộ tạo trang sân dùng chung cho app CSR và Golf Passport. Sinh từ app26.js + app30.js của app CSR (mã nguồn csr-vn 2026-10-26d + 02/11 giao diện giai đoạn 1). KHÔNG sửa tay: sửa app26/app30 bên app CSR rồi sinh lại. */
 /* ===== GĐ2 · Tạo website giới thiệu sân từ dữ liệu đo (trang tĩnh, song ngữ, tông Golf Passport + người xem tự đổi giao diện) =====
    Hàm thuần sgModel / sgCourseHTML / sgIndexHTML dùng được cả trong app lẫn Node (để thử). */
 const SG = {
@@ -180,7 +180,7 @@ function sgHead(title, desc, extra) {
 <title>${sgEsc(title)}</title><meta name="description" content="${sgEsc(desc)}"><meta property="og:title" content="${sgEsc(title)}"><meta property="og:description" content="${sgEsc(desc)}">${extra || ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@500&family=Oswald:wght@500;600&display=swap">
 <script>try{var d=document.documentElement,p=JSON.parse(localStorage.getItem('sg_prefs')||'{}');if(p.pal&&p.pal!=='gp')d.dataset.pal=p.pal;if(p.theme==='light'||p.theme==='dark')d.dataset.theme=p.theme;if(p.fs==='l')d.dataset.fs='l';if(p.lang==='en')d.lang='en';}catch(e){}<\/script>
-<style>${SG_CSS}</style></head><body>`;
+<style>${SG_CSS}${typeof SG_P1_CSS !== 'undefined' ? SG_P1_CSS : ''}</style></head><body>`;
 }
 function sgTopBar(homeHref, flag) {
   return `<div class="bar"><div class="wrap top"><a class="brand" href="${homeHref}">Sân golf Việt Nam<small>VN Centre – CSR Vietnam Team</small></a><span class="grow"></span>${flag ? `<span class="flag" data-vi="${sgEsc(flag[0])}" data-en="${sgEsc(flag[1])}">${sgEsc(flag[0])}</span>` : ''}
@@ -299,6 +299,144 @@ const SG_GAL_JS = `document.addEventListener('click',function(e){var b=e.target.
  if(b.scrollIntoView)b.scrollIntoView({block:'nearest',inline:'center'})});
 document.addEventListener('keydown',function(e){var b=e.target.closest&&e.target.closest('.galtab');if(!b||(e.key!=='ArrowRight'&&e.key!=='ArrowLeft'))return;e.preventDefault();
  var l=[].slice.call(document.querySelectorAll('.galtab')),n=l[(l.indexOf(b)+(e.key==='ArrowRight'?1:-1)+l.length)%l.length];n.focus();n.click()});`;
+/* ===== Nâng cấp giao diện – giai đoạn 1 (02/11/2026, Long duyệt) =====
+   Trang sân: lưới ảnh đầu trang, huy hiệu đoàn đo, dải số nhanh, mục lục dính, hỏi đáp, sân khác / bạn vừa xem, chia sẻ, thanh Gọi · Chỉ đường trên điện thoại.
+   Trang chủ: ô tìm + lọc nhanh, dải số tin cậy, bản đồ sân.
+   Chỉ dùng dữ liệu sẵn có; Slope chỉ hiện khi có số chính thức (M.official). */
+const SG_SITE = 'https://courses.vncentre.net';
+const SG_REG = {
+  bac: ['ha-noi', 'hai-phong', 'quang-ninh', 'bac-ninh', 'bac-giang', 'hai-duong', 'hung-yen', 'thai-binh', 'nam-dinh', 'ha-nam', 'ninh-binh', 'vinh-phuc', 'phu-tho', 'thai-nguyen', 'tuyen-quang', 'ha-giang', 'cao-bang', 'lang-son', 'lao-cai', 'yen-bai', 'dien-bien', 'lai-chau', 'son-la', 'hoa-binh', 'bac-kan'],
+  trung: ['thanh-hoa', 'nghe-an', 'ha-tinh', 'quang-binh', 'quang-tri', 'thua-thien-hue', 'hue', 'da-nang', 'quang-nam', 'quang-ngai', 'binh-dinh', 'phu-yen', 'khanh-hoa', 'ninh-thuan', 'binh-thuan', 'kon-tum', 'gia-lai', 'dak-lak', 'dak-nong', 'lam-dong']
+};
+const SG_REG_LAB = { bac: ['Miền Bắc', 'North'], trung: ['Miền Trung', 'Central'], nam: ['Miền Nam', 'South'] };
+function sgRegion(prov) { const s = sgSlug(prov); if (!s) return ''; for (const k of ['bac', 'trung']) if (SG_REG[k].some(x => s === x || s.includes(x))) return k; return 'nam'; }
+/* Toạ độ sân: trung bình các điểm GPS đoàn đo đã ghi (guide.gps); không có thì lấy trung vị các địa điểm đoàn ghé quanh sân. */
+function sgCourseLL(g) {
+  const pts = [];
+  Object.values((g && g.gps) || {}).forEach(t => Object.values((t && t.holes) || {}).forEach(h => ((h && h.pts) || []).forEach(p => { if (Array.isArray(p) && isFinite(+p[0]) && isFinite(+p[1]) && +p[0]) pts.push([+p[0], +p[1]]); })));
+  if (pts.length) return [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length];
+  const pl = ((g && g.places) || []).filter(p => p && isFinite(+p.lat) && isFinite(+p.lng) && +p.lat && (p.km == null || +p.km <= 5)).map(p => [+p.lat, +p.lng]);
+  if (!pl.length) return null;
+  const med = a => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+  return [med(pl.map(p => p[0])), med(pl.map(p => p[1]))];
+}
+{ const _m0 = sgModel; sgModel = function (pack, opts) { const M = _m0(pack, opts); const g = pack.guide || {};
+    const ll = sgCourseLL(g); M.lat = ll ? Math.round(ll[0] * 1e5) / 1e5 : null; M.lng = ll ? Math.round(ll[1] * 1e5) / 1e5 : null;
+    M.region = sgRegion(M.province);
+    M.nPh = M.gal.length + M.holes.reduce((a, h) => a + h.phs.length, 0);
+    M.nHolePh = M.holes.filter(h => h.phs.length).length;
+    M.slopeMax = M.official.length ? Math.max(...M.official.filter(t => t.gender !== 'F').map(t => +t.slope || 0), 0) || null : null;
+    return M; }; }
+const sgAbs = (u, base) => !u ? '' : /^https?:/i.test(u) ? u : u[0] === '/' ? SG_SITE + u : (base || SG_SITE + '/') + u;
+const sgDir = M => M.lat != null ? `https://www.google.com/maps/dir/?api=1&destination=${M.lat},${M.lng}` : (M.info.map || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(M.name + (M.province ? ', ' + M.province : ''))}`);
+const SG_IC = {
+  check: '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  share: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>',
+  link: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+  fb: '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21h3z"/></svg>',
+  phone: '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
+  route: '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.7 11.3l-9-9a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"/></svg>',
+  zalo: '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.8 2 11.5c0 2.6 1.4 4.9 3.6 6.5L5 21l3.3-1.8c1.2.4 2.4.6 3.7.6 5.5 0 10-3.8 10-8.5S17.5 3 12 3zm-3.8 10.6H5.5v-.8l1.8-2.4H5.6v-.9h2.6v.8l-1.8 2.4h1.8zm1.9 0h-.9v-4h.9zm3.4 0h-.8v-.3a1.4 1.4 0 0 1-.8.3c-.8 0-1.4-.7-1.4-1.6s.6-1.5 1.4-1.5c.3 0 .6.1.8.3v-.2h.8zm3.3-1.5c0 .9-.7 1.6-1.5 1.6s-1.5-.7-1.5-1.6.7-1.5 1.5-1.5 1.5.6 1.5 1.5z"/></svg>'
+};
+const SG_P1_CSS = `
+.crumb{font-size:.8rem;color:var(--muted);margin-top:14px}.crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--accent)}
+.ttl{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px;margin-top:8px}
+.ttl h1{font-size:clamp(2rem,5vw,3.2rem);margin-top:6px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 11px;font:600 .78rem/1.2 var(--body);border:1px solid var(--line);background:var(--surface)}
+.badge.csr{background:var(--hdr);color:var(--hdrInk);border-color:transparent}.badge.csr svg{color:var(--accent2)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.act{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .85rem/1 var(--body);text-decoration:none}
+.act:hover{border-color:var(--accent)}.act:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mosaic{position:relative;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;margin-top:16px;border-radius:14px;overflow:hidden;aspect-ratio:21/9;background:var(--soft)}
+.mosaic>div{min-width:0;min-height:0;background:var(--soft)}.mosaic>div:first-child{grid-row:1/3}
+.mosaic img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;transition:filter .2s}.mosaic img:hover{filter:brightness(.92)}
+.mosaic.n1{grid-template-columns:1fr}.mosaic.n1>div:first-child{grid-row:auto}.mosaic.n2,.mosaic.n3{grid-template-columns:2fr 1fr}
+.mall{all:unset;cursor:pointer;position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.94);color:#0B0E2E;font:600 .82rem/1 var(--body);box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.mall:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+@media (max-width:700px){.mosaic{grid-template-columns:1fr 1fr;grid-template-rows:2fr 1fr;aspect-ratio:4/3.4}.mosaic>div:first-child{grid-row:auto;grid-column:1/-1}.mosaic>div:nth-child(n+4){display:none}.mosaic.n1,.mosaic.n2{grid-template-rows:1fr}}
+.snav{position:sticky;top:0;z-index:8;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:saturate(1.4) blur(8px);-webkit-backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line);margin-top:22px}
+.snav .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}.snav .wrap::-webkit-scrollbar{display:none}
+.snav a{flex:none;padding:13px 12px 11px;font:600 .85rem/1 var(--body);color:var(--muted);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap}
+.snav a[aria-current="true"]{color:var(--ink);border-bottom-color:var(--accent)}.snav a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.gytabs,.galtabs{top:46px}
+section[id],#cm-sec{scroll-margin-top:60px}
+.sbar{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;margin-top:14px;font-size:.82rem}
+.sbar .rail{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,#5bb47a,#e8c34a 55%,#d4553f)}
+.sbar .rail i{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--ink);transform:translate(-50%,-50%)}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 16px;margin-top:8px}
+.faq summary{cursor:pointer;list-style:none;padding:14px 0;font-weight:600;display:flex;justify-content:space-between;gap:12px}.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:500 1.3rem/1 var(--body);color:var(--accent)}.faq details[open] summary::after{content:"–"}
+.faq details p{margin:0 0 14px;color:var(--ink)}
+.rel{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:14px}
+.rel a{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.rel a:hover{border-color:var(--accent)}.rel .ph{border-radius:0;aspect-ratio:16/10}.rel .t{padding:10px 12px}.rel h3{font-size:1.1rem;margin-top:4px}
+.mbar{display:none}
+@media (max-width:760px){.acts{display:none}}
+@media (max-width:760px){body.hasmbar{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+ .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;gap:8px;padding:10px max(12px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.1)}
+ .mbar a,.mbar button{all:unset;box-sizing:border-box;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:10px;font:600 .72rem/1.1 var(--body);color:var(--ink);text-align:center;cursor:pointer}
+ .mbar .pri{background:var(--btn);color:var(--btnInk)}}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.88rem;z-index:40}
+/* trang chủ */
+.hhero{padding:34px 0 8px}.hhero h1{font-size:clamp(2.2rem,6vw,3.6rem)}
+.find{display:flex;align-items:center;gap:10px;margin-top:18px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:6px 6px 6px 18px;max-width:640px;box-shadow:0 4px 18px rgba(0,0,0,.06)}
+.find:focus-within{border-color:var(--accent)}.find input{all:unset;flex:1;min-width:0;font:500 1rem/1.4 var(--body);color:var(--ink);padding:8px 0}
+.find span{font:600 .85rem/1 var(--body);color:var(--muted);padding-right:12px;white-space:nowrap}
+.qf{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.qf button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:600 .82rem/1 var(--body)}
+.qf button[aria-pressed="true"]{background:var(--btn);color:var(--btnInk);border-color:transparent}.qf button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.trust{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:22px}
+.trust div{background:var(--surface);padding:14px 16px}.trust b{display:block;font:600 1.7rem/1.1 var(--display);color:var(--accent)}.trust span{font-size:.82rem;color:var(--muted)}
+@media (max-width:700px){.trust{grid-template-columns:1fr 1fr}}
+.hgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;margin-top:22px;align-items:start}
+@media (max-width:900px){.hgrid{grid-template-columns:1fr}}
+.hgrid .cards{margin-top:0;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+#vmap{height:520px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--soft);position:sticky;top:12px}
+@media (max-width:900px){#vmap{height:320px;position:static}}
+.ccard .meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:6px;font-size:.78rem;color:var(--muted)}
+.ccard.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.empty2{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.leaflet-popup-content a{font-weight:600}
+`;
+const SG_P1_JS = `
+(function(){var u=location.href.split('#')[0];
+ function toast(m){var t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2200)}
+ function copy(s){if(navigator.clipboard)navigator.clipboard.writeText(s).then(function(){toast(T('Đã chép link','Link copied'))},function(){prompt('',s)});else prompt('',s)}
+ document.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b)return;var a=b.dataset.act;
+  if(a==='share'){e.preventDefault();if(navigator.share)navigator.share({title:document.title,url:u}).catch(function(){});else copy(u)}
+  else if(a==='copy'){e.preventDefault();copy(u)}
+  else if(a==='all'){e.preventDefault();var im=document.querySelector('img[data-lb="gal"]')||document.querySelector('.mosaic img');if(im)im.click()}});
+ var nav=document.querySelector('.snav');if(nav&&'IntersectionObserver' in window){var L=[].slice.call(nav.querySelectorAll('a')),M={};
+  L.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)M[s.id]=a});
+  var hold=0;function mark(a){L.forEach(function(b){b.removeAttribute('aria-current')});if(a){a.setAttribute('aria-current','true');if(nav.scrollWidth>nav.clientWidth)a.parentNode.scrollLeft=a.offsetLeft-40}}
+  nav.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;mark(a);hold=Date.now()+1200});
+  var io=new IntersectionObserver(function(es){if(Date.now()<hold)return;es.forEach(function(x){if(x.isIntersecting){L.forEach(function(a){a.removeAttribute('aria-current')});var a=M[x.target.id];if(a){a.setAttribute('aria-current','true');if(a.scrollIntoView&&nav.scrollWidth>nav.clientWidth)a.parentNode.scrollLeft=a.offsetLeft-40}}})},{rootMargin:'-55% 0px -40% 0px'});
+  Object.keys(M).forEach(function(id){io.observe(document.getElementById(id))})}
+ var me=window.SG_ME;if(me){var K='sg_seen',seen=[];try{seen=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}
+  var box=document.getElementById('seen');var prev=seen.filter(function(x){return x.s!==me.s}).slice(0,4);
+  if(box&&prev.length){box.hidden=false;box.querySelector('.rel').innerHTML=prev.map(function(x){return '<a href="'+esc(x.h)+'"><div class="ph">'+(x.i?'<img loading="lazy" src="'+esc(x.i)+'" alt="">':'')+'</div><div class="t"><div class="eyebrow">'+esc(x.p||'')+'</div><h3>'+esc(x.n)+'</h3></div></a>'}).join('')}
+  me.h=u;if(me.i)try{me.i=new URL(me.i,u).href}catch(e){}
+  try{localStorage.setItem(K,JSON.stringify([me].concat(prev).slice(0,8)))}catch(e){}}
+})();`;
+/* Hỏi đáp nhanh: chỉ câu có dữ liệu; câu trả lời là sự thật đã ghi nhận, không suy đoán. */
+function sgFaq(M) {
+  const inf = M.info, tr = M.travel, f = new Set(M.fac), q = [];
+  const yd = M.tees[0] ? sgFmt(M.tees[0].total) : '';
+  q.push([`${M.name} có bao nhiêu hố, par bao nhiêu?`, `How many holes and what par is ${M.nameEn}?`,
+    `Sân có ${M.nH} hố, par ${M.par}${yd ? `, dài ${yd} yard từ tee ${M.tees[0].vi}` : ''}. Số liệu do đoàn đo VN Centre – CSR Vietnam Team đo trực tiếp.`,
+    `${M.nH} holes, par ${M.par}${yd ? `, ${yd} yards from the ${M.tees[0].en} tees` : ''}. Measured on site by VN Centre – CSR Vietnam Team.`]);
+  if (inf.hours) q.push(['Sân mở cửa mấy giờ?', 'What are the opening hours?', `${inf.hours}.`, `${inf.hours}.`]);
+  if (f.has('caddieReq')) q.push(['Có bắt buộc thuê caddie không?', 'Is a caddie required?', 'Có. Sân yêu cầu mỗi người chơi đi cùng caddie.', 'Yes. The course requires a caddie for every player.']);
+  if (f.has('night')) q.push(['Sân có chơi đêm không?', 'Is night golf available?', 'Có. Sân có hệ thống đèn để chơi buổi tối.', 'Yes. The course has floodlights for evening play.']);
+  if (f.has('rental')) q.push(['Có cho thuê gậy không?', 'Can I rent clubs?', 'Có. Sân có dịch vụ cho thuê gậy.', 'Yes. Club rental is available.']);
+  if (f.has('hotel')) q.push(['Có khách sạn ngay trong khu sân không?', 'Is there a hotel on site?', 'Có. Khu sân có khách sạn; xem thêm phần Ăn ở và đi lại.', 'Yes. There is a hotel within the resort; see Stay, eat and get there.']);
+  if (tr.airport) q.push(['Sân bay nào gần sân nhất?', 'Which airport is nearest?', `${tr.airport}${tr.distKm ? `, khoảng ${tr.distKm} km` : ''}${tr.driveMin ? `, khoảng ${tr.driveMin} phút đi xe` : ''}.`, `${tr.airport}${tr.distKm ? `, about ${tr.distKm} km` : ''}${tr.driveMin ? `, about ${tr.driveMin} minutes by car` : ''}.`]);
+  const bk = [inf.bookPhone && `gọi ${inf.bookPhone}`, inf.bookZalo && `Zalo ${inf.bookZalo}`, inf.bookWeb && `trang đặt sân của sân`].filter(Boolean), bkE = [inf.bookPhone && `call ${inf.bookPhone}`, inf.bookZalo && `Zalo ${inf.bookZalo}`, inf.bookWeb && `the course booking page`].filter(Boolean);
+  q.push(['Đặt sân thế nào?', 'How do I book a tee time?', `${bk.length ? 'Liên hệ trực tiếp sân: ' + bk.join(', ') + '.' : 'Liên hệ trực tiếp sân.'} Trang này không nhận đặt chỗ hay thanh toán.`, `${bkE.length ? 'Contact the course directly: ' + bkE.join(', ') + '.' : 'Contact the course directly.'} This site takes no bookings or payments.`]);
+  return q;
+}
+
 function sgCourseHTML(M, img, o = {}) {
   const src = p => p ? img(p) : '', flag = o.flag || null;
   const shotLab = p => SG.SHOT[p.kind] || ['', ''];
@@ -306,8 +444,23 @@ function sgCourseHTML(M, img, o = {}) {
   const tees = M.tees, maxLen = Math.max(1, ...M.holes.flatMap(h => h.len.map(x => +x || 0)));
   const desc = `${M.name} – ${M.introVi}`.slice(0, 160);
   const ld = { '@context': 'https://schema.org', '@type': 'GolfCourse', name: M.name, alternateName: M.nameEn !== M.name ? M.nameEn : undefined, address: M.province ? { '@type': 'PostalAddress', addressRegion: M.province, addressCountry: 'VN' } : undefined, telephone: M.info.bookPhone || undefined, url: M.info.bookWeb || undefined };
-  const facts = [[M.nH, `hố`, `holes`], [M.par, 'Par', 'Par'], ...tees.slice(0, 3).map(t => [sgFmt(t.total), `yd · tee ${t.vi}`, `yd · ${t.en} tees`])];
+  const facts = [[M.nH, `hố`, `holes`], [M.par, 'Par', 'Par'], ...tees.slice(0, 2).map(t => [sgFmt(t.total), `yd · tee ${t.vi}`, `yd · ${t.en} tees`])];
+  if (M.slopeMax) facts.push([M.slopeMax, 'Slope (tee nam xa nhất)', 'Slope (back men\'s tee)']);
+  if (M.nPh) facts.push([sgFmt(M.nPh), 'ảnh thật do đoàn đo chụp', 'real photos by the team']);
   if (M.travel.distKm) facts.push([`~${M.travel.distKm} km`, `tới ${M.travel.airport || 'sân bay'}`, `to ${M.travel.airport || 'airport'}`]);
+  const base = o.pageUrl || `${SG_SITE}/san/${M.slug}/`, heroAbs = M.heroP ? sgAbs(src(M.heroP), base) : '';
+  const faq = sgFaq(M);
+  const ldFaq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(x => ({ '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[2] } })) };
+  const og = `<link rel="canonical" href="${sgEsc(base)}"><meta property="og:type" content="website"><meta property="og:url" content="${sgEsc(base)}">${heroAbs ? `<meta property="og:image" content="${sgEsc(heroAbs)}"><meta name="twitter:card" content="summary_large_image">` : ''}<script type="application/ld+json">${JSON.stringify(ldFaq).replace(/</g, '\\u003c')}<\/script>`;
+  const mPick = (() => { if (!M.show.photos) return []; const out = M.heroP ? [M.heroP] : [], ord = ['signature', 'view', 'sunset', 'clubhouse', 'flag', 'scenery', 'water', 'terrace', 'restaurant', 'sand', 'nature'];
+    const pool = M.gal.filter(p => p !== M.heroP); ord.forEach(k => pool.filter(p => p.kind === k).forEach(p => { if (out.length < 5 && !out.includes(p) && !out.some(q => q.kind === p.kind)) out.push(p); }));
+    pool.forEach(p => { if (out.length < 5 && !out.includes(p)) out.push(p); }); M.holes.forEach(h => { if (out.length < 5 && h.teePh && !out.includes(h.teePh)) out.push(h.teePh); }); return out; })();
+  const snav = [['tong-quan', 'Tổng quan', 'Overview', 1], ['tee', 'Tee & độ khó', 'Tees', tees.length], ['ho', 'Từng hố', 'Holes', M.show.holes && M.holes.length], ['quanh-san', 'Quanh sân', 'Around', M.places.length || M.travel.airport], ['anh', 'Ảnh', 'Photos', M.show.photos && M.gal.length > 1], ['hoi-dap', 'Hỏi đáp', 'FAQ', 1], ['cm-sec', 'Golfer chia sẻ', 'Golfers', 1]].filter(x => x[3]);
+  const others = (o.others || []).filter(x => x.slug !== M.slug).sort((a, b) => (b.region === M.region) - (a.region === M.region)).slice(0, 4);
+  const relCard = x => `<a href="${sgEsc(x.href)}"><div class="ph">${x.img ? `<img loading="lazy" src="${sgEsc(x.img)}" alt="${sgEsc(x.name)}">` : ''}</div><div class="t"><div class="eyebrow">${sgEsc(x.province || '')}${x.region === M.region && M.region ? ` · ${sgBi('cùng vùng', 'same region')}` : ''}</div><h3>${sgEsc(x.name)}</h3><p class="muted num" style="margin:4px 0 0;font-size:.8rem">${x.nH} ${sgBi('hố', 'holes')} · Par ${x.par}${x.yd ? ` · ${sgFmt(x.yd)} yd` : ''}</p></div></a>`;
+  const me = { s: M.slug, n: M.name, p: M.province, i: M.heroP ? src(M.heroP) : '' };
+  const mb = [inf0 => inf0.bookPhone && `<a class="pri" href="tel:${sgEsc(String(inf0.bookPhone).replace(/[^\d+]/g, ''))}">${SG_IC.phone}${sgBi('Gọi đặt sân', 'Call')}</a>`, inf0 => inf0.bookZalo && /^[\d\s+.]+$/.test(inf0.bookZalo) && `<a href="https://zalo.me/${sgEsc(String(inf0.bookZalo).replace(/[^\d]/g, ''))}" target="_blank" rel="noopener">${SG_IC.zalo}Zalo</a>`,
+    () => `<a href="${sgEsc(sgDir(M))}" target="_blank" rel="noopener">${SG_IC.route}${sgBi('Chỉ đường', 'Directions')}</a>`, () => `<button type="button" data-act="share">${SG_IC.share}${sgBi('Chia sẻ', 'Share')}</button>`].map(f => f(M.info)).filter(Boolean);
   const H = M.holes.map(h => ({ n: h.n, par: h.par, len: h.len, siM: h.siM, siF: h.siF, gw: h.gw, gd: h.gd, ph: h.phs.map(x => [src(x.p), x.vi, x.en]) }));
   const TJ = tees.map(t => ({ vi: t.vi, en: t.en, c: t.color }));
   const offRows = M.official.length ? `<div class="tbl" style="margin-top:10px"><table><thead><tr><th class="l">Tee</th><th>Course Rating</th><th>Slope</th></tr></thead><tbody>${M.official.map(t => `<tr><td class="l">${sgEsc(t.name)} · ${t.gender === 'F' ? sgBi('Nữ', 'Women') : sgBi('Nam', 'Men')}</td><td class="num">${sgEsc(t.CR)}</td><td class="num">${sgEsc(t.slope)}</td></tr>`).join('')}</tbody></table></div>` : '';
@@ -325,27 +478,36 @@ function sgCourseHTML(M, img, o = {}) {
       ${pl.length > 1 ? `<div class="thumbs">${pl.slice(1).map(x => `<span class="th">${lbImg(x[0], grp, x[1], x[2])}</span>`).join('')}</div>` : ''}
       ${p.updated ? `<p class="muted" style="margin:6px 0 0;font-size:.75rem">${sgBi('Đoàn đo ghé ' + p.updated, 'Visited ' + p.updated)}</p>` : ''}</div></div>`; };
   const wmCss = o.wmOverlay ? `<style>.ph,.lbw{position:relative}.hero::after,.ph::after,.lbw::after{content:"";position:absolute;left:50%;top:3%;margin-top:2.25%;transform:translateX(-50%);width:22.7%;max-width:227px;aspect-ratio:900/223;background:url(${o.wmOverlay}) no-repeat center/contain;opacity:.62;filter:drop-shadow(0 0 3px rgba(0,0,0,.6));pointer-events:none}.hero::after{z-index:1}.hero .cap{z-index:2}.lbw::after{max-width:none}.thumbs .ph::after,.ccard .ph::after{display:none}</style>` : '';
-  return sgHead(`${M.name} · Sân golf Việt Nam`, desc, wmCss + `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}<\/script>`) + sgTopBar(o.home || '../../', flag) + `<div class="wrap">
-  <div class="hero">${M.heroP && M.show.photos ? `${lbImg(M.heroP, 'gal', shotLab(M.heroP)[0] || M.name, shotLab(M.heroP)[1] || M.nameEn)}` : ''}<div class="cap"><div class="eyebrow">${sgBi((M.province ? M.province + ' · ' : '') + 'Việt Nam', (M.province ? M.province + ' · ' : '') + 'Vietnam')}</div><h1>${sgEsc(M.name)}</h1>${sgBi(M.introVi, M.introEn, 'p')}</div></div>
-  <div class="facts">${facts.map(f => `<div><b class="num">${sgEsc(f[0])}</b>${sgBi(f[1], f[2])}</div>`).join('')}</div>
-  <section class="two"><div><div class="eyebrow">${sgBi('Giới thiệu', 'Overview')}</div><h2>${sgEsc(M.nameEn !== M.name ? M.nameEn : M.name)}</h2>${sgBi(M.introVi, M.introEn, 'p', 'class="lead"')}
+  return sgHead(`${M.name} · Sân golf Việt Nam`, desc, wmCss + og + `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}<\/script>`) + sgTopBar(o.home || '../../', flag) + `<div class="wrap">
+  <div class="crumb"><a href="${o.home || '../../'}">${sgBi('Sân golf Việt Nam', 'Vietnam golf courses')}</a>${M.region ? ` › ${sgBi(SG_REG_LAB[M.region][0], SG_REG_LAB[M.region][1])}` : ''}${M.province ? ` › ${sgEsc(M.province)}` : ''}</div>
+  <div class="ttl"><div><div class="eyebrow">${sgBi((M.province ? M.province + ' · ' : '') + 'Việt Nam', (M.province ? M.province + ' · ' : '') + 'Vietnam')}</div><h1>${sgEsc(M.name)}</h1>
+    <div class="badges"><span class="badge csr">${SG_IC.check}${sgBi('Đo trực tiếp bởi CSR Vietnam Team' + (M.measuredAt ? ' · ' + M.measuredAt : ''), 'Measured on site by CSR Vietnam Team' + (M.measuredAt ? ' · ' + M.measuredAt.replace(/^tháng\s*/, '') : ''))}</span>${M.official.length ? `<span class="badge">${sgBi('Có Course Rating & Slope chính thức', 'Official Course & Slope Rating')}</span>` : ''}${M.nHolePh ? `<span class="badge">${sgBi(`Ảnh ${M.nHolePh}/${M.nH} hố`, `Photos of ${M.nHolePh}/${M.nH} holes`)}</span>` : ''}</div></div>
+    <div class="acts"><button type="button" class="act" data-act="share">${SG_IC.share}${sgBi('Chia sẻ', 'Share')}</button><a class="act" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(base)}" target="_blank" rel="noopener">${SG_IC.fb}Facebook</a><button type="button" class="act" data-act="copy">${SG_IC.link}${sgBi('Chép link', 'Copy link')}</button></div></div>
+  ${mPick.length ? `<div class="mosaic n${mPick.length}">${mPick.map((p, i) => `<div>${lbImg(p, 'mo', shotLab(p)[0] || M.name, shotLab(p)[1] || M.nameEn)}</div>`).join('')}${M.nPh > mPick.length ? `<button type="button" class="mall" data-act="all">${sgBi(`Xem ${sgFmt(M.gal.length)} ảnh sân`, `See all ${sgFmt(M.gal.length)} photos`)}</button>` : ''}</div>` : ''}
+  <div class="facts">${facts.map(f => `<div><b class="num">${sgEsc(f[0])}</b>${sgBi(f[1], f[2])}</div>`).join('')}</div></div>
+  <nav class="snav" aria-label="${sgEsc('Mục trong trang')}"><div class="wrap">${snav.map(x => `<a href="#${x[0]}">${sgBi(x[1], x[2])}</a>`).join('')}</div></nav><div class="wrap">
+  <section class="two" id="tong-quan"><div><div class="eyebrow">${sgBi('Giới thiệu', 'Overview')}</div><h2>${sgEsc(M.nameEn !== M.name ? M.nameEn : M.name)}</h2>${sgBi(M.introVi, M.introEn, 'p', 'class="lead"')}
     ${M.fac.length ? `<div class="chips">${M.fac.map(k => `<span class="chip">${sgBi(SG.FAC[k][0], SG.FAC[k][1])}</span>`).join('')}</div>` : ''}
     ${book ? `<p style="margin-top:14px"><b>${sgBi('Đặt sân', 'Tee times')}:</b> ${book}</p>` : `<p class="muted" style="margin-top:14px;font-size:.85rem">${sgBi('Đặt sân, phòng: liên hệ trực tiếp sân. Trang này không nhận đặt chỗ hay thanh toán.', 'Tee times and rooms: contact the course directly. This page takes no bookings or payments.')}</p>`}</div>
     ${M.show.photos && M.gal[1] ? `<div><div class="ph">${(q => lbImg(q, 'gal', shotLab(q)[0], shotLab(q)[1]))(M.gal.find(p => p.kind === 'sunset' && p !== M.heroP) || M.gal.find(p => p !== M.heroP))}</div></div>` : '<div></div>'}</section>
-  ${tees.length ? `<section><div class="eyebrow">${sgBi('Các bộ tee', 'Tees')}</div><h2>${sgBi('Chọn tee phù hợp', 'Choose your tees')}</h2><div class="two" style="margin-top:14px">
+  ${tees.length ? `<section id="tee"><div class="eyebrow">${sgBi('Các bộ tee', 'Tees')}</div><h2>${sgBi('Chọn tee phù hợp', 'Choose your tees')}</h2><div class="two" style="margin-top:14px">
     <div class="tbl"><table><thead><tr><th class="l">Tee</th><th>${sgBi('Hố 1–9', 'Out')}</th><th>${sgBi('Hố 10–18', 'In')}</th><th>${sgBi('Tổng (yd)', 'Total (yd)')}</th><th>Par</th></tr></thead><tbody>
       ${tees.map(t => `<tr><td class="l"><span class="dot" style="background:${t.color}"></span>${sgBi(t.vi + (t.gender === 'F' ? ' · nữ' : ' · nam'), t.en + (t.gender === 'F' ? ' · women' : ' · men'))}</td><td class="num">${sgFmt(t.out)}</td><td class="num">${t.in ? sgFmt(t.in) : '–'}</td><td class="num">${sgFmt(t.total)}</td><td class="num">${t.holes.reduce((a, h) => a + (+h.par || 0), 0)}</td></tr>`).join('')}</tbody></table></div>
-    <div class="pending"><h3>Course Rating & Slope</h3>${M.official.length ? offRows : sgBi('Sân được VN Centre – CSR Vietnam Team đo. Chỉ số chính thức sẽ hiển thị tại đây sau khi được công bố trên hệ thống WHS.', 'Measured by VN Centre – CSR Vietnam Team. Official ratings will appear here once published in the WHS system.', 'p', 'class="muted" style="margin:6px 0 0"')}</div></div></section>` : ''}
+    <div class="pending"><h3>Course Rating & Slope</h3>${M.official.length ? offRows + `<div class="sbar">${M.official.map(t => `<span>${sgEsc(t.name)}</span><div class="rail" role="img" aria-label="Slope ${sgEsc(t.slope)}"><i style="left:${Math.max(0, Math.min(100, (+t.slope - 55) / 100 * 100))}%"></i></div><b class="num">${sgEsc(t.slope)}</b>`).join('')}</div>${sgBi('Slope từ 55 (dễ nhất) đến 155 (khó nhất); sân trung bình là 113.', 'Slope runs from 55 (easiest) to 155 (hardest); 113 is average.', 'p', 'class="muted" style="font-size:.8rem;margin:8px 0 0"')}` : sgBi('Sân được VN Centre – CSR Vietnam Team đo. Chỉ số chính thức sẽ hiển thị tại đây sau khi được công bố trên hệ thống WHS.', 'Measured by VN Centre – CSR Vietnam Team. Official ratings will appear here once published in the WHS system.', 'p', 'class="muted" style="margin:6px 0 0"')}</div></div></section>` : ''}
   ${M.show.holes && H.length ? `<section id="ho"><div class="eyebrow">${sgBi('Từng hố', 'Hole by hole')}</div><h2>${sgBi('Nhìn trước từng hố', 'Preview every hole')}</h2>${sgBi('Ảnh do đoàn đo chụp trực tiếp trên sân: từ tee, các điểm rơi bóng, green. Bấm ảnh để xem lớn.', 'Photos taken on site by the rating team: from the tee, landing zones and the green. Tap a photo to enlarge.', 'p', 'class="muted" style="margin:6px 0 14px"')}<div class="hn" id="hn" role="group" aria-label="Holes"></div><div id="hole"></div></section>` : ''}
   ${M.cond.stimpFt || M.cond.roughIn || M.info.grass ? `<section><div class="eyebrow">${sgBi('Mặt sân', 'Playing conditions')}</div><h2>${sgBi('Điều kiện khi đoàn đo', 'Conditions when measured')}</h2><div class="grid4">
     ${M.cond.stimpFt ? `<div class="card"><b class="num">${sgEsc(M.cond.stimpFt)}${M.cond.stimpIn ? `' ${sgEsc(M.cond.stimpIn)}"` : ' ft'}</b>${sgBi('Tốc độ green (Stimpmeter)', 'Green speed (Stimpmeter)')}</div>` : ''}
     ${M.cond.roughLabel ? `<div class="card"><b class="num">${sgEsc(M.cond.roughLabel)}</b>${sgBi('Chiều cao rough', 'Rough height')}</div>` : ''}
     ${M.info.grass ? `<div class="card"><b style="font-size:1.1rem">${sgEsc(M.info.grass)}</b>${sgBi('Loại cỏ', 'Grass')}</div>` : M.cond.warm != null ? `<div class="card">${sgBi(M.cond.warm === false ? 'Cỏ mùa lạnh' : 'Cỏ mùa ấm', M.cond.warm === false ? 'Cool-season' : 'Warm-season', 'b')}${sgBi('Loại cỏ', 'Grass')}</div>` : ''}</div></section>` : ''}
-  ${M.places.length || travelRows.length ? `<section><div class="eyebrow">${sgBi('Quanh sân', 'Around the course')}</div><h2>${sgBi('Ăn ở và đi lại', 'Stay, eat and get there')}</h2>
+  ${M.places.length || travelRows.length ? `<section id="quanh-san"><div class="eyebrow">${sgBi('Quanh sân', 'Around the course')}</div><h2>${sgBi('Ăn ở và đi lại', 'Stay, eat and get there')}</h2>
     ${travelRows.length ? `<div class="card" style="margin-top:14px"><dl class="kv">${travelRows.map(r => `${sgBi(r[1], r[2], 'dt')}<dd>${sgEsc(r[3])}</dd>`).join('')}</dl>${tr.tips ? `<p style="margin:12px 0 0;font-size:.9rem">${sgEsc(tr.tips)}</p>` : ''}</div>` : ''}
     ${M.places.some(p => p.src !== 'web') ? `<div class="places">${M.places.filter(p => p.src !== 'web').map(placeCard).join('')}</div>` : ''}
     ${M.places.some(p => p.src === 'web') ? sgGySection(M.places.filter(p => p.src === 'web'), placeCard) : ''}</section>` : ''}
-  ${M.show.photos && M.gal.length > 1 ? `<section><div class="eyebrow">${sgBi('Thư viện ảnh', 'Gallery')}</div><h2>${sgBi('Sân qua ống kính đoàn đo', "Through the rating team's lens")}</h2>${sgGalSection(M.gal.filter(p => p !== M.heroP), (p, grp) => { const l = shotLab(p); return `<figure><div class="ph">${lbImg(p, grp, l[0], l[1])}</div>${l[0] ? sgBi(l[0], l[1], 'figcaption') : ''}</figure>`; })}</section>` : ''}
+  ${M.show.photos && M.gal.length > 1 ? `<section id="anh"><div class="eyebrow">${sgBi('Thư viện ảnh', 'Gallery')}</div><h2>${sgBi('Sân qua ống kính đoàn đo', "Through the rating team's lens")}</h2>${sgGalSection(M.gal.filter(p => p !== M.heroP), (p, grp) => { const l = shotLab(p); return `<figure><div class="ph">${lbImg(p, grp, l[0], l[1])}</div>${l[0] ? sgBi(l[0], l[1], 'figcaption') : ''}</figure>`; })}</section>` : ''}
+  <section id="hoi-dap" class="faq"><div class="eyebrow">${sgBi('Hỏi đáp nhanh', 'Quick answers')}</div><h2>${sgBi('Câu hỏi hay gặp', 'Frequently asked')}</h2><div style="margin-top:12px">${faq.map((x, i) => `<details${i ? '' : ' open'}><summary>${sgBi(x[0], x[1])}</summary>${sgBi(x[2], x[3], 'p')}</details>`).join('')}</div></section>
+  <!--cm-slot-->
+  <section id="san-khac">${others.length ? `<div class="eyebrow">${sgBi('Đi tiếp', 'Keep exploring')}</div><h2>${sgBi('Sân khác đã được đo', 'More measured courses')}</h2><div class="rel">${others.map(relCard).join('')}</div>` : ''}
+   <div id="seen" hidden style="margin-top:${others.length ? 28 : 0}px"><div class="eyebrow">${sgBi('Bạn vừa xem', 'Recently viewed')}</div><div class="rel"></div></div></section>
   <footer>${sgBi(`Số liệu và ảnh do VN Centre – CSR Vietnam Team đo, chụp tại sân${M.measuredAt ? ', ' + M.measuredAt : ''}. Thông tin có thể thay đổi theo điều kiện sân.`, `Data and photos measured and taken on site by VN Centre – CSR Vietnam Team${M.measuredAt ? ', ' + M.measuredAt : ''}. Details may change with course conditions.`)}</footer></div>
 <script>${SG_JS_BASE}
 var H=${JSON.stringify(H).replace(/</g, '\\u003c')},TE=${JSON.stringify(TJ).replace(/</g, '\\u003c')},MX=${maxLen},cur=0;
@@ -362,14 +524,43 @@ document.addEventListener('click',function(e){var t=e.target.closest('#hole .thu
 document.addEventListener('click',function(e){var b=e.target.closest('#hn button');if(!b)return;cur=+b.dataset.i;window.sgRender();var n=document.querySelector('#hn button[data-i="'+cur+'"]');if(n)n.focus({preventScroll:true})});
 ${SG_GY_JS}
 ${SG_GAL_JS}
-paint();<\/script></body></html>`;
+window.SG_ME=${JSON.stringify(me).replace(/</g, '\\u003c')};${SG_P1_JS}
+paint();<\/script>${mb.length ? `<nav class="mbar" aria-label="${sgEsc('Liên hệ nhanh')}">${mb.join('')}</nav><script>document.body.classList.add('hasmbar')<\/script>` : ''}</body></html>`;
 }
 function sgIndexHTML(list, img) {
-  return sgHead('Sân golf Việt Nam · VN Centre – CSR Vietnam Team', 'Thông tin các sân golf Việt Nam do đoàn đo VN Centre – CSR Vietnam Team trực tiếp ghi nhận: từng hố, ảnh, dịch vụ quanh sân.') + sgTopBar('./', null) + `<div class="wrap">
-  <section style="padding-top:28px"><div class="eyebrow">${sgBi('Việt Nam', 'Vietnam')}</div><h2 style="font-size:clamp(2rem,5vw,3.2rem)">${sgBi('Sân golf Việt Nam, xem trước khi đến', 'Vietnam golf courses, before you go')}</h2>
-  ${sgBi('Thông tin từng sân do đoàn đo độ khó sân ghi nhận trực tiếp: chiều dài từng tee, ảnh từng hố, dịch vụ quanh sân.', 'Each course measured on site by the course rating team: tee lengths, hole photos and what is around the course.', 'p', 'class="lead muted"')}
-  <div class="cards">${list.map(M => `<a class="ccard" href="san/${M.slug}/"><div class="ph">${M.heroP && M.show.photos ? `<img loading="lazy" src="${img(M.heroP, M)}" alt="${sgEsc(M.name)}">` : ''}</div><div class="t"><div class="eyebrow">${sgEsc(M.province)}</div><h3 style="margin-top:4px">${sgEsc(M.name)}</h3><p class="muted num" style="margin:4px 0 0;font-size:.85rem">${M.nH} ${sgBi('hố', 'holes')} · Par ${M.par}${M.tees[0] ? ` · ${sgFmt(M.tees[0].total)} yd` : ''}</p></div></a>`).join('')}</div></section>
-  <footer>VN Centre – CSR Vietnam Team</footer></div><script>${SG_JS_BASE}paint();<\/script></body></html>`;
+  /* 02/11/2026 (giai đoạn 1): ô tìm + lọc nhanh, dải số tin cậy, bản đồ sân */
+  const regs = ['bac', 'trung', 'nam'].filter(r => list.some(M => M.region === r));
+  const FQ = [['hotel', 'Có khách sạn', 'Hotel on site'], ['night', 'Chơi đêm', 'Night golf'], ['rental', 'Thuê gậy', 'Club rental']].filter(x => list.some(M => M.fac.includes(x[0])));
+  const nPh = list.reduce((a, M) => a + (M.nPh || 0), 0), nHo = list.reduce((a, M) => a + (M.nHolePh || 0), 0);
+  const pts = list.filter(M => M.lat != null).map(M => ({ s: M.slug, n: M.name, p: M.province, a: M.lat, o: M.lng }));
+  const card = M => `<a class="ccard" id="c-${M.slug}" href="san/${M.slug}/" data-q="${sgEsc(sgSlug([M.name, M.nameEn, M.province, M.region ? SG_REG_LAB[M.region][0] : ''].join(' ')).replace(/-/g, ' '))}" data-r="${M.region || ''}" data-f="${M.fac.join(' ')}"><div class="ph">${M.heroP && M.show.photos ? `<img loading="lazy" src="${img(M.heroP, M)}" alt="${sgEsc(M.name)}">` : ''}</div><div class="t"><div class="eyebrow">${sgEsc(M.province)}</div><h3 style="margin-top:4px">${sgEsc(M.name)}</h3><p class="muted num" style="margin:4px 0 0;font-size:.85rem">${M.nH} ${sgBi('hố', 'holes')} · Par ${M.par}${M.tees[0] ? ` · ${sgFmt(M.tees[0].total)} yd` : ''}${M.slopeMax ? ` · Slope ${M.slopeMax}` : ''}</p><div class="meta">${M.nPh ? sgBi(`${sgFmt(M.nPh)} ảnh thật`, `${sgFmt(M.nPh)} real photos`) : ''}${M.nHolePh ? sgBi(`ảnh ${M.nHolePh}/${M.nH} hố`, `${M.nHolePh}/${M.nH} holes photographed`) : ''}${M.fac.includes('hotel') ? sgBi('có khách sạn', 'hotel on site') : ''}</div></div></a>`;
+  return sgHead('Sân golf Việt Nam · VN Centre – CSR Vietnam Team', 'Thông tin các sân golf Việt Nam do đoàn đo VN Centre – CSR Vietnam Team trực tiếp ghi nhận: chiều dài từng tee, ảnh từng hố, dịch vụ quanh sân.', `<link rel="canonical" href="${SG_SITE}/"><meta property="og:type" content="website"><meta property="og:url" content="${SG_SITE}/">${pts.length ? '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">' : ''}`) + sgTopBar('./', null) + `<div class="wrap">
+  <section class="hhero"><div class="eyebrow">${sgBi('Việt Nam', 'Vietnam')}</div><h1>${sgBi('Sân golf Việt Nam, xem trước khi đến', 'Vietnam golf courses, before you go')}</h1>
+  ${sgBi('Thông tin từng sân do đoàn đo độ khó sân ghi nhận trực tiếp: chiều dài từng tee, ảnh từng hố, dịch vụ quanh sân.', 'Each course measured on site by the course rating team: tee lengths, hole photos and what is around the course.', 'p', 'class="lead muted" style="margin:10px 0 0"')}
+  <label class="find"><input id="fq" type="search" autocomplete="off" placeholder="Tìm sân theo tên, tỉnh, thành phố" data-ph-en="Search by course, province or city" aria-label="Tìm sân"><span id="fn"></span></label>
+  ${regs.length > 1 || FQ.length ? `<div class="qf" role="group" aria-label="Lọc nhanh"><button data-qr="" aria-pressed="true">${sgBi('Tất cả', 'All')}</button>${regs.length > 1 ? regs.map(r => `<button data-qr="${r}" aria-pressed="false">${sgBi(SG_REG_LAB[r][0], SG_REG_LAB[r][1])}</button>`).join('') : ''}${FQ.map(x => `<button data-qf="${x[0]}" aria-pressed="false">${sgBi(x[1], x[2])}</button>`).join('')}</div>` : ''}
+  <div class="trust"><div><b class="num">${list.length}</b>${sgBi('sân đã đo trực tiếp', 'courses measured on site')}</div><div><b class="num">${sgFmt(nPh)}</b>${sgBi('ảnh thật do đoàn đo chụp', 'real photos by the team')}</div><div><b class="num">${sgFmt(nHo)}</b>${sgBi('hố có ảnh và số đo', 'holes with photos and data')}</div><div><b>WHS</b>${sgBi('đo theo hệ thống Course Rating', 'measured to the Course Rating System')}</div></div></section>
+  <section style="padding-top:8px"><div class="hgrid${pts.length ? '' : ' nomap'}"><div><div class="cards" id="cards">${list.map(card).join('')}</div><p class="empty2" id="none" hidden>${sgBi('Chưa có sân nào khớp. Thử từ khoá khác hoặc bỏ bớt bộ lọc.', 'No course matches yet. Try another word or clear a filter.')}</p></div>${pts.length ? '<div id="vmap" role="region" aria-label="Bản đồ sân"></div>' : ''}</div></section>
+  <footer>VN Centre – CSR Vietnam Team</footer></div><script>${SG_JS_BASE}paint();
+(function(){var q=document.getElementById('fq'),fn=document.getElementById('fn'),C=[].slice.call(document.querySelectorAll('#cards .ccard')),R='',F={},MK={};
+ function norm(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'d').toLowerCase().trim()}
+ function ph(){q.placeholder=lang==='en'?q.dataset.phEn:'Tìm sân theo tên, tỉnh, thành phố'}ph();document.addEventListener('click',function(e){if(e.target.closest('#sgL,#sgE'))setTimeout(ph,0)});
+ function run(){var t=norm(q.value).split(/\\s+/).filter(Boolean),n=0;C.forEach(function(c){var ok=t.every(function(w){return c.dataset.q.indexOf(w)>=0})&&(!R||c.dataset.r===R)&&Object.keys(F).every(function(k){return !F[k]||(' '+c.dataset.f+' ').indexOf(' '+k+' ')>=0});c.hidden=!ok;if(ok)n++;var m=MK[c.id.slice(2)];if(m){if(ok)m.addTo(window.__map);else m.remove()}});
+  document.getElementById('none').hidden=n>0;fn.textContent=(q.value||R||Object.keys(F).some(function(k){return F[k]}))?n+' '+T('sân','courses'):''}
+ q.addEventListener('input',run);
+ document.addEventListener('click',function(e){var b=e.target.closest('.qf button');if(!b)return;if(b.dataset.qf!=null){F[b.dataset.qf]=!F[b.dataset.qf];b.setAttribute('aria-pressed',F[b.dataset.qf])}else{R=b.dataset.qr;[].forEach.call(document.querySelectorAll('.qf [data-qr]'),function(x){x.setAttribute('aria-pressed',x===b)})}run()});
+ var P=${JSON.stringify(pts).replace(/</g, '\\u003c')};if(!P.length)return;
+ var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';s.onload=function(){var L=window.L,el=document.getElementById('vmap');
+  var map=window.__map=L.map(el,{scrollWheelZoom:false,zoomControl:true});L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:18,attribution:'Tiles &copy; Esri'}).addTo(map);
+  var ac=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#B06829',B=[];
+  P.forEach(function(p){var m=L.circleMarker([p.a,p.o],{radius:9,color:'#fff',weight:2,fillColor:ac,fillOpacity:1}).addTo(map);MK[p.s]=m;B.push([p.a,p.o]);
+   m.bindPopup('<a href="san/'+p.s+'/">'+esc(p.n)+'</a><br><small>'+esc(p.p||'')+'</small>');
+   m.on('mouseover',function(){var c=document.getElementById('c-'+p.s);if(c)c.classList.add('on')});m.on('mouseout',function(){var c=document.getElementById('c-'+p.s);if(c)c.classList.remove('on')});
+   m.on('click',function(){var c=document.getElementById('c-'+p.s);if(c&&innerWidth>900)c.scrollIntoView({block:'nearest',behavior:'smooth'})})});
+  function fit(){map.invalidateSize();if(B.length>1)map.fitBounds(B,{padding:[40,40],maxZoom:9});else map.setView(B[0],9)}fit();setTimeout(fit,300);addEventListener('load',fit);
+  C.forEach(function(c){var m=MK[c.id.slice(2)];if(!m)return;c.addEventListener('mouseenter',function(){m.setStyle({radius:13});m.bringToFront()});c.addEventListener('mouseleave',function(){m.setStyle({radius:9})})})};
+ document.body.appendChild(s)})();
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}<\/script></body></html>`;
 }
 /* ===== Cộng đồng trên website sân (courses.vncentre.net) =====
    Đội đo cung cấp thông tin core; người dùng đăng nhập Google/Facebook gửi bình luận, bài viết, mẹo hố, địa điểm, ảnh.
@@ -642,7 +833,8 @@ function sgPolicyPages() {
     const i = h.lastIndexOf('<footer>'); if (i < 0) return h;
     const j = h.indexOf('</footer>', i);
     const withLinks = h.slice(0, j) + links + h.slice(j);
-    let out = withLinks.slice(0, i) + sgCmSection(M, o) + '\n  ' + withLinks.slice(i);
+    const slot = withLinks.indexOf('<!--cm-slot-->');   /* 02/11/2026: phần cộng đồng nằm trước "Sân khác" nếu trang có chỗ đặt sẵn */
+    let out = slot >= 0 ? withLinks.slice(0, slot) + sgCmSection(M, o) + withLinks.slice(slot + 14) : withLinks.slice(0, i) + sgCmSection(M, o) + '\n  ' + withLinks.slice(i);
     const k = out.lastIndexOf('</body>'); return out.slice(0, k) + sgCmScript(M, o) + out.slice(k); }; }
 { const _m = sgModel; sgModel = function (pack, opts) { const M = _m(pack, opts); M.cid = (pack.course || {}).id || M.slug; return M; }; }
 
