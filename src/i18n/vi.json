@@ -222,7 +222,8 @@
       "messages": "Tin nhắn và chi phí",
       "settings": "Cấu hình",
       "audit": "Nhật ký hệ thống",
-      "courses": "Sân golf"
+      "courses": "Sân golf",
+      "leagueQueue": "Ghép VĐV SNAG League"
     },
     "years": {
       "current": "Năm hiện tại",
@@ -1973,5 +1974,62 @@
       "generic": "Có lỗi: {{msg}}"
     },
     "photosExtraN": "{{n}} ảnh bổ sung"
+  },
+  "league": {
+    "title": "Thành tích SNAG Golf League",
+    "anonymous": "Vận động viên ẩn danh",
+    "graduated": "Tốt nghiệp",
+    "stages": "Chặng đã thi",
+    "totalPoints": "Tổng điểm",
+    "rank": "Hạng hiện tại",
+    "bestGross": "Best Gross",
+    "stageNo": "Chặng {{no}}",
+    "toPar": "So với par",
+    "notRanked": "Không tính vào bảng xếp hạng",
+    "certificate": "Tải chứng nhận",
+    "queue": {
+      "title": "Ghép VĐV SNAG League",
+      "intro": "Các bạn đăng ký giải hoặc có kết quả mà hệ thống chưa chắc là ai. Kiểm tra rồi gộp vào hồ sơ có sẵn, gắn kết quả, hoặc giữ hồ sơ mới.",
+      "filter": {
+        "pending": "Đang chờ",
+        "all": "Tất cả"
+      },
+      "empty": "Không còn bạn nào cần ghép.",
+      "source": {
+        "issue": "Đăng ký giải",
+        "results": "Kết quả gửi từ app giải",
+        "import": "Nhập lịch sử"
+      },
+      "reason": {
+        "same_name_unsure": "Trùng tên, chưa chắc cùng người",
+        "no_match": "Không tìm thấy hồ sơ"
+      },
+      "status": {
+        "pending": "Đang chờ",
+        "merged": "Đã gộp",
+        "linked": "Đã gắn",
+        "kept_new": "Giữ hồ sơ mới",
+        "dismissed": "Đã bỏ qua"
+      },
+      "newProfile": "Hồ sơ vừa tạo",
+      "candidates": "Hồ sơ có sẵn trùng tên",
+      "noCandidates": "Không có hồ sơ trùng tên.",
+      "link": "Gắn kết quả vào hồ sơ này",
+      "merge": "Gộp với hồ sơ có sẵn…",
+      "keepNew": "Không phải cùng người, giữ hồ sơ mới",
+      "dismiss": "Bỏ qua",
+      "done": "Đã cập nhật hàng chờ.",
+      "mergedAway": "đã gộp",
+      "birthYear": "sinh năm {{year}}",
+      "eventAge": "{{age}} tuổi lúc ghi tên sự kiện (≈ sinh {{year}})",
+      "guardians": "{{count}} phụ huynh",
+      "stages": "{{count}} dòng kết quả giải",
+      "errors": {
+        "not_merged": "Chưa gộp hồ sơ. Bấm \"Gộp với hồ sơ có sẵn…\" trước.",
+        "already_resolved": "Mục này đã được xử lý.",
+        "use_merge": "Mục này có hồ sơ mới, hãy dùng gộp hồ sơ.",
+        "student_required": "Chọn hồ sơ để gắn."
+      }
+    }
   }
 }

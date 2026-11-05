@@ -222,7 +222,8 @@
       "messages": "Messages & costs",
       "settings": "Settings",
       "audit": "Audit log",
-      "courses": "Golf courses"
+      "courses": "Golf courses",
+      "leagueQueue": "Match SNAG League players"
     },
     "years": {
       "current": "Current year",
@@ -1973,5 +1974,62 @@
       "generic": "Error: {{msg}}"
     },
     "photosExtraN": "{{n}} extra photos"
+  },
+  "league": {
+    "title": "SNAG Golf League record",
+    "anonymous": "Anonymous player",
+    "graduated": "Graduated",
+    "stages": "Stages played",
+    "totalPoints": "Total points",
+    "rank": "Current rank",
+    "bestGross": "Best Gross",
+    "stageNo": "Stage {{no}}",
+    "toPar": "To par",
+    "notRanked": "Not counted in the rankings",
+    "certificate": "Download certificate",
+    "queue": {
+      "title": "Match SNAG League players",
+      "intro": "Players registered for the league, or with results, whom the system could not identify for sure. Check, then merge into an existing profile, attach the result, or keep the new profile.",
+      "filter": {
+        "pending": "Pending",
+        "all": "All"
+      },
+      "empty": "No players left to match.",
+      "source": {
+        "issue": "League registration",
+        "results": "Results from the league app",
+        "import": "History import"
+      },
+      "reason": {
+        "same_name_unsure": "Same name, not sure it is the same player",
+        "no_match": "No profile found"
+      },
+      "status": {
+        "pending": "Pending",
+        "merged": "Merged",
+        "linked": "Attached",
+        "kept_new": "Kept new profile",
+        "dismissed": "Dismissed"
+      },
+      "newProfile": "Newly created profile",
+      "candidates": "Existing profiles with the same name",
+      "noCandidates": "No profiles with the same name.",
+      "link": "Attach result to this profile",
+      "merge": "Merge with an existing profile…",
+      "keepNew": "Not the same player, keep new profile",
+      "dismiss": "Dismiss",
+      "done": "Queue updated.",
+      "mergedAway": "merged",
+      "birthYear": "born {{year}}",
+      "eventAge": "age {{age}} at event sign-up (≈ born {{year}})",
+      "guardians": "{{count}} guardian(s)",
+      "stages": "{{count}} league result row(s)",
+      "errors": {
+        "not_merged": "Profiles not merged yet. Use \"Merge with an existing profile…\" first.",
+        "already_resolved": "This item was already handled.",
+        "use_merge": "This item has a new profile; use merge instead.",
+        "student_required": "Choose a profile to attach."
+      }
+    }
   }
 }

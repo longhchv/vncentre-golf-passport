@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link, Navigate, useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +13,7 @@ import { rpc, type PassportLookup } from './api'
 import { ActivationWizard } from './ActivationWizard'
 import { EventCardPage } from '@/features/events/EventCard'
 import { CrewTodayPage, useCrewToday } from '@/features/events/CrewToday'
+import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 
 /**
  * /p/{mã sổ} — quét QR sổ hoặc nhập mã (F2). Xử lý theo bảng trạng thái sổ × người mở.
@@ -44,7 +46,14 @@ export function PassportScanPage() {
   // Mã in trên chứng nhận giấy (F4) nhập ở ô mã sổ → chuyển sang trang mã chứng nhận
   if (r.result === 'claim') return <Navigate to={`/c/${code}`} replace />
   // Thẻ "Trải nghiệm sự kiện" (module 10): ghi tên tại chỗ, không cần tài khoản
-  if (r.result === 'event') return <EventCardPage code={code} />
+  // Mục "Thành tích SNAG Golf League" (spec 13 mục 6) hiện dưới mọi trang sổ còn hiệu lực, kể cả thẻ sự kiện
+  const withLeague = (node: ReactNode) => (
+    <div className="space-y-6">
+      {node}
+      <LeagueAchievements code={code} />
+    </div>
+  )
+  if (r.result === 'event') return withLeague(<EventCardPage code={code} />)
 
   const next = `/p/${code}`
   const tier = i18n.language === 'en' ? r.tier_en : r.tier_vi
@@ -53,7 +62,7 @@ export function PassportScanPage() {
   // Sổ chưa kích hoạt: chưa đăng nhập → chào + đăng ký/đăng nhập (B7: F1 trước); đã đăng nhập → trình tự kích hoạt
   if (r.status === 'assigned' || r.status === 'unassigned') {
     if (!session) {
-      return (
+      return withLeague(
         <div className="mx-auto flex max-w-md flex-col items-center gap-4 text-center">
           <Mascot className="h-28 w-28" />
           {r.status === 'assigned' ? (
@@ -72,10 +81,10 @@ export function PassportScanPage() {
           <Button asChild variant="outline" size="full">
             <Link to={`/login?tab=parent&next=${encodeURIComponent(next)}`}>{t('scan.haveAccount')}</Link>
           </Button>
-        </div>
+        </div>,
       )
     }
-    return <ActivationWizard code={code} maskedName={r.masked_name} schoolName={r.school_name} />
+    return withLeague(<ActivationWizard code={code} maskedName={r.masked_name} schoolName={r.school_name} />)
   }
 
   // Sổ đã báo mất / huỷ
@@ -97,7 +106,7 @@ export function PassportScanPage() {
 
   // Sổ đang dùng (hoặc sổ cấp trước — xử lý như đang dùng, F2)
   if (r.relation === 'guardian') {
-    return (
+    return withLeague(
       <div className="mx-auto flex max-w-md flex-col items-center gap-4 text-center">
         <Mascot className="h-24 w-24" />
         <h1 className="text-xl font-bold">{t('scan.yourChild', { name: r.masked_name })}</h1>
@@ -107,20 +116,20 @@ export function PassportScanPage() {
         <Button asChild size="full">
           <Link to={r.student_id ? `/app/children/${r.student_id}` : '/app'}>{t('activation.openChild')}</Link>
         </Button>
-      </div>
+      </div>,
     )
   }
   if (r.relation === 'staff') {
-    return (
+    return withLeague(
       <Card className="mx-auto max-w-md space-y-3 p-5">
         <p className="font-bold">{r.masked_name}</p>
         <p className="text-sm text-navy/60">{tier} · {t(`passportStatus.${r.status}`)}</p>
         {r.status === 'retired' && r.current_passport_code && <p>{t('scan.retiredNote', { code: formatCode(r.current_passport_code) })}</p>}
         <StaffLink studentId={r.student_id} />
-      </Card>
+      </Card>,
     )
   }
-  return (
+  return withLeague(
     <div className="mx-auto flex max-w-md flex-col items-center gap-4 text-center">
       <Mascot className="h-24 w-24" />
       <h1 className="text-xl font-bold">{t('scan.alreadyActive')}</h1>
@@ -130,7 +139,7 @@ export function PassportScanPage() {
           <Link to={`/login?tab=parent&next=${encodeURIComponent(next)}`}>{t('common.login')}</Link>
         </Button>
       )}
-    </div>
+    </div>,
   )
 }
 
