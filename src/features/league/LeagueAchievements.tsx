@@ -43,24 +43,35 @@ export interface LeagueProfile {
 }
 
 /**
- * Mục "Thành tích SNAG Golf League" trên /p/{mã} (spec 13 mục 6.1–6.2).
- * Máy chủ không gửi ngày sinh, trường, phụ huynh; tên theo quy tắc BXH. Không có thành tích thì không hiện gì.
+ * Mục "Thành tích SNAG Golf League" (spec 13 mục 6.1–6.2, spec 14 mục 1.1–1.2).
+ * - `code`: trang công khai /p/{mã}. Máy chủ không gửi ngày sinh, trường, phụ huynh; tên theo quy tắc BXH.
+ * - `studentId`: trang học viên của admin, HLV, nhà trường, phụ huynh (league_student_profile, máy chủ kiểm quyền).
+ * Không có thành tích (hoặc không có quyền) thì không hiện gì.
  */
-export function LeagueAchievements({ code }: { code: string }) {
-  const { t, i18n } = useTranslation()
-  const lang = i18n.language
-  const localized = useLocalized()
+export function LeagueAchievements(props: { code: string } | { studentId: string; className?: string }) {
   const { session } = useAuth()
+  const byCode = 'code' in props
+  const key = byCode ? props.code : props.studentId
   const q = useQuery({
-    queryKey: ['league_public_profile', code, session?.user.id ?? 'anon'],
+    queryKey: [byCode ? 'league_public_profile' : 'league_student_profile', key, session?.user.id ?? 'anon'],
+    enabled: Boolean(key),
+    retry: false,
     queryFn: async () => {
-      const { data, error } = await supabase!.rpc('league_public_profile', { p_code: code })
+      const { data, error } = byCode
+        ? await supabase!.rpc('league_public_profile', { p_code: key })
+        : await supabase!.rpc('league_student_profile', { p_student_id: key })
       if (error) throw error
       return data as LeagueProfile | null
     },
   })
-  const p = q.data
-  if (!p) return null
+  if (!q.data) return null
+  return <LeagueAchievementsCard profile={q.data} className={'className' in props ? props.className : undefined} />
+}
+
+export function LeagueAchievementsCard({ profile: p, className = 'mx-auto w-full max-w-md' }: { profile: LeagueProfile; className?: string }) {
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language
+  const localized = useLocalized()
 
   const stat = (label: string, value: string) => (
     <div className="rounded-xl bg-navy/5 px-3 py-2 text-center">
@@ -70,7 +81,7 @@ export function LeagueAchievements({ code }: { code: string }) {
   )
 
   return (
-    <Card className="mx-auto w-full max-w-md space-y-4 p-4 text-left">
+    <Card className={`${className} space-y-4 p-4 text-left`}>
       <div className="flex items-start gap-3">
         <Trophy className="mt-0.5 h-6 w-6 shrink-0 text-bronze" aria-hidden />
         <div className="min-w-0 flex-1">

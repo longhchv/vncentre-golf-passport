@@ -32,6 +32,7 @@ export function AdminSetLevel({ studentId }: { studentId: string }) {
       setReason('')
       qc.invalidateQueries({ queryKey: ['student_profile', studentId] })
       qc.invalidateQueries({ queryKey: ['admin_search_students'] })
+      qc.invalidateQueries({ queryKey: ['admin_students_page'] })
     },
     onError: (e) => toast(errorMessage(e, t), 'error'),
   })

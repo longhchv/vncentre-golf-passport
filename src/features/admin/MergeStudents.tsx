@@ -85,6 +85,7 @@ export function MergeStudentsDialog({ student, open, onClose, onMerged }: {
     onSuccess: (keepId) => {
       toast(t('merge.done'))
       qc.invalidateQueries({ queryKey: ['admin_search_students'] })
+      qc.invalidateQueries({ queryKey: ['admin_students_page'] })
       qc.invalidateQueries({ queryKey: ['student'] })
       qc.invalidateQueries({ queryKey: ['student_merges'] })
       close()
@@ -250,6 +251,7 @@ function MergeHistory() {
       toast(t('merge.undone'))
       qc.invalidateQueries({ queryKey: ['student_merges'] })
       qc.invalidateQueries({ queryKey: ['admin_search_students'] })
+      qc.invalidateQueries({ queryKey: ['admin_students_page'] })
     },
     onError: (e) => toast(t(`merge.errors.${String((e as { message?: string }).message)}`, { defaultValue: errorMessage(e, t) }), 'error'),
   })

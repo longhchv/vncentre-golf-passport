@@ -73,3 +73,21 @@ Phụ huynh **gõ** mã → chỉ hiện `name_masked` + `birth_year`. **Quét Q
 Thử nhanh: `scripts/league-bridge-smoke.ps1` trong repo Passport (lookup, 401, 429, issue matched/created/lặp lại).
 
 **Lưu ý staging:** `qr_url` trên staging đang trỏ tên miền chính thức (`app.vncentre.net`), mã sổ staging không mở được ở đó — đổi tên miền sang bản staging khi thử.
+
+## 5. Mở thẳng hồ sơ VĐV từ app giải (spec 14 bước 4)
+
+App giải chỉ có **mã VNC** (`student_code` trả về từ `lookup` / `issue`), nên hai trang dưới đây nhận thẳng mã VNC trên đường dẫn; Passport tự tìm hồ sơ (kể cả hồ sơ đã gộp) rồi chuyển sang trang chi tiết. Không cần khoá, không cần gọi cổng kết nối: chỉ là link mở trong trình duyệt.
+
+| Người bấm | Link | Thấy gì |
+|---|---|---|
+| Admin, HLV trưởng | `https://app.vncentre.net/admin/students/VNC-002279` | Hồ sơ đầy đủ: thông tin, phụ huynh (có email), sổ, lộ trình, lớp, chứng nhận, đồng ý, Thành tích SNAG; các nút sửa |
+| BTC giải (vai trò `league_staff`) | `https://app.vncentre.net/league/students/VNC-002279` | Hồ sơ rút gọn: tên, năm sinh, trường, mã VNC, sổ, tên + SĐT + quan hệ phụ huynh, Thành tích SNAG. Không sửa được |
+
+- Ghép link từ `student_code`: `…/admin/students/${student_code}` hoặc `…/league/students/${student_code}`. Viết `VNC-002279` hay `vnc002279` đều được.
+- Chưa đăng nhập → Passport chuyển sang trang đăng nhập rồi quay lại đúng hồ sơ.
+- Không có quyền (vd. BTC mở bạn chưa từng thi SNAG, hoặc người không phải admin mở link `/admin`) → báo không có quyền / không tìm thấy. **Quyền do Passport kiểm**, app giải không cần tự ẩn link theo vai trò, nhưng nên chỉ hiện link cho người tổ chức.
+- Mỗi lần BTC giải mở hồ sơ, Passport ghi nhật ký (ai, lúc nào, hồ sơ nào).
+- Gợi ý chỗ đặt link: danh sách VĐV theo chặng và trang kết quả trong khu BTC của app giải; **không** đặt trên trang công khai hay Trang của con.
+- Vai trò BTC giải do admin Passport gán trên trang **Người dùng** cho tài khoản đăng nhập của chính người tổ chức. Ai chưa có tài khoản Passport thì gửi email cho anh Long để tạo.
+
+**Lưu ý:** hai trang này có hiệu lực sau khi bản giao diện mới của Passport được deploy (anh Long sẽ báo). Phần máy chủ (quyền, nhật ký) đã chạy từ 05/11/2026.

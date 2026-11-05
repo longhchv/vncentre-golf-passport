@@ -14,6 +14,7 @@ import { HistoryImport } from '@/features/imports/HistoryImport'
 import { downloadRowsAsXlsx } from '@/features/imports/excel'
 import { useStudentProfile } from '@/features/profile/useStudentProfile'
 import { StudentProfileView } from '@/features/profile/StudentProfileView'
+import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 import type { ClassRow, School } from '@/lib/types'
 
 /** Trường mà tài khoản đang quản lý (F13). Nhiều trường thì có ô chọn. */
@@ -238,6 +239,7 @@ export function SchoolStudentPage() {
       ) : (
         <>
           <StudentProfileView profile={q.data} />
+          <LeagueAchievements studentId={q.data.student.id} className="w-full" />
           <ManualHistoryForm studentId={studentId} />
         </>
       )}

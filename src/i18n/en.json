@@ -66,7 +66,8 @@
     "coach": "Coach",
     "school": "School",
     "admin": "Admin",
-    "event": "Event organisers"
+    "event": "Event organisers",
+    "league": "League organiser"
   },
   "status": {
     "version": "Version",
@@ -281,7 +282,8 @@
   },
   "verification": {
     "verified": "Verified",
-    "pending_review": "Pending review"
+    "pending_review": "Pending review",
+    "event_guest": "Event guest"
   },
   "classStatus": {
     "active": "Active",
@@ -318,7 +320,8 @@
     "school_manager": "School manager",
     "pe_teacher": "PE teacher",
     "partner": "Partner",
-    "event_staff": "Event organiser (experience)"
+    "event_staff": "Event organiser (experience)",
+    "league_staff": "SNAG Golf League organiser"
   },
   "students": {
     "searchPlaceholder": "Name, student code or parent phone",
@@ -332,7 +335,41 @@
     "primary": "Primary guardian",
     "pendingConfirmation": "Pending confirmation",
     "classes": "Classes",
-    "editInfo": "Edit details"
+    "editInfo": "Edit details",
+    "searchPlaceholderFull": "VNC code, name, parent phone or passport code",
+    "passports": "Passports",
+    "leagueBadge": "SNAG · {{count}} stages",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {{page}} of {{pages}}",
+    "filter": {
+      "tier": "Passport tier",
+      "allTiers": "All passport tiers",
+      "verification": "Verification",
+      "allVerification": "All verification states",
+      "league": "SNAG Golf League",
+      "leagueAny": "SNAG: all",
+      "leagueYes": "Played SNAG League",
+      "leagueNo": "Not played SNAG League"
+    },
+    "detail": {
+      "mergedAway": "Merged into another profile",
+      "openPublic": "Open public page",
+      "copyCode": "Copy VNC code",
+      "leagueQueue": "Waiting for player matching ({{count}})",
+      "consents": "Parent consents",
+      "consentYes": "Granted",
+      "consentNo": "Declined",
+      "consentRevoked": "Revoked",
+      "consentType": {
+        "terms": "Terms of use",
+        "privacy": "Privacy policy",
+        "leaderboard_name": "Show name on leaderboard",
+        "photo": "Photo use",
+        "contact_by_vncentre": "Contact by VN Centre"
+      }
+    },
+    "codeNotFound": "Profile {{code}} not found, or you do not have access."
   },
   "gender": {
     "male": "Male",
@@ -2031,5 +2068,22 @@
         "student_required": "Choose a profile to attach."
       }
     }
+  },
+  "leagueStaff": {
+    "title": "SNAG League players",
+    "nav": {
+      "search": "Find player",
+      "scan": "Scan card QR"
+    },
+    "searchPlaceholder": "VNC code, name, parent phone or passport code",
+    "searchHint": "Only players who have played SNAG Golf League or registered through the league app can be found.",
+    "noResult": "No players found.",
+    "birthYear": "born {{year}}",
+    "stages": "Stages played: {{count}}",
+    "scanNotFound": "No SNAG League player found for this code.",
+    "scanMany": "This code matches several players, please search by name or VNC code.",
+    "noAccess": "You cannot view this profile. League organisers can only view players who have played SNAG Golf League.",
+    "guardians": "Parents (match-day contact)",
+    "noStages": "No stage results yet."
   }
 }

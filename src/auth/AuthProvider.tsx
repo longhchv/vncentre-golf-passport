@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { setLanguage, type Language } from '@/i18n'
 import type { Profile, Role, UserRole } from '@/lib/types'
 
-export type Workspace = 'parent' | 'student' | 'coach' | 'school' | 'admin' | 'event'
+export type Workspace = 'parent' | 'student' | 'coach' | 'school' | 'admin' | 'event' | 'league'
 
 export const WORKSPACE_PATH: Record<Workspace, string> = {
   parent: '/app',
@@ -14,6 +14,7 @@ export const WORKSPACE_PATH: Record<Workspace, string> = {
   school: '/school',
   admin: '/admin',
   event: '/event',
+  league: '/league',
 }
 
 const COACH_ROLES: Role[] = ['head_coach', 'coach', 'assistant', 'pe_teacher']
@@ -104,6 +105,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (studentId) list.push('student')
     // Nhân viên sự kiện (module 10): quầy đổi quà
     if (roles.some((r) => r.role === 'event_staff' && r.class_id)) list.push('event')
+    // BTC giải SNAG Golf League (spec 14 mục 1.3): chỉ xem hồ sơ VĐV
+    if (roles.some((r) => r.role === 'league_staff')) list.push('league')
     return list
   }, [roles, guardianId, studentId])
 

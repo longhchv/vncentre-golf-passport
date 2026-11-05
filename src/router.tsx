@@ -69,6 +69,12 @@ const PARENT_NAV: NavItem[] = [
   { to: '/account', labelKey: 'account.title' },
 ]
 
+// BTC giải SNAG Golf League (spec 14 mục 1.3): tìm VĐV, quét QR thẻ, hồ sơ rút gọn
+const LEAGUE_NAV: NavItem[] = [
+  { to: '/league', labelKey: 'leagueStaff.nav.search', end: true },
+  { to: '/league/scan', labelKey: 'leagueStaff.nav.scan' },
+]
+
 // Nhân viên sự kiện (module 10): danh sách sự kiện → quầy đổi quà
 const EVENT_NAV: NavItem[] = [{ to: '/event', labelKey: 'counter.myEvents', end: true }]
 
@@ -134,6 +140,12 @@ export const router = createBrowserRouter([
     { path: ':eventId', lazy: page(() => import('@/features/events/CounterPages'), (m) => m.CounterPage) },
     { path: ':eventId/crew', lazy: page(() => import('@/features/events/CrewBoard'), (m) => m.CrewBoardPage) },
   ]),
+  workspaceRoute('league', '/league', LEAGUE_NAV, [
+    { index: true, lazy: page(() => import('@/features/league/LeagueStaffPages'), (m) => m.LeagueStaffHome) },
+    { path: 'scan', lazy: page(() => import('@/features/league/LeagueStaffPages'), (m) => m.LeagueStaffScanPage) },
+    { path: 'students/:studentId', lazy: page(() => import('@/features/league/LeagueStaffPages'), (m) => m.LeagueStaffStudentPage) },
+    { path: '*', element: <NotFoundPage /> },
+  ]),
   workspaceRoute('student', '/me', STUDENT_NAV, [
     { index: true, lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.StudentMePage) },
     { path: '*', element: <NotFoundPage /> },
@@ -161,6 +173,7 @@ export const router = createBrowserRouter([
       path: n.to.replace('/admin/', ''),
       ...(n.lazy ? { lazy: n.lazy } : { element: <ComingSoon /> }),
     })),
+    { path: 'students/:studentId', lazy: page(() => import('@/features/admin/StudentDetailPage'), (m) => m.StudentDetailPage) },
     { path: 'classes/:classId', lazy: page(() => import('@/features/admin/ClassDetailPage'), (m) => m.ClassDetailPage) },
     { path: 'events/:eventId', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventDetailPage) },
     // Khu quản trị sân (docs/plan/khu-quan-tri-san.md): màn 2–4 làm ở B2; Cảm nhận, Quanh sân (B3), Đăng (B4) tạm hiện "Sắp ra mắt"

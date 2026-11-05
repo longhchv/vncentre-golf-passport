@@ -9,6 +9,7 @@ export type Role =
   | 'pe_teacher'
   | 'partner'
   | 'event_staff'
+  | 'league_staff'
 
 export interface Profile {
   id: string
@@ -208,7 +209,8 @@ export interface Student {
   current_grade_class: string | null
   golf_goals: string[]
   golf_goals_other: string | null
-  verification_status: 'verified' | 'pending_review'
+  verification_status: 'verified' | 'pending_review' | 'event_guest'
+  merged_into_student_id?: string | null
   activated_at: string | null
   claim_code: string | null
 }
@@ -246,6 +248,7 @@ export const STAFF_ROLES: Role[] = [
   'pe_teacher',
   'partner',
   'event_staff',
+  'league_staff',
 ]
 
 // ===== Khu quản trị sân golf (bảng gc_*, migration 20261023000001) =====

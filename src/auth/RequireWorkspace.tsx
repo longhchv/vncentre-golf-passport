@@ -24,8 +24,8 @@ export function RequireWorkspace({ workspace, children }: { workspace: Workspace
   if (loading) return <FullPageSpinner />
   if (!session) return <Navigate to={`/login?next=${encodeURIComponent(location.pathname)}`} replace />
 
-  // Admin mở được quầy đổi quà của mọi sự kiện
-  const allowed = workspaces.includes(workspace) || (workspace === 'event' && workspaces.includes('admin'))
+  // Admin mở được quầy đổi quà của mọi sự kiện và khu BTC giải
+  const allowed = workspaces.includes(workspace) || ((workspace === 'event' || workspace === 'league') && workspaces.includes('admin'))
   if (profile?.status === 'suspended' || !allowed) {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-12 text-center">

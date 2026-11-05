@@ -13,6 +13,7 @@ import { QrScanner } from '@/features/passports/QrScanner'
 import { rpc, type PassportLookup } from '@/features/activation/api'
 import { useStudentProfile } from './useStudentProfile'
 import { StudentProfileView } from './StudentProfileView'
+import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 
 function ProfileLoader({ studentId, back }: { studentId: string; back: { to: string; label: string } }) {
   const { t } = useTranslation()
@@ -30,7 +31,11 @@ function ProfileLoader({ studentId, back }: { studentId: string; back: { to: str
           <p className="font-semibold">{t('coach.noAccessStudent')}</p>
         </Card>
       ) : (
-        <StudentProfileView profile={q.data} />
+        <>
+          <StudentProfileView profile={q.data} />
+          {/* Thành tích SNAG (spec 14 mục 1.2): ẩn nếu chưa thi chặng nào */}
+          <LeagueAchievements studentId={q.data.student.id} className="w-full" />
+        </>
       )}
     </div>
   )
