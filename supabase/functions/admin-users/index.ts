@@ -11,7 +11,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { corsHeaders, json } from '../_shared/cors.ts'
 
-const STAFF_ROLES = ['admin', 'head_coach', 'coach', 'assistant', 'school_manager', 'pe_teacher', 'partner', 'event_staff']
+const STAFF_ROLES = ['admin', 'head_coach', 'coach', 'assistant', 'school_manager', 'pe_teacher', 'partner', 'event_staff', 'league_staff']
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 Deno.serve(async (req) => {

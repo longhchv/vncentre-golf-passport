@@ -66,7 +66,8 @@
     "coach": "Huấn luyện viên",
     "school": "Nhà trường",
     "admin": "Quản trị",
-    "event": "BTC sự kiện"
+    "event": "BTC sự kiện",
+    "league": "BTC giải"
   },
   "status": {
     "version": "Phiên bản",
@@ -281,7 +282,8 @@
   },
   "verification": {
     "verified": "Đã xác minh",
-    "pending_review": "Chờ xác minh"
+    "pending_review": "Chờ xác minh",
+    "event_guest": "Khách sự kiện trải nghiệm"
   },
   "classStatus": {
     "active": "Đang hoạt động",
@@ -318,7 +320,8 @@
     "school_manager": "Quản lý trường",
     "pe_teacher": "Giáo viên thể chất",
     "partner": "Đối tác",
-    "event_staff": "BTC sự kiện trải nghiệm"
+    "event_staff": "BTC sự kiện trải nghiệm",
+    "league_staff": "BTC giải SNAG Golf League"
   },
   "students": {
     "searchPlaceholder": "Tên, mã học viên hoặc SĐT phụ huynh",
@@ -332,7 +335,41 @@
     "primary": "Người giám hộ chính",
     "pendingConfirmation": "Chờ xác nhận",
     "classes": "Lớp",
-    "editInfo": "Sửa thông tin"
+    "editInfo": "Sửa thông tin",
+    "searchPlaceholderFull": "Mã VNC, tên, SĐT phụ huynh hoặc mã sổ",
+    "passports": "Sổ Passport",
+    "leagueBadge": "SNAG · {{count}} chặng",
+    "prevPage": "Trang trước",
+    "nextPage": "Trang sau",
+    "pageOf": "Trang {{page}}/{{pages}}",
+    "filter": {
+      "tier": "Hạng sổ",
+      "allTiers": "Mọi hạng sổ",
+      "verification": "Xác minh",
+      "allVerification": "Mọi trạng thái xác minh",
+      "league": "SNAG Golf League",
+      "leagueAny": "Thi SNAG: tất cả",
+      "leagueYes": "Đã thi SNAG League",
+      "leagueNo": "Chưa thi SNAG League"
+    },
+    "detail": {
+      "mergedAway": "Đã gộp vào hồ sơ khác",
+      "openPublic": "Mở trang công khai",
+      "copyCode": "Sao chép mã VNC",
+      "leagueQueue": "Đang chờ ghép VĐV ({{count}})",
+      "consents": "Đồng ý của phụ huynh",
+      "consentYes": "Đồng ý",
+      "consentNo": "Không đồng ý",
+      "consentRevoked": "Đã rút",
+      "consentType": {
+        "terms": "Điều khoản sử dụng",
+        "privacy": "Chính sách bảo mật",
+        "leaderboard_name": "Hiện tên trên bảng xếp hạng",
+        "photo": "Sử dụng ảnh",
+        "contact_by_vncentre": "VN Centre liên hệ"
+      }
+    },
+    "codeNotFound": "Không tìm thấy hồ sơ {{code}}, hoặc bạn không có quyền xem."
   },
   "gender": {
     "male": "Nam",
@@ -2031,5 +2068,22 @@
         "student_required": "Chọn hồ sơ để gắn."
       }
     }
+  },
+  "leagueStaff": {
+    "title": "Vận động viên SNAG League",
+    "nav": {
+      "search": "Tìm VĐV",
+      "scan": "Quét QR thẻ"
+    },
+    "searchPlaceholder": "Mã VNC, tên, SĐT phụ huynh hoặc mã sổ",
+    "searchHint": "Chỉ tìm được các bạn đã thi SNAG Golf League hoặc đã đăng ký giải qua app giải.",
+    "noResult": "Không tìm thấy VĐV nào.",
+    "birthYear": "sinh năm {{year}}",
+    "stages": "Đã thi: {{count}} chặng",
+    "scanNotFound": "Không tìm thấy VĐV SNAG League với mã này.",
+    "scanMany": "Mã này khớp nhiều VĐV, hãy tìm bằng tên hoặc mã VNC.",
+    "noAccess": "Bạn không xem được hồ sơ này. BTC giải chỉ xem được các bạn đã thi SNAG Golf League.",
+    "guardians": "Phụ huynh (liên hệ ngày thi đấu)",
+    "noStages": "Bạn này chưa có kết quả chặng nào."
   }
 }

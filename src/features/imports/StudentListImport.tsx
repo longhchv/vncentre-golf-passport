@@ -324,6 +324,7 @@ function PreviewStep({
     onSuccess: (b) => {
       qc.invalidateQueries({ queryKey: ['import_batches'] })
       qc.invalidateQueries({ queryKey: ['admin_search_students'] })
+      qc.invalidateQueries({ queryKey: ['admin_students_page'] })
       qc.invalidateQueries({ queryKey: ['class'] })
       onCommitted(b)
     },
