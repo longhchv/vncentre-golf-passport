@@ -420,3 +420,7 @@ verify_jwt = false
 
 [functions.payos-webhook]
 verify_jwt = false
+
+# App giải SNAG League gọi máy chủ với máy chủ bằng khoá X-League-Key, không có JWT người dùng
+[functions.league-bridge]
+verify_jwt = false

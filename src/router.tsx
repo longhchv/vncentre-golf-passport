@@ -36,6 +36,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/queue', labelKey: 'admin.nav.queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
+  { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
   { to: '/admin/orders', labelKey: 'admin.nav.orders', lazy: page(() => import('@/features/orders/OrdersPage'), (m) => m.OrdersPage) },
