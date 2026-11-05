@@ -71,6 +71,9 @@ begin
      <> 'participation=50,best_gross=500,winner=300,runner_up_1=250,runner_up_2=200,runner_up_3=150,runner_up_4=100,spirit_of_the_game=200,essence_of_golf_style=100,style_bonus=50' then
     raise exception 'FAIL: thang điểm seed';
   end if;
+  -- Phần hạng bên dưới dùng mùa thử riêng: mùa 2026 trên staging đã có VĐV thật, hạng sẽ lệch
+  insert into public.seasons (code, name_vi, name_en, start_date, end_date)
+  values ('test-snag1', 'Mùa thử', 'Test season', '2099-01-01', '2099-12-31') returning id into sea;
   -- Tra theo cách viết trong file cũ và tên tiếng Anh
   rule := public.league_point_rule(ser, 'rank', 'Vô địch (Best Gross)');   if rule.code is distinct from 'best_gross' then raise exception 'FAIL: tra Best Gross'; end if;
   rule := public.league_point_rule(ser, 'rank', '1st runner up');          if rule.code is distinct from 'runner_up_1' then raise exception 'FAIL: tra 1st Runner Up'; end if;
@@ -82,9 +85,9 @@ begin
   rule := public.league_point_rule(ser, 'rank', '');                       if rule.id is not null then raise exception 'FAIL: tra rỗng'; end if;
 
   ------------------------------------------------------------------ Kết quả: điểm tổng tự cộng; duy nhất theo (chặng, tên chuẩn hoá)
-  insert into public.tournaments (series_id, season_id, stage_no, played_on, venue) values (ser, sea, 91, '2026-03-28', 'Sân thử') returning id into t1;
-  insert into public.tournaments (series_id, season_id, stage_no, played_on) values (ser, sea, 92, '2026-04-19') returning id into t2;
-  insert into public.tournaments (series_id, season_id, stage_no, played_on, counts_for_ranking) values (ser, sea, 93, '2026-05-10', false) returning id into t3;
+  insert into public.tournaments (series_id, season_id, stage_no, played_on, venue) values (ser, sea, 91, '2099-03-28', 'Sân thử') returning id into t1;
+  insert into public.tournaments (series_id, season_id, stage_no, played_on) values (ser, sea, 92, '2099-04-19') returning id into t2;
+  insert into public.tournaments (series_id, season_id, stage_no, played_on, counts_for_ranking) values (ser, sea, 93, '2099-05-10', false) returning id into t3;
   insert into public.students (full_name, birth_year) values ('Test Snag Ba', 2017) returning id into s_c;
   insert into public.students (full_name) values ('Test Snag Bon') returning id into s_d;
 
