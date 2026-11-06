@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Award, Check, ChevronRight, Lock } from 'lucide-react'
@@ -22,6 +22,9 @@ import { GuardiansTab } from '@/features/guardians/GuardiansTab'
 import { CertificateViewer } from '@/features/certificates/CertificateViewer'
 import { ReportLostButton } from '@/features/orders/ReportLost'
 import { DataDeletionRequest } from '@/features/consents/Consents'
+import { LeagueAchievements } from '@/features/league/LeagueAchievements'
+import { AthleteAwards, AthleteCardView, useAthleteCard } from './AthleteCard'
+import { ScholarshipChecklist } from './ScholarshipChecklist'
 import { EventExperience } from '@/features/events/EventExperience'
 
 type Tab = 'overview' | 'roadmap' | 'courses' | 'certificates' | 'passport' | 'guardians' | 'info' | 'experience'
@@ -75,6 +78,90 @@ export function StudentProfileView({ profile }: { profile: StudentProfile }) {
           {profile.viewer === 'guardian' && profile.can_manage && <DataDeletionRequest studentId={profile.student.id} />}
         </div>
       )}
+    </div>
+  )
+}
+
+type ManageTab = 'passport' | 'guardians' | 'info'
+const ATHLETE_BLOCKS = ['courses', 'roadmap', 'overview', 'certificates', 'scholarship'] as const
+
+/**
+ * Hồ sơ VĐV suốt đời (spec 15 mục 4) cho phụ huynh đã xác nhận và chính học viên: các khối xếp dọc theo thứ tự
+ * 1 Thẻ VĐV · 2 Thành tích SNAG · 3 Giải thưởng & danh hiệu · 4 Khoá học & Level · 5 Chứng nhận · 6 Hành trang học bổng.
+ * Cuối trang là phần quản lý (anh Long chốt 06/11): Passport, Người giám hộ, Thông tin (chỉ phụ huynh).
+ * ?tab=… từ thông báo: cuộn tới khối tương ứng, hoặc mở đúng mục quản lý.
+ */
+export function AthleteProfileView({ profile }: { profile: StudentProfile }) {
+  const { t } = useTranslation()
+  const card = useAthleteCard(profile.student.id)
+  const guardian = profile.viewer === 'guardian'
+  const manageTabs: ManageTab[] = guardian ? ['passport', 'guardians', 'info'] : ['passport']
+  const [params] = useSearchParams()
+  const initial = params.get('tab')
+  const [tab, setTab] = useState<ManageTab>(manageTabs.includes(initial as ManageTab) ? (initial as ManageTab) : 'passport')
+
+  useEffect(() => {
+    if (!initial) return
+    const id = manageTabs.includes(initial as ManageTab)
+      ? 'athlete-manage'
+      : (ATHLETE_BLOCKS as readonly string[]).includes(initial)
+        ? `athlete-${initial === 'certificates' || initial === 'scholarship' ? initial : 'courses'}`
+        : null
+    if (id) document.getElementById(id)?.scrollIntoView({ block: 'start' })
+    // chỉ chạy khi mở trang
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <div className="space-y-4">
+      {card.data ? <AthleteCardView card={card.data} /> : <Header profile={profile} />}
+      <LeagueAchievements studentId={profile.student.id} className="w-full" />
+      {card.data && <AthleteAwards awards={card.data.awards} />}
+
+      <section id="athlete-courses" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg font-bold">{t('athlete.coursesTitle')}</h2>
+        {!profile.has_history && guardian && <HistoryRequest profile={profile} />}
+        <Roadmap profile={profile} />
+        <h3 className="font-bold">{t('profile.tab.courses')}</h3>
+        <Courses profile={profile} />
+      </section>
+
+      <section id="athlete-certificates" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg font-bold">{t('profile.tab.certificates')}</h2>
+        <Certificates profile={profile} />
+      </section>
+
+      <ScholarshipChecklist studentId={profile.student.id} />
+
+      <section id="athlete-manage" className="scroll-mt-20 space-y-3 border-t border-navy/10 pt-4">
+        <h2 className="text-lg font-bold">{t('athlete.manageTitle')}</h2>
+        {manageTabs.length > 1 && (
+          <div className="-mx-4 overflow-x-auto px-4" role="tablist">
+            <div className="flex w-max gap-2 pb-1">
+              {manageTabs.map((k) => (
+                <button
+                  key={k}
+                  type="button"
+                  role="tab"
+                  aria-selected={tab === k}
+                  onClick={() => setTab(k)}
+                  className={`min-h-10 shrink-0 rounded-full px-4 text-sm font-semibold ${tab === k ? 'bg-navy text-white' : 'bg-white text-navy/70 ring-1 ring-navy/15'}`}
+                >
+                  {t(`profile.tab.${k}`)}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {tab === 'passport' && <PassportTab profile={profile} />}
+        {tab === 'guardians' && guardian && <GuardiansTab profile={profile} />}
+        {tab === 'info' && guardian && (
+          <div className="space-y-4">
+            <ChildInfoForm profile={profile} />
+            {profile.can_manage && <DataDeletionRequest studentId={profile.student.id} />}
+          </div>
+        )}
+      </section>
     </div>
   )
 }

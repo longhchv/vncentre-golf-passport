@@ -1,0 +1,18 @@
+stage,item_group,title_vi,title_en,auto_source
+primary,golf,"Lộ trình chương trình golf đã học, level",Golf programmes completed and level,courses
+primary,golf,Thành tích giải trong hệ thống VN Centre,Results in VN Centre events,competitions
+primary,golf,Giải văn hoá – tinh thần,Spirit and etiquette awards,culture_awards
+primary,golf,Thành tích giải ngoài (VGA Junior Tour…),Results in external events (VGA Junior Tour…),
+primary,academic,Học bạ / bảng điểm từng năm,School reports for each year,
+primary,academic,Chứng chỉ tiếng Anh (Cambridge…),English certificates (Cambridge…),
+primary,personal,"Hoạt động ngoại khoá, thiện nguyện",Extracurricular and volunteer activities,
+lower_secondary,golf,Handicap chính thức (WHS),Official handicap (WHS),
+lower_secondary,golf,Video swing định kỳ 6 tháng (link YouTube),Swing video every 6 months (YouTube link),
+lower_secondary,golf,Giải tính điểm WAGR,WAGR-counting events,
+lower_secondary,academic,Chứng chỉ IELTS / TOEFL,IELTS / TOEFL certificate,
+upper_secondary,academic,Bảng điểm dịch thuật công chứng từ lớp 9,Certified translated transcripts from Grade 9,
+upper_secondary,academic,SAT / ACT (nếu trường yêu cầu),SAT / ACT (if required),
+upper_secondary,academic,Đăng ký NCAA Eligibility Center,NCAA Eligibility Center registration,
+upper_secondary,personal,"Thư giới thiệu (HLV, giáo viên)","Recommendation letters (coach, teacher)",
+upper_secondary,personal,Golf resume 1 trang,One-page golf resume,
+upper_secondary,personal,"Danh sách trường mục tiêu, liên hệ HLV đại học",Target colleges and college coach contacts,

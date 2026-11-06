@@ -224,7 +224,8 @@
       "settings": "Settings",
       "audit": "Audit log",
       "courses": "Golf courses",
-      "leagueQueue": "Match SNAG League players"
+      "leagueQueue": "Match SNAG League players",
+      "scholarship": "Scholarship checklist"
     },
     "years": {
       "current": "Current year",
@@ -2085,5 +2086,60 @@
     "noAccess": "You cannot view this profile. League organisers can only view players who have played SNAG Golf League.",
     "guardians": "Parents (match-day contact)",
     "noStages": "No stage results yet."
+  },
+  "athlete": {
+    "copyCode": "Copy code {{code}}",
+    "noLevel": "No level yet",
+    "points": "{{points}} pts",
+    "rank": "rank {{rank}}/{{players}}",
+    "stagesPlayed": "{{count}} stages",
+    "cultureBadge": "×{{count}} Spirit awards",
+    "awardsTitle": "Awards & titles",
+    "coursesTitle": "Courses & Level",
+    "manageTitle": "Passport and details"
+  },
+  "scholarship": {
+    "title": "Scholarship checklist",
+    "intro": "Things to prepare over time for a future golf scholarship. Items marked Automatic are updated by VN Centre; parents tick off the rest.",
+    "collapseAll": "Collapse all",
+    "doneOf": "{{done}}/{{total}} ready",
+    "stage": {
+      "primary": "Primary school",
+      "lower_secondary": "Lower secondary",
+      "upper_secondary": "Upper secondary"
+    },
+    "group": {
+      "golf": "Golf",
+      "academic": "Academic",
+      "personal": "Personal"
+    },
+    "sourceAuto": "Automatic",
+    "sourceGuardian": "Parent-reported",
+    "status": {
+      "not_started": "Not started",
+      "in_progress": "In progress",
+      "done": "Ready"
+    },
+    "addNote": "Add note",
+    "editNote": "Edit note",
+    "notePlaceholder": "Private family note (up to 500 characters)",
+    "adminIntro": "Checklist of things to prepare for a golf scholarship, shown on the parent's child page. Automatic items are computed by the system and cannot be changed by parents.",
+    "autoSource": {
+      "courses": "Approved courses",
+      "competitions": "VN Centre event results",
+      "culture_awards": "Spirit awards"
+    },
+    "fields": {
+      "stage": "School stage",
+      "group": "Group",
+      "titleVi": "Name (Vietnamese)",
+      "titleEn": "Name (English)",
+      "helpVi": "Guidance (Vietnamese)",
+      "helpEn": "Guidance (English)",
+      "autoSource": "Automatic source",
+      "autoSourceHint": "Leave empty if parents tick it off themselves.",
+      "sortOrder": "Order",
+      "active": "Active"
+    }
   }
 }
