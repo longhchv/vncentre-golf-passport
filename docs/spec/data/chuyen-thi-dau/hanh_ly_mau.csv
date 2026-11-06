@@ -1,0 +1,53 @@
+nhom,thu_tu,ten_vi,pham_vi,cong_thuc,he_so_a,cong_them_b,so_co_dinh
+Giấy tờ,1,Hộ chiếu (còn hạn ≥ 6 tháng) + bản photo,international,fixed,,,1
+Giấy tờ,2,Visa / xác nhận nhập cảnh,international,fixed,,,1
+Giấy tờ,3,CCCD hoặc hộ chiếu (bản gốc),domestic,fixed,,,1
+Giấy tờ,4,Bản sao giấy khai sinh (con dưới 14 tuổi chưa có CCCD/hộ chiếu),domestic,fixed,,,1
+Giấy tờ,5,Vé máy bay bản in,all,fixed,,,1
+Giấy tờ,6,Xác nhận đăng ký giải,all,fixed,,,1
+Giấy tờ,7,Bảo hiểm du lịch,all,fixed,,,1
+Giấy tờ,8,Giấy uỷ quyền của bố mẹ (khi con đi cùng HLV/caddie),all,fixed,,,1
+Giấy tờ,9,Thẻ handicap / thẻ hội viên,all,fixed,,,1
+Giấy tờ,10,Ảnh thẻ dự phòng,all,fixed,,,4
+Giấy tờ,11,Tiền mặt ngoại tệ + thẻ,international,fixed,,,1
+Giấy tờ,12,Tiền mặt + thẻ,domestic,fixed,,,1
+Quần áo thi đấu,1,Áo polo thi đấu,all,play_days,1,1,
+Quần áo thi đấu,2,Quần / váy golf,all,half_days,,1,
+Quần áo thi đấu,3,Tất thể thao,all,days,1,2,
+Quần áo thi đấu,4,Mũ / visor,all,fixed,,,2
+Quần áo thi đấu,5,Áo khoác gió / áo giữ nhiệt,all,fixed,,,1
+Quần áo thi đấu,6,Bộ áo mưa,all,fixed,,,1
+Quần áo thi đấu,7,Giày golf (1 đôi dự phòng),all,fixed,,,2
+Quần áo thi đấu,8,Ống tay chống nắng,all,fixed,,,2
+Quần áo sinh hoạt,1,Áo phông thường,all,half_days,,1,
+Quần áo sinh hoạt,2,Quần sinh hoạt,all,fixed,,,2
+Quần áo sinh hoạt,3,Đồ lót,all,days,1,1,
+Quần áo sinh hoạt,4,Đồ ngủ,all,fixed,,,2
+Quần áo sinh hoạt,5,Dép,all,fixed,,,1
+Quần áo sinh hoạt,6,Bộ đồ lịch sự (lễ khai mạc / trao giải),all,fixed,,,1
+Đồ thi đấu,1,Bộ gậy (tối đa 14 gậy — đếm lại),all,fixed,,,14
+Đồ thi đấu,2,Túi gậy + vỏ bọc đi máy bay,all,fixed,,,1
+Đồ thi đấu,3,Bóng thi đấu (cùng một loại),all,play_days,6,6,
+Đồ thi đấu,4,Găng tay,all,rounds,1,2,
+Đồ thi đấu,5,Tee,all,fixed,,,30
+Đồ thi đấu,6,Marker đánh dấu bóng,all,fixed,,,3
+Đồ thi đấu,7,Dụng cụ sửa dấu bóng,all,fixed,,,2
+Đồ thi đấu,8,Khăn lau gậy,all,fixed,,,2
+Đồ thi đấu,9,Ô golf,all,fixed,,,1
+Đồ thi đấu,10,Máy đo khoảng cách (kiểm tra luật giải),all,fixed,,,1
+Đồ thi đấu,11,Sổ yardage / sổ ghi chú sân,all,fixed,,,1
+Đồ thi đấu,12,Sách luật golf,all,fixed,,,1
+Đồ thi đấu,13,Bút chì ghi điểm,all,fixed,,,4
+Đồ dùng cá nhân,1,Kem chống nắng,all,fixed,,,2
+Đồ dùng cá nhân,2,Son chống nắng,all,fixed,,,1
+Đồ dùng cá nhân,3,Kính râm,all,fixed,,,1
+Đồ dùng cá nhân,4,Bình nước cá nhân,all,fixed,,,1
+Đồ dùng cá nhân,5,Đồ vệ sinh cá nhân,all,fixed,,,1
+Đồ dùng cá nhân,6,Sạc điện thoại + pin dự phòng,all,fixed,,,1
+Đồ dùng cá nhân,7,Ổ cắm chuyển đổi theo nước đến,international,fixed,,,1
+Đồ dùng cá nhân,8,Đồ ăn nhẹ mang từ nhà,all,play_days,2,0,
+Y tế,1,Thuốc dùng riêng của con,all,fixed,,,1
+Y tế,2,Băng dán cá nhân,all,fixed,,,10
+Y tế,3,Băng thể thao,all,fixed,,,1
+Y tế,4,Xịt / cao giảm đau cơ,all,fixed,,,1
+Y tế,5,"Thuốc hạ sốt, tiêu hoá cơ bản",all,fixed,,,1

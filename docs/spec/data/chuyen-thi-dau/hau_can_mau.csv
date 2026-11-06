@@ -1,0 +1,13 @@
+loai,noi_dung_vi,moc,lech_ngay,ghi_chu_vi,pham_vi
+event,Đăng ký giải + đóng lệ phí,start,-45,,all
+visa,Nộp hồ sơ visa (nếu cần),start,-30,,international
+visa,Kiểm tra hạn hộ chiếu (còn ≥ 6 tháng),start,-45,,international
+visa,Kiểm tra CCCD/hộ chiếu của con còn hạn,start,-14,Con dưới 14 tuổi chưa có: mang bản sao giấy khai sinh,domestic
+visa,Công chứng giấy uỷ quyền đưa con đi,start,-21,"Cần khi con đi cùng HLV/caddie, không có bố mẹ",all
+visa,Mua bảo hiểm du lịch,start,-14,,all
+flight,Vé chiều đi,start,0,,all
+flight,Vé chiều về,end,0,,all
+hotel,Đặt khách sạn gần sân,start,-30,,all
+transfer,Xe sân bay → khách sạn,start,0,,all
+transfer,Xe khách sạn → sân bay,end,0,,all
+daily,Xe khách sạn ↔ sân (mỗi ngày ra sân),each_play_day,0,,all

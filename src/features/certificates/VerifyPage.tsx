@@ -9,9 +9,12 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Field, Input } from '@/components/ui/form'
 import { Mascot } from '@/components/Mascot'
+import { StaffCvVerifyCard, type StaffCvSnapshot } from '@/features/staff/StaffCvVerify'
 
 interface VerifyResult {
   result: 'valid' | 'revoked' | 'not_found'
+  /** 'staff_cv': mã của CV nhân sự (S6, dùng chung đường dẫn với chứng nhận) */
+  kind?: 'staff_cv'
   verify_code?: string
   student_name?: string
   type?: string
@@ -22,6 +25,11 @@ interface VerifyResult {
   issued_at?: string
   revoked_at?: string | null
   issuer?: { vi: string; en: string }
+  full_name?: string
+  cv_type?: string
+  exported_at?: string
+  /** Chỉ có khi chủ hồ sơ / admin đã đăng nhập (D55) */
+  data?: StaffCvSnapshot
 }
 
 /**
@@ -41,7 +49,11 @@ export function VerifyPage() {
     queryFn: async () => {
       const { data, error } = await supabase!.rpc('certificate_verify', { p_code: verifyCode })
       if (error) throw error
-      return data as VerifyResult
+      if ((data as VerifyResult).result !== 'not_found') return data as VerifyResult
+      // Mã CV nhân sự và mã chứng nhận không trùng nhau (S-R6), nên tra tiếp bảng CV
+      const cv = await supabase!.rpc('staff_cv_verify', { p_code: verifyCode })
+      if (cv.error) throw cv.error
+      return cv.data as VerifyResult
     },
   })
 
@@ -66,6 +78,8 @@ export function VerifyPage() {
           <p className="text-lg font-bold">{t('verify.notFound')}</p>
           <p className="text-navy/65">{t('verify.notFoundHint')}</p>
         </Card>
+      ) : r?.kind === 'staff_cv' ? (
+        <StaffCvVerifyCard r={r} />
       ) : r ? (
         <Card className={`space-y-4 p-5 ${r.result === 'valid' ? 'border-emerald-600' : 'border-red-600'} border-2`}>
           <div className="flex items-center gap-3">

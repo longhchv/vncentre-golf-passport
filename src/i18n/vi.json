@@ -226,7 +226,8 @@
       "audit": "Nhật ký hệ thống",
       "courses": "Sân golf",
       "leagueQueue": "Ghép VĐV SNAG League",
-      "scholarship": "Hành trang học bổng"
+      "scholarship": "Hành trang học bổng",
+      "staffQueue": "Hồ sơ nhân sự chờ duyệt"
     },
     "years": {
       "current": "Năm hiện tại",
@@ -2151,6 +2152,193 @@
       "autoSourceHint": "Để trống nếu bố mẹ tự đánh dấu.",
       "sortOrder": "Thứ tự",
       "active": "Đang dùng"
+    }
+  },
+  "staff": {
+    "title": "Hồ sơ nhân sự",
+    "identity": "Mã định danh",
+    "joinedOn": "Tham gia từ {{date}}",
+    "noCvType": "Chưa gán mẫu CV",
+    "noCvTypeHint": "Admin chưa gán mẫu CV cho bạn, nên chưa có ô số liệu. Quá trình và chứng chỉ vẫn được ghi lại bình thường.",
+    "cvTypeLabel": "Mẫu CV",
+    "joinedLabel": "Ngày tham gia VN Centre",
+    "viewProfile": "Xem hồ sơ nhân sự",
+    "cvType": {
+      "coach": "Huấn luyện viên",
+      "volunteer": "Tình nguyện viên, cộng tác viên",
+      "organizer": "Ban tổ chức"
+    },
+    "group": {
+      "coach": "Huấn luyện viên",
+      "volunteer": "Tình nguyện viên",
+      "collaborator": "Cộng tác viên",
+      "organizer": "Ban tổ chức"
+    },
+    "kind": {
+      "event": "Sự kiện",
+      "project": "Dự án",
+      "class": "Giảng dạy"
+    },
+    "badge": {
+      "verified": "Đã xác thực",
+      "approved": "Đã duyệt",
+      "pending": "Chờ duyệt",
+      "rejected": "Bị từ chối"
+    },
+    "legend": {
+      "verified": "Đã xác thực: app tự ghi hoặc người phụ trách xác nhận",
+      "approved": "Đã duyệt: bạn tự khai, VN Centre đã xem và duyệt"
+    },
+    "stats": {
+      "years": "Năm kinh nghiệm",
+      "sessions": "Số buổi đứng lớp",
+      "students": "Học viên đã dạy",
+      "level_ups": "Lượt các bạn lên cấp",
+      "events": "Sự kiện đã tham gia",
+      "hours": "Giờ đóng góp",
+      "roles": "Vai trò đã đảm nhận",
+      "certificates": "Chứng nhận tham gia",
+      "projects": "Dự án, sự kiện đã làm",
+      "participants": "Lượt người tham dự",
+      "schools_partners": "Trường và đối tác"
+    },
+    "engagements": "Quá trình",
+    "addEngagement": "Thêm việc đã làm",
+    "editEngagement": "Sửa việc đã làm",
+    "noEngagements": "Chưa có dòng nào. Khi được phân công lớp hoặc sự kiện, app tự ghi vào đây.",
+    "credentials": "Chứng chỉ, kinh nghiệm",
+    "addCredential": "Thêm chứng chỉ, kinh nghiệm",
+    "editCredential": "Sửa chứng chỉ, kinh nghiệm",
+    "noCredentials": "Chưa có chứng chỉ hay kinh nghiệm nào.",
+    "credentialType": {
+      "certificate": "Chứng chỉ",
+      "prior_experience": "Kinh nghiệm trước khi tham gia"
+    },
+    "skills": "Kỹ năng được ghi nhận",
+    "hoursN": "{{count}} giờ",
+    "yearsN": "{{count}} năm",
+    "expiresOn": "hết hạn {{date}}",
+    "expired": "Đã hết hạn",
+    "expiredHint": "Chứng chỉ đã hết hạn không in ra CV. Gia hạn xong thì sửa ngày hết hạn và tải bản mới.",
+    "confirmedBy": "Xác nhận bởi {{name}}",
+    "rejectedReason": "Lý do từ chối: {{reason}}",
+    "confirmDelete": "Xoá mục này khỏi hồ sơ?",
+    "viewFile": "Xem file",
+    "selfHint": "Mục tự khai cần VN Centre duyệt rồi mới in ra CV. Sửa nội dung sau khi duyệt thì mục quay lại chờ duyệt.",
+    "f": {
+      "projectNameVi": "Tên việc, dự án (tiếng Việt)",
+      "projectNameEn": "Tên việc, dự án (tiếng Anh)",
+      "enHint": "Không bắt buộc. Chỉ cần khi xuất CV tiếng Anh; app không tự dịch.",
+      "positionVi": "Vị trí (tiếng Việt)",
+      "positionEn": "Vị trí (tiếng Anh)",
+      "group": "Nhóm",
+      "startedOn": "Từ ngày",
+      "endedOn": "Đến ngày",
+      "hours": "Số giờ",
+      "scale": "Quy mô",
+      "outcomeVi": "Kết quả chính (tiếng Việt)",
+      "outcomeEn": "Kết quả chính (tiếng Anh)",
+      "credentialType": "Loại",
+      "titleVi": "Tên (tiếng Việt)",
+      "titleEn": "Tên (tiếng Anh)",
+      "issuer": "Đơn vị cấp",
+      "workplace": "Nơi làm việc",
+      "issuedOn": "Ngày cấp",
+      "expiresOn": "Ngày hết hạn",
+      "expiresHint": "Để trống nếu không có hạn",
+      "years": "Số năm",
+      "file": "Ảnh hoặc PDF chứng chỉ",
+      "fileHint": "Ảnh hoặc PDF, tối đa 5 MB. Chỉ bạn và admin xem được.",
+      "fileKept": "Đã có file. Chọn file khác nếu muốn thay."
+    },
+    "scale": {
+      "participants": "Người tham dự",
+      "schools": "Trường",
+      "partners": "Đối tác"
+    },
+    "errors": {
+      "project_name_required": "Cần nhập tên việc, dự án.",
+      "started_on_required": "Cần nhập ngày bắt đầu.",
+      "title_required": "Cần nhập tên chứng chỉ, kinh nghiệm.",
+      "reason_required": "Từ chối cần ghi lý do.",
+      "not_pending": "Mục này đã được xử lý.",
+      "bad_file_path": "File không hợp lệ.",
+      "file_too_large": "File PDF lớn hơn 5 MB.",
+      "file_type": "Chỉ nhận ảnh hoặc PDF.",
+      "photo_type": "Không đọc được ảnh này.",
+      "photo_too_large": "Ảnh quá lớn, không nén được xuống dưới giới hạn."
+    },
+    "record": {
+      "panelTitle": "Ghi nhận hồ sơ nhân sự",
+      "panelHint": "Điền vị trí, số giờ, kỹ năng và kết quả chính cho từng người. Lưu là xong, không cần duyệt thêm.",
+      "empty": "Chưa có nhân sự nào để ghi nhận.",
+      "title": "Ghi nhận",
+      "action": "Ghi nhận",
+      "notRecorded": "Chưa ghi nhận",
+      "recordedBy": "Ghi nhận bởi {{name}} ngày {{date}}",
+      "positionPlaceholder": "Ví dụ: Hướng dẫn check-in",
+      "outcomeHint": "Dùng chủ yếu cho Ban tổ chức"
+    },
+    "manage": {
+      "title": "Việc tôi phụ trách ghi nhận",
+      "youManage": "Bạn phụ trách ghi nhận {{count}} sự kiện, lớp",
+      "open": "Mở",
+      "none": "Bạn chưa được giao phụ trách sự kiện, lớp nào."
+    },
+    "managers": {
+      "title": "Người phụ trách hồ sơ nhân sự",
+      "hint": "Người được bật ở đây ghi nhận vị trí, số giờ, kỹ năng cho nhân sự của sự kiện này (trừ dòng của chính họ).",
+      "add": "Thêm người phụ trách",
+      "notFound": "Không tìm thấy tài khoản có email này."
+    },
+    "queue": {
+      "title": "Hồ sơ nhân sự chờ duyệt",
+      "hint": "Chứng chỉ và việc cũ do nhân sự tự khai. Tách riêng khỏi hàng chờ duyệt của học viên.",
+      "reason": "Lý do từ chối (nhân sự sẽ thấy)",
+      "submittedAt": "gửi {{at}}",
+      "noFile": "Không đính kèm file"
+    },
+    "cv": {
+      "title": "CV hồ sơ nhân sự",
+      "export": "Xuất CV",
+      "exporting": "Đang tạo PDF…",
+      "needCvType": "Cần admin gán mẫu CV trước khi xuất.",
+      "language": "Ngôn ngữ",
+      "missingEn": "Còn {{count}} dòng chưa có chữ tiếng Anh. Nhập xong mới xuất được bản tiếng Anh; app không tự dịch.",
+      "field": {
+        "project_name": "Tên việc, dự án",
+        "position": "Vị trí",
+        "outcome": "Kết quả chính",
+        "title": "Tên chứng chỉ, kinh nghiệm"
+      },
+      "saveEn": "Lưu chữ tiếng Anh",
+      "ownerMustEnter": "Chữ tiếng Anh do chủ hồ sơ tự nhập.",
+      "showContact": "In số điện thoại và email lên CV",
+      "showContactHint": "Không chọn thì CV không có thông tin liên hệ.",
+      "snapshotHint": "CV chỉ gồm mục đã xác thực và đã duyệt. Bản đã xuất giữ nguyên nội dung kể cả khi hồ sơ thay đổi sau này.",
+      "ready": "CV đã sẵn sàng",
+      "readyHint": "Link tải dùng được trong 24 giờ. Sau đó tải lại ở danh sách bên dưới.",
+      "codeLine": "Mã xác thực {{code}}",
+      "download": "Tải PDF",
+      "revoke": "Thu hồi",
+      "confirmRevoke": "Thu hồi bản CV này? Quét QR trên bản đó sẽ báo \"Đã thu hồi\".",
+      "revoked": "Đã thu hồi bản CV",
+      "revokedBadge": "Đã thu hồi",
+      "verifyPage": "Mở trang xác thực",
+      "errors": {
+        "no_cv_type": "Chưa có mẫu CV. Nhờ admin gán mẫu CV cho bạn.",
+        "missing_en": "Còn dòng chưa có chữ tiếng Anh.",
+        "revoked": "Bản CV này đã bị thu hồi."
+      }
+    },
+    "verify": {
+      "valid": "CV hợp lệ",
+      "revoked": "CV đã bị thu hồi",
+      "name": "Họ tên",
+      "role": "Vai trò",
+      "exportedAt": "Ngày xuất",
+      "fullTitle": "Bản đầy đủ",
+      "fullHint": "Chỉ bạn (chủ hồ sơ) và admin thấy phần này. Người khác quét QR chỉ thấy phần trên."
     }
   }
 }
