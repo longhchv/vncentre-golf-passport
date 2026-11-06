@@ -12,7 +12,8 @@ import { Mascot } from '@/components/Mascot'
 import { QrScanner } from '@/features/passports/QrScanner'
 import { rpc, type PassportLookup } from '@/features/activation/api'
 import { useStudentProfile } from './useStudentProfile'
-import { StudentProfileView } from './StudentProfileView'
+import { AthleteProfileView, StudentProfileView } from './StudentProfileView'
+import type { StudentProfile } from './useStudentProfile'
 import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 
 function ProfileLoader({ studentId, back }: { studentId: string; back: { to: string; label: string } }) {
@@ -31,13 +32,24 @@ function ProfileLoader({ studentId, back }: { studentId: string; back: { to: str
           <p className="font-semibold">{t('coach.noAccessStudent')}</p>
         </Card>
       ) : (
-        <>
-          <StudentProfileView profile={q.data} />
-          {/* Thành tích SNAG (spec 14 mục 1.2): ẩn nếu chưa thi chặng nào */}
-          <LeagueAchievements studentId={q.data.student.id} className="w-full" />
-        </>
+        <ProfileBody profile={q.data} />
       )}
     </div>
+  )
+}
+
+/**
+ * Phụ huynh đã xác nhận và chính học viên: hồ sơ VĐV xếp dọc (spec 15). Khách sự kiện, phụ huynh chờ xác nhận và nhân sự
+ * (HLV, nhà trường): giữ hồ sơ dạng tab như cũ, kèm mục Thành tích SNAG (spec 14 mục 1.2, ẩn nếu chưa thi).
+ */
+function ProfileBody({ profile }: { profile: StudentProfile }) {
+  const athlete = (profile.viewer === 'guardian' || profile.viewer === 'student') && profile.student.verification_status !== 'event_guest'
+  if (athlete) return <AthleteProfileView profile={profile} />
+  return (
+    <>
+      <StudentProfileView profile={profile} />
+      {profile.viewer !== 'pending' && <LeagueAchievements studentId={profile.student.id} className="w-full" />}
+    </>
   )
 }
 
@@ -57,7 +69,7 @@ export function StudentMePage() {
   if (q.isError) return <p className="text-red-700">{t('errors.loadFailed')}</p>
   return (
     <div className="mx-auto max-w-2xl">
-      <StudentProfileView profile={q.data} />
+      <ProfileBody profile={q.data} />
     </div>
   )
 }

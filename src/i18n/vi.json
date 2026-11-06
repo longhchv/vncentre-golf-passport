@@ -224,7 +224,8 @@
       "settings": "Cấu hình",
       "audit": "Nhật ký hệ thống",
       "courses": "Sân golf",
-      "leagueQueue": "Ghép VĐV SNAG League"
+      "leagueQueue": "Ghép VĐV SNAG League",
+      "scholarship": "Hành trang học bổng"
     },
     "years": {
       "current": "Năm hiện tại",
@@ -2085,5 +2086,60 @@
     "noAccess": "Bạn không xem được hồ sơ này. BTC giải chỉ xem được các bạn đã thi SNAG Golf League.",
     "guardians": "Phụ huynh (liên hệ ngày thi đấu)",
     "noStages": "Bạn này chưa có kết quả chặng nào."
+  },
+  "athlete": {
+    "copyCode": "Sao chép mã {{code}}",
+    "noLevel": "Chưa có level",
+    "points": "{{points}} điểm",
+    "rank": "hạng {{rank}}/{{players}}",
+    "stagesPlayed": "{{count}} chặng",
+    "cultureBadge": "×{{count}} Giải văn hoá",
+    "awardsTitle": "Giải thưởng & danh hiệu",
+    "coursesTitle": "Khoá học & Level",
+    "manageTitle": "Sổ Passport và thông tin"
+  },
+  "scholarship": {
+    "title": "Hành trang học bổng",
+    "intro": "Những việc cần chuẩn bị dần để sau này xin học bổng golf. Mục có nhãn Tự động do VN Centre cập nhật; các mục còn lại bố mẹ tự đánh dấu.",
+    "collapseAll": "Thu gọn tất cả",
+    "doneOf": "Đã có {{done}}/{{total}}",
+    "stage": {
+      "primary": "Tiểu học",
+      "lower_secondary": "THCS",
+      "upper_secondary": "THPT"
+    },
+    "group": {
+      "golf": "Golf",
+      "academic": "Học tập",
+      "personal": "Cá nhân"
+    },
+    "sourceAuto": "Tự động",
+    "sourceGuardian": "Bố mẹ tự khai",
+    "status": {
+      "not_started": "Chưa bắt đầu",
+      "in_progress": "Đang làm",
+      "done": "Đã có"
+    },
+    "addNote": "Thêm ghi chú",
+    "editNote": "Sửa ghi chú",
+    "notePlaceholder": "Ghi chú cho riêng gia đình (tối đa 500 ký tự)",
+    "adminIntro": "Danh mục việc cần chuẩn bị cho học bổng golf, hiện trên trang con của phụ huynh. Mục có nguồn tự động: trạng thái do hệ thống tính, phụ huynh không sửa.",
+    "autoSource": {
+      "courses": "Khoá học đã duyệt",
+      "competitions": "Kết quả giải VN Centre",
+      "culture_awards": "Giải văn hoá"
+    },
+    "fields": {
+      "stage": "Cấp học",
+      "group": "Nhóm",
+      "titleVi": "Tên (tiếng Việt)",
+      "titleEn": "Tên (tiếng Anh)",
+      "helpVi": "Hướng dẫn (tiếng Việt)",
+      "helpEn": "Hướng dẫn (tiếng Anh)",
+      "autoSource": "Nguồn tự động",
+      "autoSourceHint": "Để trống nếu bố mẹ tự đánh dấu.",
+      "sortOrder": "Thứ tự",
+      "active": "Đang dùng"
+    }
   }
 }
