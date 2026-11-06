@@ -1,3 +1,4 @@
+-- Spec 15 bản 1.1 · không có quyền → lỗi 42501 (mục 1b).
 -- Spec 15 · bước 1: student_athlete_card, scholarship_checklist, set_scholarship_item (tiêu chí 2, 3, 5, 6 ở tầng SQL).
 create or replace function pg_temp.act_as(u uuid) returns void language plpgsql as $f$
 begin
@@ -7,6 +8,13 @@ begin
     perform set_config('request.jwt.claim.sub', u::text, true);
     execute 'set local role authenticated';
   end if;
+end $f$;
+-- true nếu gọi hàm bị chặn bằng lỗi 42501
+create or replace function pg_temp.denied(sql text) returns boolean language plpgsql as $f$
+begin
+  execute sql;
+  return false;
+exception when insufficient_privilege then return true;
 end $f$;
 create or replace function pg_temp.as_anon() returns void language plpgsql as $f$
 begin
@@ -93,7 +101,8 @@ begin
     raise exception 'FAIL thẻ VĐV lộ ngày sinh / liên hệ phụ huynh: %', r;
   end if;
   -- tiêu chí 5: phụ huynh A không xem được con phụ huynh B
-  if public.student_athlete_card(s2) is not null or public.scholarship_checklist(s2) is not null then
+  if not pg_temp.denied(format('select public.student_athlete_card(%L)', s2))
+     or not pg_temp.denied(format('select public.scholarship_checklist(%L)', s2)) then
     raise exception 'FAIL phụ huynh A xem được con phụ huynh B';
   end if;
 
@@ -121,8 +130,8 @@ begin
 
   foreach u in array array[pend, coach, ls] loop
     perform pg_temp.act_as(u);
-    if public.student_athlete_card(s1) is not null then raise exception 'FAIL % xem được thẻ VĐV', u; end if;
-    if public.scholarship_checklist(s1) is not null then raise exception 'FAIL % đọc được checklist', u; end if;
+    if not pg_temp.denied(format('select public.student_athlete_card(%L)', s1)) then raise exception 'FAIL % xem được thẻ VĐV', u; end if;
+    if not pg_temp.denied(format('select public.scholarship_checklist(%L)', s1)) then raise exception 'FAIL % đọc được checklist', u; end if;
   end loop;
   perform pg_temp.as_anon();
   ok := false;

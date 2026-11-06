@@ -54,6 +54,7 @@ export function OtpStep({
       <p className="text-navy/80">
         {t(`otp.sentVia.${sent.channel}`, { target: sent.masked })}
       </p>
+      {sent.channel === 'email' && <p className="text-sm text-navy/65">{t('otp.spamHint')}</p>}
       {sent.mock && <p className="rounded-xl bg-gold/20 p-3 text-sm text-brown">{t('otp.mockNotice')}</p>}
       <Field label={t('otp.codeLabel')}>
         <Input

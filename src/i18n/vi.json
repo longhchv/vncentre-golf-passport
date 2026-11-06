@@ -116,7 +116,8 @@
     "phoneOrEmail": "Số điện thoại hoặc email",
     "invalidCredentialsParent": "Số điện thoại/email hoặc mật khẩu không đúng.",
     "emailNotConfirmed": "Email chưa được xác minh. Hãy đăng nhập bằng số điện thoại, rồi xác minh email trong mục Tài khoản.",
-    "noAccountSignup": "Chưa có tài khoản? Đăng ký"
+    "noAccountSignup": "Chưa có tài khoản? Đăng ký",
+    "useEmailLogin": "Vui lòng đăng nhập bằng email."
   },
   "errors": {
     "duplicate": "Dữ liệu bị trùng với một mục đã có.",
@@ -246,7 +247,13 @@
     "settings": {
       "products": "Giá sản phẩm",
       "parameters": "Thông số hệ thống",
-      "valueHint": "Giá trị dạng JSON: số (ví dụ 5), chữ trong ngoặc kép, hoặc đối tượng {…}."
+      "valueHint": "Giá trị dạng JSON: số (ví dụ 5), chữ trong ngoặc kép, hoặc đối tượng {…}.",
+      "otpChannel": {
+        "title": "Kênh gửi mã xác thực cho số Việt Nam",
+        "hint": "Email: phụ huynh nhập email khi đăng ký, mã gửi về email, số điện thoại lưu nhưng chưa xác minh. Zalo: gửi qua Zalo, lỗi thì SMS (chỉ bật khi đã có Zalo ZNS).",
+        "email": "Email",
+        "zalo": "Zalo / SMS"
+      }
     },
     "home": {
       "students": "Học viên",
@@ -640,7 +647,9 @@
     "parentEmail": "Email của phụ huynh/người giám hộ",
     "parentName": "Họ và tên phụ huynh/người giám hộ",
     "parentNameHint": "Ví dụ: Trần Thu Hà. Không nhập tên của con ở đây.",
-    "title": "Đăng ký tài khoản phụ huynh"
+    "title": "Đăng ký tài khoản phụ huynh",
+    "vnEmailHint": "Mã xác thực sẽ được gửi tới email này. Hãy dùng email bạn mở được ngay trên điện thoại.",
+    "passwordHintEmail": "Tối thiểu 8 ký tự. Các lần sau đăng nhập bằng email + mật khẩu."
   },
   "forgot": {
     "hint": "Nhập số điện thoại hoặc email của tài khoản. Chúng tôi sẽ gửi mã xác thực để đặt mật khẩu mới."
@@ -649,7 +658,7 @@
     "sentVia": {
       "zalo": "Mã 6 số đã gửi qua Zalo tới {{target}}.",
       "sms": "Mã 6 số đã gửi qua SMS tới {{target}}.",
-      "email": "Mã 6 số đã gửi tới email {{target}}. Kiểm tra cả hộp thư rác."
+      "email": "Mã 6 số đã gửi tới email {{target}}."
     },
     "mockNotice": "Chế độ thử: Zalo/SMS chưa kết nối. Mã hiện trong trang admin → Tin nhắn và chi phí.",
     "codeLabel": "Mã xác thực",
@@ -686,8 +695,10 @@
       "create_failed": "Chưa tạo được tài khoản. Vui lòng thử lại.",
       "update_failed": "Chưa cập nhật được. Vui lòng thử lại.",
       "server_error": "Hệ thống đang bận, vui lòng thử lại.",
-      "network": "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại."
-    }
+      "network": "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.",
+      "channel_unavailable": "Tạm thời chưa thêm được số điện thoại. VN Centre sẽ mở lại khi có xác thực qua Zalo."
+    },
+    "spamHint": "Không thấy thư? Kiểm tra mục Thư rác / Quảng cáo."
   },
   "account": {
     "title": "Tài khoản",

@@ -9,7 +9,7 @@ import { StageBar } from '@/features/parent/ParentHomePage'
 import { pointsLabel, rankLabel } from '@/features/league/format'
 import { Avatar } from './StudentProfileView'
 
-// Spec 15 mục 3.1 / 4: Thẻ VĐV và Giải thưởng & danh hiệu, dữ liệu từ student_athlete_card (máy chủ kiểm quyền:
+// Spec 15 mục 3.1 / 4: Thẻ VĐV và Giải thưởng & danh hiệu, dữ liệu từ student_athlete_card (máy chủ kiểm quyền, không có quyền → lỗi 42501:
 // phụ huynh đã xác nhận, chính học viên, admin). Không có ngày sinh đầy đủ, liên hệ phụ huynh.
 
 interface Named {
@@ -27,7 +27,8 @@ export interface AthleteCardData {
   id: string
   student_code: string
   full_name: string
-  avatar_path: string | null
+  /** Đường dẫn ảnh trong kho riêng tư (students.avatar_url); Avatar tự xin link có hạn */
+  avatar_url: string | null
   birth_year: number | null
   school: string | null
   level: (Named & { id: string; number: number }) | null
@@ -81,7 +82,7 @@ export function AthleteCardView({ card }: { card: AthleteCardData }) {
   return (
     <Card className="space-y-4 p-4">
       <div className="flex items-center gap-4">
-        <Avatar path={card.avatar_path} />
+        <Avatar path={card.avatar_url} />
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-bold break-words">{card.full_name}</h1>
           <button

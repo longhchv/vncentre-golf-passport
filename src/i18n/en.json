@@ -116,7 +116,8 @@
     "phoneOrEmail": "Phone number or email",
     "invalidCredentialsParent": "Incorrect phone/email or password.",
     "emailNotConfirmed": "Your email is not verified yet. Sign in with your phone number, then verify your email under Account.",
-    "noAccountSignup": "No account yet? Sign up"
+    "noAccountSignup": "No account yet? Sign up",
+    "useEmailLogin": "Please sign in with your email."
   },
   "errors": {
     "duplicate": "This duplicates an existing item.",
@@ -246,7 +247,13 @@
     "settings": {
       "products": "Product prices",
       "parameters": "System parameters",
-      "valueHint": "JSON value: a number (e.g. 5), text in double quotes, or an object {…}."
+      "valueHint": "JSON value: a number (e.g. 5), text in double quotes, or an object {…}.",
+      "otpChannel": {
+        "title": "Verification code channel for Vietnamese numbers",
+        "hint": "Email: parents enter an email when signing up, the code goes to that email, and the phone number is saved unverified. Zalo: sent via Zalo, falling back to SMS (turn on only once Zalo ZNS is ready).",
+        "email": "Email",
+        "zalo": "Zalo / SMS"
+      }
     },
     "home": {
       "students": "Students",
@@ -640,7 +647,9 @@
     "parentEmail": "Parent/guardian email",
     "parentName": "Parent/guardian full name",
     "parentNameHint": "E.g. Jane Smith. Do not enter your child's name here.",
-    "title": "Parent/guardian sign-up"
+    "title": "Parent/guardian sign-up",
+    "vnEmailHint": "Your verification code will be sent to this email. Use an email you can open right away on your phone.",
+    "passwordHintEmail": "At least 8 characters. Next time, sign in with your email and password."
   },
   "forgot": {
     "hint": "Enter your account's phone number or email. We will send a verification code so you can set a new password."
@@ -649,7 +658,7 @@
     "sentVia": {
       "zalo": "A 6-digit code was sent via Zalo to {{target}}.",
       "sms": "A 6-digit code was sent by SMS to {{target}}.",
-      "email": "A 6-digit code was sent to {{target}}. Please also check your spam folder."
+      "email": "A 6-digit code was sent to {{target}}."
     },
     "mockNotice": "Test mode: Zalo/SMS are not connected yet. The code is shown in Admin → Messages & costs.",
     "codeLabel": "Verification code",
@@ -686,8 +695,10 @@
       "create_failed": "The account could not be created. Please try again.",
       "update_failed": "Could not update. Please try again.",
       "server_error": "The system is busy, please try again.",
-      "network": "Cannot reach the server. Check your connection and try again."
-    }
+      "network": "Cannot reach the server. Check your connection and try again.",
+      "channel_unavailable": "Adding a phone number is not available yet. VN Centre will reopen it once Zalo verification is ready."
+    },
+    "spamHint": "No email? Check your Spam / Promotions folder."
   },
   "account": {
     "title": "Account",
