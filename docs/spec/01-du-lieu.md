@@ -184,6 +184,22 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | Vai trò `event_staff` | Gán theo sự kiện qua `user_roles.class_id` = lớp của sự kiện. Không thấy SĐT, email người chơi (E-R12) |
 | `app_settings` | `event.max_open_claims` (3), `event.phone_check_max_failures` (5), `event.phone_check_lock_hours` (24), `passport_decal.layout_event` (tem 25 × 30 mm, 7 × 8 tem/tờ A4) |
 
+## 11c. Module Hồ sơ nhân sự (bước 1 — xem `11-module-ho-so-nhan-su.md`)
+
+| Thay đổi | Nội dung |
+|---|---|
+| `profiles` thêm cột | `cv_type` (`coach` / `volunteer` / `organizer`, null = chưa phải nhân sự; mỗi người một loại, chỉ admin gán, đổi), `joined_vncentre_on` (date, chỉ admin sửa), `show_contact_on_cv` (bool, mặc định false, chủ hồ sơ tự bật) |
+| `event_managers` | Người phụ trách sự kiện (D52): event_id, user_id, granted_by, deleted_at. Admin bật cho từng người, từng sự kiện. Được ghi nhận vị trí, số giờ, kết quả, kỹ năng cho nhân sự của sự kiện đó, trừ dòng của chính mình |
+| `staff_engagements` | Một dòng = một lần nhân sự đảm nhận một việc: user_id, kind (`event` / `project` / `class`), event_id, class_id, project_name_vi/en, position_vi/en, staff_group (`coach` / `volunteer` / `collaborator` / `organizer`), started_on, ended_on, hours, scale (JSON: participants, schools, partners, teams), outcome_vi/en, source (`system` / `manager` / `self`), status (`pending_review` / `approved` / `rejected`), confirmed_by, confirmed_at, rejected_reason, deleted_at. Tự sinh (`system`, `approved`) khi gán `event_staff`, phân công crew đã gắn tài khoản (D51) và `class_staff`; mỗi người tối đa một dòng tự sinh cho mỗi sự kiện, lớp. Gỡ gán theo D54 |
+| `staff_skills` | Danh mục kỹ năng admin chỉnh: code, name_vi/en, sort_order, is_active. Seed: `coordination`, `child_guidance`, `communications`, `guest_reception`, `event_logistics`, `tournament_coordination` |
+| `staff_skill_records` | user_id, engagement_id, skill_code, recorded_by, recorded_at. Duy nhất theo (engagement_id, skill_code) |
+| `staff_credentials` | Chứng chỉ, kinh nghiệm tự khai: user_id, type (`certificate` / `prior_experience`), title_vi/en, issuer, issued_on, expires_on, years, file_path, status, reviewed_by, reviewed_at, rejected_reason, deleted_at. **Đợt 7 dùng lại bảng này** thay cho `coach_credentials` |
+| `staff_cv_exports` | verify_code (10 ký tự, không trùng mã chứng nhận), user_id, cv_type, lang (`vi` / `en`), data (JSON snapshot), pdf_path, exported_at, exported_by, status (`valid` / `revoked`), revoked_at, revoked_by |
+| `app_settings` | `staff_cv.link_ttl_seconds` (86400 = 24 giờ, D50): link tải PDF CV hết hạn |
+| Xuất CV, xác thực | Edge Function `staff-cv` tạo PDF từ snapshot. Trang `/verify/{mã}` dùng chung với chứng nhận: tra `certificates` trước, không thấy thì tra `staff_cv_exports` (D55) |
+| Kho `staff-files` (riêng tư) | `{user_id}/credentials/…` chủ hồ sơ tải lên (ảnh, PDF, tối đa 5 MB); `{user_id}/cv/…` máy chủ ghi PDF CV. Chỉ chủ hồ sơ và admin đọc, qua link có hạn |
+| Quyền | Chủ hồ sơ xem mọi dòng của mình; sửa phần tự khai (sửa nội dung thì quay lại chờ duyệt) và chữ tiếng Anh trên mọi dòng của mình; không sửa dòng `system` / `manager`. Người phụ trách (sự kiện: `event_managers`; lớp: HLV trưởng của lớp và HLV trưởng toàn trung tâm, D53) xem và ghi nhận nhân sự trong phạm vi của mình. Admin toàn quyền. Không ai khác xem. Mục tự khai duyệt ở hàng chờ riêng, không vào hàng chờ F12 |
+
 ## 12. Khung dữ liệu cho đợt 2–7 (chưa cần tạo)
 
 | Nhóm | Bảng dự kiến | Đợt |
@@ -215,7 +231,7 @@ active ──(lên cấp hộ chiếu mới, sổ mới được cấp)──▶
 | Buổi 1-1 | `sessions_1to1` (giờ bắt đầu/kết thúc thật, điểm danh, đúng điểm hẹn), `session_notes` (**`coach_written_text` bắt buộc không rỗng**), `session_media` (chỉ gia đình em đó và HLV của chương trình xem được) | 6 |
 | Bài tập giao riêng | `assignments` (hạn nộp, cần bằng chứng, điểm, người duyệt khi HLV tự soạn), `assignment_attempts` (bấm giờ, nộp, chấm, điểm khích lệ, gia hạn) | 6 |
 | Đánh giá buổi | `session_feedback` (phụ huynh chấm 1–5 và nhận xét; học viên chỉ chọn biểu tượng cảm xúc), `reliability_events` (lỗi hẹn: hủy muộn, không đến) | 6 |
-| Hồ sơ HLV | `coach_profiles` (nhóm HLV, khu vực, chuyên môn, giới thiệu), `coach_credentials` (chứng chỉ, trạng thái xác minh, hạn), `coach_achievements`, `coach_verifications` (người xác minh, checklist, thời điểm) | 7 |
+| Hồ sơ HLV | `coach_profiles` (nhóm HLV, khu vực, chuyên môn, giới thiệu), `staff_credentials` (đã có từ module Hồ sơ nhân sự, mục 11c — dùng lại, không tạo `coach_credentials`), `coach_achievements`, `coach_verifications` (người xác minh, checklist, thời điểm) | 7 |
 | Giá và khuyến mãi | `coach_pricing` (buổi lẻ, combo; trạng thái duyệt), `coach_coupons` (mức giảm, số lượng, hạn, trạng thái duyệt) | 7 |
 | Hạng tài khoản HLV | `coach_plan` (trường trên hồ sơ HLV: `standard` / `coach`, nguồn `paid`/`partnership`, ngày hết hạn) — **tạo từ đợt 6**, HLV VN Centre mặc định `coach`; `plan_features` (bật/tắt từng tính năng theo hạng, admin chỉnh); `plan_limits` (số học viên, số lớp, dung lượng — mặc định Standard 50/5/100 MB); `plan_usage` (đang dùng bao nhiêu) | 6 (trường) · 7 (thu phí, chặn hạn mức) |
 | Gói Coach | `coach_subscriptions` (kỳ, giá, tự động cho HLV hợp tác, ngày hết hạn), dùng chung `products`/`orders`/`payment_events` của đợt 1 | 7 |

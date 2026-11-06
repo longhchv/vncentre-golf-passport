@@ -20,6 +20,10 @@ export interface Profile {
   preferred_language: 'vi' | 'en'
   avatar_url: string | null
   status: 'active' | 'suspended'
+  /** Mẫu CV hồ sơ nhân sự; null = chưa phải nhân sự (chỉ admin gán) */
+  cv_type: 'coach' | 'volunteer' | 'organizer' | null
+  joined_vncentre_on: string | null
+  show_contact_on_cv: boolean
 }
 
 export interface UserRole {

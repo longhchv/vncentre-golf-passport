@@ -1,0 +1,16 @@
+khoa,gia_tri,ghi_chu
+strategy.default_green_depth,27,Độ sâu green mặc định khi pin sheet và yardage không có (27 yd; dùng 25 nếu đơn vị là mét)
+strategy.club_short_tolerance,3,Chọn gậy có khoảng cách bay >= mục tiêu trừ số này
+strategy.pin_edge_margin,5,Cờ cách mép trước/sau green <= số này thì coi là cờ đầu/cuối green
+strategy.attack_pin_max_hcp,10,Chỉ đề xuất nhắm cờ khi handicap <= số này và cờ không sát mép
+strategy.short_par4_buffer,15,Par 4 ngắn: nếu sau gậy fairway còn <= khoảng cách wedge yêu thích + số này thì không cần driver
+strategy.reach_buffer,5,Cú 2 được coi là tới green nếu còn <= gậy fairway dài nhất + số này
+strategy.layup_comfort_buffer,3,Có par cá nhân lớn hơn par: còn xa hơn gậy sắt/hybrid dài nhất + số này thì đề xuất đánh ngắn
+strategy.recent_logs,3,Số lần đo gần nhất dùng để tính khoảng cách gậy
+strategy.hard_hole_index,4,Index <= số này thì ghi chú hố khó
+strategy.par5_two_shot_max_hcp,5,Chỉ gợi ý lên green par 5 bằng 2 cú khi handicap <= số này
+unit.paces_to_m,0.8,Đổi bước chân trong pin sheet ra mét
+unit.m_to_yd,1.0936,
+ai.max_words,450,Độ dài tối đa bản phân tích AI
+ai.max_images,0,0 = theo giới hạn của nhà cung cấp AI
+unit.default,yd,Đơn vị mặc định cho scorecard, gậy, pin (chốt 14/10/2026)

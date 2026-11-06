@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Field, FormError, Input, Select } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
+import { EventManagers } from '@/features/staff/StaffAdmin'
+import { StaffRecordPanel } from '@/features/staff/StaffRecordPanel'
 import { ClaimsQueue, LiveBoard } from './EventMonitor'
 
 export type EventStatus = 'draft' | 'open' | 'closed' | 'archived'
@@ -136,6 +138,8 @@ export function EventDetailPage() {
           <Stations eventId={eventId} />
           <CardBatches eventId={eventId} />
           <Staff eventId={eventId} />
+          <EventManagers eventId={eventId} />
+          <StaffRecordPanel scope={{ eventId }} />
           <Card className="flex flex-wrap items-center justify-between gap-2 p-4">
             <p className="font-semibold">{t('crewBoard.title')}</p>
             <Button asChild variant="outline"><Link to={`/event/${eventId}/crew`}>{t('crewBoard.open')}</Link></Button>

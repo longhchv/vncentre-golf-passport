@@ -1,0 +1,38 @@
+kieu_xuat_phat,moc,lech_phut,ten_vi,mo_ta_vi,noi_bat
+tee,wake,-540,Tối hôm trước: đi ngủ,"Ngủ đủ 9 tiếng. Túi gậy, quần áo, đồ ăn, nước xếp xong từ tối theo checklist.",0
+tee,wake,0,Thức dậy,"Uống 1 cốc nước, vận động nhẹ 5–10 phút, xem dự báo thời tiết.",0
+tee,wake,15,Ăn sáng (25 phút),"Bữa chính trong ngày, xong trước tee time ít nhất 2 tiếng để tiêu hoá.",0
+tee,leave,-15,Kiểm tra lần cuối,"Đếm gậy (≤14), bóng đã đánh dấu, găng, thẻ, nước, đồ ăn, áo mưa/ô.",0
+tee,leave,0,Rời khách sạn,Di chuyển theo thời gian khách sạn → sân. Dự phòng tắc đường.,0
+tee,arrive,0,Có mặt ở sân,"Check-in, nhận thẻ điểm, pin sheet, đọc luật địa phương, xác nhận nhóm đấu.",0
+tee,start,-65,Khởi động thể lực 10 phút,"Động tác động: xoay hông vai, chân, cổ tay. Không giãn tĩnh lâu.",0
+tee,start,-55,Bãi tập 25 phút,Wedge → sắt → gỗ/driver. Không sửa swing. 3 cú cuối mô phỏng hố xuất phát.,0
+tee,start,-30,Ăn nhẹ + uống nước,Nửa quả chuối hoặc 1 bánh ngũ cốc nhỏ.,0
+tee,start,-28,Chip & bunker 8 phút,"Vài cú chip, 2–3 cú bunker để cảm nhận cát.",0
+tee,start,-20,Putting 5 phút,"Putt dài 6–12m lấy tốc độ green, kết thúc bằng loạt putt 1m vào lỗ liên tục.",0
+tee,start,-15,Có mặt ở tee box,"Chào nhóm, báo loại bóng và dấu bóng, kiểm tra 14 gậy, thẻ điểm, bút.",1
+tee,start,-10,Starter phổ biến,"Nghe gọi tên, luật địa phương, thứ tự đánh.",0
+tee,start,0,Xuất phát,,1
+shotgun,wake,-540,Tối hôm trước: đi ngủ,Ngủ đủ 9 tiếng.,0
+shotgun,wake,0,Thức dậy,"Uống 1 cốc nước, vận động nhẹ.",0
+shotgun,wake,15,Ăn sáng (25 phút),Xong trước giờ còi ít nhất 2 tiếng.,0
+shotgun,leave,-15,Kiểm tra lần cuối,Mang đủ nước và đồ ăn cho cả vòng (không quay về clubhouse giữa chừng).,0
+shotgun,leave,0,Rời khách sạn,,0
+shotgun,arrive,0,Có mặt ở sân,"Check-in, xác nhận hố xuất phát và nhóm. Hỏi BTC giờ đóng bãi tập.",0
+shotgun,assembly,-45,Khởi động thể lực 10 phút,,0
+shotgun,assembly,-35,Bãi tập 20 phút,Kết thúc bằng gậy sẽ dùng ở cú đầu tiên của hố xuất phát.,0
+shotgun,assembly,-15,Ăn nhẹ + uống nước,,0
+shotgun,assembly,-12,Putting 10 phút,,0
+shotgun,assembly,0,Có mặt tại điểm tập trung shotgun,Lên xe/đi bộ ra hố xuất phát theo hướng dẫn BTC.,1
+shotgun,start,-10,Có mặt tại tee hố xuất phát,"Chào nhóm, báo bóng, kiểm tra 14 gậy, thẻ điểm.",1
+shotgun,start,0,Còi shotgun — xuất phát,,1
+practice,wake,-540,Tối hôm trước: đi ngủ,,0
+practice,wake,0,Thức dậy,,0
+practice,wake,15,Ăn sáng,"Xong trước giờ ra sân ít nhất 1,5–2 tiếng.",0
+practice,leave,0,Rời khách sạn,,0
+practice,arrive,0,Có mặt ở sân,"Check-in vòng tập, lấy bản đồ sân, hỏi luật địa phương.",0
+practice,start,-40,Khởi động thể lực 10 phút,,0
+practice,start,-30,Bãi tập 15 phút,Kiểm tra khoảng cách thực tế từng gậy ở sân này.,0
+practice,start,-15,Putting 10 phút,Ghi lại tốc độ green.,0
+practice,start,-5,Có mặt ở tee,,0
+practice,start,0,Xuất phát vòng tập,"Mục tiêu: ghi chú sân, không phải ghi điểm.",1

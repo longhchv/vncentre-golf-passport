@@ -34,6 +34,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/students', labelKey: 'admin.nav.students', lazy: page(() => import('@/features/admin/StudentsPage'), (m) => m.StudentsPage) },
   { to: '/admin/imports', labelKey: 'admin.nav.imports', lazy: page(() => import('@/features/imports/ImportsPage'), (m) => m.ImportsPage) },
   { to: '/admin/queue', labelKey: 'admin.nav.queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
+  // S4 · hàng chờ riêng của hồ sơ nhân sự, không trộn vào F12 (S-R12)
+  { to: '/admin/staff-queue', labelKey: 'admin.nav.staffQueue', lazy: page(() => import('@/features/staff/StaffAdmin'), (m) => m.StaffQueuePage) },
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
   { to: '/admin/courses', labelKey: 'admin.nav.courses', lazy: page(() => import('@/features/courses/CoursesPage'), (m) => m.CoursesPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
@@ -122,6 +124,11 @@ export const router = createBrowserRouter([
       { path: '/reset-password', element: <ResetPasswordPage /> },
       { path: '/choose', element: <ChooseWorkspacePage /> },
       { path: '/account', element: <AccountPage /> },
+      // Hồ sơ nhân sự (11-module-ho-so-nhan-su): mọi tài khoản đăng nhập, không phụ thuộc không gian
+      { path: '/staff', lazy: page(() => import('@/features/staff/StaffProfilePage'), (m) => m.StaffProfilePage) },
+      { path: '/staff/u/:userId', lazy: page(() => import('@/features/staff/StaffProfilePage'), (m) => m.StaffProfilePage) },
+      { path: '/staff/manage', lazy: page(() => import('@/features/staff/StaffRecordPanel'), (m) => m.StaffScopesPage) },
+      { path: '/staff/manage/:kind/:id', lazy: page(() => import('@/features/staff/StaffRecordPanel'), (m) => m.StaffScopePage) },
       { path: '/terms', element: <LegalPage titleKey="pages.terms" /> },
       { path: '/privacy', element: <LegalPage titleKey="pages.privacy" /> },
       { path: '/status', element: <StatusPage /> },

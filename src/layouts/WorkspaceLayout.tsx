@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { LogOut, Menu, Repeat, UserRound } from 'lucide-react'
+import { IdCard, LogOut, Menu, Repeat, UserRound } from 'lucide-react'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { useAuth, type Workspace } from '@/auth/AuthProvider'
 import type { Role } from '@/lib/types'
@@ -19,7 +19,7 @@ export interface NavItem {
 /** Khung chung cho các không gian sau đăng nhập; có menu điều hướng khi truyền `nav`. */
 export function WorkspaceLayout({ workspace, nav }: { workspace: Workspace; nav?: NavItem[] }) {
   const { t } = useTranslation()
-  const { profile, workspaces, signOut, hasRole } = useAuth()
+  const { profile, roles, workspaces, signOut, hasRole } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const navList = nav && (
@@ -49,6 +49,11 @@ export function WorkspaceLayout({ workspace, nav }: { workspace: Workspace; nav?
       {workspace !== 'student' && (
         <Link to="/account" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-navy/80 hover:bg-navy/5">
           <UserRound className="h-4 w-4" /> {t('account.title')}
+        </Link>
+      )}
+      {workspace !== 'student' && (profile?.cv_type || roles.length > 0) && (
+        <Link to="/staff" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-navy/80 hover:bg-navy/5">
+          <IdCard className="h-4 w-4" /> {t('staff.title')}
         </Link>
       )}
       {workspaces.length > 1 && (

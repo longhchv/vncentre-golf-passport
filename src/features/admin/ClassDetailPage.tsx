@@ -20,6 +20,7 @@ import { useClassLookups } from '@/features/admin/ClassesPage'
 import { AssignPassportDialog } from '@/features/passports/AssignPassportDialog'
 import { formatCode } from '@/lib/codes'
 import { Badge } from '@/components/ui/card'
+import { StaffRecordPanel } from '@/features/staff/StaffRecordPanel'
 import type { AdminUserRow, ClassRow, RosterRow, StudentSearchRow } from '@/lib/types'
 
 const CLASS_STAFF_ROLES = ['coach', 'head_coach', 'assistant', 'pe_teacher'] as const
@@ -190,6 +191,8 @@ export function ClassDetailPage() {
           </table>
         </TableWrap>
       </section>
+
+      <StaffRecordPanel scope={{ classId: c.id }} />
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">

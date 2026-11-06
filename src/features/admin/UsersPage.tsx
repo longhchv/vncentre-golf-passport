@@ -12,6 +12,8 @@ import { Dialog } from '@/components/ui/dialog'
 import { Checkbox, Field, FormError, Input, Select } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { STAFF_ROLES, type AdminUserRow, type Role, type School } from '@/lib/types'
+import { StaffCvTypeEditor } from '@/features/staff/StaffAdmin'
+import type { CvType } from '@/features/staff/api'
 
 async function callAdminUsers(body: Record<string, unknown>) {
   const { data, error } = await supabase!.functions.invoke('admin-users', { body })
@@ -46,6 +48,16 @@ export function UsersPage() {
       const { data, error } = await supabase!.rpc('admin_list_users')
       if (error) throw error
       return data as AdminUserRow[]
+    },
+  })
+
+  // Mẫu CV và ngày tham gia của hồ sơ nhân sự (D48: chỉ admin gán)
+  const staffFields = useQuery({
+    queryKey: ['profile_staff_fields'],
+    queryFn: async () => {
+      const { data, error } = await supabase!.from('profiles').select('user_id, cv_type, joined_vncentre_on')
+      if (error) throw error
+      return new Map((data ?? []).map((p) => [p.user_id as string, p as { cv_type: CvType | null; joined_vncentre_on: string | null }]))
     },
   })
 
@@ -155,6 +167,13 @@ export function UsersPage() {
                     <Plus className="h-4 w-4" /> {t('users.addRole')}
                   </Button>
                 </div>
+
+                {staffFields.data && (
+                  <StaffCvTypeEditor
+                    userId={u.user_id}
+                    value={staffFields.data.get(u.user_id) ?? { cv_type: null, joined_vncentre_on: null }}
+                  />
+                )}
 
                 <div className="flex flex-wrap gap-2 border-t border-navy/10 pt-3">
                   {u.email && (

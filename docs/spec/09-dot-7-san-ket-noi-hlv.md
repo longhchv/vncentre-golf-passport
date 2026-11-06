@@ -43,6 +43,8 @@ Anh Long chốt câu 15.
 | Testimonial | Phụ huynh viết, phụ huynh đồng ý cho hiện, HLV chọn hiện hay ẩn | — |
 | Bảng giá, combo, coupon | HLV đặt, VN Centre duyệt (mục 6) | — |
 
+**Dùng lại dữ liệu của module Hồ sơ nhân sự** (`11-module-ho-so-nhan-su.md`): chứng chỉ, kinh nghiệm lưu ở `staff_credentials` (thay cho bảng `coach_credentials` dự kiến trước đây, không tạo bảng mới); quá trình giảng dạy và sự kiện lấy từ `staff_engagements`. Nhãn **"VN Centre đã xem bản gốc"** tương ứng `status = approved` của `staff_credentials`; mục chưa duyệt hiện là **"HLV tự khai"**.
+
 **Nhãn xác minh là thứ quan trọng nhất trên trang này.** App hiển thị cái gì tức là VN Centre bảo chứng cái đó. Phải phân biệt rõ ràng, bằng màu và bằng chữ, giữa "VN Centre đã xem bản gốc chứng chỉ X" và "HLV tự khai". Không được để lẫn.
 
 **Không hiện điểm sao công khai** (anh Long chốt Q4). Điểm trung bình chỉ HLV đó và admin xem được, dùng để tự soi lại mình. Lý do: với quy mô vài chục HLV, điểm sao công khai tạo cạnh tranh nội bộ độc hại, và một HLV dính hai đánh giá xấu là hỏng sinh kế, trong khi hai đánh giá ở mẫu nhỏ không nói lên điều gì. Xem lại khi số HLV vượt 100.
