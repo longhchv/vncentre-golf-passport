@@ -15,6 +15,7 @@ declare
   btc uuid := gen_random_uuid();
   btc_other uuid := gen_random_uuid();
   ev uuid; ev2 uuid; x jsonb; b jsonb; n int; ok boolean; v_asg uuid; v_task uuid; v_slots_before int;
+  v_d int; v_new int;
 begin
   insert into auth.users (id, instance_id, aud, role, email, email_confirmed_at) values
     (adm, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'test-crew5-adm@example.test', now()),
@@ -29,6 +30,9 @@ begin
   perform pg_temp.act_as(null);
   update public.events set status = 'open' where id in (ev, ev2);
   v_slots_before := (select count(*) from public.event_crew_slots);
+  -- Ô vai dùng chung mọi sự kiện: dữ liệu thật có thể đã có thêm ô Đại sứ (D6 từ 10/10) → số ô cần thêm cho 6 đại sứ
+  v_d := (select count(*) from public.event_crew_slots where role_code = 'D');
+  v_new := greatest(0, 6 - v_d);
 
   -- BTC của sự kiện khác không nhập được
   perform pg_temp.act_as(btc_other);
@@ -48,7 +52,7 @@ begin
          {"line":8,"full_name":"Người Quầy","department":"Quầy quà","contact":"0933000008"},
          {"line":9,"full_name":"Không Rõ","department":"Bảo vệ","contact":"0933000009"}]';
   b := public.crew_import(ev, x, false);
-  if b -> 5 ->> 'status' <> 'ok' or not (b -> 5 ->> 'new_slot')::boolean or (b -> 4 ->> 'new_slot')::boolean
+  if b -> 5 ->> 'status' <> 'ok' or (b -> 5 ->> 'new_slot')::boolean <> (v_d < 6) or (b -> 4 ->> 'new_slot')::boolean <> (v_d < 5)
      or b -> 6 ->> 'slot_code' <> 'C2' or b -> 8 ->> 'error' <> 'department_not_found' then
     raise exception 'FAIL xem trước bộ phận: %', b;
   end if;
@@ -58,7 +62,7 @@ begin
   b := public.crew_import(ev, x, true);
   perform pg_temp.act_as(null);
   if (select count(*) from public.event_crew_assignments where event_id = ev) <> 8 then raise exception 'FAIL: số người %', b; end if;
-  if (select count(*) from public.event_crew_slots) <> v_slots_before + 1 or b -> 5 ->> 'slot_code' <> 'D6' then raise exception 'FAIL: thêm chỗ D6 %', b -> 5; end if;
+  if (select count(*) from public.event_crew_slots) <> v_slots_before + v_new or b -> 5 ->> 'slot_code' <> 'D6' then raise exception 'FAIL: thêm chỗ D6 %', b -> 5; end if;
   if (select position from public.event_crew_assignments a join public.event_crew_slots s on s.id = a.slot_id where a.event_id = ev and s.slot_code = 'C2') <> 'Trạm Chipping' then
     raise exception 'FAIL: vị trí HLV';
   end if;
@@ -66,7 +70,7 @@ begin
   perform pg_temp.act_as(btc);
   b := public.crew_import(ev, x, true);
   perform pg_temp.act_as(null);
-  if (select count(*) from public.event_crew_assignments where event_id = ev) <> 8 or (select count(*) from public.event_crew_slots) <> v_slots_before + 1 then
+  if (select count(*) from public.event_crew_assignments where event_id = ev) <> 8 or (select count(*) from public.event_crew_slots) <> v_slots_before + v_new then
     raise exception 'FAIL: nhập lại sinh trùng';
   end if;
 

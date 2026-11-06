@@ -9,9 +9,12 @@ begin
      or (select count(*) from public.event_crew_slots) < 20 then raise exception 'FAIL: số ô vai %', (select count(*) from public.event_crew_slots); end if;
   if (select count(*) from public.event_crew_task_templates) <> 70 then raise exception 'FAIL: số việc mẫu'; end if;
   if (select count(*) from public.event_crew_supplies) <> 26 then raise exception 'FAIL: số vật dụng'; end if;
-  if (select count(distinct role_code) from public.event_crew_slots) <> 8 then raise exception 'FAIL: số vai'; end if;
-  -- Mỗi vai có ô đều có việc mẫu; C1…C4 cùng nhận 12 việc của vai C
-  if exists (select 1 from public.event_crew_slots s where not exists (select 1 from public.event_crew_task_templates t where t.role_code = s.role_code)) then
+  -- 8 vai gốc phải có; ô vai dùng chung mọi sự kiện, dữ liệu thật đã thêm vai riêng (H, 10/10) nên không đòi đúng 8
+  if (select count(distinct role_code) from public.event_crew_slots where role_code in ('A','B','C','D','E','F','G','K')) <> 8 then
+    raise exception 'FAIL: số vai'; end if;
+  -- Mỗi vai gốc có ô đều có việc mẫu; C1…C4 cùng nhận 12 việc của vai C.
+  -- Bộ phận do điều phối tự thêm (crew_add_department, mã H trở đi) không có việc mẫu: việc thêm bằng crew_add_task.
+  if exists (select 1 from public.event_crew_slots s where s.role_code in ('A','B','C','D','E','F','G','K') and not exists (select 1 from public.event_crew_task_templates t where t.role_code = s.role_code)) then
     raise exception 'FAIL: có ô không có việc mẫu';
   end if;
   if (select count(*) from public.event_crew_task_templates where role_code = 'C') <> 12 then raise exception 'FAIL: việc vai C'; end if;
