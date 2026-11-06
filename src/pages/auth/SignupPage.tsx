@@ -10,12 +10,14 @@ import { OtpStep } from '@/features/auth/OtpStep'
 import { callOtp, otpErrorText, type OtpSent } from '@/features/auth/otp'
 import { isVietnamese, toE164 } from '@/features/auth/phone'
 import { setLanguage } from '@/i18n'
+import { useSetting } from '@/lib/settings'
 
 type Step = 'phone' | 'otp' | 'profile'
 
 /**
- * F1 · Đăng ký phụ huynh: SĐT → OTP (VN: Zalo → SMS; nước ngoài: email) → mật khẩu + họ tên + email.
- * Email có thể bỏ qua lúc đăng ký (bắt buộc trước khi tải PDF đầu tiên).
+ * F1 · Đăng ký phụ huynh: SĐT → OTP → mật khẩu + họ tên + email.
+ * Kênh mã: số nước ngoài → email; số VN → theo công tắc `auth.otp_vn_channel` (spec 16): 'email' (mặc định) đi như
+ * số nước ngoài (bắt buộc email, SĐT lưu chưa xác minh), 'zalo' → Zalo, lỗi thì SMS (email tuỳ chọn ở bước 3).
  */
 export function SignupPage() {
   const { t, i18n } = useTranslation()
@@ -33,11 +35,14 @@ export function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
+  const vnChannel = useSetting<string>('auth.otp_vn_channel', 'email').value
   const phone = toE164(dial, local)
   const foreign = phone ? !isVietnamese(phone) : dial !== '84'
+  // Mã gửi qua email: bắt buộc nhập email ở bước 1
+  const viaEmail = foreign || vnChannel !== 'zalo'
 
   async function send() {
-    const r = await callOtp<OtpSent>({ action: 'send', purpose: 'signup', phone, email: foreign ? email : undefined, lang: i18n.language })
+    const r = await callOtp<OtpSent>({ action: 'send', purpose: 'signup', phone, email: viaEmail ? email : undefined, lang: i18n.language })
     setSent(r)
     setStep('otp')
   }
@@ -67,8 +72,8 @@ export function SignupPage() {
       {step === 'phone' && (
         <form onSubmit={onPhone} className="space-y-4">
           <PhoneField dial={dial} onDial={setDial} value={local} onChange={setLocal} label={t('signup.parentPhone')} />
-          {foreign && (
-            <Field label={t('signup.parentEmail') + ' *'} hint={t('signup.foreignEmailHint')}>
+          {viaEmail && (
+            <Field label={t('signup.parentEmail') + ' *'} hint={t(foreign ? 'signup.foreignEmailHint' : 'signup.vnEmailHint')}>
               <Input type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </Field>
           )}
@@ -99,8 +104,8 @@ export function SignupPage() {
 
       {step === 'profile' && (
         <ProfileStep
-          foreign={foreign}
-          foreignEmail={email}
+          viaEmail={viaEmail}
+          verifiedEmail={email}
           ticket={ticket}
           onDone={async (login, password, lang) => {
             const { error: e } = await supabase!.auth.signInWithPassword({ ...login, password })
@@ -116,13 +121,13 @@ export function SignupPage() {
 }
 
 function ProfileStep({
-  foreign,
-  foreignEmail,
+  viaEmail,
+  verifiedEmail,
   ticket,
   onDone,
 }: {
-  foreign: boolean
-  foreignEmail: string
+  viaEmail: boolean
+  verifiedEmail: string
   ticket: string
   onDone: (login: { phone: string } | { email: string }, password: string, lang: 'vi' | 'en') => Promise<void>
 }) {
@@ -145,7 +150,7 @@ function ProfileStep({
         action: 'complete',
         ticket,
         full_name: fullName,
-        email: foreign ? undefined : email.trim() || undefined,
+        email: viaEmail ? undefined : email.trim() || undefined,
         password,
         lang,
       })
@@ -161,14 +166,14 @@ function ProfileStep({
       <Field label={t('signup.parentName') + ' *'} hint={t('signup.parentNameHint')}>
         <Input required autoComplete="name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
       </Field>
-      {foreign ? (
-        <p className="text-sm text-navy/70">{t('signup.emailVerified', { email: foreignEmail })}</p>
+      {viaEmail ? (
+        <p className="text-sm text-navy/70">{t('signup.emailVerified', { email: verifiedEmail })}</p>
       ) : (
         <Field label={t('signup.parentEmail')} hint={t('signup.emailOptional')}>
           <Input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </Field>
       )}
-      <Field label={t('auth.password') + ' *'} hint={t('signup.passwordHint')}>
+      <Field label={t('auth.password') + ' *'} hint={t(viaEmail ? 'signup.passwordHintEmail' : 'signup.passwordHint')}>
         <Input type="password" required autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </Field>
       <Field label={t('auth.confirmPassword') + ' *'}>

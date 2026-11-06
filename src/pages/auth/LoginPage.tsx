@@ -76,7 +76,10 @@ function PasswordLogin({ mode }: { mode: 'parent' | 'staff' }) {
     if (err) {
       const m = err.message.toLowerCase()
       setError(
-        m.includes('invalid')
+        // Spec 16: SĐT đăng ký qua email chưa xác minh → Supabase không cho đăng nhập bằng SĐT
+        'phone' in id && (m.includes('phone') || m.includes('confirm'))
+          ? t('auth.useEmailLogin')
+          : m.includes('invalid')
           ? t(mode === 'parent' ? 'auth.invalidCredentialsParent' : 'auth.invalidCredentials')
           : m.includes('confirm')
             ? t('auth.emailNotConfirmed')

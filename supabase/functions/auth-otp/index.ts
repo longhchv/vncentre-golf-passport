@@ -1,7 +1,9 @@
 // Edge Function: OTP cho đăng ký, quên mật khẩu, thêm SĐT, xác minh email (F1).
 //
-// Quy tắc (F1):
-//   - Số Việt Nam (+84): gửi Zalo trước, thất bại thì tự gửi SMS.
+// Quy tắc (F1, spec 16):
+//   - Số Việt Nam (+84): theo công tắc app_settings `auth.otp_vn_channel` (_shared/otpRouting.ts):
+//       'email' (mặc định, 06/11/2026) → như số nước ngoài: bắt buộc email, mã về email, SĐT lưu CHƯA xác minh;
+//       'zalo' → gửi Zalo trước, thất bại thì tự gửi SMS.
 //   - Số nước ngoài: gửi mã qua email; SĐT vẫn lưu nhưng chưa xác minh.
 //   - Giới hạn lấy từ app_settings (R13): hạn mã, số lần nhập sai, gửi lại sau, số mã/SĐT/ngày, số mã/IP/ngày.
 //   - Mỗi lần gửi ghi otp_logs kèm chi phí ước tính. Mã chỉ lưu dạng băm.
@@ -15,6 +17,7 @@
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2'
 import { corsHeaders, json } from '../_shared/cors.ts'
 import { sendEmailOtp, sendSmsOtp, sendZaloOtp, type Lang, type SendResult } from '../_shared/messaging.ts'
+import { decideAddPhone, decideResetByPhone, decideSignupSend, signupAccount, vnChannel } from '../_shared/otpRouting.ts'
 
 type Purpose = 'signup' | 'reset_password' | 'add_phone' | 'verify_email'
 const PURPOSES: Purpose[] = ['signup', 'reset_password', 'add_phone', 'verify_email']
@@ -62,6 +65,7 @@ async function settings(db: SupabaseClient) {
   const { data } = await db.from('app_settings').select('key, value').in('key', [
     'otp.code_ttl_seconds', 'otp.max_attempts_per_code', 'otp.resend_after_seconds',
     'otp.max_per_target_per_day', 'otp.max_per_ip_per_day', 'password.min_length', 'messaging.unit_price_vnd',
+    'auth.otp_vn_channel',
   ])
   const m = new Map((data ?? []).map((r) => [r.key, r.value]))
   const num = (k: string, d: number) => (typeof m.get(k) === 'number' ? (m.get(k) as number) : d)
@@ -73,6 +77,7 @@ async function settings(db: SupabaseClient) {
     maxPerTarget: num('otp.max_per_target_per_day', 5),
     maxPerIp: num('otp.max_per_ip_per_day', 20),
     minPassword: num('password.min_length', 8),
+    vnChannel: vnChannel(m.get('auth.otp_vn_channel')),
     price: (channel: string) => (channel === 'zalo' ? prices.zalo_otp : channel === 'sms' ? prices.sms : prices.email) ?? 0,
   }
 }
@@ -130,37 +135,33 @@ async function handleSend(db: SupabaseClient, req: Request, body: Record<string,
   let channel: 'zalo' | 'email' = 'email'
   let userId: string | null = null
   const meta: Record<string, unknown> = { lang }
+  const s = await settings(db)
 
   if (purpose === 'signup') {
-    if (!phone) return json({ error: 'phone_required' }, 400)
-    const { data: existingPhone } = await db.rpc('auth_user_id_by_phone', { p_phone: phone })
-    if (existingPhone) return json({ error: 'phone_exists' }, 409)
-    if (VN.test(phone)) {
-      target = phone
-      channel = 'zalo'
-    } else {
-      // Số nước ngoài: mã gửi qua email (F1 bước 2)
-      if (!email) return json({ error: 'email_required_for_foreign' }, 400)
-      const { data: existingEmail } = await db.rpc('auth_user_id_by_email', { p_email: email })
-      if (existingEmail) return json({ error: 'email_exists' }, 409)
-      target = email
-      meta.phone = phone
-    }
+    // Số nước ngoài, hoặc số VN khi công tắc = email: mã gửi qua email (F1 bước 2, spec 16)
+    const { data: existingPhone } = phone ? await db.rpc('auth_user_id_by_phone', { p_phone: phone }) : { data: null }
+    const { data: existingEmail } = email ? await db.rpc('auth_user_id_by_email', { p_email: email }) : { data: null }
+    const d = decideSignupSend({ phone, email, channel: s.vnChannel, phoneTaken: Boolean(existingPhone), emailTaken: Boolean(existingEmail) })
+    if (!d.ok) return json({ error: d.error }, d.status)
+    target = d.value.target
+    channel = d.value.channel
+    if (d.value.metaPhone) meta.phone = d.value.metaPhone
   } else if (purpose === 'reset_password') {
     if (phone) {
       const { data: uid } = await db.rpc('auth_user_id_by_phone', { p_phone: phone })
       if (!uid) return json({ error: 'account_not_found' }, 404)
       userId = uid
       const { data: u } = await db.auth.admin.getUserById(uid)
-      if (VN.test(phone) && u.user?.phone_confirmed_at) {
-        target = phone
-        channel = 'zalo'
-      } else if (u.user?.email && u.user.email_confirmed_at) {
-        // Số nước ngoài (chưa xác minh) → gửi về email đã xác minh
-        target = u.user.email
-      } else {
-        return json({ error: 'no_verified_channel' }, 400)
-      }
+      // SĐT chưa xác minh (số nước ngoài, số VN đăng ký qua email) → gửi về email đã xác minh
+      const d = decideResetByPhone({
+        phone,
+        channel: s.vnChannel,
+        phoneConfirmed: Boolean(u.user?.phone_confirmed_at),
+        verifiedEmail: u.user?.email && u.user.email_confirmed_at ? u.user.email : null,
+      })
+      if (!d.ok) return json({ error: d.error }, d.status)
+      target = d.value.target
+      channel = d.value.channel
     } else if (email) {
       const { data: uid } = await db.rpc('auth_user_id_by_email', { p_email: email })
       if (!uid) return json({ error: 'account_not_found' }, 404)
@@ -172,10 +173,11 @@ async function handleSend(db: SupabaseClient, req: Request, body: Record<string,
   } else if (purpose === 'add_phone') {
     userId = await callerUserId(req)
     if (!userId) return json({ error: 'unauthorized' }, 401)
-    if (!phone || !VN.test(phone)) return json({ error: 'vn_phone_required' }, 400)
-    const { data: owner } = await db.rpc('auth_user_id_by_phone', { p_phone: phone })
-    if (owner && owner !== userId) return json({ error: 'phone_exists' }, 409)
-    target = phone
+    // Công tắc = email: chưa xác minh SĐT được, để sau khi có Zalo (spec 16 mục 3.1)
+    const { data: owner } = phone && s.vnChannel === 'zalo' ? await db.rpc('auth_user_id_by_phone', { p_phone: phone }) : { data: null }
+    const d = decideAddPhone({ phone, channel: s.vnChannel, ownedByOther: Boolean(owner && owner !== userId) })
+    if (!d.ok) return json({ error: d.error }, d.status)
+    target = d.value.target
     channel = 'zalo'
   } else if (purpose === 'verify_email') {
     userId = await callerUserId(req)
@@ -186,7 +188,6 @@ async function handleSend(db: SupabaseClient, req: Request, body: Record<string,
     target = email
   }
 
-  const s = await settings(db)
   const dayAgo = new Date(Date.now() - 86_400_000).toISOString()
 
   // Gửi lại sau N giây
@@ -325,9 +326,10 @@ async function handleComplete(db: SupabaseClient, req: Request, body: Record<str
     const fullName = String(body.full_name ?? '').trim()
     if (!fullName) return json({ error: 'missing_name' }, 400)
     if (password.length < s.minPassword) return json({ error: 'password_too_short', min: s.minPassword }, 400)
-    const isForeign = row.channel === 'email'
-    const phone = isForeign ? String(row.meta?.phone ?? '') : row.target
-    const email = isForeign ? row.target : (body.email ? String(body.email).trim().toLowerCase() : '')
+    // Mã đi qua email (số nước ngoài, số VN khi công tắc = email): email đã xác minh, SĐT chưa
+    const acc = signupAccount({ channel: row.channel, target: row.target, metaPhone: row.meta?.phone },
+      body.email ? String(body.email).trim().toLowerCase() : '')
+    const { phone, email } = acc
     if (email && !EMAIL_RE.test(email)) return json({ error: 'invalid_email' }, 400)
     if (email) {
       const { data: owner } = await db.rpc('auth_user_id_by_email', { p_email: email })
@@ -338,22 +340,19 @@ async function handleComplete(db: SupabaseClient, req: Request, body: Record<str
 
     const { data: created, error } = await db.auth.admin.createUser({
       phone,
-      phone_confirm: !isForeign,
+      phone_confirm: acc.phoneConfirm,
       email: email || undefined,
-      email_confirm: isForeign, // email của số nước ngoài đã xác minh bằng OTP
+      email_confirm: acc.emailConfirm, // email đã xác minh bằng OTP
       password,
       user_metadata: { full_name: fullName, preferred_language: body.lang === 'en' ? 'en' : lang },
     })
     if (error || !created.user) return json({ error: 'create_failed', message: error?.message }, 400)
     const userId = created.user.id
-    await attachGuardian(db, userId, {
-      verifiedPhone: isForeign ? undefined : phone,
-      verifiedEmail: isForeign ? email : undefined,
-      fullName, phone, email: email || undefined,
-    })
+    // Không nối người giám hộ có sẵn theo SĐT chưa xác minh (tránh chiếm hồ sơ bằng số của người khác)
+    await attachGuardian(db, userId, { ...acc.attach, fullName, phone, email: email || undefined })
     await markUsed()
     await db.from('otp_logs').update({ user_id: userId }).eq('id', row.id)
-    return json({ ok: true, login: isForeign ? { email } : { phone } })
+    return json({ ok: true, login: acc.login })
   }
 
   if (row.purpose === 'reset_password') {

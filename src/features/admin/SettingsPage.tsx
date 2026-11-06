@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { CrudTable } from '@/features/admin/CrudTable'
+import { Card } from '@/components/ui/card'
+import { useSaveRow, useTable } from '@/lib/db'
 import { formatVnd, useLocalized } from '@/lib/i18nField'
 import type { AppSetting, Product } from '@/lib/types'
 
@@ -10,6 +12,7 @@ export function SettingsPage() {
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold">{t('admin.nav.settings')}</h1>
+      <OtpChannelSwitch />
       <CrudTable<Product>
         table="products"
         titleKey="admin.settings.products"
@@ -59,5 +62,39 @@ export function SettingsPage() {
         ]}
       />
     </div>
+  )
+}
+
+/**
+ * Spec 16: công tắc kênh gửi mã xác thực cho số Việt Nam (app_settings `auth.otp_vn_channel`).
+ * Nhật ký: trigger audit_row trên app_settings ghi trước / sau mỗi lần đổi.
+ */
+function OtpChannelSwitch() {
+  const { t } = useTranslation()
+  const rows = useTable<AppSetting>('app_settings', { order: 'key' })
+  const save = useSaveRow('app_settings')
+  const row = rows.data?.find((r) => r.key === 'auth.otp_vn_channel')
+  if (!row) return null
+  const current = row.value === 'zalo' ? 'zalo' : 'email'
+  return (
+    <Card className="space-y-3 p-4">
+      <h2 className="text-lg font-bold">{t('admin.settings.otpChannel.title')}</h2>
+      <p className="text-sm text-navy/70">{t('admin.settings.otpChannel.hint')}</p>
+      <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={t('admin.settings.otpChannel.title')}>
+        {(['email', 'zalo'] as const).map((v) => (
+          <button
+            key={v}
+            type="button"
+            role="radio"
+            aria-checked={current === v}
+            disabled={save.isPending}
+            onClick={() => current !== v && save.mutate({ id: row.id, value: v })}
+            className={`min-h-10 rounded-full px-4 text-sm font-semibold ${current === v ? 'bg-navy text-white' : 'bg-white text-navy/70 ring-1 ring-navy/15'}`}
+          >
+            {t(`admin.settings.otpChannel.${v}`)}
+          </button>
+        ))}
+      </div>
+    </Card>
   )
 }

@@ -50,7 +50,7 @@ begin
     raise exception 'FAIL sau khi gộp: %', r #> '{stages,0,items}';
   end if;
   -- mở bằng id hồ sơ đã gộp → ra checklist của hồ sơ giữ lại
-  if public.scholarship_checklist(rem) ->> 'student_id' <> keep::text then raise exception 'FAIL mở bằng id đã gộp'; end if;
+  if coalesce(public.scholarship_checklist(rem) ->> 'student_id', '') <> keep::text then raise exception 'FAIL mở bằng id đã gộp'; end if;
 
   perform pg_temp.act_as(null);
   if (select count(*) from public.scholarship_checklist_status where student_id = rem) <> 1 then
