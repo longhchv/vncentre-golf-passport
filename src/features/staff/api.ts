@@ -24,7 +24,7 @@ export interface StaffScale {
 
 export interface Engagement {
   id: string
-  kind: 'event' | 'project' | 'class'
+  kind: 'event' | 'project' | 'class' | 'tournament'
   event_id: string | null
   class_id: string | null
   event_name_vi: string | null
@@ -43,13 +43,17 @@ export interface Engagement {
   scale: StaffScale
   outcome_vi: string | null
   outcome_en: string | null
-  source: 'system' | 'manager' | 'self'
+  source: 'system' | 'manager' | 'self' | 'league_app'
   status: ReviewStatus
   rejected_reason: string | null
   badge: StaffBadgeKind
   confirmed_by_name: string | null
   skills: string[]
   created_at: string
+  /** Chặng giải (spec 17 bước 2): nguồn league_app */
+  tournament_id?: string | null
+  tasks_done?: number | null
+  tasks_total?: number | null
 }
 
 export interface Credential {
@@ -91,6 +95,12 @@ export interface StaffProfileData {
   credentials: Credential[]
   skills: { code: string; name_vi: string; name_en: string; count: number }[]
   stats: { cv_type: CvType | null; tiles: StatTile[] }
+  /** Spec 17 khối 3a: chứng nhận VN Centre cấp cho hồ sơ VNC của chính người này */
+  certificates?: { id: string; type: string; title_vi: string | null; title_en: string | null; issued_at: string; verify_code: string | null }[]
+  /** Khối 6: con của tôi */
+  children?: { id: string; full_name: string; student_code: string; avatar_url: string | null; level_number: number | null }[]
+  /** Khối 7: Kinh doanh (spec 18), tắt bằng profile.business_tab_enabled */
+  business_enabled?: boolean
 }
 
 export interface StaffSkill {

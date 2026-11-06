@@ -1,7 +1,9 @@
 import { useState, type ReactNode } from 'react'
 import { Link, Navigate, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, FileText, Pencil, Plus, Trash2, UsersRound } from 'lucide-react'
+import { ArrowLeft, Award, ChevronRight, FileText, Pencil, Plus, Trash2, UsersRound } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import QRCode from 'qrcode'
 import { useAuth } from '@/auth/AuthProvider'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { Button } from '@/components/ui/button'
@@ -19,8 +21,15 @@ import {
 import { StaffBadge, StaffMark, StaffMarkLegend } from './StaffBadge'
 import { CredentialDialog, SelfEngagementDialog } from './StaffDialogs'
 import { StaffCvSection } from './StaffCvSection'
+import { usePublicBaseUrl } from '@/lib/settings'
+import { passportUrl } from '@/features/passports/exports'
+import { CertificateViewer } from '@/features/certificates/CertificateViewer'
+import { useSignedPhoto } from '@/features/profile/useStudentProfile'
 
-/** S2 · Hồ sơ của tôi. Admin mở hồ sơ người khác ở /staff/u/:userId (chỉ xem). */
+/**
+ * S2 · Hồ sơ của tôi — spec 17: trang chung cho mọi người lớn (nhân sự, HLV, BTC, phụ huynh).
+ * Admin mở hồ sơ người khác ở /staff/u/:userId (chỉ xem).
+ */
 export function StaffProfilePage() {
   const { t } = useTranslation()
   const { userId } = useParams()
@@ -46,21 +55,37 @@ function StaffProfileBody({ userId, readOnly }: { userId?: string; readOnly: boo
   if (q.isPending) return <p className="text-navy/60">{t('common.loading')}</p>
   if (q.isError) return <p className="text-red-700">{t('errors.loadFailed')}</p>
   const d = q.data
+  // Phụ huynh chưa từng làm việc với VN Centre: chỉ khối 1, 6 và lời mời thêm chứng chỉ, kinh nghiệm
+  const worked = Boolean(d.profile.cv_type) || d.engagements.length > 0 || d.credentials.length > 0
+    || d.skills.length > 0 || (d.certificates?.length ?? 0) > 0
   return (
     <>
-      <ProfileHeader data={d} />
+      {/* 1 Thẻ hồ sơ */}
+      <ProfileHeader data={d} worked={worked} />
       <StatTiles data={d} />
       {!readOnly && <ManagerScopesCard />}
-      <StaffCvSection data={d} userId={userId} />
-      <EngagementSection data={d} readOnly={readOnly} />
-      <CredentialSection data={d} readOnly={readOnly} />
-      <SkillsSection data={d} />
-      <StaffMarkLegend />
+      {worked ? (
+        <>
+          {/* 2 Việc đã làm · 3 Chứng nhận & bằng cấp · 4 Kỹ năng · 5 Xuất CV (chỉ khi admin gán cv_type) */}
+          <EngagementSection data={d} readOnly={readOnly} />
+          <VnCentreCertificates data={d} />
+          <CredentialSection data={d} readOnly={readOnly} />
+          <SkillsSection data={d} />
+          {d.profile.cv_type && <StaffCvSection data={d} userId={userId} />}
+        </>
+      ) : (
+        !readOnly && <InviteCard data={d} />
+      )}
+      {/* 6 Con của tôi */}
+      <ChildrenSection data={d} readOnly={readOnly} />
+      {/* 7 Kinh doanh: spec 18, tắt bằng cấu hình */}
+      {d.business_enabled && <BusinessPlaceholder />}
+      {worked && <StaffMarkLegend />}
     </>
   )
 }
 
-function ProfileHeader({ data }: { data: StaffProfileData }) {
+function ProfileHeader({ data, worked }: { data: StaffProfileData; worked: boolean }) {
   const { t, i18n } = useTranslation()
   const p = data.profile
   const name = p.full_name || p.email || p.phone || ''
@@ -78,7 +103,7 @@ function ProfileHeader({ data }: { data: StaffProfileData }) {
         )}
         <div className="min-w-0 space-y-0.5">
           <h1 className="text-xl font-bold break-words">{name}</h1>
-          <p className="text-gold">{p.cv_type ? t(`staff.cvType.${p.cv_type}`) : t('staff.noCvType')}</p>
+          {(p.cv_type || worked) && <p className="text-gold">{p.cv_type ? t(`staff.cvType.${p.cv_type}`) : t('staff.noCvType')}</p>}
           <p className="text-sm text-white/75">
             {[
               data.identity && `${t('staff.identity')}: ${data.identity.student_code}`,
@@ -88,7 +113,14 @@ function ProfileHeader({ data }: { data: StaffProfileData }) {
           </p>
         </div>
       </div>
-      {!p.cv_type && <p className="p-4 text-sm text-navy/65">{t('staff.noCvTypeHint')}</p>}
+      <div className="flex flex-wrap items-center justify-between gap-3 p-4">
+        <div className="flex flex-wrap gap-1.5">
+          {data.roles.map((r) => <Badge key={r}>{t(`roles.${r}`, { defaultValue: r })}</Badge>)}
+          {(data.children?.length ?? 0) > 0 && <Badge>{t('adultProfile.parentRole')}</Badge>}
+        </div>
+        {data.identity?.passport_code && <IdentityQr code={data.identity.passport_code} />}
+      </div>
+      {!p.cv_type && worked && <p className="px-4 pb-4 text-sm text-navy/65">{t('staff.noCvTypeHint')}</p>}
     </Card>
   )
 }
@@ -209,6 +241,7 @@ export function EngagementCard({ e, actions }: { e: Engagement; actions?: ReactN
           <p className="font-semibold">{engagementTitle(e, i18n.language)}</p>
           <p className="text-sm text-navy/65">
             {[position, e.kind === 'class' && e.school_name, e.kind === 'class' && e.academic_year, dates,
+              e.tasks_total != null && t('adultProfile.tasksDone', { done: e.tasks_done ?? 0, total: e.tasks_total }),
               e.hours !== null && t('staff.hoursN', { count: Number(e.hours) })].filter(Boolean).join(' · ')}
           </p>
         </div>
@@ -307,6 +340,118 @@ function SkillsSection({ data }: { data: StaffProfileData }) {
           </Badge>
         ))}
       </div>
+    </Section>
+  )
+}
+
+/** Khối 1: QR định danh — trỏ tới trang công khai của sổ Golf Passport (như thẻ đeo BTC) */
+function IdentityQr({ code }: { code: string }) {
+  const { t } = useTranslation()
+  const url = passportUrl(usePublicBaseUrl(), code)
+  const img = useQuery({
+    queryKey: ['identity-qr', url],
+    staleTime: Infinity,
+    queryFn: () => QRCode.toDataURL(url, { width: 256, margin: 1, errorCorrectionLevel: 'M' }),
+  })
+  if (!img.data) return null
+  return <img src={img.data} alt={t('adultProfile.identityQr')} title={url} className="h-20 w-20 rounded-lg ring-1 ring-navy/10" />
+}
+
+/** Khối 3a: chứng nhận VN Centre cấp cho chính người này (ví dụ khoá CGI) */
+function VnCentreCertificates({ data }: { data: StaffProfileData }) {
+  const { t, i18n } = useTranslation()
+  const [open, setOpen] = useState<string | null>(null)
+  const list = data.certificates ?? []
+  if (!list.length) return null
+  const en = i18n.language === 'en'
+  return (
+    <Section title={t('adultProfile.vncCertificates')}>
+      <ul className="space-y-2">
+        {list.map((c) => (
+          <li key={c.id}>
+            <button type="button" onClick={() => setOpen(c.id)} className="block w-full text-left">
+              <Card className="flex items-center gap-3 p-4 hover:border-bronze">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold/25 text-brown"><Award className="h-5 w-5" /></span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold">{(en && c.title_en) || c.title_vi}</span>
+                  <span className="block text-sm text-navy/60">{formatDate(c.issued_at, i18n.language)}</span>
+                </span>
+                <StaffBadge kind="verified" />
+              </Card>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <CertificateViewer id={open} onClose={() => setOpen(null)} />
+    </Section>
+  )
+}
+
+/** Phụ huynh chưa từng làm việc với VN Centre: lời mời (tuỳ chọn) thêm chứng chỉ, kinh nghiệm */
+function InviteCard({ data }: { data: StaffProfileData }) {
+  const { t } = useTranslation()
+  const [credential, setCredential] = useState<Credential | 'new' | null>(null)
+  const [engagement, setEngagement] = useState<Engagement | 'new' | null>(null)
+  return (
+    <Card className="space-y-3 p-4">
+      <p className="font-semibold">{t('adultProfile.inviteTitle')}</p>
+      <p className="text-sm text-navy/70">{t('adultProfile.inviteHint')}</p>
+      <div className="flex flex-wrap gap-2">
+        <Button size="sm" variant="outline" onClick={() => setCredential('new')}><Plus className="h-4 w-4" /> {t('staff.addCredential')}</Button>
+        <Button size="sm" variant="outline" onClick={() => setEngagement('new')}><Plus className="h-4 w-4" /> {t('staff.addEngagement')}</Button>
+      </div>
+      <CredentialDialog value={credential} userId={data.profile.user_id} onClose={() => setCredential(null)} />
+      <SelfEngagementDialog value={engagement} onClose={() => setEngagement(null)} />
+    </Card>
+  )
+}
+
+/** Khối 6: con của tôi — thẻ ngắn mỗi con, bấm sang hồ sơ VĐV (spec 15) */
+function ChildrenSection({ data, readOnly }: { data: StaffProfileData; readOnly: boolean }) {
+  const { t } = useTranslation()
+  const list = data.children ?? []
+  if (!list.length) return null
+  return (
+    <Section title={t('adultProfile.children')}>
+      <ul className="space-y-2">
+        {list.map((c) => (
+          <li key={c.id}>
+            {readOnly ? (
+              <ChildCard c={c} />
+            ) : (
+              <Link to={`/app/children/${c.id}`} className="block"><ChildCard c={c} link /></Link>
+            )}
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )
+}
+
+function ChildCard({ c, link }: { c: NonNullable<StaffProfileData['children']>[number]; link?: boolean }) {
+  const photo = useSignedPhoto(c.avatar_url).data
+  return (
+    <Card className={`flex items-center gap-3 p-3 ${link ? 'hover:border-bronze' : ''}`}>
+      {photo ? (
+        <img src={photo} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover" />
+      ) : (
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy/5"><Mascot className="h-9 w-9" /></span>
+      )}
+      <span className="min-w-0 flex-1">
+        <span className="block font-semibold break-words">{c.full_name}</span>
+        <span className="block font-mono text-sm text-navy/60">{c.student_code}{c.level_number ? ` · Level ${c.level_number}` : ''}</span>
+      </span>
+      {link && <ChevronRight className="h-4 w-4 shrink-0 text-bronze" />}
+    </Card>
+  )
+}
+
+/** Khối 7: Kinh doanh — chỉ là chỗ chừa sẵn cho spec 18 */
+function BusinessPlaceholder() {
+  const { t } = useTranslation()
+  return (
+    <Section title={t('adultProfile.business')}>
+      <p className="text-navy/60">{t('adultProfile.businessSoon')}</p>
     </Section>
   )
 }

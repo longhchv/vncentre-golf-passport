@@ -2155,7 +2155,7 @@
     }
   },
   "staff": {
-    "title": "Staff profile",
+    "title": "My profile",
     "identity": "ID",
     "joinedOn": "Joined {{date}}",
     "noCvType": "No CV template yet",
@@ -2177,7 +2177,8 @@
     "kind": {
       "event": "Event",
       "project": "Project",
-      "class": "Teaching"
+      "class": "Teaching",
+      "tournament": "Tournament stage"
     },
     "badge": {
       "verified": "Verified",
@@ -2340,5 +2341,16 @@
       "fullTitle": "Full copy",
       "fullHint": "Only you (the profile owner) and admins see this part. Others who scan the QR code only see the box above."
     }
+  },
+  "adultProfile": {
+    "parentRole": "Parent",
+    "identityQr": "Golf Passport identity QR",
+    "vncCertificates": "VN Centre certificates",
+    "children": "My children",
+    "inviteTitle": "Have you coached, taught golf or organised events?",
+    "inviteHint": "Optional. Add a certificate or past experience so VN Centre can record it on your profile.",
+    "business": "Business",
+    "businessSoon": "Coming soon.",
+    "tasksDone": "{{done}}/{{total}} tasks"
   }
 }
