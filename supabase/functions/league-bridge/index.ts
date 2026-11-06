@@ -5,6 +5,7 @@
 //   { action: 'lookup',  code }                                  → 4.1 (header X-Client-IP: IP phụ huynh, giới hạn mỗi phút)
 //   { action: 'issue',   child, guardian, consents, league_ref } → 4.2
 //   { action: 'results', event, rows }                           → 4.3
+//   { action: 'staff_history', event, rows }                     → spec 17 mục 4: lịch sử BTC của chặng (chờ admin xác nhận)
 //
 // Sai / thiếu khoá → 401. Logic và nhật ký nằm trong các hàm SQL league_* (chỉ service_role gọi được).
 
@@ -71,6 +72,11 @@ Deno.serve(async (req) => {
       }
       case 'results': {
         const { data, error } = await db.rpc('league_results', { p: body })
+        if (error) return json({ error: errorCode(error.message) }, 400)
+        return json(data)
+      }
+      case 'staff_history': {
+        const { data, error } = await db.rpc('league_staff_history', { p: body })
         if (error) return json({ error: errorCode(error.message) }, 400)
         return json(data)
       }

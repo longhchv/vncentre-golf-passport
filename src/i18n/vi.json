@@ -2155,7 +2155,7 @@
     }
   },
   "staff": {
-    "title": "Hồ sơ nhân sự",
+    "title": "Hồ sơ của tôi",
     "identity": "Mã định danh",
     "joinedOn": "Tham gia từ {{date}}",
     "noCvType": "Chưa gán mẫu CV",
@@ -2177,7 +2177,8 @@
     "kind": {
       "event": "Sự kiện",
       "project": "Dự án",
-      "class": "Giảng dạy"
+      "class": "Giảng dạy",
+      "tournament": "Chặng giải"
     },
     "badge": {
       "verified": "Đã xác thực",
@@ -2340,5 +2341,16 @@
       "fullTitle": "Bản đầy đủ",
       "fullHint": "Chỉ bạn (chủ hồ sơ) và admin thấy phần này. Người khác quét QR chỉ thấy phần trên."
     }
+  },
+  "adultProfile": {
+    "parentRole": "Phụ huynh",
+    "identityQr": "QR định danh Golf Passport",
+    "vncCertificates": "Chứng nhận VN Centre",
+    "children": "Con của tôi",
+    "inviteTitle": "Bạn từng làm golf, dạy học hay tổ chức sự kiện?",
+    "inviteHint": "Không bắt buộc. Thêm chứng chỉ hoặc kinh nghiệm để VN Centre ghi nhận vào hồ sơ của bạn.",
+    "business": "Kinh doanh",
+    "businessSoon": "Sắp có.",
+    "tasksDone": "{{done}}/{{total}} đầu việc"
   }
 }
