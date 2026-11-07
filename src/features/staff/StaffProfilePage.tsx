@@ -21,6 +21,7 @@ import {
 import { StaffBadge, StaffMark, StaffMarkLegend } from './StaffBadge'
 import { CredentialDialog, SelfEngagementDialog } from './StaffDialogs'
 import { StaffCvSection } from './StaffCvSection'
+import { BusinessSection } from './BusinessSection'
 import { usePublicBaseUrl } from '@/lib/settings'
 import { passportUrl } from '@/features/passports/exports'
 import { CertificateViewer } from '@/features/certificates/CertificateViewer'
@@ -78,8 +79,8 @@ function StaffProfileBody({ userId, readOnly }: { userId?: string; readOnly: boo
       )}
       {/* 6 Con của tôi */}
       <ChildrenSection data={d} readOnly={readOnly} />
-      {/* 7 Kinh doanh: spec 18, tắt bằng cấu hình */}
-      {d.business_enabled && <BusinessPlaceholder />}
+      {/* 7 Kinh doanh: spec 18, tắt bằng cấu hình. Admin xem hồ sơ người khác: không hiện (số liệu giới thiệu là riêng tư) */}
+      {d.business_enabled && !readOnly && <BusinessSection />}
       {worked && <StaffMarkLegend />}
     </>
   )
@@ -443,15 +444,5 @@ function ChildCard({ c, link }: { c: NonNullable<StaffProfileData['children']>[n
       </span>
       {link && <ChevronRight className="h-4 w-4 shrink-0 text-bronze" />}
     </Card>
-  )
-}
-
-/** Khối 7: Kinh doanh — chỉ là chỗ chừa sẵn cho spec 18 */
-function BusinessPlaceholder() {
-  const { t } = useTranslation()
-  return (
-    <Section title={t('adultProfile.business')}>
-      <p className="text-navy/60">{t('adultProfile.businessSoon')}</p>
-    </Section>
   )
 }

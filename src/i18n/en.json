@@ -67,7 +67,8 @@
     "school": "School",
     "admin": "Admin",
     "event": "Event organisers",
-    "league": "League organiser"
+    "league": "League organiser",
+    "partner": "Partner counter"
   },
   "status": {
     "version": "Version",
@@ -227,7 +228,8 @@
       "courses": "Golf courses",
       "leagueQueue": "Match SNAG League players",
       "scholarship": "Scholarship checklist",
-      "staffQueue": "Staff profiles to review"
+      "staffQueue": "Staff profiles to review",
+      "partners": "Golf Passport partners"
     },
     "years": {
       "current": "Current year",
@@ -330,7 +332,8 @@
     "pe_teacher": "PE teacher",
     "partner": "Partner",
     "event_staff": "Event organiser (experience)",
-    "league_staff": "SNAG Golf League organiser"
+    "league_staff": "SNAG Golf League organiser",
+    "partner_staff": "Partner counter staff"
   },
   "students": {
     "searchPlaceholder": "Name, student code or parent phone",
@@ -2352,5 +2355,303 @@
     "business": "Business",
     "businessSoon": "Coming soon.",
     "tasksDone": "{{done}}/{{total}} tasks"
+  },
+  "partners": {
+    "points": "{{count}} pts",
+    "offer": {
+      "percent": "{{percent}}% off"
+    },
+    "kind": {
+      "golf_course": "Golf course",
+      "driving_range": "Driving range",
+      "restaurant": "Restaurant",
+      "cafe": "Café",
+      "other": "Other partner"
+    },
+    "visitStatus": {
+      "recorded": "Recorded",
+      "flagged": "Under review",
+      "void": "Voided"
+    },
+    "ledgerReason": {
+      "partner_visit": "Partner visit",
+      "partner_visit_void": "Visit voided",
+      "admin_adjust": "VN Centre adjustment"
+    },
+    "errors": {
+      "qr_expired": "This QR code has expired or was already used. Ask the customer to refresh the code on their phone, then scan again.",
+      "qr_invalid": "Invalid QR code. Please scan the \"Partner offer code\" in the customer's Golf Passport.",
+      "forbidden": "You don't have permission to do this.",
+      "partner_inactive": "This partner's offer programme is paused. Please contact VN Centre.",
+      "daily_limit": "The customer has already used today's offer here.",
+      "offer_invalid": "This offer is no longer available. Please choose another one.",
+      "invalid_amount": "The amount is not valid, please check again.",
+      "reason_required": "Please enter a reason for voiding.",
+      "settled": "This month has already been settled with VN Centre, so the visit can't be voided. Please contact VN Centre.",
+      "not_found": "Visit not found."
+    },
+    "counter": {
+      "title": "Golf Passport offer counter",
+      "noPartner": "Your account isn't assigned to any partner counter yet",
+      "noPartnerHint": "Ask VN Centre to add your account to the counter staff list.",
+      "pickPartner": "Partner",
+      "pickPartnerPlaceholder": "Choose the partner you are serving",
+      "scanTitle": "Scan the customer's code",
+      "scanButton": "Scan QR code",
+      "scanHint": "Point the camera at the \"Partner offer code\" on the customer's phone.",
+      "manualLabel": "Or type the code shown under the QR",
+      "check": "Check",
+      "customer": "Customer",
+      "noTier": "No passport tier yet",
+      "rescan": "Scan again",
+      "limitReached": "The customer has already used {{count}} offer(s) here today — the daily limit is reached. No offer applies this time.",
+      "noOffers": "No offer is currently active. The visit can still be recorded for points.",
+      "chooseOffer": "Choose the offer applied",
+      "fixedPoints": "{{count}} fixed pts",
+      "listAmount": "List price",
+      "listAmountHint": "Price before the offer. Leave blank if it equals the amount paid.",
+      "paidAmount": "Amount paid",
+      "invoiceNo": "Invoice number",
+      "saved": "Offer visit saved",
+      "pointsAdded": "The customer earned {{count}} pts.",
+      "flagged": "Saved — pending VN Centre review",
+      "flaggedHint": "Large bills are flagged for VN Centre to review. Points are added once confirmed.",
+      "nextCustomer": "Next customer",
+      "nav": "Partner counter"
+    },
+    "today": {
+      "title": "Today's visits",
+      "summary": "{{count}} visit(s) · {{total}}",
+      "empty": "No visits yet today.",
+      "invoice": "Inv. {{no}}",
+      "void": "Void",
+      "voidReason": "Reason for voiding",
+      "voidConfirm": "Confirm void",
+      "voidHint": "The counter can only void a visit within 30 minutes of entering it. After that, please contact VN Centre."
+    },
+    "qr": {
+      "cardTitle": "Partner offer code",
+      "cardHint": "Show the code at a partner counter to get offers and earn points.",
+      "balance": "Points: {{count}}",
+      "seeOffers": "See partner offers",
+      "open": "Open code",
+      "instructions": "Let the counter staff scan this code. It changes every 60 seconds and can only be used once.",
+      "alt": "Partner offer QR code",
+      "countdown": "Code valid for {{count}} s",
+      "refreshing": "Creating a new code…",
+      "retry": "Create code again",
+      "pointsTitle": "Reward points"
+    },
+    "offers": {
+      "title": "Partner offers",
+      "subtitle": "Offers for families with a VN Centre Golf Passport.",
+      "empty": "No partners have active offers right now.",
+      "map": "Map",
+      "validTo": "Until {{date}}",
+      "howTo": "At the counter, open your child's profile (or your own passport) → \"Partner offer code\" for the staff to scan.",
+      "nav": "Partner offers"
+    },
+    "referral": {
+      "title": "Welcome to Golf Passport",
+      "body": "Someone you know invited you to VN Centre Golf Passport — your child's golf journey record, with offers at partner venues.",
+      "codeLabel": "Referral code:",
+      "signup": "Create an account",
+      "login": "I already have an account",
+      "saveHint": "The referral code is saved on this device and attached automatically after you sign up.",
+      "claimed": "The referral code has been recorded for your account.",
+      "reason": {
+        "already_linked": "Your account is already linked to a referral code.",
+        "code_not_found": "This referral code was not found.",
+        "own_code": "This is your own referral code.",
+        "account_too_old": "Referral codes can only be attached to newly created accounts.",
+        "other": "The referral code could not be attached."
+      },
+      "childAccount": "Student accounts don't use referral codes.",
+      "continue": "Go to Golf Passport"
+    }
+  },
+  "business": {
+    "referralLink": "Your referral link",
+    "code": "Referral code: {{code}}",
+    "referredCount": "people referred",
+    "provisionalTotal": "Provisional reward total",
+    "provisionalNote": "Rewards are provisional and have not been paid out.",
+    "partnersTitle": "Partners with current offers",
+    "viewAll": "See all"
+  },
+  "partnersAdmin": {
+    "title": "Golf Passport partners",
+    "tab": {
+      "partners": "Partners",
+      "offers": "Offers",
+      "staff": "Counter staff",
+      "visits": "Visits",
+      "settlements": "Settlements",
+      "rewards": "Rewards and commissions"
+    },
+    "noPartners": "No partners yet. Create one in the Partners tab first.",
+    "partner": "Partner",
+    "month": "Month",
+    "addPartner": "Add partner",
+    "editPartner": "Edit partner",
+    "salesOwnerNone": "No deal owner selected",
+    "salesOwnerSearch": "Search by name, phone or email",
+    "addOffer": "Add offer",
+    "editOffer": "Edit offer",
+    "fields": {
+      "name": "Partner name",
+      "kind": "Type",
+      "status": "Status",
+      "feeRate": "VN Centre fee (%)",
+      "feeRateHint": "5 to 10 (%), applied to the amount the customer pays",
+      "trial": "Trial period",
+      "trialStart": "Trial start",
+      "trialEnd": "Trial end",
+      "salesOwner": "Deal owner",
+      "address": "Address",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "photoUrl": "Photo URL",
+      "descriptionVi": "Description (Vietnamese)",
+      "descriptionEn": "Description (English)",
+      "contractNote": "Contract note"
+    },
+    "kind": {
+      "golf_course": "Golf course",
+      "driving_range": "Driving range",
+      "restaurant": "Restaurant",
+      "cafe": "Café",
+      "other": "Other"
+    },
+    "status": {
+      "draft": "Draft",
+      "active": "Active",
+      "paused": "Paused",
+      "ended": "Ended"
+    },
+    "offer": {
+      "nameVi": "Offer name (Vietnamese)",
+      "nameEn": "Offer name (English)",
+      "kind": "Offer type",
+      "percent": "Discount percent",
+      "percentHint": "10 to 50, for percentage discounts only",
+      "bonusVi": "Bonus item (Vietnamese)",
+      "bonusHint": "Required for bonus offers, e.g. 30 extra balls",
+      "bonusEn": "Bonus item (English)",
+      "serviceVi": "Applies to (Vietnamese)",
+      "serviceEn": "Applies to (English)",
+      "conditionsVi": "Conditions (Vietnamese)",
+      "conditionsEn": "Conditions (English)",
+      "pointsMode": "Points calculation",
+      "fixedPoints": "Fixed points per visit",
+      "fixedPointsHint": "Only used with fixed points",
+      "validFrom": "Valid from",
+      "validTo": "Valid until",
+      "isActive": "Active",
+      "percentShort": "{{percent}}% off",
+      "fixedShort": "{{points}} points per visit"
+    },
+    "offerKind": {
+      "percent": "Percentage discount",
+      "bonus_item": "Bonus item"
+    },
+    "pointsMode": {
+      "per_amount": "By amount paid",
+      "fixed": "Fixed points"
+    },
+    "staff": {
+      "login": "Phone, email or account ID",
+      "loginHint": "The person must already have a Golf Passport account",
+      "role": "Counter role",
+      "add": "Add staff",
+      "none": "No counter staff yet",
+      "confirmRemove": "Remove {{name}} from this partner's counter?"
+    },
+    "staffRole": {
+      "cashier": "Cashier",
+      "manager": "Manager"
+    },
+    "visits": {
+      "reviewed": "Visit confirmed",
+      "voided": "Visit voided",
+      "summary": "{{count}} visits · paid {{paid}} (voided visits excluded)",
+      "time": "Time",
+      "customer": "Customer",
+      "offer": "Offer",
+      "listAmount": "List price",
+      "paidAmount": "Paid",
+      "invoice": "Invoice no.",
+      "points": "Points",
+      "cashier": "Cashier",
+      "referral": "Referral reward",
+      "confirm": "Confirm",
+      "void": "Void",
+      "voidTitle": "Void visit",
+      "voidReason": "Reason",
+      "voidHint": "Points awarded will be deducted and the referral reward for this visit cancelled"
+    },
+    "visitStatus": {
+      "recorded": "Recorded",
+      "flagged": "Flagged",
+      "void": "Voided"
+    },
+    "rewardStatus": {
+      "provisional": "Provisional",
+      "confirmed": "Confirmed",
+      "void": "Voided"
+    },
+    "settlements": {
+      "hint": "Build the settlement for one partner and one month. Voided visits are excluded. It can only be rebuilt while still a draft.",
+      "build": "Build settlement",
+      "built": "Settlement built",
+      "visits": "Visits",
+      "paidTotal": "Total paid",
+      "feeAmount": "VN Centre fee",
+      "print": "Print / PDF",
+      "popupBlocked": "The browser blocked the print window. Allow pop-ups and try again.",
+      "sheetSummary": "Summary",
+      "sheetLines": "Visit lines",
+      "printTitle": "Settlement {{name}} · {{month}}",
+      "printNote": "Customer names are masked. Voided visits are excluded.",
+      "to": {
+        "sent": "Mark as sent",
+        "confirmed": "Partner confirmed",
+        "paid": "Mark as paid",
+        "draft": "Back to draft"
+      }
+    },
+    "settlementStatus": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "confirmed": "Confirmed",
+      "paid": "Paid"
+    },
+    "rewards": {
+      "provisionalNote": "Provisional — not paid out (pending legal review)",
+      "payoutsOff": "Reward and commission payouts are off.",
+      "payoutsOn": "Payouts have been enabled in Settings.",
+      "referrals": "Referrer rewards",
+      "referrer": "Referrer",
+      "referredCount": "People referred",
+      "visits": "Provisional visits",
+      "provisionalTotal": "Provisional total",
+      "commissions": "Deal owner commissions",
+      "basis": "VN Centre fee (basis)",
+      "rate": "Rate",
+      "amount": "Commission"
+    },
+    "errors": {
+      "user_not_found": "Account not found. The person must create a Golf Passport account first.",
+      "settled": "This month's settlement is no longer a draft and cannot be changed.",
+      "invalid_transition": "This status change is not allowed.",
+      "reason_required": "Please enter a reason.",
+      "not_found": "Not found.",
+      "forbidden": "You do not have permission to do this.",
+      "invalid_role": "Invalid role.",
+      "feeRange": "The VN Centre fee must be between 5% and 10%.",
+      "percentRange": "The discount must be between 10 and 50 percent.",
+      "bonusRequired": "Bonus offers need a bonus item (Vietnamese).",
+      "fixedPointsRequired": "Please enter the fixed points."
+    }
   }
 }

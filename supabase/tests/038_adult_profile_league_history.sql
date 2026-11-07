@@ -135,7 +135,7 @@ begin
   ------------------------------------------------------------------ Bước 1: phụ huynh, cờ Kinh doanh, quyền
   perform pg_temp.act_as(par);
   r := public.staff_my_profile();
-  if jsonb_array_length(r -> 'children') <> 1 or r #>> '{children,0,id}' <> kid::text or r ->> 'business_enabled' <> 'false'
+  if jsonb_array_length(r -> 'children') <> 1 or r #>> '{children,0,id}' <> kid::text or (r -> 'business_enabled') <> coalesce((select value from public.app_settings where key = 'profile.business_tab_enabled'), 'false'::jsonb)
      or jsonb_array_length(r -> 'engagements') <> 0 or r #>> '{profile,cv_type}' is not null then
     raise exception 'FAIL Hồ sơ của tôi của phụ huynh: %', r;
   end if;

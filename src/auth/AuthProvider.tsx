@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { setLanguage, type Language } from '@/i18n'
 import type { Profile, Role, UserRole } from '@/lib/types'
 
-export type Workspace = 'parent' | 'student' | 'coach' | 'school' | 'admin' | 'event' | 'league'
+export type Workspace = 'parent' | 'student' | 'coach' | 'school' | 'admin' | 'event' | 'league' | 'partner'
 
 export const WORKSPACE_PATH: Record<Workspace, string> = {
   parent: '/app',
@@ -15,6 +15,7 @@ export const WORKSPACE_PATH: Record<Workspace, string> = {
   admin: '/admin',
   event: '/event',
   league: '/league',
+  partner: '/partner',
 }
 
 const COACH_ROLES: Role[] = ['head_coach', 'coach', 'assistant', 'pe_teacher']
@@ -107,6 +108,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (roles.some((r) => r.role === 'event_staff' && r.class_id)) list.push('event')
     // BTC giải SNAG Golf League (spec 14 mục 1.3): chỉ xem hồ sơ VĐV
     if (roles.some((r) => r.role === 'league_staff')) list.push('league')
+    // Nhân viên quầy đối tác (spec 18): quét QR, nhập hoá đơn
+    if (roles.some((r) => r.role === 'partner_staff')) list.push('partner')
     return list
   }, [roles, guardianId, studentId])
 
