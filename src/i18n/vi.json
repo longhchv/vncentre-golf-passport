@@ -67,7 +67,8 @@
     "school": "Nhà trường",
     "admin": "Quản trị",
     "event": "BTC sự kiện",
-    "league": "BTC giải"
+    "league": "BTC giải",
+    "partner": "Quầy đối tác"
   },
   "status": {
     "version": "Phiên bản",
@@ -227,7 +228,8 @@
       "courses": "Sân golf",
       "leagueQueue": "Ghép VĐV SNAG League",
       "scholarship": "Hành trang học bổng",
-      "staffQueue": "Hồ sơ nhân sự chờ duyệt"
+      "staffQueue": "Hồ sơ nhân sự chờ duyệt",
+      "partners": "Đối tác Golf Passport"
     },
     "years": {
       "current": "Năm hiện tại",
@@ -330,7 +332,8 @@
     "pe_teacher": "Giáo viên thể chất",
     "partner": "Đối tác",
     "event_staff": "BTC sự kiện trải nghiệm",
-    "league_staff": "BTC giải SNAG Golf League"
+    "league_staff": "BTC giải SNAG Golf League",
+    "partner_staff": "Nhân viên quầy đối tác"
   },
   "students": {
     "searchPlaceholder": "Tên, mã học viên hoặc SĐT phụ huynh",
@@ -2352,5 +2355,303 @@
     "business": "Kinh doanh",
     "businessSoon": "Sắp có.",
     "tasksDone": "{{done}}/{{total}} đầu việc"
+  },
+  "partners": {
+    "points": "{{count}} điểm",
+    "offer": {
+      "percent": "Giảm {{percent}}%"
+    },
+    "kind": {
+      "golf_course": "Sân golf",
+      "driving_range": "Sân tập",
+      "restaurant": "Nhà hàng",
+      "cafe": "Quán cà phê",
+      "other": "Đối tác khác"
+    },
+    "visitStatus": {
+      "recorded": "Đã ghi nhận",
+      "flagged": "Chờ kiểm tra",
+      "void": "Đã huỷ"
+    },
+    "ledgerReason": {
+      "partner_visit": "Lượt dùng ưu đãi",
+      "partner_visit_void": "Huỷ lượt",
+      "admin_adjust": "VN Centre điều chỉnh"
+    },
+    "errors": {
+      "qr_expired": "Mã QR đã hết hạn hoặc đã được dùng. Nhờ khách bấm làm mới mã trên điện thoại rồi quét lại.",
+      "qr_invalid": "Mã QR không hợp lệ. Hãy quét mã \"Mã ưu đãi đối tác\" trong Golf Passport của khách.",
+      "forbidden": "Bạn không có quyền thực hiện thao tác này.",
+      "partner_inactive": "Đối tác đang tạm dừng chương trình ưu đãi. Vui lòng liên hệ VN Centre.",
+      "daily_limit": "Khách đã dùng hết lượt ưu đãi hôm nay tại đây.",
+      "offer_invalid": "Ưu đãi này không còn áp dụng. Vui lòng chọn ưu đãi khác.",
+      "invalid_amount": "Số tiền chưa hợp lệ, vui lòng kiểm tra lại.",
+      "reason_required": "Vui lòng nhập lý do huỷ.",
+      "settled": "Tháng này đã đối soát với VN Centre nên không huỷ được lượt. Vui lòng liên hệ VN Centre.",
+      "not_found": "Không tìm thấy lượt này."
+    },
+    "counter": {
+      "title": "Quầy ưu đãi Golf Passport",
+      "noPartner": "Tài khoản chưa được gán cho quầy đối tác nào",
+      "noPartnerHint": "Nhờ VN Centre thêm tài khoản của bạn vào danh sách nhân viên quầy.",
+      "pickPartner": "Đối tác",
+      "pickPartnerPlaceholder": "Chọn đối tác bạn đang trực quầy",
+      "scanTitle": "Quét mã của khách",
+      "scanButton": "Quét mã QR",
+      "scanHint": "Hướng camera vào mã \"Mã ưu đãi đối tác\" trên điện thoại của khách.",
+      "manualLabel": "Hoặc nhập mã dưới QR",
+      "check": "Kiểm tra",
+      "customer": "Khách hàng",
+      "noTier": "Chưa có hạng sổ",
+      "rescan": "Quét lại",
+      "limitReached": "Khách đã dùng {{count}} lượt ưu đãi hôm nay tại đây — đã hết lượt trong ngày. Không áp dụng ưu đãi cho lần này.",
+      "noOffers": "Hiện chưa có ưu đãi nào đang áp dụng. Lượt vẫn được ghi nhận để tích điểm.",
+      "chooseOffer": "Chọn ưu đãi áp dụng",
+      "fixedPoints": "{{count}} điểm cố định",
+      "listAmount": "Giá niêm yết",
+      "listAmountHint": "Giá gốc trước ưu đãi. Để trống nếu bằng số tiền khách trả.",
+      "paidAmount": "Số tiền khách trả",
+      "invoiceNo": "Số hoá đơn",
+      "saved": "Đã lưu lượt ưu đãi",
+      "pointsAdded": "Khách được cộng {{count}} điểm.",
+      "flagged": "Đã lưu — chờ VN Centre kiểm tra",
+      "flaggedHint": "Hoá đơn có giá trị lớn nên lượt này được đánh dấu để VN Centre kiểm tra. Điểm sẽ được cộng sau khi xác nhận.",
+      "nextCustomer": "Khách tiếp theo",
+      "nav": "Quầy đối tác"
+    },
+    "today": {
+      "title": "Lượt hôm nay",
+      "summary": "{{count}} lượt · {{total}}",
+      "empty": "Hôm nay chưa có lượt nào.",
+      "invoice": "HĐ {{no}}",
+      "void": "Huỷ lượt",
+      "voidReason": "Lý do huỷ",
+      "voidConfirm": "Xác nhận huỷ",
+      "voidHint": "Quầy chỉ huỷ được lượt trong vòng 30 phút sau khi nhập. Quá thời gian, vui lòng liên hệ VN Centre."
+    },
+    "qr": {
+      "cardTitle": "Mã ưu đãi đối tác",
+      "cardHint": "Đưa mã cho quầy đối tác để nhận ưu đãi và tích điểm.",
+      "balance": "Điểm tích luỹ: {{count}}",
+      "seeOffers": "Xem đối tác ưu đãi",
+      "open": "Mở mã",
+      "instructions": "Đưa mã này cho nhân viên quầy quét. Mã tự đổi sau mỗi 60 giây và chỉ dùng được một lần.",
+      "alt": "Mã QR ưu đãi đối tác",
+      "countdown": "Mã còn hiệu lực {{count}} giây",
+      "refreshing": "Đang tạo mã mới…",
+      "retry": "Tạo lại mã",
+      "pointsTitle": "Điểm tích luỹ"
+    },
+    "offers": {
+      "title": "Đối tác ưu đãi",
+      "subtitle": "Ưu đãi dành cho gia đình có Golf Passport của VN Centre.",
+      "empty": "Hiện chưa có đối tác nào đang có ưu đãi.",
+      "map": "Bản đồ",
+      "validTo": "Đến hết {{date}}",
+      "howTo": "Tại quầy, mở hồ sơ của bé (hoặc sổ của bạn) → \"Mã ưu đãi đối tác\" để nhân viên quét.",
+      "nav": "Ưu đãi đối tác"
+    },
+    "referral": {
+      "title": "Chào mừng đến với Golf Passport",
+      "body": "Bạn được người thân quen giới thiệu đến VN Centre Golf Passport — sổ theo dõi hành trình golf của bé, kèm ưu đãi tại các đối tác.",
+      "codeLabel": "Mã giới thiệu:",
+      "signup": "Tạo tài khoản",
+      "login": "Tôi đã có tài khoản",
+      "saveHint": "Mã giới thiệu được lưu trên máy này và tự gắn sau khi bạn đăng ký.",
+      "claimed": "Đã ghi nhận mã giới thiệu cho tài khoản của bạn.",
+      "reason": {
+        "already_linked": "Tài khoản của bạn đã được gắn một mã giới thiệu trước đó.",
+        "code_not_found": "Không tìm thấy mã giới thiệu này.",
+        "own_code": "Đây là mã giới thiệu của chính bạn.",
+        "account_too_old": "Mã giới thiệu chỉ gắn được cho tài khoản mới đăng ký.",
+        "other": "Chưa gắn được mã giới thiệu."
+      },
+      "childAccount": "Tài khoản học viên không dùng mã giới thiệu.",
+      "continue": "Vào Golf Passport"
+    }
+  },
+  "business": {
+    "referralLink": "Link giới thiệu của bạn",
+    "code": "Mã giới thiệu: {{code}}",
+    "referredCount": "người đã giới thiệu",
+    "provisionalTotal": "Tổng thưởng tạm tính",
+    "provisionalNote": "Thưởng đang ở trạng thái tạm tính, chưa chi trả.",
+    "partnersTitle": "Đối tác đang có ưu đãi",
+    "viewAll": "Xem tất cả"
+  },
+  "partnersAdmin": {
+    "title": "Đối tác Golf Passport",
+    "tab": {
+      "partners": "Đối tác",
+      "offers": "Ưu đãi",
+      "staff": "Nhân viên quầy",
+      "visits": "Lượt",
+      "settlements": "Đối soát",
+      "rewards": "Thưởng và hoa hồng"
+    },
+    "noPartners": "Chưa có đối tác nào. Hãy tạo đối tác ở tab Đối tác trước.",
+    "partner": "Đối tác",
+    "month": "Tháng",
+    "addPartner": "Thêm đối tác",
+    "editPartner": "Sửa đối tác",
+    "salesOwnerNone": "Chưa chọn người chốt deal",
+    "salesOwnerSearch": "Tìm theo tên, số điện thoại hoặc email",
+    "addOffer": "Thêm ưu đãi",
+    "editOffer": "Sửa ưu đãi",
+    "fields": {
+      "name": "Tên đối tác",
+      "kind": "Loại hình",
+      "status": "Trạng thái",
+      "feeRate": "Phí VN Centre (%)",
+      "feeRateHint": "Từ 5 đến 10 (%), tính trên số tiền khách trả",
+      "trial": "Thời gian thử",
+      "trialStart": "Bắt đầu thử",
+      "trialEnd": "Kết thúc thử",
+      "salesOwner": "Người chốt deal",
+      "address": "Địa chỉ",
+      "lat": "Vĩ độ",
+      "lng": "Kinh độ",
+      "photoUrl": "Đường dẫn ảnh",
+      "descriptionVi": "Mô tả (tiếng Việt)",
+      "descriptionEn": "Mô tả (tiếng Anh)",
+      "contractNote": "Ghi chú hợp đồng"
+    },
+    "kind": {
+      "golf_course": "Sân golf",
+      "driving_range": "Sân tập",
+      "restaurant": "Nhà hàng",
+      "cafe": "Quán cà phê",
+      "other": "Khác"
+    },
+    "status": {
+      "draft": "Nháp",
+      "active": "Đang hoạt động",
+      "paused": "Tạm dừng",
+      "ended": "Đã kết thúc"
+    },
+    "offer": {
+      "nameVi": "Tên ưu đãi (tiếng Việt)",
+      "nameEn": "Tên ưu đãi (tiếng Anh)",
+      "kind": "Loại ưu đãi",
+      "percent": "Phần trăm giảm",
+      "percentHint": "Từ 10 đến 50, chỉ dùng cho ưu đãi giảm giá",
+      "bonusVi": "Quà tặng kèm (tiếng Việt)",
+      "bonusHint": "Bắt buộc với ưu đãi tặng kèm, ví dụ: Tặng thêm 30 bóng",
+      "bonusEn": "Quà tặng kèm (tiếng Anh)",
+      "serviceVi": "Dịch vụ áp dụng (tiếng Việt)",
+      "serviceEn": "Dịch vụ áp dụng (tiếng Anh)",
+      "conditionsVi": "Điều kiện (tiếng Việt)",
+      "conditionsEn": "Điều kiện (tiếng Anh)",
+      "pointsMode": "Cách tính điểm",
+      "fixedPoints": "Số điểm cố định mỗi lượt",
+      "fixedPointsHint": "Chỉ dùng khi chọn điểm cố định",
+      "validFrom": "Hiệu lực từ",
+      "validTo": "Hiệu lực đến",
+      "isActive": "Đang áp dụng",
+      "percentShort": "Giảm {{percent}}%",
+      "fixedShort": "{{points}} điểm mỗi lượt"
+    },
+    "offerKind": {
+      "percent": "Giảm theo phần trăm",
+      "bonus_item": "Tặng kèm"
+    },
+    "pointsMode": {
+      "per_amount": "Theo số tiền khách trả",
+      "fixed": "Điểm cố định"
+    },
+    "staff": {
+      "login": "Số điện thoại, email hoặc mã tài khoản",
+      "loginHint": "Người này phải đã có tài khoản Golf Passport",
+      "role": "Vai trò tại quầy",
+      "add": "Thêm nhân viên",
+      "none": "Chưa có nhân viên quầy",
+      "confirmRemove": "Gỡ {{name}} khỏi quầy của đối tác này?"
+    },
+    "staffRole": {
+      "cashier": "Thu ngân",
+      "manager": "Quản lý"
+    },
+    "visits": {
+      "reviewed": "Đã xác nhận lượt",
+      "voided": "Đã huỷ lượt",
+      "summary": "{{count}} lượt · khách trả {{paid}} (không tính lượt đã huỷ)",
+      "time": "Thời gian",
+      "customer": "Khách",
+      "offer": "Ưu đãi",
+      "listAmount": "Giá niêm yết",
+      "paidAmount": "Khách trả",
+      "invoice": "Số hoá đơn",
+      "points": "Điểm",
+      "cashier": "Thu ngân",
+      "referral": "Thưởng giới thiệu",
+      "confirm": "Xác nhận",
+      "void": "Huỷ",
+      "voidTitle": "Huỷ lượt",
+      "voidReason": "Lý do huỷ",
+      "voidHint": "Điểm đã cộng sẽ bị trừ lại, thưởng giới thiệu của lượt này bị huỷ"
+    },
+    "visitStatus": {
+      "recorded": "Đã ghi nhận",
+      "flagged": "Bất thường",
+      "void": "Đã huỷ"
+    },
+    "rewardStatus": {
+      "provisional": "Tạm tính",
+      "confirmed": "Đã xác nhận",
+      "void": "Đã huỷ"
+    },
+    "settlements": {
+      "hint": "Lập đối soát cho một đối tác và một tháng. Lượt đã huỷ không tính. Chỉ lập lại được khi đối soát còn ở trạng thái nháp.",
+      "build": "Lập đối soát",
+      "built": "Đã lập đối soát",
+      "visits": "Số lượt",
+      "paidTotal": "Tổng khách trả",
+      "feeAmount": "Phí VN Centre",
+      "print": "In / PDF",
+      "popupBlocked": "Trình duyệt chặn cửa sổ in. Hãy cho phép cửa sổ bật lên rồi thử lại.",
+      "sheetSummary": "Tổng hợp",
+      "sheetLines": "Chi tiết lượt",
+      "printTitle": "Đối soát {{name}} · tháng {{month}}",
+      "printNote": "Tên khách đã được che bớt. Lượt đã huỷ không tính vào đối soát.",
+      "to": {
+        "sent": "Đánh dấu đã gửi",
+        "confirmed": "Đối tác đã xác nhận",
+        "paid": "Đã thanh toán",
+        "draft": "Trả về nháp"
+      }
+    },
+    "settlementStatus": {
+      "draft": "Nháp",
+      "sent": "Đã gửi",
+      "confirmed": "Đã xác nhận",
+      "paid": "Đã thanh toán"
+    },
+    "rewards": {
+      "provisionalNote": "Tạm tính — chưa chi trả (chờ duyệt pháp lý)",
+      "payoutsOff": "Chi trả thưởng và hoa hồng đang tắt.",
+      "payoutsOn": "Chi trả đã được bật trong Cấu hình.",
+      "referrals": "Thưởng người giới thiệu",
+      "referrer": "Người giới thiệu",
+      "referredCount": "Số người đã giới thiệu",
+      "visits": "Số lượt tạm tính",
+      "provisionalTotal": "Tổng tạm tính",
+      "commissions": "Hoa hồng người chốt deal",
+      "basis": "Phí VN Centre (cơ sở)",
+      "rate": "Tỷ lệ",
+      "amount": "Hoa hồng"
+    },
+    "errors": {
+      "user_not_found": "Không tìm thấy tài khoản. Người này phải tạo tài khoản Golf Passport trước.",
+      "settled": "Tháng này đã chốt đối soát (không còn ở trạng thái nháp), không sửa được.",
+      "invalid_transition": "Không chuyển được sang trạng thái này.",
+      "reason_required": "Cần nhập lý do huỷ.",
+      "not_found": "Không tìm thấy dữ liệu.",
+      "forbidden": "Bạn không có quyền thực hiện thao tác này.",
+      "invalid_role": "Vai trò không hợp lệ.",
+      "feeRange": "Phí VN Centre phải từ 5% đến 10%.",
+      "percentRange": "Phần trăm giảm phải từ 10 đến 50.",
+      "bonusRequired": "Ưu đãi tặng kèm cần ghi quà tặng (tiếng Việt).",
+      "fixedPointsRequired": "Cần nhập số điểm cố định."
+    }
   }
 }

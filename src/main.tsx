@@ -12,6 +12,7 @@ import './index.css'
 import './i18n'
 import { router } from './router'
 import { AuthProvider } from '@/auth/AuthProvider'
+import { ReferralClaimMount } from '@/features/partners/ReferralClaimMount'
 import { ToastProvider } from '@/components/ui/toast'
 import { registerSW } from 'virtual:pwa-register'
 
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')!).render(
       <ToastProvider>
         <AuthProvider>
           <RouterProvider router={router} />
+          <ReferralClaimMount />
         </AuthProvider>
       </ToastProvider>
     </QueryClientProvider>

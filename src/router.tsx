@@ -40,6 +40,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/courses', labelKey: 'admin.nav.courses', lazy: page(() => import('@/features/courses/CoursesPage'), (m) => m.CoursesPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
+  { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
   { to: '/admin/scholarship', labelKey: 'admin.nav.scholarship', lazy: page(() => import('@/features/admin/ScholarshipItemsPage'), (m) => m.ScholarshipItemsPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
@@ -69,6 +70,7 @@ const SCHOOL_NAV: NavItem[] = [
 const PARENT_NAV: NavItem[] = [
   { to: '/app', labelKey: 'parent.nav.home', end: true },
   { to: '/app/notifications', labelKey: 'parent.nav.notifications' },
+  { to: '/app/partners', labelKey: 'partners.offers.nav' },
   { to: '/account', labelKey: 'account.title' },
 ]
 
@@ -77,6 +79,9 @@ const LEAGUE_NAV: NavItem[] = [
   { to: '/league', labelKey: 'leagueStaff.nav.search', end: true },
   { to: '/league/scan', labelKey: 'leagueStaff.nav.scan' },
 ]
+
+// Quầy đối tác Golf Passport Partners (spec 18): quét QR động, nhập hoá đơn, lượt trong ngày
+const PARTNER_NAV: NavItem[] = [{ to: '/partner', labelKey: 'partners.counter.nav', end: true }]
 
 // Nhân viên sự kiện (module 10): danh sách sự kiện → quầy đổi quà
 const EVENT_NAV: NavItem[] = [{ to: '/event', labelKey: 'counter.myEvents', end: true }]
@@ -116,6 +121,7 @@ export const router = createBrowserRouter([
       { path: '/p/:passportCode', element: <PassportScanPage /> },
       { path: '/c/:claimCode', element: <ClaimPage /> },
       { path: '/i/:inviteToken', element: <InvitePage /> },
+      { path: '/r/:code', lazy: page(() => import('@/features/partners/CustomerOffers'), (m) => m.ReferralLanding) },
       { path: '/verify', lazy: page(() => import('@/features/certificates/VerifyPage'), (m) => m.VerifyPage) },
       { path: '/verify/:verifyCode', lazy: page(() => import('@/features/certificates/VerifyPage'), (m) => m.VerifyPage) },
       { path: '/login', element: <LoginPage /> },
@@ -141,6 +147,7 @@ export const router = createBrowserRouter([
     { path: 'find', lazy: page(() => import('@/features/findchild/FindChildPage'), (m) => m.FindChildPage) },
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
+    { path: 'partners', lazy: page(() => import('@/features/partners/CustomerOffers'), (m) => m.PartnerOffersPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
   workspaceRoute('event', '/event', EVENT_NAV, [
@@ -152,6 +159,10 @@ export const router = createBrowserRouter([
     { index: true, lazy: page(() => import('@/features/league/LeagueStaffPages'), (m) => m.LeagueStaffHome) },
     { path: 'scan', lazy: page(() => import('@/features/league/LeagueStaffPages'), (m) => m.LeagueStaffScanPage) },
     { path: 'students/:studentId', lazy: page(() => import('@/features/league/LeagueStaffPages'), (m) => m.LeagueStaffStudentPage) },
+    { path: '*', element: <NotFoundPage /> },
+  ]),
+  workspaceRoute('partner', '/partner', PARTNER_NAV, [
+    { index: true, lazy: page(() => import('@/features/partners/CounterPages'), (m) => m.PartnerCounterHome) },
     { path: '*', element: <NotFoundPage /> },
   ]),
   workspaceRoute('student', '/me', STUDENT_NAV, [

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -15,8 +15,18 @@ import { useStudentProfile } from './useStudentProfile'
 import { AthleteProfileView, StudentProfileView } from './StudentProfileView'
 import type { StudentProfile } from './useStudentProfile'
 import { LeagueAchievements } from '@/features/league/LeagueAchievements'
+import { PartnerQrCard } from '@/features/partners/CustomerOffers'
 
-function ProfileLoader({ studentId, back }: { studentId: string; back: { to: string; label: string } }) {
+function ProfileLoader({
+  studentId,
+  back,
+  top,
+}: {
+  studentId: string
+  back: { to: string; label: string }
+  /** Khối chèn trên đầu hồ sơ khi đã tải xong (vd. mã ưu đãi đối tác cho phụ huynh, spec 18) */
+  top?: (profile: StudentProfile) => ReactNode
+}) {
   const { t } = useTranslation()
   const q = useStudentProfile(studentId)
   return (
@@ -32,7 +42,10 @@ function ProfileLoader({ studentId, back }: { studentId: string; back: { to: str
           <p className="font-semibold">{t('coach.noAccessStudent')}</p>
         </Card>
       ) : (
-        <ProfileBody profile={q.data} />
+        <>
+          {top?.(q.data)}
+          <ProfileBody profile={q.data} />
+        </>
       )}
     </div>
   )
@@ -57,7 +70,14 @@ function ProfileBody({ profile }: { profile: StudentProfile }) {
 export function ParentChildPage() {
   const { studentId = '' } = useParams()
   const { t } = useTranslation()
-  return <ProfileLoader studentId={studentId} back={{ to: '/app', label: t('parent.nav.home') }} />
+  return (
+    <ProfileLoader
+      studentId={studentId}
+      back={{ to: '/app', label: t('parent.nav.home') }}
+      // Spec 18: phụ huynh (kể cả sổ của chính mình, quan hệ self) mở mã ưu đãi đối tác thay cho tài khoản con
+      top={(p) => (p.viewer === 'guardian' ? <PartnerQrCard studentId={p.student.id} /> : null)}
+    />
+  )
 }
 
 /** Học viên · Hồ sơ của mình (F7: chỉ xem, không sửa, không tải PDF). */
