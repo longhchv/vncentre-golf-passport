@@ -1,0 +1,79 @@
+code,track,item_group,start_grade,start_note_vi,title_vi,title_en,auto_source,source_ref,is_verified,replaces,sort_order
+C1,common,personal,5,"Lớp 5–6, xem lại mỗi năm",Gia đình chọn hướng đi,Family chooses target pathways,,Mới,1,,1
+C2,common,academic,6,Lớp 6–8,"Chốt chương trình THPT: Việt Nam, quốc tế hay THPT Mỹ trực tuyến","Choose high-school programme: Vietnamese, international or US online",,NCAA,1,,2
+C3,common,golf,1,,"Lộ trình chương trình golf đã học, level",Golf programmes completed and level,courses,App P1,1,P1,3
+C4,common,golf,1,Từ giải đầu tiên,Nhật ký thi đấu đầy đủ (giải VN Centre và giải ngoài),Complete competition log (VN Centre and external events),competitions,"App P2, P4 · NCAA B1",1,P2;P4,4
+C5,common,golf,1,,Giải văn hoá – tinh thần,Spirit and etiquette awards,culture_awards,App P3,1,P3,5
+C6,common,personal,1,,"Hiểu luật golf, tự chấm điểm trung thực",Knows the Rules of Golf and scores honestly,,Mới,1,,6
+C7,common,golf,6,,Handicap chính thức (WHS),Official handicap (WHS),,App P8,1,P8,7
+C8,common,golf,9,,Điểm trung bình mỗi vòng đấu có xác minh,Verified scoring average,,NCAA C2,1,,8
+C9,common,golf,6,6 tháng/lần; bản chuẩn tuyển sinh xong trước 15/6 sau lớp 10,Video swing định kỳ,Regular swing videos,,"App P9 · NCAA C3, C4",1,P9,9
+C10,common,golf,10,Xong trước 15/6 sau lớp 10,Golf resume 1 trang,One-page golf resume,,App P16 · NCAA C5,1,P16,10
+C11,common,academic,1,NCAA tính từ lớp 9,"Học bạ từng năm, bản gốc",School reports for each year (originals),,App P5 · NCAA A5,1,P5,11
+C12,common,academic,9,Dịch xong trước hết lớp 10,Bản dịch học bạ tiếng Anh có công chứng,Certified English translation of school reports,,App P12 · NCAA A6,1,P12,12
+C13,common,academic,3,Đạt mức yêu cầu trước hè lớp 11,Chứng chỉ tiếng Anh theo cấp (Cambridge → IELTS / TOEFL),English certificates by stage (Cambridge → IELTS / TOEFL),,"App P6, P11 · NCAA D2",1,P6;P11,13
+C14,common,personal,1,,"Ngoại khoá, thiện nguyện, vai trò lãnh đạo","Extracurricular, volunteer and leadership roles",,App P7 · Mới,1,P7,14
+C15,common,personal,10,Viết xong trong hè trước lớp 12,"Câu chuyện cá nhân, bài luận",Personal story and essays,,NCAA D3 · Mới,1,,15
+C16,common,personal,11,,Thư giới thiệu của HLV và giáo viên,"Recommendation letters (coach, teacher)",,"App P15 · NCAA C8, D4",1,P15,16
+C17,common,personal,5,Khi chọn hướng,Kế hoạch chi phí theo mức thoải mái / vừa phải / tiết kiệm,Cost plan by budget level,,Mới,1,,17
+C18,common,personal,6,,"Giữ mạng xã hội sạch, rà soát trước khi nộp hồ sơ",Keep social media clean; review before applying,,NCAA F6,1,,18
+US-Q1,us,personal,1,Luôn luôn,Không để các con học chậm tuổi (đồng hồ 5 năm thi đấu),Stay on an age-appropriate grade (5-year clock),,NCAA,1,,19
+US-Q2,us,admission,12,,"Không nhập học đại học nào khác trước, kể cả ở Việt Nam",Do not enrol at another university first,,NCAA,1,,20
+US-Q3,us,personal,8,,"Chốt bậc nhắm: D1, D2, D3, NAIA, NJCAA","Choose target level: D1, D2, D3, NAIA, NJCAA",,NCAA,1,,21
+US-A1,us,admission,9,Lớp 9: Profile Page miễn phí · Lớp 10: tài khoản chứng nhận,Tài khoản NCAA Eligibility Center và NCAA ID,NCAA Eligibility Center account and NCAA ID,,App P14 · NCAA A1,1,P14,22
+US-A2,us,academic,9,Đầu lớp 9,Trường THPT có danh sách môn cốt lõi ở trạng thái Cleared,High school core-course list is Cleared,,NCAA A2,1,,23
+US-A3,us,academic,9,Cập nhật mỗi học kỳ,Bảng theo dõi 16 môn cốt lõi,16 core-course tracker,,NCAA A3,1,,24
+US-A4,us,academic,11,Hạn: khai giảng lớp 12,Quy tắc 10/7 (D1),10/7 rule (D1),,NCAA A4,1,,25
+US-A5,us,academic,9,,Điểm trung bình môn cốt lõi theo cách NCAA tính,Core GPA as NCAA calculates it,,NCAA A10,1,,26
+US-A6,us,academic,10,Hết lớp 10,Nộp học bạ lần 1 (sau 4 học kỳ),Transcript upload 1 (after 4 semesters),,NCAA A7,1,,27
+US-A7,us,academic,11,Hết lớp 11,Nộp học bạ lần 2 (sau 6 học kỳ),Transcript upload 2 (after 6 semesters),,NCAA A8,1,,28
+US-A8,us,academic,13,Sau tốt nghiệp,Học bạ cuối cùng và bằng tốt nghiệp THPT,Final transcript and proof of graduation,,NCAA A9,1,,29
+US-B1,us,golf,6,Sau mỗi giải có thưởng,Bảng kê tiền thưởng và chi phí đối ứng,Prize money and expense log,,NCAA B2,1,,30
+US-B2,us,golf,6,,Không ký với agent hay công ty quản lý,No agent or management agreements,,NCAA B3,1,,31
+US-B3,us,golf,12,Từ 01/4 lớp 12,Chứng nhận tư cách nghiệp dư cuối cùng,Final amateurism certification,,NCAA B4,1,,32
+US-B4,us,golf,13,Sau tốt nghiệp,Khai báo các giải đấu sau ngày tốt nghiệp,Report competition after graduation,,NCAA B5,1,,33
+US-C1,us,golf,9,,Thứ hạng Junior Golf Scoreboard,Junior Golf Scoreboard ranking,,NCAA C1,1,,34
+US-C2,us,golf,10,,Thứ hạng WAGR,WAGR ranking,,App P10 · NCAA C6,1,P10,35
+US-C3,us,golf,10,,Sao AJGA (Performance Stars),AJGA Performance Stars,,NCAA C7,1,,36
+US-D1,us,academic,11,Thi 2 lần,SAT / ACT (nếu trường yêu cầu),SAT / ACT (if required),,App P13 · NCAA D1,1,P13,37
+US-D2,us,admission,12,Theo hạn từng trường,Đơn nộp và lệ phí,Applications and fees,,NCAA D5,1,,38
+US-D3,us,admission,12,Sau thư mời,Hồ sơ chứng minh tài chính cho trường,Financial documents for the college,,NCAA D6,1,,39
+US-E1,us,admission,10,,Danh sách 20–30 trường mục tiêu,List of 20–30 target colleges,,App P17 · NCAA E1,1,P17,40
+US-E2,us,admission,9,,Recruiting questionnaire của từng trường,College recruiting questionnaires,,NCAA E2,1,,41
+US-E3,us,admission,9,"HLV D1, D2 liên lạc lại từ 15/6 sau lớp 10",Email giới thiệu gửi HLV,Introduction emails to coaches,,NCAA E3,1,,42
+US-E4,us,admission,9,,Lịch theo đuổi các trường có hệ thống,Systematic follow-up schedule,,NCAA E4,1,,43
+US-E5,us,admission,10,Từ 15/6 sau lớp 10,Cung cấp NCAA ID cho các trường đang tuyển,Share NCAA ID with recruiting colleges,,NCAA E5,1,,44
+US-E6,us,admission,11,D1: từ 01/8 trước lớp 11,Chuyến thăm trường,Campus visits,,NCAA E6,1,,45
+US-E7,us,admission,12,Trường được gửi từ 01/8 lớp 12; ký từ thứ Tư tuần thứ hai của tháng 11,Văn bản đề nghị học bổng thể thao (written offer),Written offer of athletics aid,,NCAA E7,1,,46
+US-F1,us,admission,12,,Thư mời nhập học,Letter of admission,,NCAA F1,1,,47
+US-F2,us,admission,12,Sau thư mời,Form I-20,Form I-20,,NCAA F2,1,,48
+US-F3,us,admission,12,Trước khi đặt lịch phỏng vấn,Phí SEVIS I-901,SEVIS I-901 fee,,NCAA F3,1,,49
+US-F4,us,admission,12,,Đơn DS-160,DS-160 form,,NCAA F4,1,,50
+US-F5,us,admission,12,Sau khi có I-20,Lệ phí visa và lịch hẹn,Visa fee and appointment,,NCAA F5,1,,51
+US-F6,us,admission,12,Trước phỏng vấn,Hồ sơ mang theo phỏng vấn,Documents for the visa interview,,NCAA F7,1,,52
+US-F7,us,admission,13,Sau khi có visa,Kế hoạch nhập cảnh,Arrival plan,,NCAA F8,1,,53
+UK-1,uk,academic,10,,"Chọn đường vào: A-level, IB hay học dự bị","Choose entry route: A-level, IB or foundation",,Mới,1,,54
+UK-2,uk,academic,11,Xong trước hè lớp 11,IELTS đạt mức trường và visa yêu cầu,IELTS at the level required,,Mới,1,,55
+UK-3,uk,admission,11,Mở tháng 5 cuối lớp 11; hạn 15/10 hoặc giữa tháng 1 lớp 12,Hồ sơ UCAS và personal statement,UCAS application and personal statement,,Mới,1,,56
+UK-4,uk,admission,12,"Ví dụ: ĐH Stirling có học bổng thể thao, golf là môn trọng điểm, mọi quốc tịch; nộp đơn riêng trước kỳ tháng 9",Đơn học bổng thể thao của trường,University sports scholarship application,,Mới,1,,57
+UK-5,uk,admission,12,Sau thư mời,Visa du học Anh (cần CAS),UK Student visa (CAS required),,Mới,0,,58
+AU-1,au,academic,10,,"Chọn đường vào: IB, chương trình tương đương hay học dự bị","Choose entry route: IB, equivalent or foundation",,Mới,1,,59
+AU-2,au,academic,11,,IELTS hoặc PTE đạt mức trường yêu cầu,IELTS or PTE at the level required,,Mới,1,,60
+AU-3,au,admission,12,Mạng lưới trường hỗ trợ VĐV ưu tú của AIS chủ yếu dành cho VĐV được Úc công nhận; VĐV quốc tế hỏi từng trường,Hồ sơ chương trình hỗ trợ vận động viên ưu tú của trường,University elite athlete programme application,,Mới,1,,61
+AU-4,au,admission,12,Sau thư mời,Visa du học Úc (cần CoE),Australian student visa (CoE required),,Mới,0,,62
+AS-1,asia,academic,6,,"Ngoại ngữ nước đến (JLPT, TOPIK) hoặc tiếng Anh","Destination language (JLPT, TOPIK) or English",,Mới,1,,63
+AS-2,asia,admission,11,,Hồ sơ tuyển sinh diện thể thao của từng trường,Sports admission application per university,,Mới,0,,64
+AS-3,asia,admission,12,GKS: tháng 9–10 lớp 12,"Học bổng chính phủ (GKS, MEXT)","Government scholarships (GKS, MEXT)",,Mới,0,,65
+AS-4,asia,academic,12,,Kỳ thi đầu vào nếu có (ví dụ EJU),Entrance exam where required (e.g. EJU),,Mới,0,,66
+VN-1,vn,golf,9,Giải chỉ tính trong 3–4 năm trước xét tuyển,"Huy chương giải thể thao cấp quốc gia, giải trẻ quốc gia và quốc tế",Medals at national and international junior events,,Mới,1,,67
+VN-2,vn,admission,11,,"Đối chiếu quy chế xét tuyển thẳng, ưu tiên thể thao năm tuyển sinh",Check direct-admission rules for athletes,,Mới,1,,68
+VN-3,vn,academic,11,,Chương trình liên kết quốc tế trong nước: IELTS và hồ sơ,Joint international programmes in Vietnam,,Mới,1,,69
+HS-1,hs,admission,7,,Danh sách trường nội trú có học viện golf,Boarding schools with golf academies,,Mới,0,,70
+HS-2,hs,academic,8,,Bài thi đầu vào và tiếng Anh theo từng trường,Entrance tests and English per school,,Mới,0,,71
+HS-3,hs,admission,8,,"Phỏng vấn, video, thư HLV cho hồ sơ cấp 3","Interview, video and coach letter",,Mới,0,,72
+HS-4,hs,admission,9,,Visa du học cấp 3 và người giám hộ,Secondary-school visa and guardian,,Mới,0,,73
+CR-1,career,personal,8,,Tình nguyện tại các giải,Volunteering at events,,Mới,1,,74
+CR-2,career,golf,10,,Chứng chỉ trọng tài luật golf (R&A),Rules officiating certificates (R&A),,Mới,0,,75
+CR-3,career,golf,11,,Chứng chỉ HLV cộng đồng (CGI) và kinh nghiệm hỗ trợ dạy,Community Golf Instructor certificate,,Mới,0,,76
+CR-4,career,personal,11,,Thực tập tại sân golf,Golf course internship,,Mới,1,,77
+CR-5,career,admission,11,,"Chương trình cao đẳng, đại học chuyên ngành golf",Golf-specific college programmes,,Mới,0,,78
