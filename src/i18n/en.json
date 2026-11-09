@@ -229,7 +229,8 @@
       "leagueQueue": "Match SNAG League players",
       "scholarship": "Scholarship checklist",
       "staffQueue": "Staff profiles to review",
-      "partners": "Golf Passport partners"
+      "partners": "Golf Passport partners",
+      "grades": "Grades"
     },
     "years": {
       "current": "Current year",
@@ -1024,7 +1025,8 @@
     "nav": {
       "overview": "School overview",
       "students": "Students",
-      "history": "Import course history"
+      "history": "Import course history",
+      "grades": "Grades"
     },
     "allClasses": "All classes",
     "searchPlaceholder": "Search name or student code",
@@ -2226,7 +2228,15 @@
     "compareNoneDue": "Nothing is due yet.",
     "compareDone": "{{done}}/{{due}} due items done",
     "compareMissing": "{{n}} due items missing",
-    "compareNext": "Next up"
+    "compareNext": "Next up",
+    "stats": {
+      "tracksTitle": "Students by pathway",
+      "summary": "{{total}} students · {{grade}} with a grade · {{tracks}} with pathways",
+      "gradeTitle": "Due items completed by grade",
+      "students": "Students",
+      "doneDue": "Done / due",
+      "noGrades": "No students have a grade yet."
+    }
   },
   "staff": {
     "title": "My profile",
@@ -2724,5 +2734,17 @@
       "bonusRequired": "Bonus offers need a bonus item (Vietnamese).",
       "fixedPointsRequired": "Please enter the fixed points."
     }
+  },
+  "grades": {
+    "intro": "Current grades and the \"do not move up\" flag for the automatic grade change on 5 September (school year {{year}}). Each 5 September, students in grades 1–8 move up one grade; from grade 9 parents confirm. Flag students who repeat or skip a grade before 5 September, then set their grade individually.",
+    "missingCount": "{{count}} students have no current grade.",
+    "holdCol": "Do not move up ({{year}})",
+    "hold": "Do not move up",
+    "noAuto": "Parents confirm",
+    "bulkFrom": "All students in",
+    "bulkTo": "Move to",
+    "bulkRun": "Update in bulk",
+    "bulkDone": "Updated the grade for {{count}} students.",
+    "pickSchool": "Choose a school…"
   }
 }

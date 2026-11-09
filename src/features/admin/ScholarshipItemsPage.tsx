@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { supabase } from '@/lib/supabase'
 import { CrudTable } from '@/features/admin/CrudTable'
 import { useLocalized } from '@/lib/i18nField'
-import { Badge } from '@/components/ui/card'
+import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 
 interface ScholarshipItem {
   id: string
@@ -38,6 +40,7 @@ export function ScholarshipItemsPage() {
   return (
     <div className="space-y-3">
       <p className="text-sm text-navy/65">{t('scholarship.adminIntroV2')}</p>
+      <ScholarshipStats />
       <CrudTable<ScholarshipItem>
         table="scholarship_checklist_items"
         titleKey="admin.nav.scholarship"
@@ -81,6 +84,83 @@ export function ScholarshipItemsPage() {
           { name: 'is_active', labelKey: 'scholarship.fields.active', type: 'checkbox' },
         ]}
       />
+    </div>
+  )
+}
+
+interface Stats {
+  students_total: number
+  students_with_grade: number
+  students_with_tracks: number
+  by_track: { track: string; students: number }[]
+  by_grade: { grade: number; students: number; due: number; done: number; pct: number | null }[]
+}
+
+/** Thống kê (spec 22 mục 5): số học viên theo từng hướng; tỉ lệ hoàn thành mục đến hạn theo lớp. */
+function ScholarshipStats() {
+  const { t } = useTranslation()
+  const q = useQuery({
+    queryKey: ['scholarship_admin_stats'],
+    queryFn: async () => {
+      const { data, error } = await supabase!.rpc('scholarship_admin_stats')
+      if (error) throw error
+      return data as Stats
+    },
+  })
+  if (!q.data) return null
+  const s = q.data
+  const gradeLabel = (g: number) => (g === 13 ? t('scholarship.grade13') : t('scholarship.gradeN', { n: g }))
+  return (
+    <div className="grid gap-3 lg:grid-cols-2">
+      <Card className="space-y-2 p-4">
+        <p className="font-semibold">{t('scholarship.stats.tracksTitle')}</p>
+        <p className="text-sm text-navy/65">
+          {t('scholarship.stats.summary', { total: s.students_total, grade: s.students_with_grade, tracks: s.students_with_tracks })}
+        </p>
+        {s.by_track.length ? (
+          <ul className="space-y-1 text-sm">
+            {s.by_track.map((r) => (
+              <li key={r.track} className="flex justify-between gap-2">
+                <span>{t(`scholarship.track.${r.track}.name`)}</span>
+                <b>{r.students}</b>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-navy/55">—</p>
+        )}
+      </Card>
+      <Card className="space-y-2 p-4">
+        <p className="font-semibold">{t('scholarship.stats.gradeTitle')}</p>
+        {s.by_grade.length ? (
+          <TableWrap>
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className={th}>{t('scholarship.currentGrade')}</th>
+                  <th className={th}>{t('scholarship.stats.students')}</th>
+                  <th className={th}>{t('scholarship.stats.doneDue')}</th>
+                  <th className={th}>%</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-navy/10">
+                {s.by_grade.map((r) => (
+                  <tr key={r.grade}>
+                    <td className={td}>{gradeLabel(r.grade)}</td>
+                    <td className={td}>{r.students}</td>
+                    <td className={td}>
+                      {r.done}/{r.due}
+                    </td>
+                    <td className={td}>{r.pct == null ? '—' : `${r.pct}%`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </TableWrap>
+        ) : (
+          <p className="text-sm text-navy/55">{t('scholarship.stats.noGrades')}</p>
+        )}
+      </Card>
     </div>
   )
 }

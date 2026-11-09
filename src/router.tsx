@@ -42,6 +42,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
   { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
   { to: '/admin/scholarship', labelKey: 'admin.nav.scholarship', lazy: page(() => import('@/features/admin/ScholarshipItemsPage'), (m) => m.ScholarshipItemsPage) },
+  { to: '/admin/grades', labelKey: 'admin.nav.grades', lazy: page(() => import('@/features/admin/GradesAdminPage'), (m) => m.GradesAdminPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
   { to: '/admin/users', labelKey: 'admin.nav.users', lazy: page(() => import('@/features/admin/UsersPage'), (m) => m.UsersPage) },
   { to: '/admin/orders', labelKey: 'admin.nav.orders', lazy: page(() => import('@/features/orders/OrdersPage'), (m) => m.OrdersPage) },
@@ -63,6 +64,7 @@ const COACH_NAV: NavItem[] = [
 const SCHOOL_NAV: NavItem[] = [
   { to: '/school', labelKey: 'school.nav.overview', end: true },
   { to: '/school/students', labelKey: 'school.nav.students' },
+  { to: '/school/grades', labelKey: 'school.nav.grades' },
   { to: '/school/history', labelKey: 'school.nav.history' },
 ]
 
@@ -183,6 +185,7 @@ export const router = createBrowserRouter([
     { index: true, lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolHomePage) },
     { path: 'students', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolStudentsPage) },
     { path: 'students/:studentId', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolStudentPage) },
+    { path: 'grades', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolGradesPage) },
     { path: 'history', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.SchoolHistoryPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),

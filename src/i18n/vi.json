@@ -229,7 +229,8 @@
       "leagueQueue": "Ghép VĐV SNAG League",
       "scholarship": "Hành trang học bổng",
       "staffQueue": "Hồ sơ nhân sự chờ duyệt",
-      "partners": "Đối tác Golf Passport"
+      "partners": "Đối tác Golf Passport",
+      "grades": "Lớp & lên lớp"
     },
     "years": {
       "current": "Năm hiện tại",
@@ -1024,7 +1025,8 @@
     "nav": {
       "overview": "Tổng quan trường",
       "students": "Học sinh",
-      "history": "Nhập lịch sử khoá học"
+      "history": "Nhập lịch sử khoá học",
+      "grades": "Lớp & lên lớp"
     },
     "allClasses": "Tất cả lớp",
     "searchPlaceholder": "Tìm tên hoặc mã học viên",
@@ -2226,7 +2228,15 @@
     "compareNoneDue": "Chưa có mục nào đến hạn.",
     "compareDone": "Đã xong {{done}}/{{due}} mục đến hạn",
     "compareMissing": "Còn thiếu {{n}} mục đến hạn",
-    "compareNext": "Việc tiếp theo"
+    "compareNext": "Việc tiếp theo",
+    "stats": {
+      "tracksTitle": "Số học viên theo hướng",
+      "summary": "{{total}} học viên · {{grade}} đã có lớp · {{tracks}} đã chọn hướng",
+      "gradeTitle": "Hoàn thành mục đến hạn theo lớp",
+      "students": "Học viên",
+      "doneDue": "Xong / đến hạn",
+      "noGrades": "Chưa có học viên nào có lớp."
+    }
   },
   "staff": {
     "title": "Hồ sơ của tôi",
@@ -2724,5 +2734,17 @@
       "bonusRequired": "Ưu đãi tặng kèm cần ghi quà tặng (tiếng Việt).",
       "fixedPointsRequired": "Cần nhập số điểm cố định."
     }
+  },
+  "grades": {
+    "intro": "Lớp hiện tại của học sinh và cờ \"không tự lên lớp\" cho đợt tự lên lớp ngày 05/9 (năm học {{year}}). Từ 05/9 hằng năm, học sinh lớp 1–8 tự lên một lớp; từ lớp 9 bố mẹ tự xác nhận. Đánh dấu trước 05/9 cho em ở lại lớp hoặc học vượt, rồi sửa lớp riêng cho em đó.",
+    "missingCount": "{{count}} học sinh chưa có lớp hiện tại.",
+    "holdCol": "Không tự lên lớp ({{year}})",
+    "hold": "Không tự lên lớp",
+    "noAuto": "Bố mẹ xác nhận",
+    "bulkFrom": "Mọi học sinh đang ở",
+    "bulkTo": "Chuyển sang",
+    "bulkRun": "Sửa hàng loạt",
+    "bulkDone": "Đã sửa lớp cho {{count}} học sinh.",
+    "pickSchool": "Chọn trường…"
   }
 }
