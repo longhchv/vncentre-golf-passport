@@ -2121,12 +2121,14 @@
     "stage": {
       "primary": "Tiểu học",
       "lower_secondary": "THCS",
-      "upper_secondary": "THPT"
+      "upper_secondary": "THPT",
+      "post_graduation": "Sau tốt nghiệp"
     },
     "group": {
       "golf": "Golf",
       "academic": "Học tập",
-      "personal": "Cá nhân"
+      "personal": "Cá nhân",
+      "admission": "Tuyển sinh"
     },
     "sourceAuto": "Tự động",
     "sourceGuardian": "Bố mẹ tự khai",
@@ -2154,8 +2156,77 @@
       "autoSource": "Nguồn tự động",
       "autoSourceHint": "Để trống nếu bố mẹ tự đánh dấu.",
       "sortOrder": "Thứ tự",
-      "active": "Đang dùng"
-    }
+      "active": "Đang dùng",
+      "code": "Mã",
+      "track": "Hướng",
+      "startGrade": "Lớp bắt đầu",
+      "startGradeHint": "1–12; 13 = sau tốt nghiệp THPT. Cấp học tự tính theo ô này.",
+      "startNoteVi": "Mốc (tiếng Việt)",
+      "startNoteEn": "Mốc (tiếng Anh)",
+      "hasDeadline": "Có hạn chót (hiện nổi bật)",
+      "sourceRef": "Nguồn (chỉ admin xem)",
+      "verified": "Đã xác minh"
+    },
+    "introV2": "Những việc cần chuẩn bị dần cho học bổng và du học, sắp theo lớp hiện tại của con. Mục ★ do VN Centre tự cập nhật; các mục còn lại bố mẹ tự đánh dấu.",
+    "disclaimer": "Quy định thay đổi theo từng năm; kiểm tra lại với trường và cơ quan tuyển sinh trước mỗi quyết định lớn.",
+    "tracksTitle": "Hướng đi gia đình đang cân nhắc",
+    "chooseTracks": "Chọn hướng",
+    "changeTracks": "Đổi hướng",
+    "noTracks": "Chưa chọn hướng đi; đang hiện các mục chung.",
+    "noTracksEdit": "Chưa chọn hướng đi. Chọn một hoặc nhiều hướng để thấy thêm việc cần làm cho từng hướng.",
+    "tracksHint": "Chọn được nhiều hướng và đổi bất cứ lúc nào. Bỏ một hướng không xoá những gì đã đánh dấu.",
+    "track": {
+      "us": {
+        "name": "Mỹ (NCAA, NAIA, NJCAA)",
+        "desc": "Học bổng thể thao đại học Mỹ, cần đủ điều kiện học tập và tư cách nghiệp dư."
+      },
+      "uk": {
+        "name": "Anh",
+        "desc": "Đại học Anh qua UCAS, học bổng thể thao của từng trường."
+      },
+      "au": {
+        "name": "Úc",
+        "desc": "Đại học Úc, chương trình hỗ trợ vận động viên ưu tú của trường."
+      },
+      "asia": {
+        "name": "Châu Á",
+        "desc": "Hàn Quốc, Nhật Bản… diện thể thao hoặc học bổng chính phủ."
+      },
+      "vn": {
+        "name": "Việt Nam",
+        "desc": "Xét tuyển thẳng, ưu tiên thể thao và chương trình liên kết trong nước."
+      },
+      "hs": {
+        "name": "Cấp 3 quốc tế",
+        "desc": "Trường nội trú có học viện golf ở nước ngoài."
+      },
+      "career": {
+        "name": "Nghề nghiệp trong ngành golf",
+        "desc": "Trọng tài, huấn luyện viên, vận hành sân, đào tạo chuyên ngành golf."
+      }
+    },
+    "bucket": {
+      "now": "Cần làm ngay",
+      "upcoming": "Sắp tới (1–2 năm)",
+      "later": "Về sau",
+      "done": "Đã xong"
+    },
+    "currentGrade": "Lớp hiện tại",
+    "gradeN": "Lớp {{n}}",
+    "grade13": "Sau tốt nghiệp THPT",
+    "gradeMissing": "Chưa có lớp hiện tại của con — thêm lớp để app sắp việc theo đúng thời điểm.",
+    "addGrade": "Thêm lớp",
+    "editGrade": "Sửa lớp",
+    "fromGrade": "Từ lớp {{n}}",
+    "allTracks": "Mọi hướng",
+    "verifying": "Đang xác minh",
+    "adminIntroV2": "Danh mục Lộ trình học bổng và du học (78 mục, nhiều hướng), hiện trên trang con của phụ huynh theo hướng gia đình chọn và lớp hiện tại. Cấp học tự tính từ lớp bắt đầu. Mục tự động (★): có dữ liệu thì hệ thống đánh dấu xong; chưa có thì bố mẹ tự đánh dấu.",
+    "compareTitle": "So sánh mức sẵn sàng giữa các hướng",
+    "compareHint": "Tính trên các mục đã đến hạn theo lớp hiện tại (mục chung + mục của hướng). Đây không phải xếp hạng hướng nào tốt hơn.",
+    "compareNoneDue": "Chưa có mục nào đến hạn.",
+    "compareDone": "Đã xong {{done}}/{{due}} mục đến hạn",
+    "compareMissing": "Còn thiếu {{n}} mục đến hạn",
+    "compareNext": "Việc tiếp theo"
   },
   "staff": {
     "title": "Hồ sơ của tôi",

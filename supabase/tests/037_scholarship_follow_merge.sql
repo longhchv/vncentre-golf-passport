@@ -27,9 +27,9 @@ begin
   values (keep, g, 'mother', true, true, 'league', 'active', now()),
          (rem, g, 'mother', true, true, 'league', 'active', now());
 
-  select id into i_a from public.scholarship_checklist_items where title_vi = 'Học bạ / bảng điểm từng năm';
-  select id into i_b from public.scholarship_checklist_items where title_vi = 'Chứng chỉ tiếng Anh (Cambridge…)';
-  select id into i_c from public.scholarship_checklist_items where title_vi = 'Hoạt động ngoại khoá, thiện nguyện';
+  select id into i_a from public.scholarship_checklist_items where code = 'C11';
+  select id into i_b from public.scholarship_checklist_items where code = 'C13';
+  select id into i_c from public.scholarship_checklist_items where code = 'C14';
 
   -- hồ sơ giữ lại: A = đang làm · hồ sơ bị gộp: A = đã có (trùng), B = đã có, C = đang làm
   perform pg_temp.act_as(par);
