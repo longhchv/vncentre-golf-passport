@@ -63,6 +63,12 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D33 | Quy định nội bộ về lỗi hẹn và buổi bù, để điều khoản trong app khớp điều khoản ngoài đời | 6 | Anh Long | Chưa bắt đầu |
 | D34 | Trao đổi với đội HLV hiện tại trước khi mở sàn cho HLV ngoài | 7 | Anh Long | Chưa bắt đầu |
 | D35 | Chọn nhà cung cấp dịch vụ AI cho tính năng soạn bài giới thiệu HLV; chốt trần số lần sinh mỗi HLV mỗi tháng | 7 | Minh tra cứu, anh Long duyệt | Chưa bắt đầu |
+| D58 | Spec 19 · **Giá trị điểm.** Đã chốt 09/11/2026: tách hai hệ. Điểm thưởng học viên giữ thang sổ Passport (quà 50–30.000 điểm, Premium 3.000 điểm = 1 tháng), **không quy ra tiền**. Người trên 16 tuổi có ví tích điểm người lớn riêng (1 điểm = 1.000 đ). Hai ví không chuyển đổi qua lại | 3 (module 19) | Anh Long | **Xong** |
+| D59 | Spec 19 · **Hạn dùng điểm 24 tháng** áp thế nào với Premium (tích luỹ liên tục) và Free (treo theo chu kỳ). Đã có cột `reward_ledger.expires_at` (để trống), **chưa trừ điểm hết hạn** | 3 (module 19) | Anh Long | Chờ |
+| D60 | Spec 19 · Điểm thưởng đã có trước module. **Chốt 11/11/2026 (anh Long): KHÔNG cộng bù theo kết quả chặng** (phần lớn các con đã đổi quà); admin tải file Excel số dư thực tế (gồm cả học sinh ở trường không thi đấu) ở `/admin/rewards` → Tải lên Excel. 10 chặng cũ giữ `reward_enabled = false`; `reward_backfill_league` không dùng | 3 (module 19) | Anh Long | Đã chốt |
+| D61 | Spec 19 · **Ví tích điểm người lớn** là sổ riêng, không dùng `reward_ledger`. Đã chốt 09/11/2026 quy tắc học viên đủ 16 tuổi chuyển ví (bố mẹ xác nhận, 10 điểm học viên = 1 điểm người lớn, một chiều, một lần). Làm cùng ví người lớn, không thuộc module 19 | Ví người lớn | Anh Long | Đã chốt quy tắc, chờ làm |
+| D62 | Spec 19 bước 6 · **Điểm sự kiện và điểm thưởng** đang là hai ví: đổi quà ở quầy sự kiện ghi vào sổ một cặp dòng (+ điểm sự kiện, − quà), tổng 0, không đổi số dư điểm thưởng. Có gộp hẳn điểm sự kiện vào điểm thưởng không (khi đó quầy kiểm số dư sổ, quà sự kiện trừ thẳng điểm thưởng) | 3 (module 19) | Anh Long | Chờ |
+| D63 | Spec 19 · **Cơ chế treo điểm gói Free** (chu kỳ 12 tháng từ ngày kích hoạt) chưa làm vì chưa có dữ liệu gói Premium. Sổ đã sẵn `is_frozen` / `cycle_no` (hàm hệ thống được đổi hai cột này), số dư khả dụng đã trừ phần treo | Gói Premium | Anh Long | Chờ module gói |
 
 ## Quyết định chốt khi build đợt 1
 

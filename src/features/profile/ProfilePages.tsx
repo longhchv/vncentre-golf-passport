@@ -16,6 +16,7 @@ import { AthleteProfileView, StudentProfileView } from './StudentProfileView'
 import type { StudentProfile } from './useStudentProfile'
 import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 import { PartnerQrCard } from '@/features/partners/CustomerOffers'
+import { RewardWallet } from '@/features/rewards/RewardWallet'
 
 function ProfileLoader({
   studentId,
@@ -75,7 +76,15 @@ export function ParentChildPage() {
       studentId={studentId}
       back={{ to: '/app', label: t('parent.nav.home') }}
       // Spec 18: phụ huynh (kể cả sổ của chính mình, quan hệ self) mở mã ưu đãi đối tác thay cho tài khoản con
-      top={(p) => (p.viewer === 'guardian' ? <PartnerQrCard studentId={p.student.id} /> : null)}
+      // Spec 19 mục 6: ví điểm hai ô (điểm thưởng / điểm xếp hạng) + lịch sử sổ điểm
+      top={(p) =>
+        p.viewer === 'guardian' ? (
+          <>
+            <PartnerQrCard studentId={p.student.id} />
+            <RewardWallet studentId={p.student.id} />
+          </>
+        ) : null
+      }
     />
   )
 }
