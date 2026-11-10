@@ -14,6 +14,7 @@ import { useToast } from '@/components/ui/toast'
 import { downloadBlob } from '@/features/passports/exports'
 import { callRpc } from '@/features/partners/shared'
 import { GiftItemsPanel, GiftOrdersPanel } from './GiftPages'
+import { OpeningImportPanel } from './OpeningImport'
 
 // Spec 19 mục 4 (bước 4): màn "Ghi điểm thưởng" cho admin, HLV trưởng, HLV lớp; huỷ lần ghi sai;
 // admin: sổ điểm theo học viên / nguồn / tháng (CSV) và danh mục nguồn điểm. Máy chủ kiểm quyền từng con (reward_record).
@@ -100,12 +101,12 @@ export function CoachRewardsPage() {
 /** Admin: Ghi điểm · Sổ điểm · Nguồn điểm. */
 export function AdminRewardsPage() {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'record' | 'ledger' | 'rules' | 'gifts' | 'orders'>('record')
+  const [tab, setTab] = useState<'record' | 'import' | 'ledger' | 'rules' | 'gifts' | 'orders'>('record')
   return (
     <div className="space-y-5">
       <h1 className="text-2xl font-bold">{t('rewards.admin.title')}</h1>
       <div className="flex gap-2 overflow-x-auto pb-1">
-        {(['record', 'ledger', 'rules', 'gifts', 'orders'] as const).map((k) => (
+        {(['record', 'import', 'ledger', 'rules', 'gifts', 'orders'] as const).map((k) => (
           <button key={k} type="button" className={tabClass(tab === k)} onClick={() => setTab(k)}>
             {t(`rewards.admin.tab.${k}`)}
           </button>
@@ -117,6 +118,7 @@ export function AdminRewardsPage() {
           <RecentRecords />
         </div>
       )}
+      {tab === 'import' && <OpeningImportPanel />}
       {tab === 'ledger' && <LedgerPanel />}
       {tab === 'rules' && <RulesPanel />}
       {tab === 'gifts' && <GiftItemsPanel />}
@@ -473,6 +475,8 @@ const LEDGER_REASONS = [
   'merge_transfer',
   'event_points',
   'event_redemption',
+  'opening_balance',
+  'opening_balance_adjust',
 ]
 
 const csvCell = (v: unknown) => {

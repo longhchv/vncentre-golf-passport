@@ -2781,7 +2781,9 @@
       "level_up_adjust": "điều chỉnh lên level",
       "level_up": "Lên level",
       "event_points": "điểm sự kiện dùng tại quầy",
-      "event_redemption": "Đổi quà tại sự kiện"
+      "event_redemption": "Đổi quà tại sự kiện",
+      "opening_balance": "Điểm tích luỹ trước đây",
+      "opening_balance_adjust": "chỉnh điểm tích luỹ trước đây"
     },
     "record": {
       "nav": "Ghi điểm thưởng",
@@ -2845,7 +2847,8 @@
         "ledger": "Sổ điểm",
         "rules": "Nguồn điểm",
         "gifts": "Kho quà",
-        "orders": "Đơn quà"
+        "orders": "Đơn quà",
+        "import": "Tải lên Excel"
       }
     },
     "ledger": {
@@ -2876,7 +2879,9 @@
       "gift_order_refund": "Hoàn điểm đơn quà",
       "merge_transfer": "Gộp hồ sơ",
       "event_points": "Điểm sự kiện dùng tại quầy",
-      "event_redemption": "Đổi quà tại sự kiện"
+      "event_redemption": "Đổi quà tại sự kiện",
+      "opening_balance": "Số dư đầu kỳ (Excel)",
+      "opening_balance_adjust": "Chỉnh số dư đầu kỳ"
     },
     "rules": {
       "hint": "Điểm mặc định và khoảng min–max áp dụng cho lần ghi sau. Nguồn tự động (lên level, điểm danh, kỹ năng) chỉ chạy khi có dữ liệu tương ứng.",
@@ -3000,6 +3005,57 @@
           "shipped": "Đã gửi",
           "completed": "Hoàn tất"
         }
+      }
+    },
+    "import": {
+      "title": "Tải lên số dư điểm thưởng từ Excel",
+      "intro": "Dùng để đưa điểm tích luỹ các con đã có từ trước (kể cả các bạn học ở trường không thi đấu) vào ví điểm trên app.",
+      "ruleBalance": "Cột \"Điểm thưởng còn lại\" là SỐ DƯ hiện tại của con (đã trừ phần đã đổi quà), không phải số cộng thêm.",
+      "ruleReupload": "Tải lại file đã sửa: app chỉ chỉnh phần chênh lệch, không cộng hai lần.",
+      "ruleMissing": "Bạn chưa có hồ sơ trên app: nhập danh sách học sinh trước (mục Nhập dữ liệu), rồi tải lại file này.",
+      "template": "Tải file mẫu",
+      "upload": "Chọn file Excel",
+      "reading": "Đang đọc và đối chiếu…",
+      "empty": "File không có dòng dữ liệu nào (dữ liệu bắt đầu từ dòng 2).",
+      "tooMany": "File quá 3.000 dòng — chia thành nhiều file.",
+      "readFailed": "Không đọc được file. Kiểm tra lại định dạng .xlsx và thử lại.",
+      "rows": "{{count}} dòng",
+      "showAll": "Hiện tất cả",
+      "showAttention": "Chỉ dòng cần xử lý",
+      "report": "Tải danh sách dòng cần xử lý",
+      "choose": "— Chọn đúng bạn —",
+      "skip": "— Bỏ qua dòng này —",
+      "note": "Ghi chú hiện trong ví điểm",
+      "noteHint": "Phụ huynh thấy dòng này trong lịch sử điểm.",
+      "defaultNote": "Điểm tích luỹ trước khi có ví điểm trên app",
+      "save": "Ghi điểm cho {{count}} học viên",
+      "duplicateHint": "Có nhiều dòng cùng trỏ vào một học viên — chọn lại hoặc bỏ qua bớt trước khi ghi.",
+      "confirmTitle": "Ghi số dư điểm thưởng",
+      "confirmBody": "Ghi số dư cho {{count}} học viên ({{changing}} học viên có thay đổi so với lần nhập trước).",
+      "confirmNote": "Điểm hiện ngay trong ví điểm của phụ huynh. Muốn sửa thì tải lại file đã sửa — app chỉ chỉnh phần chênh.",
+      "confirmYes": "Ghi điểm",
+      "done": "Đã ghi điểm cho {{count}} học viên",
+      "result": "Đã ghi: {{inserted}} học viên mới, {{adjusted}} học viên chỉnh lại, {{unchanged}} học viên không đổi.",
+      "col": {
+        "row": "Dòng",
+        "inFile": "Trong file",
+        "student": "Hồ sơ trên app",
+        "before": "Đã nhập trước",
+        "points": "Điểm",
+        "state": "Tình trạng"
+      },
+      "state": {
+        "ok": "Sẵn sàng",
+        "pick": "Trùng tên — cần chọn",
+        "not_found": "Không tìm thấy hồ sơ",
+        "error": "Lỗi dữ liệu",
+        "duplicate": "Trùng học viên",
+        "skipped": "Bỏ qua"
+      },
+      "rowError": {
+        "name": "Thiếu họ tên (và mã học viên)",
+        "points": "Điểm phải là số nguyên ≥ 0",
+        "year": "Năm sinh không đúng dạng (yyyy hoặc dd/mm/yyyy)"
       }
     }
   }

@@ -60,6 +60,8 @@ const KNOWN_REASONS = [
   'level_up_adjust',
   'event_points',
   'event_redemption',
+  'opening_balance',
+  'opening_balance_adjust',
 ]
 
 /** Tên nguồn của một dòng sổ (giải + chặng / đối tác / nguồn điểm / loại giao dịch). */

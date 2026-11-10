@@ -2781,7 +2781,9 @@
       "level_up_adjust": "level-up adjustment",
       "level_up": "Level up",
       "event_points": "event points used at the counter",
-      "event_redemption": "Gift at an event"
+      "event_redemption": "Gift at an event",
+      "opening_balance": "Points earned earlier",
+      "opening_balance_adjust": "correction of earlier points"
     },
     "record": {
       "nav": "Record reward points",
@@ -2845,7 +2847,8 @@
         "ledger": "Ledger",
         "rules": "Sources",
         "gifts": "Gifts",
-        "orders": "Gift orders"
+        "orders": "Gift orders",
+        "import": "Excel upload"
       }
     },
     "ledger": {
@@ -2876,7 +2879,9 @@
       "gift_order_refund": "Gift order refund",
       "merge_transfer": "Profile merge",
       "event_points": "Event points used at the counter",
-      "event_redemption": "Gift at an event"
+      "event_redemption": "Gift at an event",
+      "opening_balance": "Opening balance (Excel)",
+      "opening_balance_adjust": "Opening balance correction"
     },
     "rules": {
       "hint": "Default points and the min–max range apply to future entries. Automatic sources (level up, attendance, skills) only run when their data exists.",
@@ -3000,6 +3005,57 @@
           "shipped": "Posted",
           "completed": "Completed"
         }
+      }
+    },
+    "import": {
+      "title": "Upload reward point balances from Excel",
+      "intro": "Brings the points children earned before the app's wallet existed (including school students who don't compete) into their reward wallet.",
+      "ruleBalance": "The \"points still unspent\" column is the child's current BALANCE (after gifts already redeemed), not an amount to add.",
+      "ruleReupload": "Re-uploading a corrected file only applies the difference — nothing is counted twice.",
+      "ruleMissing": "Students without a profile on the app: import the student list first (Data import), then upload this file again.",
+      "template": "Download template",
+      "upload": "Choose Excel file",
+      "reading": "Reading and matching…",
+      "empty": "The file has no data rows (data starts on row 2).",
+      "tooMany": "More than 3,000 rows — split into several files.",
+      "readFailed": "Could not read the file. Check it is .xlsx and try again.",
+      "rows": "{{count}} rows",
+      "showAll": "Show all",
+      "showAttention": "Only rows needing attention",
+      "report": "Download rows needing attention",
+      "choose": "— Pick the right student —",
+      "skip": "— Skip this row —",
+      "note": "Note shown in the wallet",
+      "noteHint": "Parents see this line in the points history.",
+      "defaultNote": "Points earned before the app wallet",
+      "save": "Save points for {{count}} students",
+      "duplicateHint": "Several rows point to the same student — change or skip some before saving.",
+      "confirmTitle": "Save reward point balances",
+      "confirmBody": "Save balances for {{count}} students ({{changing}} differ from the previous upload).",
+      "confirmNote": "Points show in the parent's wallet right away. To fix a value, upload the corrected file — only the difference is applied.",
+      "confirmYes": "Save points",
+      "done": "Saved points for {{count}} students",
+      "result": "Saved: {{inserted}} new, {{adjusted}} adjusted, {{unchanged}} unchanged.",
+      "col": {
+        "row": "Row",
+        "inFile": "In the file",
+        "student": "Profile on the app",
+        "before": "Previously uploaded",
+        "points": "Points",
+        "state": "Status"
+      },
+      "state": {
+        "ok": "Ready",
+        "pick": "Same name — pick one",
+        "not_found": "No profile found",
+        "error": "Data error",
+        "duplicate": "Duplicate student",
+        "skipped": "Skipped"
+      },
+      "rowError": {
+        "name": "Missing name (and student code)",
+        "points": "Points must be a whole number ≥ 0",
+        "year": "Birth year format is wrong (yyyy or dd/mm/yyyy)"
       }
     }
   }
