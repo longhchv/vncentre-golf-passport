@@ -229,7 +229,8 @@
       "leagueQueue": "Match SNAG League players",
       "scholarship": "Scholarship checklist",
       "staffQueue": "Staff profiles to review",
-      "partners": "Golf Passport partners"
+      "partners": "Golf Passport partners",
+      "grades": "Grades"
     },
     "years": {
       "current": "Current year",
@@ -1024,7 +1025,8 @@
     "nav": {
       "overview": "School overview",
       "students": "Students",
-      "history": "Import course history"
+      "history": "Import course history",
+      "grades": "Grades"
     },
     "allClasses": "All classes",
     "searchPlaceholder": "Search name or student code",
@@ -2121,12 +2123,14 @@
     "stage": {
       "primary": "Primary school",
       "lower_secondary": "Lower secondary",
-      "upper_secondary": "Upper secondary"
+      "upper_secondary": "Upper secondary",
+      "post_graduation": "After graduation"
     },
     "group": {
       "golf": "Golf",
       "academic": "Academic",
-      "personal": "Personal"
+      "personal": "Personal",
+      "admission": "Admissions"
     },
     "sourceAuto": "Automatic",
     "sourceGuardian": "Parent-reported",
@@ -2154,7 +2158,84 @@
       "autoSource": "Automatic source",
       "autoSourceHint": "Leave empty if parents tick it off themselves.",
       "sortOrder": "Order",
-      "active": "Active"
+      "active": "Active",
+      "code": "Code",
+      "track": "Pathway",
+      "startGrade": "Start grade",
+      "startGradeHint": "1–12; 13 = after high school. Stage follows this field.",
+      "startNoteVi": "Timing (Vietnamese)",
+      "startNoteEn": "Timing (English)",
+      "hasDeadline": "Has a deadline (highlighted)",
+      "sourceRef": "Source (admin only)",
+      "verified": "Verified"
+    },
+    "introV2": "Things to prepare step by step for scholarships and study abroad, ordered by your child's current grade. ★ items are updated by VN Centre; parents mark the rest.",
+    "disclaimer": "Rules change every year; check with the school and admissions bodies before each major decision.",
+    "tracksTitle": "Pathways the family is considering",
+    "chooseTracks": "Choose pathways",
+    "changeTracks": "Change pathways",
+    "noTracks": "No pathway chosen yet; showing common items.",
+    "noTracksEdit": "No pathway chosen yet. Choose one or more to see the tasks for each.",
+    "tracksHint": "Choose several and change any time. Removing a pathway keeps everything already marked.",
+    "track": {
+      "us": {
+        "name": "USA (NCAA, NAIA, NJCAA)",
+        "desc": "US college athletic scholarships; academic eligibility and amateur status required."
+      },
+      "uk": {
+        "name": "United Kingdom",
+        "desc": "UK universities via UCAS, university sports scholarships."
+      },
+      "au": {
+        "name": "Australia",
+        "desc": "Australian universities, elite athlete support programmes."
+      },
+      "asia": {
+        "name": "Asia",
+        "desc": "Korea, Japan… sports admission or government scholarships."
+      },
+      "vn": {
+        "name": "Vietnam",
+        "desc": "Direct admission for athletes and joint international programmes in Vietnam."
+      },
+      "hs": {
+        "name": "International high school",
+        "desc": "Boarding schools with golf academies abroad."
+      },
+      "career": {
+        "name": "Careers in golf",
+        "desc": "Officiating, coaching, course operations, golf-specific study."
+      }
+    },
+    "bucket": {
+      "now": "To do now",
+      "upcoming": "Coming up (1–2 years)",
+      "later": "Later",
+      "done": "Done"
+    },
+    "currentGrade": "Current grade",
+    "gradeN": "Grade {{n}}",
+    "grade13": "After high school",
+    "gradeMissing": "Your child's current grade is missing — add it so tasks are timed correctly.",
+    "addGrade": "Add grade",
+    "editGrade": "Change grade",
+    "fromGrade": "From grade {{n}}",
+    "allTracks": "All pathways",
+    "verifying": "Being verified",
+    "adminIntroV2": "Scholarship and study-abroad roadmap items (78, several pathways), shown on parents' child pages by chosen pathways and current grade. Stage is derived from the start grade. Automatic items (★) are marked done when data exists; otherwise parents mark them.",
+    "compareTitle": "Readiness across pathways",
+    "compareHint": "Based on items already due for the current grade (common items + pathway items). This is not a ranking of pathways.",
+    "compareNoneDue": "Nothing is due yet.",
+    "compareDone": "{{done}}/{{due}} due items done",
+    "compareMissing": "{{n}} due items missing",
+    "compareNext": "Next up",
+    "stats": {
+      "tracksTitle": "Students by pathway",
+      "summary": "{{total}} students · {{grade}} with a grade · {{tracks}} with pathways",
+      "gradeTitle": "Due items completed by grade",
+      "students": "Students",
+      "doneDue": "Done / due",
+      "noGrades": "No students have a grade yet."
     }
   },
   "staff": {
@@ -2653,5 +2734,17 @@
       "bonusRequired": "Bonus offers need a bonus item (Vietnamese).",
       "fixedPointsRequired": "Please enter the fixed points."
     }
+  },
+  "grades": {
+    "intro": "Current grades and the \"do not move up\" flag for the automatic grade change on 5 September (school year {{year}}). Each 5 September, students in grades 1–8 move up one grade; from grade 9 parents confirm. Flag students who repeat or skip a grade before 5 September, then set their grade individually.",
+    "missingCount": "{{count}} students have no current grade.",
+    "holdCol": "Do not move up ({{year}})",
+    "hold": "Do not move up",
+    "noAuto": "Parents confirm",
+    "bulkFrom": "All students in",
+    "bulkTo": "Move to",
+    "bulkRun": "Update in bulk",
+    "bulkDone": "Updated the grade for {{count}} students.",
+    "pickSchool": "Choose a school…"
   }
 }

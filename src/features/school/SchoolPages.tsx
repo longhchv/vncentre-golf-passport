@@ -16,6 +16,7 @@ import { useStudentProfile } from '@/features/profile/useStudentProfile'
 import { StudentProfileView } from '@/features/profile/StudentProfileView'
 import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 import type { ClassRow, School } from '@/lib/types'
+import { GradeRoster } from './GradeRoster'
 
 /** Trường mà tài khoản đang quản lý (F13). Nhiều trường thì có ô chọn. */
 function useMySchools() {
@@ -220,6 +221,21 @@ export function SchoolStudentsPage() {
           </tbody>
         </table>
       </TableWrap>
+    </div>
+  )
+}
+
+/** Lớp & lên lớp (spec 22, D75): sửa lớp hiện tại, đánh dấu "không tự lên lớp" trước 05/9. */
+export function SchoolGradesPage() {
+  const { t } = useTranslation()
+  const { school, picker, isPending } = useSelectedSchool()
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold">{t('school.nav.grades')}</h1>
+        {picker}
+      </div>
+      {isPending ? <p className="text-navy/60">{t('common.loading')}</p> : school ? <GradeRoster schoolId={school.id} /> : null}
     </div>
   )
 }

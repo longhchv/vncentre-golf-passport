@@ -74,12 +74,12 @@ begin
                        'culture', 'Điểm thưởng Phong cách')),
     'league_app', false);
 
-  select id into it_manual from public.scholarship_checklist_items where title_vi = 'Học bạ / bảng điểm từng năm';
+  select id into it_manual from public.scholarship_checklist_items where code = 'C11';  -- v2 (spec 22): P5 → C11
   select id into it_comp from public.scholarship_checklist_items where auto_source = 'competitions';
   select id into it_culture from public.scholarship_checklist_items where auto_source = 'culture_awards';
   select id into it_courses from public.scholarship_checklist_items where auto_source = 'courses';
-  if (select count(*) from public.scholarship_checklist_items where is_active) <> 17 or it_manual is null then
-    raise exception 'FAIL danh mục ban đầu phải có 17 mục';
+  if (select count(*) from public.scholarship_checklist_items where is_active) <> 78 or it_manual is null then
+    raise exception 'FAIL danh mục v2 phải có 78 mục';
   end if;
 
   ------------------------------------------------------------------ Thẻ VĐV
@@ -141,8 +141,9 @@ begin
   ------------------------------------------------------------------ Checklist: trạng thái tự động
   perform pg_temp.act_as(par_a);
   r := public.scholarship_checklist(s1);
-  if jsonb_array_length(r -> 'stages') <> 3 or r #>> '{stages,0,stage}' <> 'primary' or r #>> '{stages,2,stage}' <> 'upper_secondary'
-     or (r #>> '{stages,0,total_count}')::int <> 7 or (r #>> '{stages,0,done_count}')::int <> 2 or r ->> 'can_edit' <> 'true' then
+  -- v2: 4 cấp; chưa chọn hướng → mục chung + hướng Mỹ; tiểu học = C1, C3, C4, C5, C6, C11, C13, C14, C17, US-Q1
+  if jsonb_array_length(r -> 'stages') <> 4 or r #>> '{stages,0,stage}' <> 'primary' or r #>> '{stages,3,stage}' <> 'post_graduation'
+     or (r #>> '{stages,0,total_count}')::int <> 10 or (r #>> '{stages,0,done_count}')::int <> 2 or r ->> 'can_edit' <> 'true' then
     raise exception 'FAIL checklist s1: %', r;
   end if;
   if (select x ->> 'status' from jsonb_array_elements(r #> '{stages,0,items}') x where x ->> 'id' = it_comp::text) <> 'done'
@@ -170,9 +171,6 @@ begin
     raise exception 'FAIL đọc lại trạng thái đã ghi: %', r #> '{stages,0}';
   end if;
   ok := false;
-  begin perform public.set_scholarship_item(s1, it_comp, 'done', null); exception when invalid_parameter_value then ok := true; end;
-  if not ok then raise exception 'FAIL đổi được mục tự động'; end if;
-  ok := false;
   begin perform public.set_scholarship_item(s1, it_manual, 'xong', null); exception when invalid_parameter_value then ok := true; end;
   if not ok then raise exception 'FAIL nhận trạng thái lạ'; end if;
   ok := false;
@@ -198,6 +196,15 @@ begin
   end loop;
   perform pg_temp.act_as(kid);
   if public.scholarship_checklist(s1) ->> 'can_edit' <> 'false' then raise exception 'FAIL tài khoản con phải chỉ đọc'; end if;
+
+  -- spec 22 Q2-A: mục tự động ghi tay được (C4 gồm cả giải ngoài): s2 chưa thi giải VN Centre, phụ huynh đánh dấu done
+  perform pg_temp.act_as(par_b);
+  perform public.set_scholarship_item(s2, it_comp, 'done', 'VGA Junior Tour');
+  r := public.scholarship_checklist(s2);
+  if (select x ->> 'status' from jsonb_array_elements(r #> '{stages,0,items}') x where x ->> 'id' = it_comp::text) <> 'done'
+     or (select x ->> 'note' from jsonb_array_elements(r #> '{stages,0,items}') x where x ->> 'id' = it_comp::text) <> 'VGA Junior Tour' then
+    raise exception 'FAIL mục tự động ghi tay: %', r #> '{stages,0,items}';
+  end if;
 
   ------------------------------------------------------------------ tiêu chí 6: audit
   perform pg_temp.act_as(null);
