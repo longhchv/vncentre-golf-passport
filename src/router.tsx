@@ -40,6 +40,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/courses', labelKey: 'admin.nav.courses', lazy: page(() => import('@/features/courses/CoursesPage'), (m) => m.CoursesPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
+  // Spec 19: ghi điểm thưởng, sổ điểm, nguồn điểm
+  { to: '/admin/rewards', labelKey: 'admin.nav.rewards', lazy: page(() => import('@/features/rewards/RewardRecordPage'), (m) => m.AdminRewardsPage) },
   { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
   { to: '/admin/scholarship', labelKey: 'admin.nav.scholarship', lazy: page(() => import('@/features/admin/ScholarshipItemsPage'), (m) => m.ScholarshipItemsPage) },
   { to: '/admin/grades', labelKey: 'admin.nav.grades', lazy: page(() => import('@/features/admin/GradesAdminPage'), (m) => m.GradesAdminPage) },
@@ -55,6 +57,7 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
 const COACH_NAV: NavItem[] = [
   { to: '/coach', labelKey: 'coach.myClasses', end: true },
   { to: '/coach/scan', labelKey: 'coach.scanPassport' },
+  { to: '/coach/rewards', labelKey: 'rewards.record.nav' },
   { to: '/coach/queue', labelKey: 'admin.nav.queue', requireRole: 'head_coach' },
   { to: '/coach/history', labelKey: 'import.tab.course_history', requireRole: 'head_coach' },
   { to: '/coach/certificates', labelKey: 'admin.nav.certificates', requireRole: 'head_coach' },
@@ -148,6 +151,7 @@ export const router = createBrowserRouter([
     { path: 'orders/:orderId', lazy: page(() => import('@/features/orders/OrderPage'), (m) => m.OrderPage) },
     { path: 'find', lazy: page(() => import('@/features/findchild/FindChildPage'), (m) => m.FindChildPage) },
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
+    { path: 'children/:studentId/gifts', lazy: page(() => import('@/features/rewards/GiftPages'), (m) => m.GiftShopPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: 'partners', lazy: page(() => import('@/features/partners/CustomerOffers'), (m) => m.PartnerOffersPage) },
     { path: '*', element: <ComingSoon /> },
@@ -176,6 +180,7 @@ export const router = createBrowserRouter([
     { path: 'classes/:classId', lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachClassPage) },
     { path: 'students/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachStudentPage) },
     { path: 'scan', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachScanPage) },
+    { path: 'rewards', lazy: page(() => import('@/features/rewards/RewardRecordPage'), (m) => m.CoachRewardsPage) },
     { path: 'queue', lazy: page(() => import('@/features/review/ReviewQueuePage'), (m) => m.ReviewQueuePage) },
     { path: 'history', lazy: page(() => import('@/features/school/SchoolPages'), (m) => m.CenterHistoryImportPage) },
     { path: 'certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
