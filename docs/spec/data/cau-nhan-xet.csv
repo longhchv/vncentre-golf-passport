@@ -1,0 +1,76 @@
+﻿thu_tu,mang,muc,nhom,level_tu,level_den,co_cho_dien_so,text_vi
+1,grip_setup,needs_work,technique,1,3,,"Con còn cần nhắc mới nhớ thứ tự ""Trái vàng – Kết nối – Phải đỏ""."
+2,grip_setup,needs_work,technique,1,3,,"Khi vào tư thế, con hay quên trùng gối nên thân người còn thẳng đứng."
+3,grip_setup,needs_work,technique,1,3,,"Con đặt tay đúng, nhưng hai tay chưa kết nối sát nhau nên gậy dễ xoay."
+4,grip_setup,on_track,technique,1,3,,"Con tự cầm gậy đúng vạch màu, không cần nhắc."
+5,grip_setup,on_track,technique,1,3,,"Con làm đủ 5 bước setup, thân tạo chữ A khá rõ."
+6,grip_setup,on_track,technique,1,3,,Con đã tự kiểm tra lại tay trước mỗi cú đánh.
+7,grip_setup,strong,technique,1,3,,"Con vào tư thế chuẩn trong cả 10 cú, và còn nhắc bạn bên cạnh làm đúng."
+8,grip_setup,strong,technique,1,3,,Setup của con đủ ổn định để buổi sau bắt đầu học hướng đánh.
+9,putting,needs_work,technique,1,3,,"Biên độ gậy của con còn dài hơn bên này, ngắn hơn bên kia, nên bóng đi không đều."
+10,putting,needs_work,technique,1,3,,"Con đánh mạnh hơn mức cần, bóng thường vượt quá đích."
+11,putting,needs_work,technique,1,3,,"Con nhìn gậy khi đánh nên đầu hơi động, đường bóng lệch."
+12,putting,on_track,technique,1,3,,"Con giữ nhịp từ 7h đến 5h khá đều, bóng vào đích nhiều hơn trước."
+13,putting,on_track,technique,1,3,,Con đã vào đích 5 cú liên tiếp từ 1 m.
+14,putting,on_track,technique,1,3,,"Con bắt đầu đọc được độ xa, ít khi đánh quá mạnh."
+15,putting,strong,technique,1,3,,"Con qua ""cổng hai cuốn sách"" 15 cú liên tiếp, đường bóng rất thẳng."
+16,putting,strong,technique,1,3,,Con dừng bóng trong vòng 30 cm quanh đích từ 3 yard — mức này đã hơn yêu cầu của level.
+17,chipping,needs_work,technique,1,3,,Gậy của con còn chạm đất trước bóng nên bóng không bay lên được.
+18,chipping,needs_work,technique,1,3,,"Chữ Y dài của con chưa tới 8h, cú đánh còn thiếu lực."
+19,chipping,needs_work,technique,1,3,,Con chip được nhưng bóng chưa đi về đúng hướng đích.
+20,chipping,on_track,technique,1,3,,Con làm đúng công thức chữ Y dài và đã dùng tốt móc áo SNAG-O-Matic.
+21,chipping,on_track,technique,1,3,,Con đưa bóng vào hộp 3 trong 10 cú từ 3 yard — đúng yêu cầu của level.
+22,chipping,on_track,technique,1,3,,Con bắt đầu tự chọn điểm rơi trước khi đánh.
+23,chipping,strong,technique,1,3,,"Con làm đổ chai nước từ 2 yard ba lần liền, lực và hướng đều tốt."
+24,chipping,strong,technique,1,3,,Con chip vào hộp từ 5 yard — xa hơn mức level yêu cầu.
+25,pitching,needs_work,technique,1,3,,"Thanh SNAG-Azoo của con chưa kêu ""zoo"", nghĩa là tốc độ gậy còn chậm."
+26,pitching,needs_work,technique,1,3,,Con lên được chữ L ở 9h nhưng kết thúc chưa tới chữ Y ở 3h.
+27,pitching,needs_work,technique,1,3,,Con mất thăng bằng khi kết thúc nên bóng đi không ổn định.
+28,pitching,on_track,technique,1,3,,"Con giữ chữ L và chữ Y rõ ràng, thanh Azoo kêu đều."
+29,pitching,on_track,technique,1,3,,Con đưa 3 trong 10 bóng vào giỏ trong 3 yard.
+30,pitching,on_track,technique,1,3,,Con giữ được tư thế kết thúc trong 8 cú trên 10.
+31,pitching,strong,technique,1,3,,"Con pitch đúng hướng trong phạm vi 10 yard rất đều, lực tay đã kiểm soát tốt."
+32,pitching,strong,technique,1,3,,Con đã làm được bài luyện hướng đánh ở mức của level trên.
+33,full_swing,needs_work,technique,1,3,,"Snapper của con chưa kêu ""snap"" ở đúng thời điểm, gậy còn chậm lại trước khi gặp bóng."
+34,full_swing,needs_work,technique,1,3,,"Con lên tới 10h nhưng chưa xuống được 2h, cú đánh còn ngắn."
+35,full_swing,needs_work,technique,1,3,,Con đánh mạnh nhưng bóng ít tiếp xúc đúng giữa mặt gậy.
+36,full_swing,on_track,technique,1,3,,Con làm đúng công thức full swing và đã hoàn thành các bài tập Snapper.
+37,full_swing,on_track,technique,1,3,,Con giữ được tư thế finish 2 giây trong 7 cú trên 10.
+38,full_swing,on_track,technique,1,3,,"Tiếp xúc bóng của con đã tốt hơn, khoảng một nửa số cú đi đúng ý."
+39,full_swing,strong,technique,1,3,,Con tiếp xúc bóng tốt hơn 50 cú trên 100 trong bài luyện — đã đạt mức của level.
+40,full_swing,strong,technique,1,3,,"Nhịp đánh của con ổn định, buổi sau mình bắt đầu tập đánh theo mục tiêu xa."
+41,,needs_work,attitude,1,20,,"Hôm nay con hơi mất tập trung, hay nói chuyện khi bạn đang đánh."
+42,,needs_work,attitude,1,20,,Con đến muộn nên mất phần khởi động cùng lớp.
+43,,needs_work,attitude,1,20,,"Con chưa quen thu dọn dụng cụ sau buổi, nay mai sẽ thành phản xạ."
+44,,needs_work,attitude,1,20,,"Khi đánh lỗi, con còn dễ bỏ cuộc. Mình sẽ tập lại từng bước nhỏ."
+45,,on_track,attitude,1,20,,Con nghe hướng dẫn và làm theo ngay.
+46,,on_track,attitude,1,20,,"Con giữ an toàn tốt, luôn đứng đúng khoảng cách khi bạn đánh."
+47,,on_track,attitude,1,20,,"Con chào hỏi và cảm ơn đúng lúc, đúng tinh thần văn hoá golf."
+48,,on_track,attitude,1,20,,Con tự thu dọn dụng cụ mà không cần nhắc.
+49,,strong,attitude,1,20,,"Con chủ động giúp bạn mới vào lớp, chỉ cho bạn cách cầm gậy."
+50,,strong,attitude,1,20,,Con tự khai điểm trung thực kể cả khi điểm không tốt — đây là điều đáng khen nhất của golf.
+51,,strong,attitude,1,20,,"Con kiên trì làm lại sau khi đánh lỗi, không bỏ giữa bài."
+52,,strong,attitude,1,20,,"Con nhắc bạn giữ an toàn — con đã hiểu ""an toàn là số 1""."
+53,,needs_work,progress,1,20,x,Tháng này con đi học {so_buoi} buổi. Con còn cần thêm thời gian ở mảng {mang_ky_nang}.
+54,,needs_work,progress,1,20,x,"Con chưa đạt thêm kỹ năng mới trong tháng, nhưng động tác {mang_ky_nang} đã rõ hơn trước."
+55,,on_track,progress,1,20,x,"Tháng này con đạt thêm {so_ky_nang} kỹ năng, đi học {so_buoi} buổi."
+56,,on_track,progress,1,20,x,Con đã xong {da_dat}/{tong} kỹ năng của Level {level}.
+57,,on_track,progress,1,20,x,"So với tháng trước, mảng {mang_ky_nang} của con tiến bộ rõ nhất."
+58,,strong,progress,1,20,x,Con đã đạt đủ kỹ năng của Level {level} và đang chờ xét lên level.
+59,,strong,progress,1,20,x,Con đi học đủ {so_buoi} buổi trong tháng và đạt thêm {so_ky_nang} kỹ năng.
+60,,strong,progress,1,20,x,Con hoàn thành khoá với {da_dat}/{tong} kỹ năng và đạt mốc thành tích {ten_moc}.
+61,grip_setup,,next_step,1,20,,"Ở nhà bố mẹ cho con cầm gậy và đọc to ""Trái vàng – Kết nối – Phải đỏ"" 5 lần trước khi ăn tối."
+62,grip_setup,,next_step,1,20,,Nhờ bố mẹ chụp một ảnh tư thế setup của con rồi so với hình trong sổ Passport.
+63,putting,,next_step,1,20,,"Lấy hai cuốn sách làm ""cổng"" rộng hơn đầu gậy một chút, cho con putt qua cổng 10 lần, cách 1 m."
+64,putting,,next_step,1,20,,"Đặt một cái cốc làm đích, cho con putt từ 1 m, đếm xem vào mấy cú trên 10."
+65,chipping,,next_step,1,20,,"Đặt một cái hộp giấy cách 2 m, cho con chip vào hộp, mỗi ngày 10 cú."
+66,chipping,,next_step,1,20,,"Cho con chip qua một cái gối để tập bóng bay lên, mỗi ngày 10 cú."
+67,pitching,,next_step,1,20,,"Cho con tập vung gậy lên chữ L rồi dừng, giữ 2 giây, làm 10 lần, chưa cần đánh bóng."
+68,pitching,,next_step,1,20,,"Nếu có thanh SNAG-Azoo, cho con tập cho thanh kêu ""zoo"" 10 lần mỗi ngày."
+69,full_swing,,next_step,1,20,,"Cho con tập giữ tư thế finish 2 giây sau mỗi cú vung, 10 lần, không cần bóng."
+70,full_swing,,next_step,1,20,,"Cho con vung gậy trước gương, nhìn chữ L ở 10h và ở 2h."
+71,,,next_step,1,20,,Mỗi ngày 10 phút là đủ. Đều quan trọng hơn nhiều.
+72,,,next_step,1,20,,Bố mẹ đếm giúp con và ghi vào sổ Passport trang luyện tập — con sẽ muốn làm tiếp.
+73,,,next_step,1,20,,"Khi con đánh lỗi, bố mẹ nói ""làm lại nhé"" thay vì ""sai rồi"" — con sẽ thử lại nhanh hơn."
+74,,,next_step,1,20,,Buổi sau con mang đủ nước và mũ giúp cô chú nhé.
+75,culture,,next_step,1,20,,Ở nhà bố mẹ cùng con nhắc lại 3 từ của văn hoá golf trước mỗi buổi học.

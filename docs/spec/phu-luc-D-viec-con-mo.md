@@ -2,7 +2,7 @@
 
 > **Quy ước đánh số:** số **D** là việc còn mở do Minh soạn trong đặc tả; số **B** là quyết định chốt khi build (mục "Quyết định chốt khi build đợt 1" ở cuối file). Hai dãy số **không bao giờ dùng chung**: không lấy số B cho việc của đặc tả, và ngược lại.
 
-Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào đây.
+Cập nhật: 23/11/2026 (gộp tài liệu đợt 2 bản 24/10/2026: các việc đợt 2 đánh số lại D70–D77 vì D58–D69 đã dùng cho spec 19–21; chốt D70–D75, D77; làm xong D74 và D26). Ghi thêm mọi câu hỏi phát sinh khi build vào đây.
 
 | # | Việc | Ảnh hưởng đợt | Ai quyết | Trạng thái |
 |---|---|---|---|---|
@@ -10,28 +10,28 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D2 | Tên chính thức của linh vật rồng; file PNG linh vật | 1 | Anh Long | File PNG đã nhận (24/09/2026) và đang dùng trong app; **chỉ còn chờ tên chính thức** |
 | D3 | Điều khoản sử dụng và Chính sách bảo mật: Minh soạn nháp, luật sư rà trước khi ra mắt | 1 (bắt buộc trước khi chạy thật) | Minh → luật sư | Chưa bắt đầu |
 | D4 | Duyệt `phu-luc-B` (nội dung, tiêu chí Đạt L1–3, các ngưỡng ĐX) | 1 (nội dung), 2 (chấm) | Anh Long, HLV trưởng | Chờ |
-| D5 | Bảng Mốc thành tích L1–3 | 2 | Minh đề xuất | Chưa bắt đầu |
-| D6 | Viết chi tiết đợt 2, 3, 4 | 2–4 | Minh | Sau khi đợt 1 chạy |
+| D5 | Bảng Mốc thành tích L1–3 | 2 | Minh đề xuất, anh Long và HLV trưởng duyệt | **Bản đề xuất xong 24/10/2026** — `phu-luc-G-moc-thanh-tich.md` + `data/moc-thanh-tich.csv`. Chờ duyệt; ngưỡng cần kiểm chứng trên lớp thật (D76) |
+| D6 | Viết chi tiết đợt 2, 3, 4 | 2–4 | Minh | **Đợt 2 xong 24/10/2026** (`03-dot-2-lop-hoc.md` v1.0). Còn đợt 3 và đợt 4 |
 | D7 | Đăng ký Zalo Business Solutions: điều kiện tài khoản OA, thời gian duyệt mẫu tin | 1 | Anh Long | Chưa bắt đầu |
 | D8 | Chọn nhà cung cấp SMS brandname, giá, thời gian đăng ký | 1 | Anh Long / Minh tra cứu | Chưa bắt đầu |
 | D9 | Đăng ký payOS cho HCHV; kiểm tra ngân hàng của HCHV có nằm trong danh sách hỗ trợ không | 1 | Anh Long | Chưa bắt đầu |
 | D10 | Chọn cổng thẻ quốc tế (Visa/Master/Amex) và phí | 4 | Minh tra cứu | Chưa bắt đầu |
 | D11 | Giá Premium | 4 | Anh Long | **Xong 21/09/2026: 299.000 đ/năm** |
 | D12 | In mã biến đổi cho sổ chính thức: báo giá nhà in, hay tiếp tục decal | 1 | Anh Long | Nhóm ① dùng decal tạm |
-| D13 | File nhận diện gốc (mã màu chuẩn, font) nếu có | 1 | Anh Long | Chờ |
+| D13 | File nhận diện gốc (mã màu chuẩn, font) nếu có. **Thêm 24/10/2026:** cần riêng logo PNG **400 × 96 px, hai bản nền sáng và nền tối**, không chứa số điện thoại hay đường dẫn — Zalo bắt buộc cho mẫu ZNS (xem `phu-luc-F` mục F13.8) | 1 | Anh Long | Chờ |
 | D14 | Tên mục trong First Passport chưa thống nhất: sơ đồ bậc thang ghi bước 2 là "SNAG Golf, văn hoá và luật golf", phần mô tả ghi "Làm chủ kỹ thuật cơ bản với SNAG Golf". App tạm dùng tên thứ hai | 1 | Anh Long | Chờ |
 | D15 | Trang BXH League hiện tại ghi "hạng kế tiếp không bị bỏ qua" nhưng hiển thị T6, T6, 8. Đã chốt dùng kiểu T6, T6, 8; cần sửa dòng chữ trên trang cũ | 3 | Anh Long | Đã chốt, chờ sửa trang cũ |
 | D16 | Số điện thoại nước ngoài nhận OTP qua email (quy tắc Minh đặt để tiết kiệm chi phí, phục vụ lớp UNIS) | 1 | Anh Long xác nhận | **Xong 24/09/2026**: đã chốt, đã làm ở Bước 6 |
-| D17 | Xác nhận quyền dùng dữ liệu liên hệ phụ huynh do nhà trường cung cấp để gửi lời mời kích hoạt | 1 | Anh Long với nhà trường | Chờ |
+| D17 | Xác nhận quyền dùng dữ liệu liên hệ phụ huynh do nhà trường cung cấp để gửi lời mời kích hoạt. **Thêm 24/10/2026:** Zalo chỉ cho gửi ZNS tới người **đã có giao dịch** với doanh nghiệp, nên văn bản hợp tác với nhà trường còn là điều kiện để mẫu ZNS-2 và ZNS-5 được duyệt và được gửi (xem `phu-luc-F` mục F13.8) | 1 | Anh Long với nhà trường | Chờ — mức gấp **tăng** |
 | D18 | Giá Premium, số mã tặng, giá điểm đổi Premium | 4 | Anh Long | **Xong 21/09/2026: chốt theo đề xuất — 299.000 đ/năm · 3 tháng/mã · 50 mã/tháng · 3.000 điểm = 1 tháng** |
 | D19 | Bản quyền: đã chốt mô hình — trò CGI và SNAG **miễn phí** cho HLV, trò VN Centre tự soạn nằm trong bản mất phí. Vẫn nên có văn bản xác nhận của R&A và SNAG cho việc dịch và số hoá lên app | 5 | Anh Long với R&A / SNAG | Mô hình đã chốt, văn bản chờ |
-| D20 | Minh soạn: ngân hàng câu hỏi lý thuyết L1–3 (dạng chọn hình), bộ bài tập tự luyện L1–3, mẫu phiếu trò chơi + 10 trò mẫu | 2, 3, 5 | Minh soạn, anh Long duyệt | Chưa bắt đầu |
+| D20 | Minh soạn: ngân hàng câu hỏi lý thuyết L1–3 (dạng chọn hình), bộ bài tập tự luyện L1–3, mẫu phiếu trò chơi + 10 trò mẫu | 2, 3, 5 | Minh soạn, anh Long duyệt | Chưa bắt đầu — **không còn chặn build đợt 2**, xem BH11 và BH-R13 |
 | D21 | Nguồn trò chơi CGI và SNAG | 5 | Anh Long | **Xong 21/09/2026: đã gửi 2 tài liệu, Minh lập chỉ mục 71 trò ở `phu-luc-E`.** Còn chờ các trò VN Centre tự sáng tạo |
 | D22 | Bộ buổi tập thể lực bổ trợ theo 3 nhóm tuổi: Minh soạn nháp → Admin hoặc HLV thể lực (HLV/đối tác VN Centre) duyệt trong trang quản trị trước khi phát cho các con | 3 | Minh soạn, Admin/HLV thể lực duyệt | Chưa bắt đầu |
 | D23 | Quay video mẫu bài tập với HLV VN Centre; chọn danh sách video YouTube công khai dùng để dẫn link | 3 | Anh Long | Chưa bắt đầu |
 | D24 | Duyệt ma trận thông báo `phu-luc-F` mục 4 — đặc biệt nhóm H (HLV) và nhóm S (học viên), vì đây là phần mới bổ sung 24/09/2026 | 1–4 | Anh Long | Chờ |
 | D25 | Chốt giờ gửi bản tin tuần cho phụ huynh (Minh đề xuất Chủ nhật 19:00) và giờ gửi lịch dạy cho HLV (đề xuất 07:00) | 2 | Anh Long | Chờ |
-| D26 | Soạn và gửi Zalo duyệt các mẫu tin: OTP, lời mời kích hoạt, mời giám hộ thứ hai, báo vắng, nhắc kích hoạt | 1–2 | Minh soạn, anh Long gửi duyệt | Chưa bắt đầu |
+| D26 | Soạn và gửi Zalo duyệt các mẫu tin: OTP, lời mời kích hoạt, mời giám hộ thứ hai, báo vắng, nhắc kích hoạt | 1–2 | Minh soạn, anh Long gửi duyệt | **Minh soạn xong 5 mẫu 24/10/2026** — `phu-luc-F` mục F13. Còn: anh Long gửi Zalo duyệt. Hai rủi ro cần biết trước ở mục F13.8 |
 | D27 | Chốt ngưỡng cảnh báo chi phí tin nhắn theo tháng | 1 | Anh Long | Chờ |
 | D28 | **Checklist xác minh HLV** và ai phụ trách việc xác minh (giấy tờ, chứng chỉ, yêu cầu riêng cho người dạy trẻ em) | 7 | Anh Long | Chưa bắt đầu |
 | D29 | **Quy chế sàn**: quyền và nghĩa vụ HLV, điều khoản gỡ hồ sơ, giới hạn trách nhiệm của VN Centre; điều khoản riêng cho HLV khi đăng ký | 7 | Minh soạn, luật sư rà | Chưa bắt đầu |
@@ -58,7 +58,7 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D56 | Hồ sơ nhân sự: font CV là Be Vietnam Pro, lấy từ gói `@fontsource/be-vietnam-pro` của repo (bản WOFF tách hai tập chữ Latin + tiếng Việt, giấy phép OFL), lưu cùng kho `certificate-assets` như font chứng nhận. Môi trường mới chạy lại `scripts/upload-cert-assets.mjs` để tải font lên | Hồ sơ nhân sự | Claude Code đề xuất | Đã làm (chặng C) |
 | D57 | Hồ sơ nhân sự: chưa có cơ chế thông báo chung (`notification_types`), nên **chưa báo chủ hồ sơ trước 60 ngày** khi chứng chỉ sắp hết hạn (S4). Chứng chỉ quá hạn đã tự không in ra CV | Hồ sơ nhân sự | Anh Long | Chờ cơ chế thông báo |
 | D54 | Hồ sơ nhân sự: gỡ khỏi `event_staff`, crew hoặc `class_staff` thì dòng tự sinh **chưa ai ghi nhận** bị xoá mềm; dòng **đã ghi nhận** (vị trí do người phụ trách điền, số giờ, kết quả, kỹ năng) được giữ. Gán lại thì dòng cũ hiện lại | Hồ sơ nhân sự | Anh Long | **Đã chốt 24/10/2026** |
-| D31 | **Thư viện câu nhận xét sau buổi** theo kỹ năng và mức độ — thứ quyết định chất lượng đợt 6 | 6 | Minh soạn, HLV trưởng duyệt | Chưa bắt đầu |
+| D31 | **Thư viện câu nhận xét sau buổi** theo kỹ năng và mức độ — thứ quyết định chất lượng đợt 2 và đợt 6 | **2**, 6 | Minh soạn, HLV trưởng duyệt | **Bản đầu xong 24/10/2026** — `phu-luc-H-cau-nhan-xet.md` (75 câu) + `data/cau-nhan-xet.csv`. Chờ HLV trưởng rà giọng văn |
 | D32 | Bộ mẫu giáo án 1-1 cho Level 1–5 | 6 | Minh soạn, anh Long duyệt | Chưa bắt đầu |
 | D33 | Quy định nội bộ về lỗi hẹn và buổi bù, để điều khoản trong app khớp điều khoản ngoài đời | 6 | Anh Long | Chưa bắt đầu |
 | D34 | Trao đổi với đội HLV hiện tại trước khi mở sàn cho HLV ngoài | 7 | Anh Long | Chưa bắt đầu |
@@ -69,6 +69,14 @@ Cập nhật: 23/09/2026. Ghi thêm mọi câu hỏi phát sinh khi build vào �
 | D61 | Spec 19 · **Ví tích điểm người lớn** là sổ riêng, không dùng `reward_ledger`. Đã chốt 09/11/2026 quy tắc học viên đủ 16 tuổi chuyển ví (bố mẹ xác nhận, 10 điểm học viên = 1 điểm người lớn, một chiều, một lần). Làm cùng ví người lớn, không thuộc module 19 | Ví người lớn | Anh Long | Đã chốt quy tắc, chờ làm |
 | D62 | Spec 19 bước 6 · **Điểm sự kiện và điểm thưởng** đang là hai ví: đổi quà ở quầy sự kiện ghi vào sổ một cặp dòng (+ điểm sự kiện, − quà), tổng 0, không đổi số dư điểm thưởng. Có gộp hẳn điểm sự kiện vào điểm thưởng không (khi đó quầy kiểm số dư sổ, quà sự kiện trừ thẳng điểm thưởng) | 3 (module 19) | Anh Long | Chờ |
 | D63 | Spec 19 · **Cơ chế treo điểm gói Free** (chu kỳ 12 tháng từ ngày kích hoạt) chưa làm vì chưa có dữ liệu gói Premium. Sổ đã sẵn `is_frozen` / `cycle_no` (hàm hệ thống được đổi hai cột này), số dư khả dụng đã trừ phần treo | Gói Premium | Anh Long | Chờ module gói |
+| D70 | **Giáo viên thể chất nhà trường được chấm kỹ năng** trong lớp của trường mình; level vẫn do HLV trưởng hoặc admin duyệt. Lý do: ở Tiểu học Phương Mai chính giáo viên nhà trường dạy theo giáo án | 2 | Anh Long | **Xong 24/10/2026: chốt theo đề xuất.** Đã ghi vào `03-dot-2-lop-hoc.md` mục 3.3 và BH7 |
+| D71 | **Tách ba loại nhận xét** để gỡ mâu thuẫn giữa mục 7 và mục 7b của `00-tong-quan.md`: nhận xét lớp theo buổi và nhận xét cá nhân **cuối khoá** luôn miễn phí; nhận xét cá nhân theo buổi và theo tháng là Premium | 2, 4 | Anh Long | **Xong 24/10/2026: chốt theo đề xuất.** Đã sửa `00-tong-quan.md` mục 7 (tách thành 3 dòng) và mục 7b (làm rõ lằn ranh nói về hạng HLV, không phải gói phụ huynh); `03` mục BH14 và quy tắc BH-R16 |
+| D72 | **Thông báo khi con bị Nhắc**: mức 1 không gửi gì; mức 2–3 chỉ gom vào bản tin tuần **P17** bằng câu chữ trung tính, không gửi thông báo đẩy. Lý do ở `03-dot-2-lop-hoc.md` mục BH9 | 2 | Anh Long | **Xong 24/10/2026: chốt theo đề xuất** |
+| D73 | **Cộng dồn số buổi** có mặt của mọi lớp cùng hướng tới một level khi xét `sessions_ok`. Em học cả GDTC chính khoá và CLB cùng hướng tới Level 2 thì được tính cả hai | 2 | Anh Long | **Xong 24/10/2026: chốt theo đề xuất.** `03` mục BH13 |
+| D74 | Thêm 4 loại thông báo mới của đợt 2 vào `phu-luc-F`: **P27** (mục Passport con tick được xác nhận), **H14** (phụ huynh báo con nghỉ), **H15** (mốc tự khai chờ xác nhận), **H16** (bài thực hành chờ chấm) | 2 | Minh soạn, anh Long duyệt | **Xong 24/10/2026.** Bản nháp đầu đánh số **P18** — **trùng P18 đã có từ đợt 3**; đã sửa thành **P27** trước khi ghi vào phụ lục F. Đây đúng là lỗi quy tắc 11 mà README cảnh báo |
+| D75 | **Danh mục 15 tiêu chí ứng xử** ở `03-dot-2-lop-hoc.md` mục BH9 (8 Khen, 7 Nhắc) | 2 | Anh Long, HLV trưởng | **Xong 24/10/2026: anh Long duyệt nguyên bản.** Admin vẫn chỉnh được, không cần sửa code |
+| D76 | **Ngưỡng Đạt dạng số đo** trong `phu-luc-B` và mốc thành tích trong `phu-luc-G` chưa ai kiểm chứng trên lớp thật. Cho một lớp CLB và một lớp GDTC chạy thử một tháng rồi chốt | 2 | Anh Long, HLV trưởng | **Anh Long sẽ thử sau (24/10/2026).** Trong lúc chờ, app dùng số hiện có; admin chỉnh được nên không chặn build và không chặn chạy thật |
+| D77 | Mẫu tin **Zalo báo vắng** (P10) — gắn với **D26** | 2 | Minh soạn, anh Long gửi duyệt | **Xong 24/10/2026: anh Long đồng ý.** Mẫu ở `phu-luc-F` mục **F13.6** |
 
 ## Quyết định chốt khi build đợt 1
 
