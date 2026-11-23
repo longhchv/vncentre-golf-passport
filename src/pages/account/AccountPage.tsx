@@ -3,6 +3,7 @@ import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { CheckCircle2, AlertCircle, ChevronRight, IdCard, LogOut } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { getTheme, setTheme, THEMES, type Theme } from '@/lib/theme'
 import { useAuth } from '@/auth/AuthProvider'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { Button } from '@/components/ui/button'
@@ -51,6 +52,8 @@ export function AccountPage() {
           ))}
         </div>
       </Card>
+
+      <ThemeCard />
 
       <PhoneCard current={user.phone ? `+${user.phone}` : null} verified={Boolean(user.phone_confirmed_at)} />
       <EmailCard current={user.email ?? null} verified={Boolean(user.email_confirmed_at)} />
@@ -324,6 +327,28 @@ function PasswordCard() {
           {t('common.save')}
         </Button>
       </form>
+    </Card>
+  )
+}
+
+/** Giao diện màu: VN Centre (mặc định) hoặc Golf Passport. Lưu trên máy này. */
+function ThemeCard() {
+  const { t } = useTranslation()
+  const [theme, setThemeState] = useState<Theme>(getTheme)
+  return (
+    <Card className="space-y-3 p-4">
+      <h2 className="font-bold">{t('account.theme.title')}</h2>
+      <div className="grid grid-cols-2 gap-2">
+        {THEMES.map((k) => (
+          <Button key={k} variant={theme === k ? 'primary' : 'outline'} aria-pressed={theme === k} onClick={() => { setTheme(k); setThemeState(k) }}>
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden className="h-4 w-4 rounded-full border border-black/10" style={{ background: k === 'vnc' ? 'linear-gradient(135deg,#3a1f0c 50%,#f1ab50 50%)' : 'linear-gradient(135deg,#080634 50%,#f9c74f 50%)' }} />
+              {t(`account.theme.${k}`)}
+            </span>
+          </Button>
+        ))}
+      </div>
+      <p className="text-sm text-navy/60">{t('account.theme.note')}</p>
     </Card>
   )
 }

@@ -19,7 +19,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.png'],
       manifest: {
         name: 'VN Centre Golf Passport',
         short_name: 'Golf Passport',

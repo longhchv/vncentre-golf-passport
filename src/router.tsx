@@ -43,6 +43,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   // Spec 19: ghi điểm thưởng, sổ điểm, nguồn điểm
   { to: '/admin/rewards', labelKey: 'admin.nav.rewards', lazy: page(() => import('@/features/rewards/RewardRecordPage'), (m) => m.AdminRewardsPage) },
   { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
+  // Spec 23: Tập luyện — tổng quan, giáo án, chuẩn thống kê
+  { to: '/admin/training', labelKey: 'training.title', lazy: page(() => import('@/features/training/TrainingAdmin'), (m) => m.TrainingAdminPage) },
   { to: '/admin/scholarship', labelKey: 'admin.nav.scholarship', lazy: page(() => import('@/features/admin/ScholarshipItemsPage'), (m) => m.ScholarshipItemsPage) },
   { to: '/admin/grades', labelKey: 'admin.nav.grades', lazy: page(() => import('@/features/admin/GradesAdminPage'), (m) => m.GradesAdminPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
@@ -76,6 +78,8 @@ const PARENT_NAV: NavItem[] = [
   { to: '/app', labelKey: 'parent.nav.home', end: true },
   { to: '/app/notifications', labelKey: 'parent.nav.notifications' },
   { to: '/app/partners', labelKey: 'partners.offers.nav' },
+  // Spec 23: Tập luyện (người lớn), chỉ hiện khi training_enabled()
+  { to: '/app/training', labelKey: 'training.title', requireFeature: 'training' },
   { to: '/account', labelKey: 'account.title' },
 ]
 
@@ -92,7 +96,11 @@ const PARTNER_NAV: NavItem[] = [{ to: '/partner', labelKey: 'partners.counter.na
 const EVENT_NAV: NavItem[] = [{ to: '/event', labelKey: 'counter.myEvents', end: true }]
 
 // Học viên (F7): chỉ xem hồ sơ của mình
-const STUDENT_NAV: NavItem[] = [{ to: '/me', labelKey: 'studentAccount.myProfile', end: true }]
+const STUDENT_NAV: NavItem[] = [
+  { to: '/me', labelKey: 'studentAccount.myProfile', end: true },
+  // Spec 24: thẻ thử thách, bài về nhà (xem mọi tuổi, tự nhập từ 11 tuổi)
+  { to: '/me/training', labelKey: 'training.title', requireFeature: 'training' },
+]
 
 const comingSoon: RouteObject[] = [{ index: true, element: <ComingSoon /> }, { path: '*', element: <ComingSoon /> }]
 
@@ -154,6 +162,17 @@ export const router = createBrowserRouter([
     { path: 'children/:studentId/gifts', lazy: page(() => import('@/features/rewards/GiftPages'), (m) => m.GiftShopPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: 'partners', lazy: page(() => import('@/features/partners/CustomerOffers'), (m) => m.PartnerOffersPage) },
+    { path: 'training', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingHomePage) },
+    { path: 'training/goal', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingGoalPage) },
+    { path: 'training/test', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingTestPage) },
+    { path: 'training/session', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingSessionPage) },
+    { path: 'training/plan', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingPlanPage) },
+    { path: 'training/rounds', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingRoundsPage) },
+    { path: 'training/clubs', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingClubsPage) },
+    // Spec 24: tập luyện của các con, thẻ thử thách, thư viện bài tập
+    { path: 'training/kid/:studentId', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.ParentKidTrainingPage) },
+    { path: 'training/kid/:studentId/c/:challengeId', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.ParentKidChallengePage) },
+    { path: 'training/library', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.ParentLibraryPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
   workspaceRoute('event', '/event', EVENT_NAV, [
@@ -173,11 +192,15 @@ export const router = createBrowserRouter([
   ]),
   workspaceRoute('student', '/me', STUDENT_NAV, [
     { index: true, lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.StudentMePage) },
+    { path: 'training', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.StudentTrainingPage) },
+    { path: 'training/c/:challengeId', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.StudentChallengePage) },
+    { path: 'training/library', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.StudentLibraryPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
   workspaceRoute('coach', '/coach', COACH_NAV, [
     { index: true, lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachHomePage) },
     { path: 'classes/:classId', lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachClassPage) },
+    { path: 'classes/:classId/training', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.CoachClassTrainingPage) },
     { path: 'students/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachStudentPage) },
     { path: 'scan', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.CoachScanPage) },
     { path: 'rewards', lazy: page(() => import('@/features/rewards/RewardRecordPage'), (m) => m.CoachRewardsPage) },
