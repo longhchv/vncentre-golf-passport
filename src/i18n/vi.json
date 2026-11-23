@@ -2961,6 +2961,80 @@
         "sw": "Sand wedge",
         "lw": "Lob wedge"
       }
+    },
+    "admin": {
+      "tab": {
+        "overview": "Tổng quan",
+        "programs": "Chương trình",
+        "plans": "Giáo án",
+        "benchmarks": "Chuẩn thống kê"
+      },
+      "ov": {
+        "profiles_self_created": "Hồ sơ tự tạo",
+        "profiles_pending": "Hồ sơ chờ xác minh",
+        "active_goals": "Mục tiêu đang chạy",
+        "completed_goals": "Mục tiêu đã xong",
+        "sessions_7d": "Buổi tập 7 ngày",
+        "sessions_30d": "Buổi tập 30 ngày",
+        "active_users_7d": "Người tập 7 ngày",
+        "rounds_30d": "Vòng đấu 30 ngày"
+      },
+      "pendingHint": "Hồ sơ tự tạo chờ xác minh nằm ở",
+      "settingsHint": "Các thông số training.* (bật/tắt, thời lượng, bài test) sửa ở",
+      "program": "Chương trình",
+      "hcpRange": "Handicap mục tiêu",
+      "weeks": "Tuần × ngày",
+      "hcpMin": "Handicap mục tiêu từ",
+      "hcpMax": "Handicap mục tiêu đến",
+      "hcpHint": "App tự chọn chương trình theo khoảng này. Để trống là không giới hạn.",
+      "summaryVi": "Mô tả (tiếng Việt)",
+      "summaryEn": "Mô tả (tiếng Anh)",
+      "week": "Tuần",
+      "weekN": "Tuần {{n}}",
+      "day": "Buổi",
+      "dayShared": "Dùng chung cả 3 ngày",
+      "dayN": "Riêng ngày {{n}}",
+      "planHint": "Sửa câu chữ, số phút, thứ tự dòng thì áp dụng ngay cho người đang tập; tiến độ của họ được giữ theo tỉ lệ đã làm. Phần đã có người tập thì không xoá được.",
+      "sessionTotal": "{{n}} phần, tổng {{mins}} phút",
+      "blockN": "Phần {{n}}",
+      "moveUp": "Lên",
+      "moveDown": "Xuống",
+      "addBlock": "Thêm phần sau",
+      "deleteBlock": "Xoá phần",
+      "area": "Kỹ năng",
+      "minutes": "Số phút",
+      "enOptional": "Tiếng Anh (không bắt buộc)",
+      "deleteLine": "Xoá dòng",
+      "addLine": "Thêm dòng",
+      "unsaved": "Chưa lưu",
+      "line": {
+        "p": "Đoạn văn",
+        "o": "Mục tiêu",
+        "h": "Tiêu đề bài",
+        "b": "Bài tập",
+        "s": "Bài tập con",
+        "d": "Bài đánh số"
+      },
+      "benchHint": "Chuẩn dùng để so vòng đấu với handicap mục tiêu. Bậc thang: lấy mốc đầu tiên lớn hơn hoặc bằng handicap. Nội suy: tính giữa hai mốc.",
+      "stat": {
+        "fir_pct": "Tỉ lệ vào fairway (%)",
+        "gir_pct": "Tỉ lệ lên green đúng chuẩn (%)",
+        "scramble_pct": "Tỉ lệ up & down (%)",
+        "putts_per_18": "Số putt mỗi 18 hố",
+        "three_putt_pct": "Tỉ lệ hố 3 putt (%)"
+      },
+      "mode": {
+        "step": "Bậc thang",
+        "linear": "Nội suy"
+      },
+      "hcpCol": "Handicap",
+      "valueCol": "Giá trị",
+      "addRow": "Thêm mốc",
+      "deleteRow": "Xoá mốc",
+      "err": {
+        "block_in_use": "Phần này đã có người tập nên không xoá được. Có thể sửa nội dung thay vì xoá.",
+        "last_block": "Buổi phải còn ít nhất một phần."
+      }
     }
   }
 }

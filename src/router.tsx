@@ -41,6 +41,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
   { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
+  // Spec 23: Tập luyện — tổng quan, giáo án, chuẩn thống kê
+  { to: '/admin/training', labelKey: 'training.title', lazy: page(() => import('@/features/training/TrainingAdmin'), (m) => m.TrainingAdminPage) },
   { to: '/admin/scholarship', labelKey: 'admin.nav.scholarship', lazy: page(() => import('@/features/admin/ScholarshipItemsPage'), (m) => m.ScholarshipItemsPage) },
   { to: '/admin/grades', labelKey: 'admin.nav.grades', lazy: page(() => import('@/features/admin/GradesAdminPage'), (m) => m.GradesAdminPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },

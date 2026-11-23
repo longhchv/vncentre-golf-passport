@@ -2961,6 +2961,80 @@
         "sw": "Sand wedge",
         "lw": "Lob wedge"
       }
+    },
+    "admin": {
+      "tab": {
+        "overview": "Overview",
+        "programs": "Programmes",
+        "plans": "Plans",
+        "benchmarks": "Benchmarks"
+      },
+      "ov": {
+        "profiles_self_created": "Self-created profiles",
+        "profiles_pending": "Profiles awaiting verification",
+        "active_goals": "Active goals",
+        "completed_goals": "Completed goals",
+        "sessions_7d": "Sessions, 7 days",
+        "sessions_30d": "Sessions, 30 days",
+        "active_users_7d": "Active users, 7 days",
+        "rounds_30d": "Rounds, 30 days"
+      },
+      "pendingHint": "Self-created profiles awaiting verification are in",
+      "settingsHint": "training.* parameters (visibility, session lengths, test) are edited in",
+      "program": "Programme",
+      "hcpRange": "Target handicap",
+      "weeks": "Weeks × days",
+      "hcpMin": "Target handicap from",
+      "hcpMax": "Target handicap to",
+      "hcpHint": "The app picks a programme by this range. Leave empty for no limit.",
+      "summaryVi": "Description (Vietnamese)",
+      "summaryEn": "Description (English)",
+      "week": "Week",
+      "weekN": "Week {{n}}",
+      "day": "Session",
+      "dayShared": "Shared by all 3 days",
+      "dayN": "Day {{n}} only",
+      "planHint": "Changes to wording, minutes or line order apply immediately to people training; their progress is kept proportionally. Parts someone has trained cannot be deleted.",
+      "sessionTotal": "{{n}} parts, {{mins}} minutes in total",
+      "blockN": "Part {{n}}",
+      "moveUp": "Up",
+      "moveDown": "Down",
+      "addBlock": "Add part after",
+      "deleteBlock": "Delete part",
+      "area": "Skill",
+      "minutes": "Minutes",
+      "enOptional": "English (optional)",
+      "deleteLine": "Delete line",
+      "addLine": "Add line",
+      "unsaved": "Unsaved",
+      "line": {
+        "p": "Paragraph",
+        "o": "Objective",
+        "h": "Drill heading",
+        "b": "Drill",
+        "s": "Sub-drill",
+        "d": "Numbered drill"
+      },
+      "benchHint": "Benchmarks compare rounds with the target handicap. Step: use the first point at or above the handicap. Linear: interpolate between points.",
+      "stat": {
+        "fir_pct": "Fairways hit (%)",
+        "gir_pct": "Greens in regulation (%)",
+        "scramble_pct": "Up & down (%)",
+        "putts_per_18": "Putts per 18 holes",
+        "three_putt_pct": "Three-putt holes (%)"
+      },
+      "mode": {
+        "step": "Step",
+        "linear": "Linear"
+      },
+      "hcpCol": "Handicap",
+      "valueCol": "Value",
+      "addRow": "Add point",
+      "deleteRow": "Delete point",
+      "err": {
+        "block_in_use": "Someone has trained this part, so it can't be deleted. Edit its content instead.",
+        "last_block": "A session needs at least one part."
+      }
     }
   }
 }
