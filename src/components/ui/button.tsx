@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Nút chính: vàng đồng → vàng sáng (00 mục 10)
-        primary: 'bg-linear-to-r from-bronze to-gold text-navy shadow-sm hover:brightness-105 active:brightness-95',
+        primary: 'btn-primary bg-linear-to-r from-bronze to-gold text-navy shadow-sm hover:brightness-105 active:brightness-95',
         outline: 'border-2 border-navy/20 bg-white text-navy hover:bg-navy/5',
         ghost: 'text-navy hover:bg-navy/5',
       },

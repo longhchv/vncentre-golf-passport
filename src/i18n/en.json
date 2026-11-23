@@ -725,7 +725,13 @@
     "changePassword": "Change password",
     "passwordChanged": "Password changed",
     "consentsOrders": "Consents, orders and invoices",
-    "consents": "Manage consents"
+    "consents": "Manage consents",
+    "theme": {
+      "title": "Colour theme",
+      "vnc": "VN Centre",
+      "passport": "Golf Passport",
+      "note": "VN Centre colours are the default. Your choice is saved on this device."
+    }
   },
   "parent": {
     "hello": "Hello,",
