@@ -131,7 +131,11 @@ export function OrderPage() {
           <CheckCircle2 className="h-12 w-12 text-emerald-600" />
           <p className="text-xl font-bold text-emerald-700">{t('orders.paidTitle')}</p>
           {o.paid_at && <p className="text-sm text-navy/60">{formatDateTime(o.paid_at, i18n.language)}</p>}
-          <p className="text-navy/70">{o.new_passport_code ? t('orders.newPassportIssued', { code: formatCode(o.new_passport_code) }) : t('orders.waitingNewPassport')}</p>
+          {o.related_passport_id ? (
+            <p className="text-navy/70">{o.new_passport_code ? t('orders.newPassportIssued', { code: formatCode(o.new_passport_code) }) : t('orders.waitingNewPassport')}</p>
+          ) : (
+            <p className="text-navy/70">{t('rewards.gifts.shipPaid')}</p>
+          )}
         </Card>
       )}
       {o.status === 'expired' && (
