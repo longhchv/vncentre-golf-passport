@@ -41,6 +41,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
   { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
+  // Spec 23: Tập luyện — tổng quan, giáo án, chuẩn thống kê
+  { to: '/admin/training', labelKey: 'training.title', lazy: page(() => import('@/features/training/TrainingAdmin'), (m) => m.TrainingAdminPage) },
   { to: '/admin/scholarship', labelKey: 'admin.nav.scholarship', lazy: page(() => import('@/features/admin/ScholarshipItemsPage'), (m) => m.ScholarshipItemsPage) },
   { to: '/admin/grades', labelKey: 'admin.nav.grades', lazy: page(() => import('@/features/admin/GradesAdminPage'), (m) => m.GradesAdminPage) },
   { to: '/admin/certificates', labelKey: 'admin.nav.certificates', lazy: page(() => import('@/features/certificates/CertificatesPage'), (m) => m.CertificatesPage) },
@@ -73,6 +75,8 @@ const PARENT_NAV: NavItem[] = [
   { to: '/app', labelKey: 'parent.nav.home', end: true },
   { to: '/app/notifications', labelKey: 'parent.nav.notifications' },
   { to: '/app/partners', labelKey: 'partners.offers.nav' },
+  // Spec 23: Tập luyện (người lớn), chỉ hiện khi training_enabled()
+  { to: '/app/training', labelKey: 'training.title', requireFeature: 'training' },
   { to: '/account', labelKey: 'account.title' },
 ]
 
@@ -150,6 +154,13 @@ export const router = createBrowserRouter([
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: 'partners', lazy: page(() => import('@/features/partners/CustomerOffers'), (m) => m.PartnerOffersPage) },
+    { path: 'training', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingHomePage) },
+    { path: 'training/goal', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingGoalPage) },
+    { path: 'training/test', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingTestPage) },
+    { path: 'training/session', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingSessionPage) },
+    { path: 'training/plan', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingPlanPage) },
+    { path: 'training/rounds', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingRoundsPage) },
+    { path: 'training/clubs', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingClubsPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
   workspaceRoute('event', '/event', EVENT_NAV, [

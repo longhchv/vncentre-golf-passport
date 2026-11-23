@@ -7,6 +7,7 @@ import { useAuth, type Workspace } from '@/auth/AuthProvider'
 import type { Role } from '@/lib/types'
 import { Dialog } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
+import { useTrainingEnabled } from '@/features/training/api'
 
 export interface NavItem {
   to: string
@@ -14,6 +15,8 @@ export interface NavItem {
   end?: boolean
   /** Chỉ hiện khi tài khoản có vai trò này (ví dụ HLV trưởng) */
   requireRole?: Role
+  /** Chỉ hiện khi tính năng được bật cho tài khoản (spec 23: Tập luyện) */
+  requireFeature?: 'training'
 }
 
 /** Khung chung cho các không gian sau đăng nhập; có menu điều hướng khi truyền `nav`. */
@@ -21,10 +24,12 @@ export function WorkspaceLayout({ workspace, nav }: { workspace: Workspace; nav?
   const { t } = useTranslation()
   const { profile, workspaces, signOut, hasRole } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+  const training = useTrainingEnabled()
+  const featureOn = (f?: 'training') => !f || (f === 'training' && training.data === true)
 
   const navList = nav && (
     <nav className="flex flex-col gap-1" onClick={() => setMenuOpen(false)}>
-      {nav.filter((item) => !item.requireRole || hasRole(item.requireRole)).map((item) => (
+      {nav.filter((item) => (!item.requireRole || hasRole(item.requireRole)) && featureOn(item.requireFeature)).map((item) => (
         <NavLink
           key={item.to}
           to={item.to}
