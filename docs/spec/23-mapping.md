@@ -4,7 +4,9 @@ Bản 1 · 23/11/2026 · Người soạn: Minh · Đọc kèm: `23-module-tap-lu
 
 **Nguồn đối chiếu:** 61 migration trong `supabase/migrations` và code `src` ở commit `6f4fe6a` (main, 10/11/2026). Em **chưa đọc trực tiếp** cơ sở dữ liệu staging vì phiên làm việc không có khoá Supabase. Trước khi chạy migration phải so lại danh sách migration đã áp dụng trên staging (`supabase migration list`) với repo; nếu staging có thay đổi ngoài repo thì dừng lại báo anh.
 
-**Trạng thái: anh Long đã xác nhận 23/11/2026 (cách B). Migration `20261123000001_training_s1.sql` đã viết, chưa áp dụng lên staging.**
+**Trạng thái: anh Long đã xác nhận 23/11/2026 (cách B). Migration `20261123000001_training_s1.sql` đã áp dụng lên staging 23/11/2026 qua SQL Editor (một giao dịch, có ghi vào `supabase_migrations.schema_migrations`); kiểm thử `050_training_s1.sql` đạt trên staging.**
+
+**Lưu ý thứ tự:** staging đã có 6 migration điểm thưởng `20261110000001`–`20261111000001` của PR #14 (chưa vào `main`). Migration này không đụng các bảng đó; đã chạy thử cả hai cùng nhau. Bài kiểm thử đổi số thành `050` vì PR #14 dùng `044`–`049`.
 
 ---
 
@@ -25,7 +27,7 @@ Bản 1 · 23/11/2026 · Người soạn: Minh · Đọc kèm: `23-module-tap-lu
 | `notifications` (cột `type` là text tự do) | Nhắc tập trong app | Không cần sửa ràng buộc |
 | pg_cron (đã dùng ở `promote-grades`) | Chạy nhắc tập mỗi sáng | Lịch `0 23 * * *` theo UTC = 6 giờ sáng giờ Việt Nam |
 | Workspace `parent` ở `/app` | Đặt màn Tập luyện tại `/app/training` | Người lớn tự quản hồ sơ đang dùng workspace này |
-| `supabase/tests` (đánh số 000–043) | Bài kiểm thử cơ sở dữ liệu | Thêm `044_training_s1.sql` |
+| `supabase/tests` (đánh số 000–043) | Bài kiểm thử cơ sở dữ liệu | Thêm `050_training_s1.sql` |
 
 ## 2. Thêm mới
 
@@ -75,6 +77,6 @@ Hàm `training_create_self_profile(họ tên, ngày sinh, giới tính)`:
 
 ## 5. Thứ tự làm sau khi anh xác nhận
 
-1. Migration `20261123000001_training_s1.sql`: bảng, RLS, hàm, cấu hình, nạp giáo án. Kiểm thử `044_training_s1.sql`. Mở PR để anh xem.
+1. Migration `20261123000001_training_s1.sql`: bảng, RLS, hàm, cấu hình, nạp giáo án. Kiểm thử `050_training_s1.sql`. Mở PR để anh xem.
 2. Áp dụng trên staging sau khi anh đồng ý.
 3. Màn hình người tập, rồi màn hình admin, rồi nhắc tập; mỗi phần một PR.
