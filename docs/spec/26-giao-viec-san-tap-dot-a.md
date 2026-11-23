@@ -3,6 +3,8 @@
 Bản 1 · 24/11/2026 · Người soạn: Minh · Chủ sản phẩm duyệt: Vũ Anh Long
 Đọc kèm: `25-module-san-tap-phong-3d.md` (đặc tả đã duyệt 24/11/2026), `01-du-lieu.md` mục 13, `khu-quan-tri-san.md` (mẫu khu admin), bản thử giao diện "Quản trị sân tập – Golf Passport (bản thử)" (artboard Admin).
 
+**Trạng thái 24/11/2026 (anh Long giao Minh tự làm):** Minh đã code xong khu admin A1, A2, A3, A8, A9 trên nhánh `minh/san-tap-dot-a` (`src/features/venues/`, route `/admin/venues…`, i18n vi/en); `tsc`, 136 test, `vite build` đều qua; đã chạy thử giao diện với Supabase giả lập. Trang web tapgolf đã đọc được dữ liệu sống (thử với dữ liệu giả lập; không kết nối được thì dùng bản nhúng). **Còn lại cho anh Long:** chạy migration + nạp dữ liệu trên staging rồi production, phát hành app, gửi Minh khoá `anon` để bật dữ liệu sống trên web, tạo dự án Cloudflare Pages `tapgolf.vncentre.net`.
+
 ## 0. Kết quả của đợt A
 
 Admin đăng nhập Golf Passport → mục **Sân tập & phòng 3D** → sửa một địa điểm → trang **tapgolf.vncentre.net** hiện thông tin mới ngay khi tải lại; mọi lần sửa có lịch sử và khôi phục được.

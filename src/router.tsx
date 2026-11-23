@@ -38,6 +38,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/staff-queue', labelKey: 'admin.nav.staffQueue', lazy: page(() => import('@/features/staff/StaffAdmin'), (m) => m.StaffQueuePage) },
   { to: '/admin/passports', labelKey: 'admin.nav.passports', lazy: page(() => import('@/features/passports/PassportsPage'), (m) => m.PassportsPage) },
   { to: '/admin/courses', labelKey: 'admin.nav.courses', lazy: page(() => import('@/features/courses/CoursesPage'), (m) => m.CoursesPage) },
+  // Spec 25/26: sân tập & phòng golf 3D (tapgolf.vncentre.net)
+  { to: '/admin/venues', labelKey: 'admin.nav.venues', lazy: page(() => import('@/features/venues/VenuesPage'), (m) => m.VenuesPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
   // Spec 19: ghi điểm thưởng, sổ điểm, nguồn điểm
@@ -240,6 +242,10 @@ export const router = createBrowserRouter([
         { path: 'publish', element: <ComingSoon /> },
       ],
     },
+    // Spec 26: brands, import trước :id để không bị hiểu là mã địa điểm
+    { path: 'venues/brands', lazy: page(() => import('@/features/venues/BrandsPage'), (m) => m.BrandsPage) },
+    { path: 'venues/import', lazy: page(() => import('@/features/venues/ImportPage'), (m) => m.ImportPage) },
+    { path: 'venues/:id', lazy: page(() => import('@/features/venues/VenueEditPage'), (m) => m.VenueEditPage) },
     { path: 'passports/:batchId', lazy: page(() => import('@/features/passports/BatchDetailPage'), (m) => m.BatchDetailPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
