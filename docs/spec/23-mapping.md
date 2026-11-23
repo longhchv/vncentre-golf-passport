@@ -4,7 +4,7 @@ Bản 1 · 23/11/2026 · Người soạn: Minh · Đọc kèm: `23-module-tap-lu
 
 **Nguồn đối chiếu:** 61 migration trong `supabase/migrations` và code `src` ở commit `6f4fe6a` (main, 10/11/2026). Em **chưa đọc trực tiếp** cơ sở dữ liệu staging vì phiên làm việc không có khoá Supabase. Trước khi chạy migration phải so lại danh sách migration đã áp dụng trên staging (`supabase migration list`) với repo; nếu staging có thay đổi ngoài repo thì dừng lại báo anh.
 
-**Trạng thái: chờ anh Long xác nhận. Chưa viết migration.**
+**Trạng thái: anh Long đã xác nhận 23/11/2026 (cách B). Migration `20261123000001_training_s1.sql` đã viết, chưa áp dụng lên staging.**
 
 ---
 
@@ -37,6 +37,9 @@ Bản 1 · 23/11/2026 · Người soạn: Minh · Đọc kèm: `23-module-tap-lu
 |---|---|
 | `training_enabled()` | Đúng khi là admin, hoặc `training.visibility = 'all'`, hoặc `beta` và `auth.uid()` có trong `training.beta_user_ids`. Security definer, vì danh sách người thử để `is_public = false` |
 | `training_self_student()` | Trả về `student_id` của hồ sơ `self` đang hoạt động của người dùng; không có thì trả về trống |
+| `training_can_manage(student_id)` | Admin, hoặc người được bật tập luyện và quản lý được hồ sơ |
+| `training_create_self_profile(...)` | Tự tạo hồ sơ golfer (mục 4) |
+| `training_session_for(...)`, `training_benchmark(...)` | Tìm buổi giáo án của tuần/ngày; tính chuẩn thống kê |
 | `training_start_goal(...)` | Tạo mục tiêu mới, chuyển mục tiêu đang chạy (nếu có) sang `replaced`, đặt con trỏ về tuần 1 |
 | `training_save_session(...)` | Ghi buổi tập, ghi từng phần, dời con trỏ, chuyển `completed` khi hết giáo án. App không được sửa con trỏ trực tiếp |
 | `training_send_reminders()` | pg_cron gọi mỗi sáng, ghi vào `notifications` |
@@ -53,12 +56,22 @@ Bản 1 · 23/11/2026 · Người soạn: Minh · Đọc kèm: `23-module-tap-lu
 2. **Người dùng chưa tắt riêng từng loại nhắc được** vì chưa có `notification_preferences`. Thay bằng một công tắc "Nhắc tập" trên màn Kế hoạch tuần, lưu ở cột mới `training_goals.reminders_on` (mặc định bật).
 3. **Không đụng sổ điểm.** `reward_ledger` hiện chỉ cho học viên và chỉ nhận 3 lý do; đợt 1 không ghi gì vào đó, đúng thiết kế.
 
-## 4. Cần anh quyết
+## 4. Đã quyết: cách B — người dùng tự tạo hồ sơ golfer (anh Long chốt 23/11/2026)
 
-**Người lớn chưa có hồ sơ của chính mình thì sao?** Hiện hồ sơ `self` chỉ được tạo khi người lớn đăng ký thẻ trải nghiệm sự kiện, được nhập làm nhân sự, hoặc admin tạo. Tài khoản phụ huynh thông thường chưa có hồ sơ của chính mình. Hai cách:
+Hàm `training_create_self_profile(họ tên, ngày sinh, giới tính)`:
+- Chỉ gọi được khi `training_enabled()`; phải từ `training.min_age` tuổi.
+- Đã có hồ sơ `self` thì trả lại hồ sơ đó, không tạo thêm.
+- **Luôn tạo hồ sơ mới** với `verification_status = 'pending_review'` và nối `self` (`linked_via = 'training'`, giá trị mới thêm vào ràng buộc). **Không tự nối** vào hồ sơ có sẵn dù trùng tên và ngày sinh, để không ai nhận nhầm hồ sơ của người khác.
+- Số hồ sơ trùng tên chuẩn hoá + ngày sinh ghi vào `self_reported.match_count`. Hồ sơ này hiện ở hàng chờ duyệt hiện có của admin, kèm danh sách ứng viên trùng, để admin xác minh hoặc gộp bằng công cụ gộp sẵn có.
+- Người dùng tập được ngay, không phải chờ duyệt.
+- Gộp hồ sơ: trigger `training_follow_student_merge` chuyển toàn bộ dữ liệu tập sang hồ sơ giữ lại; bỏ gộp thì trả về (cùng cách `grade_history_follow_student_merge`). Nếu hồ sơ giữ lại đã có mục tiêu đang chạy, mục tiêu của hồ sơ bị gộp chuyển `replaced`.
 
-- **Cách A (em đề xuất cho đợt 1):** admin tạo hoặc gắn hồ sơ `self` cho từng người thử khi thêm họ vào danh sách thử. Không thêm luồng mới, ít rủi ro tạo trùng hồ sơ.
-- **Cách B:** thêm nút "Tạo hồ sơ golfer của tôi" ngay trong mục Tập luyện, tự sinh mã VNC. Tiện hơn khi mở rộng, nhưng phải làm thêm phần dò trùng (người đó có thể đã có hồ sơ từ sự kiện hoặc giải) nên để đợt sau.
+## 4b. Chỉnh nhỏ so với bản thiết kế khi viết migration
+
+- `club_distances` giữ **mọi lần đo** (không duy nhất theo gậy); số đang dùng là lần đo mới nhất. Bỏ ghi `audit_logs` cho việc này.
+- `training_stat_benchmarks` lưu theo mốc (`hcp`, `value`) với `mode` = `step` (bậc thang) hoặc `linear` (nội suy). Hàm `training_benchmark(stat, hcp)` trả giá trị chuẩn.
+- Người tập chỉ sửa trực tiếp được 5 cột lịch của mục tiêu: `schedule_mode`, `days_of_week`, `session_minutes`, `reminders_on`, `weak_area`. Đổi chương trình phải tạo mục tiêu mới.
+- Thêm cột `merge_trail` cho các bảng theo học viên để bỏ gộp được.
 
 ## 5. Thứ tự làm sau khi anh xác nhận
 

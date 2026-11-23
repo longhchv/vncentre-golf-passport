@@ -3,7 +3,7 @@
 Bản 1 · 23/11/2026 · Người yêu cầu: Vũ Anh Long · Người soạn: Minh
 Đọc kèm: bản thử "Tập luyện – Golf Passport (bản thử)", file dữ liệu `docs/spec/data/break-90-80-70.json` (40 giáo án, đã việt hoá), `01-du-lieu.md` (quy ước chung), `19-module-diem-thuong-doi-qua.md` (sổ điểm thưởng).
 
-**Trạng thái: bản thiết kế chờ anh Long duyệt. Chưa có migration, chưa sửa code.**
+**Trạng thái: anh Long duyệt 23/11/2026. Các chỉnh nhỏ khi viết migration ghi ở `23-mapping.md` mục 4, 4b.**
 
 ---
 
