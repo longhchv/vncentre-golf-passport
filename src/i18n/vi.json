@@ -725,7 +725,13 @@
     "changePassword": "Đổi mật khẩu",
     "passwordChanged": "Đã đổi mật khẩu",
     "consentsOrders": "Quản lý đồng ý, đơn hàng và hoá đơn",
-    "consents": "Quản lý đồng ý"
+    "consents": "Quản lý đồng ý",
+    "theme": {
+      "title": "Màu giao diện",
+      "vnc": "VN Centre",
+      "passport": "Golf Passport",
+      "note": "Mặc định là màu VN Centre. Lựa chọn được lưu trên máy này."
+    }
   },
   "parent": {
     "hello": "Xin chào,",
