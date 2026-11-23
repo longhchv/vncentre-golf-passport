@@ -19,7 +19,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.png'],
       manifest: {
         name: 'VN Centre Golf Passport',
         short_name: 'Golf Passport',
@@ -29,8 +29,8 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         orientation: 'portrait',
-        theme_color: '#3a1f0c',
-        background_color: '#3a1f0c',
+        theme_color: '#080634',
+        background_color: '#080634',
         icons: [
           { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
           { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
