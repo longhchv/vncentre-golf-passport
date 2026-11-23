@@ -42,6 +42,34 @@ export interface LeagueProfile {
   certificates: { verify_code: string; title_vi: string | null; title_en: string | null; issued_at: string }[] | null
 }
 
+export interface SnagHandicapRound {
+  stage_no: number
+  played_on: string
+  group: string | null
+  holes: number
+  to_par: number
+  rating: number
+  diff: number
+  esr: number
+  idx_after?: number | null
+}
+/** SNAG Handicap (snag_handicap_student): chỉ số nội bộ VN Centre tính từ kết quả giải, không phải WHS Handicap Index. */
+export interface SnagHandicap {
+  idx: number | null
+  n_rounds: number
+  holes: number
+  need_holes: number
+  as_of: string | null
+  history: { date: string; idx: number }[]
+  rounds: SnagHandicapRound[]
+}
+
+/** Handicap âm (giỏi hơn chuẩn) hiển thị kiểu "+1.2" như quy ước golf. */
+export function snagIdxLabel(v: number | null | undefined): string {
+  if (v == null) return '—'
+  return v < 0 ? `+${Math.abs(v).toFixed(1)}` : Number(v).toFixed(1)
+}
+
 /**
  * Mục "Thành tích SNAG Golf League" (spec 13 mục 6.1–6.2, spec 14 mục 1.1–1.2).
  * - `code`: trang công khai /p/{mã}. Máy chủ không gửi ngày sinh, trường, phụ huynh; tên theo quy tắc BXH.
@@ -64,11 +92,30 @@ export function LeagueAchievements(props: { code: string } | { studentId: string
       return data as LeagueProfile | null
     },
   })
+  // SNAG Handicap chỉ có ở trang học viên (không hiện trên trang công khai /p/{mã})
+  const sh = useQuery({
+    queryKey: ['snag_handicap_student', key, session?.user.id ?? 'anon'],
+    enabled: Boolean(key) && !byCode,
+    retry: false,
+    queryFn: async () => {
+      const { data, error } = await supabase!.rpc('snag_handicap_student', { p_student_id: key })
+      if (error) throw error
+      return data as SnagHandicap | null
+    },
+  })
   if (!q.data) return null
-  return <LeagueAchievementsCard profile={q.data} className={'className' in props ? props.className : undefined} />
+  return <LeagueAchievementsCard profile={q.data} snag={sh.data ?? null} className={'className' in props ? props.className : undefined} />
 }
 
-export function LeagueAchievementsCard({ profile: p, className = 'mx-auto w-full max-w-md' }: { profile: LeagueProfile; className?: string }) {
+export function LeagueAchievementsCard({
+  profile: p,
+  snag = null,
+  className = 'mx-auto w-full max-w-md',
+}: {
+  profile: LeagueProfile
+  snag?: SnagHandicap | null
+  className?: string
+}) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
   const localized = useLocalized()
@@ -99,6 +146,23 @@ export function LeagueAchievementsCard({ profile: p, className = 'mx-auto w-full
         {stat(t('league.bestGross'), String(p.best_gross_count))}
       </div>
 
+      {snag && (
+        <div className="rounded-xl border border-navy/10 bg-white px-3 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-semibold">{t('league.snagHandicap')}</p>
+              <p className="text-sm text-navy/65">
+                {snag.idx == null
+                  ? t('league.snagNeedHoles', { count: snag.need_holes })
+                  : t('league.snagRounds', { count: snag.n_rounds, date: snag.as_of ? formatDate(snag.as_of, lang) : '—' })}
+              </p>
+            </div>
+            <p className="shrink-0 text-3xl font-bold text-navy">{snagIdxLabel(snag.idx)}</p>
+          </div>
+          <p className="pt-2 text-xs text-navy/55">{t('league.snagNote')}</p>
+        </div>
+      )}
+
       <ul className="divide-y divide-navy/10">
         {p.stages.map((s) => (
           <li key={`${s.season}-${s.stage_no}`} className="flex items-start justify-between gap-3 py-2.5">
@@ -107,7 +171,16 @@ export function LeagueAchievementsCard({ profile: p, className = 'mx-auto w-full
                 {t('league.stageNo', { no: s.stage_no })} · {formatDate(s.played_on, lang)}
               </p>
               <p className="text-sm text-navy/70">
-                {[s.group, `${t('league.toPar')} ${toParLabel(s.to_par)}`].filter(Boolean).join(' · ')}
+                {[
+                  s.group,
+                  `${t('league.toPar')} ${toParLabel(s.to_par)}`,
+                  (() => {
+                    const r = snag?.rounds.find((x) => x.stage_no === s.stage_no && x.played_on === s.played_on)
+                    return r ? t('league.snagDiff', { value: snagIdxLabel(r.diff) }) : null
+                  })(),
+                ]
+                  .filter(Boolean)
+                  .join(' · ')}
               </p>
               {(s.title_code || s.culture_code) && (
                 <p className="flex flex-wrap items-center gap-1.5 pt-1 text-sm">

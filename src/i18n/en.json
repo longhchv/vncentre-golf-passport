@@ -2049,6 +2049,11 @@
     "toPar": "To par",
     "notRanked": "Not counted in the rankings",
     "certificate": "Download certificate",
+    "snagHandicap": "SNAG Handicap",
+    "snagNote": "A VN Centre index calculated from SNAG Golf League results on WHS principles, used for grouping and as a guide to ability. Not a WHS Handicap Index.",
+    "snagNeedHoles": "{{count}} more holes needed for an index",
+    "snagRounds": "{{count}} rounds · updated {{date}}",
+    "snagDiff": "Differential {{value}}",
     "queue": {
       "title": "Match SNAG League players",
       "intro": "Players registered for the league, or with results, whom the system could not identify for sure. Check, then merge into an existing profile, attach the result, or keep the new profile.",
