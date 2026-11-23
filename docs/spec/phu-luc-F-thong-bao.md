@@ -61,6 +61,8 @@ App là PWA nên đẩy được thông báo lên điện thoại mà không c�
 
 ## F4. Ma trận thông báo
 
+**Bổ sung 24/10/2026 (việc D74, theo `03-dot-2-lop-hoc.md` mục BH18):** thêm **P27** vào nhóm phụ huynh và **H14, H15, H16** vào nhóm HLV. Số lấy tiếp theo số cao nhất đang dùng, không chèn vào giữa — xem quy tắc 11 của `README.md`.
+
 Ký hiệu cột **Tắt được**: `Không` = luôn gửi · `Có` = người dùng tự bật/tắt · `Mặc định tắt` = phải tự bật mới nhận.
 
 ### F4.1 Phụ huynh / người giám hộ
@@ -93,6 +95,7 @@ Ký hiệu cột **Tắt được**: `Không` = luôn gửi · `Có` = người 
 | P24 | Nhận được mã tặng Premium | App + đẩy + email | Có | 4 |
 | P25 | Thanh toán Premium thành công · hoá đơn điện tử | App + email (kèm hoá đơn) | Không | 4 |
 | P26 | Hồ sơ học bổng đã xuất xong, sẵn sàng tải | App + đẩy + email | Có | 4 |
+| P27 | Có mục Passport con tự tick **được HLV xác nhận** | App | Có | 2 |
 
 ### F4.2 HLV và trợ giảng
 
@@ -113,6 +116,9 @@ Ký hiệu cột **Tắt được**: `Không` = luôn gửi · `Có` = người 
 | H11 | Lớp mình có em sắp đủ điều kiện lên level (còn thiếu mục nào) — gom một lần/tuần | App + email | Có | 2 |
 | H12 | Có trò chơi mới trong thư viện phù hợp với lớp đang dạy | App | Mặc định tắt | 5 |
 | H13 | Buổi tập thể lực mình soạn đã được duyệt / bị trả lại | App + đẩy | Không | 3 |
+| H14 | **Phụ huynh báo con nghỉ** một buổi tới của lớp mình | App + đẩy | Có | 2 |
+| H15 | Có **mốc thành tích phụ huynh tự khai** chờ xác nhận — gom một lần/ngày | App | Có | 2 |
+| H16 | Có **bài thực hành nộp qua video** chờ chấm | App + đẩy | Có | 2 |
 
 **Trợ giảng** nhận: H1, H2, H4, H5, H6. Không nhận các thông báo liên quan tới duyệt kỹ năng và lên level.
 
@@ -334,5 +340,133 @@ Kết luận: nếu đẩy được tỉ lệ bật thông báo đẩy lên cao,
 |---|---|
 | D24 | Anh Long duyệt ma trận F4 — đặc biệt là nhóm H (HLV) và nhóm S (học viên), vì đây là phần mới |
 | D25 | Chốt giờ gửi bản tin tuần (đề xuất Chủ nhật 19:00) và giờ gửi lịch dạy cho HLV (đề xuất 07:00) |
-| D26 | Soạn và gửi Zalo duyệt các mẫu tin: OTP, lời mời kích hoạt, mời giám hộ thứ hai, báo vắng, nhắc kích hoạt |
+| D26 | **Mẫu tin đã soạn 24/10/2026 — xem mục F13.** Còn việc anh Long gửi Zalo duyệt |
 | D27 | Chốt ngưỡng cảnh báo chi phí tin nhắn theo tháng |
+## F13. Mẫu tin Zalo ZNS gửi duyệt (soạn 24/10/2026 — việc D26, D77)
+
+Năm mẫu tin dưới đây soạn theo quy định kiểm duyệt ZNS hiện hành. Anh Long gửi cả năm trong **một lượt** — Zalo duyệt từng mẫu riêng, gửi rời rạc thì thời gian chờ cộng dồn.
+
+### F13.1 Giới hạn kỹ thuật phải tuân theo
+
+| Thành phần | Giới hạn |
+|---|---|
+| Logo | PNG 400 × 96 px, **hai bản** nền sáng và nền tối, không chứa số điện thoại hay đường dẫn |
+| Tiêu đề | 1 tiêu đề, 9–65 ký tự, tối đa 4 tham số |
+| Nội dung | 1–4 khối, mỗi khối 9–400 ký tự, **tổng** tối đa 10 tham số |
+| Bảng | 0 hoặc 1 bảng, 2–8 dòng. Cột tên dòng 3–35 ký tự **không tham số**; cột nội dung 3–90 ký tự, **tối đa 1 tham số mỗi ô** |
+| Nút | 0–2 nút. Nhãn nút 5–30 ký tự **không tham số**. Nút đường dẫn 10–255 ký tự |
+| Mẫu xác thực (OTP) | Dòng mã và nút Sao chép do hệ thống cố định; phần chữ kèm theo 9–400 ký tự, tối đa 2 tham số |
+
+### F13.2 Quy tắc nội dung ảnh hưởng trực tiếp đến mình
+
+1. **Tham số** viết trong dấu `<` `>`, không dấu, không khoảng trắng, không gạch nối — nối từ bằng gạch dưới: `<ten_hoc_vien>`. Mỗi tham số phải có nhãn mô tả rõ trong câu.
+2. **Không đặt đường dẫn hay số điện thoại trong phần nội dung.** Đưa vào nút bấm.
+3. **Không dùng "anh/chị".** Dùng từ trung tính. Năm mẫu dưới đây dùng **"Quý phụ huynh"** và **"Quý vị"**.
+4. Viết tiếng Việt **có dấu**, một ngôn ngữ, đúng chính tả. Không viết tắt, không biểu tượng, không ký tự đặc biệt.
+5. Mẫu Tag 1 và Tag 2 cần **ít nhất một tham số định danh** cộng một tham số tên hoặc thông tin cá nhân.
+6. **Chỉ gửi cho người đã có giao dịch với doanh nghiệp.** Ngoại lệ duy nhất là mã OTP tạo tài khoản mới. Xem rủi ro ở mục F13.8.
+
+### F13.3 ZNS-1 · Mã xác thực đăng nhập (P1)
+
+**Loại mẫu:** Mẫu xác thực (OTP) · **Tag 1 — Giao dịch**
+
+> Mã xác thực để đăng nhập VN Centre Golf Passport cho số điện thoại `<so_dien_thoai>`. Mã có hiệu lực `<phut_hieu_luc>` phút. Không chia sẻ mã này với bất kỳ ai.
+
+Tham số: `so_dien_thoai`, `phut_hieu_luc` — đúng 2, bằng mức tối đa của mẫu xác thực.
+
+### F13.4 ZNS-2 · Lời mời kích hoạt Golf Passport của con (P2)
+
+**Loại mẫu:** Mẫu tuỳ chỉnh · **Tag 1 — Giao dịch**
+
+**Tiêu đề:** Kích hoạt Golf Passport cho `<ten_hoc_vien>`
+
+**Nội dung:**
+
+> Trường `<ten_truong>` đã ghi danh con vào chương trình golf của VN Centre. Quý phụ huynh kích hoạt sổ Golf Passport để xem lộ trình học, kỹ năng đã đạt và chứng nhận của con. Mỗi sổ chỉ kích hoạt được một lần.
+
+**Bảng:**
+
+| Tên dòng | Nội dung |
+|---|---|
+| Học viên | `<ten_hoc_vien>` |
+| Lớp | `<lop_van_hoa>` |
+| Mã sổ Golf Passport | `<ma_so>` |
+
+**Nút:** `Kích hoạt Golf Passport` → `https://app.vncentre.net/i/<ma_moi>`
+
+Tham số: `ten_hoc_vien`, `ten_truong`, `lop_van_hoa`, `ma_so`, `ma_moi` — 5.
+
+### F13.5 ZNS-3 · Lời mời làm người giám hộ thứ hai (P3)
+
+**Loại mẫu:** Mẫu tuỳ chỉnh · **Tag 1 — Giao dịch**
+
+**Tiêu đề:** Lời mời theo dõi hồ sơ golf của `<ten_hoc_vien>`
+
+**Nội dung:**
+
+> `<ten_nguoi_moi>` mời Quý vị cùng theo dõi hồ sơ học golf của `<ten_hoc_vien>` trên VN Centre Golf Passport. Lời mời có hiệu lực `<so_ngay>` ngày. Sau khi nhận lời mời, Quý vị xem được lộ trình học, kỹ năng và chứng nhận của con.
+
+**Nút:** `Nhận lời mời` → `https://app.vncentre.net/i/<ma_moi>`
+
+Tham số: `ten_nguoi_moi`, `ten_hoc_vien`, `so_ngay`, `ma_moi` — 4.
+
+### F13.6 ZNS-4 · Thông báo con vắng buổi học (P10)
+
+**Loại mẫu:** Mẫu tuỳ chỉnh · **Tag 1 — Giao dịch** (cập nhật trạng thái dịch vụ). Nếu Zalo yêu cầu đổi thì chuyển **Tag 2 — Chăm sóc khách hàng**.
+
+**Tiêu đề:** Thông báo buổi học golf của `<ten_hoc_vien>`
+
+**Nội dung:**
+
+> VN Centre Golf Passport thông báo con không có mặt ở buổi học golf dưới đây. Nếu con vắng có lý do, Quý phụ huynh phản hồi lại huấn luyện viên của lớp. Quý phụ huynh xem nội dung buổi học và tình hình chuyên cần của con trong ứng dụng.
+
+**Bảng:**
+
+| Tên dòng | Nội dung |
+|---|---|
+| Học viên | `<ten_hoc_vien>` |
+| Lớp | `<ten_lop>` |
+| Ngày | `<ngay_buoi_hoc>` |
+| Giờ | `<gio_buoi_hoc>` |
+
+**Nút:** `Xem buổi học của con` → `https://app.vncentre.net/app`
+
+Tham số: `ten_hoc_vien`, `ten_lop`, `ngay_buoi_hoc`, `gio_buoi_hoc` — 4.
+
+**Ba điều cố ý không có trong mẫu này:**
+
+1. **Không có ghi chú của huấn luyện viên.** Ghi chú là để nội bộ; gửi thẳng cho phụ huynh dễ thành lời phán xét về con (xem `03-dot-2-lop-hoc.md` mục BH5).
+2. **Không gửi khi con vắng có phép.** Phụ huynh đã báo trước thì không nhận lại tin.
+3. **Không có từ nào mang nghĩa quy lỗi.** Câu chữ chỉ nói sự việc và mời phản hồi.
+
+### F13.7 ZNS-5 · Nhắc kích hoạt Golf Passport (P9)
+
+**Loại mẫu:** Mẫu tuỳ chỉnh · **Tag 2 — Chăm sóc khách hàng**
+
+**Tiêu đề:** Sổ Golf Passport của `<ten_hoc_vien>` chưa kích hoạt
+
+**Nội dung:**
+
+> Sổ Golf Passport của `<ten_hoc_vien>` ở trường `<ten_truong>` chưa được kích hoạt. Khi chưa kích hoạt, Quý phụ huynh chưa xem được lộ trình học, kỹ năng đã đạt và chứng nhận của con. Mã sổ của con là `<ma_so>`.
+
+**Nút:** `Kích hoạt ngay` → `https://app.vncentre.net/i/<ma_moi>`
+
+Tham số: `ten_hoc_vien`, `ten_truong`, `ma_so`, `ma_moi` — 4.
+
+Gửi sau **7 ngày** và sau **21 ngày** kể từ lúc phát sổ. Không gửi lần thứ ba.
+
+### F13.8 Hai rủi ro phải biết trước khi gửi duyệt
+
+**Rủi ro 1 — quy định "chỉ gửi cho người đã có giao dịch".** ZNS chỉ cho gửi tới người đã giao dịch với doanh nghiệp; ngoại lệ duy nhất là OTP tạo tài khoản mới. Hai mẫu **ZNS-2** (lời mời kích hoạt) và **ZNS-5** (nhắc kích hoạt) gửi cho phụ huynh mà VN Centre lấy liên hệ **từ nhà trường** — những người này chưa trực tiếp giao dịch với VN Centre. Zalo có thể từ chối mẫu, hoặc duyệt mẫu rồi chặn lượt gửi.
+
+Ba cách xử lý, nên chuẩn bị trước:
+
+| Cách | Nội dung | Đánh giá |
+|---|---|---|
+| A | Chứng minh quan hệ bằng văn bản: hợp đồng hoặc văn bản hợp tác với nhà trường, kèm xác nhận học sinh đã tham gia chương trình golf | Mạnh nhất. Gắn với việc **D17** |
+| B | Gửi lời mời kích hoạt **qua email** thay vì Zalo; Zalo chỉ dùng cho OTP và các tin sau khi phụ huynh đã kích hoạt | Chắc chắn chạy được, nhưng tỉ lệ phụ huynh mở email thấp hơn Zalo |
+| C | Nhà trường tự gửi lời mời qua kênh của trường (sổ liên lạc điện tử, nhóm lớp), app chỉ nhận người tự vào | Không tốn tin, nhưng phụ thuộc nhà trường |
+
+Minh đề xuất: **chuẩn bị A, chạy B làm phương án mặc định.** App đã hỗ trợ cả hai kênh từ đợt 1, nên đổi kênh chỉ là đổi cấu hình, không sửa code.
+
+**Rủi ro 2 — logo.** Zalo yêu cầu logo PNG **400 × 96 px, hai bản nền sáng và nền tối**, không chứa số điện thoại hay đường dẫn. Hiện chưa có file nhận diện gốc (việc **D13**). Cần làm logo đúng kích thước này trước khi gửi duyệt, nếu không mẫu bị trả lại ngay bước đầu.

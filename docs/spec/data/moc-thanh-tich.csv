@@ -1,0 +1,8 @@
+ma,level,kind,loai_san,so_ho,bo_tee,khoang_cach_m,par_moi_ho,par_vong,muc_tieu_so_voi_par,toi_da_gay_moi_ho,ten_vi,ghi_chu_vi
+G1S,1,standard,snag,3,,10,3,9,6,6,SNAG 3 hố · 10 m,Mốc chuẩn Level 1. Tổng 15 gậy. Đánh đến gậy thứ 6 thì nhặt bóng
+G1S+,1,stretch,snag,3,,15,3,9,6,6,SNAG 3 hố · 15 m,Mốc nâng cao Level 1. Cùng mục tiêu nhưng xa hơn
+G2S,2,standard,snag,6,,15,3,18,9,6,SNAG 6 hố · 15 m,Mốc chuẩn Level 2. Tổng 27 gậy
+G2S+,2,stretch,snag,6,,20,3,18,6,6,SNAG 6 hố · 20 m,Mốc nâng cao Level 2. Tổng 24 gậy
+G3S,3,standard,snag,9,,20,3,27,12,6,SNAG 9 hố · 20 m,Mốc chuẩn Level 3. Tổng 39 gậy
+G3S+,3,stretch,snag,9,,25,3,27,9,6,SNAG 9 hố · 25 m — mục tiêu 36 gậy,Bước chuyển sang tư duy Operation 36
+G3R,3,stretch,real,6,Tee ngắn nhất,,,21,18,8,Sân thật 6 hố,Lần đầu ra sân thật. Không bắt buộc. Par trung bình 3.5

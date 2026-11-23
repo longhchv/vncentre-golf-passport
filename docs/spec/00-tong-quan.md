@@ -145,9 +145,19 @@ Mặc định ban đầu. Admin chỉnh được.
 | Chứng nhận khoá học: xem và tải PDF | Có | Có | — |
 | Hồ sơ học bổng | Xem online | Xem online + **tải PDF** | — |
 | Điểm thưởng và đổi quà | Có, nhưng bị treo theo chu kỳ (xem dưới) | **Tích luỹ và dùng liên tục qua các năm** | — |
-| Nhận xét chi tiết của HLV | — | Có | — |
+| Nhận xét lớp theo buổi ("hôm nay con học gì") | **Có** | Có | — |
+| Nhận xét cá nhân **cuối khoá** | **Có** | Có | — |
+| Nhận xét cá nhân theo buổi, theo tháng | — | Có | — |
 | Ảnh / video buổi học | — | Có | — |
 | Giữ hồ sơ qua các năm | Có | Có | — |
+
+**Ba dòng nhận xét — anh Long chốt 24/10/2026 (việc D71).** Trước đây bảng này chỉ có một dòng "Nhận xét chi tiết của HLV" đặt sau Premium, trong khi mục 7b lại ghi "nhận xét sau buổi" vào lằn ranh không được khoá paywall. Nay tách rõ:
+
+- **Nhận xét lớp theo buổi** (một hai dòng cho cả lớp, kèm dòng nội dung đang dạy) — **luôn miễn phí**. Đây là câu trả lời cho "hôm nay con học gì", thuộc tiến độ học của con.
+- **Nhận xét cá nhân cuối khoá** — **luôn miễn phí**. Nó là một phần hồ sơ của con: đi vào chứng nhận hoàn thành level và vào hồ sơ học bổng ở đợt 4.
+- **Nhận xét cá nhân theo buổi và theo tháng** — Premium. Đây là phần làm thêm, không phải phần tối thiểu để phụ huynh theo dõi con.
+
+Chi tiết cách làm ở `03-dot-2-lop-hoc.md` mục BH14 và quy tắc **BH-R16**.
 
 **Quy tắc điểm treo (gói Free):**
 
@@ -201,6 +211,8 @@ Admin bật/tắt **từng dòng** trong dashboard, và đặt lại mọi hạn
 **Lằn ranh không được chạm — quan trọng hơn mọi dòng ở trên**
 
 Không bao giờ khoá sau paywall những thứ thuộc về phụ huynh và các con: **nhận xét sau buổi · thông báo cho phụ huynh · tiến độ học của con · hồ sơ và level của con**. Những thứ này luôn có ở mọi hạng, kể cả khi HLV dùng Standard miễn phí.
+
+Lằn ranh này nói về **hạng tài khoản của HLV**, không phải gói của phụ huynh. "Nhận xét sau buổi" ở đây là **nhận xét lớp theo buổi** và **nhận xét cá nhân cuối khoá** — hai thứ mục 7 đã đưa về miễn phí ngày 24/10/2026 (D71). Nhận xét cá nhân theo buổi và theo tháng vẫn thuộc gói Premium của phụ huynh, và điều đó **không** phụ thuộc HLV trả tiền hay không.
 
 Lý do: nếu quyền theo dõi con phụ thuộc vào việc HLV có trả tiền hay không thì gia đình trở thành con tin trong một giao dịch họ không tham gia. Giới hạn của Standard nằm ở **dung lượng và số lượng**, không nằm ở **quyền của phụ huynh**.
 
