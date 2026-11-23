@@ -19,7 +19,7 @@ import { errorMessage } from '@/lib/db'
 import { useSetting } from '@/lib/settings'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
-import { useTrainingEnabled } from './api'
+import { useMe, useTrainingEnabled } from './api'
 import { cardState, partsMet, type CardState, type Challenge, type Part, type Result } from './junior'
 
 const db = () => supabase!
@@ -190,7 +190,9 @@ function StateBadge({ state }: { state: CardState }) {
 export function PersonSwitcher({ current }: { current: 'me' | string }) {
   const { t } = useTranslation()
   const kids = useMyChildren()
-  const list = (kids.data ?? []).filter((k) => k.link_status === 'active')
+  const me = useMe()
+  // Bỏ hồ sơ golfer của chính người dùng (liên kết 'self'), đã có ở nút "Tôi"
+  const list = (kids.data ?? []).filter((k) => k.link_status === 'active' && k.student_id !== me.data?.id)
   if (!list.length) return null
   const item = (to: string, label: string, on: boolean) => (
     <Link
