@@ -2746,5 +2746,221 @@
     "bulkRun": "Sửa hàng loạt",
     "bulkDone": "Đã sửa lớp cho {{count}} học sinh.",
     "pickSchool": "Chọn trường…"
+  },
+  "training": {
+    "title": "Tập luyện",
+    "back": "Quay lại",
+    "sourceNote": "Giáo án Break 90/80/70 thuộc bộ tài liệu tập luyện VN Centre đã mua bản quyền. Khoảng cách giữ đơn vị feet (ft) và yard (y).",
+    "pendingProfile": "Đang xác minh",
+    "goalLine": "handicap {{from}} → {{to}} trong {{months}} tháng",
+    "progress": "Đã làm {{n}}%",
+    "priority": "Ưu tiên",
+    "partial": "một phần",
+    "partialHint": "dòng mờ để buổi sau",
+    "lineShare": "làm {{n}}/{{of}}",
+    "weekDay": "Tuần {{w}} · ngày tập {{d}}/3 của giáo án",
+    "behind": "Đang chậm {{n}} tuần so với lịch 12 tuần. Các buổi sẽ dài hơn để bù dần; nếu vẫn chậm, nên thêm ngày tập.",
+    "unrealistic": "Mục tiêu này khá gắt. Với tốc độ thực tế, cần khoảng {{n}} tháng. Bạn vẫn có thể giữ mục tiêu.",
+    "fmt": {
+      "min": "{{n}} phút",
+      "hour": "{{h}} giờ",
+      "hourMin": "{{h}} giờ {{m}} phút"
+    },
+    "dow": {
+      "0": "CN",
+      "1": "T2",
+      "2": "T3",
+      "3": "T4",
+      "4": "T5",
+      "5": "T6",
+      "6": "T7"
+    },
+    "area": {
+      "fir": "Fairway (FIR)",
+      "gir": "Green (GIR)",
+      "scr": "Up & down",
+      "chip": "Chip",
+      "putt": "Putt"
+    },
+    "err": {
+      "under_min_age": "Mục Tập luyện người lớn dành cho người từ 18 tuổi.",
+      "dob_required": "Cần ngày sinh trong hồ sơ golfer. Vui lòng cập nhật hồ sơ.",
+      "name_required": "Vui lòng nhập họ tên.",
+      "out_of_order": "Buổi tập không còn khớp với giáo án (có thể đã lưu ở máy khác). Tải lại trang rồi thử lại.",
+      "goal_not_active": "Mục tiêu này đã kết thúc hoặc đã được thay.",
+      "training_disabled": "Mục Tập luyện chưa mở cho tài khoản này.",
+      "no_profile": "Bạn chưa có hồ sơ golfer."
+    },
+    "junior": {
+      "title": "Tập luyện cho các bạn nhỏ đang được chuẩn bị",
+      "body": "Mục này hiện dành cho người từ {{age}} tuổi. Lộ trình theo level cho các bạn nhỏ sẽ có ở đợt sau."
+    },
+    "create": {
+      "title": "Tạo hồ sơ golfer của bạn",
+      "body": "Hồ sơ có mã VNC riêng, lưu mục tiêu, buổi tập và vòng đấu của bạn.",
+      "name": "Họ và tên",
+      "dob": "Ngày sinh",
+      "gender": "Giới tính",
+      "genderNone": "Không muốn nêu",
+      "male": "Nam",
+      "female": "Nữ",
+      "other": "Khác",
+      "note": "Nếu bạn đã có hồ sơ VN Centre (từ sự kiện, giải đấu…), VN Centre sẽ kiểm tra và gộp lại sau. Bạn tập được ngay.",
+      "submit": "Tạo hồ sơ và bắt đầu",
+      "done": "Đã tạo hồ sơ {{code}}"
+    },
+    "nav": {
+      "plan": "Kế hoạch tuần",
+      "rounds": "Vòng đấu",
+      "clubs": "Khoảng cách gậy",
+      "test": "Bài test đầu vào",
+      "setGoal": "Đặt mục tiêu",
+      "changeGoal": "Đổi mục tiêu"
+    },
+    "noGoal": {
+      "title": "Bắt đầu bằng một mục tiêu",
+      "body": "Chọn handicap muốn đạt và thời hạn. App chọn giáo án Break 90, 80 hoặc 70 và xếp lịch theo thời gian của bạn.",
+      "test": "Chưa có handicap? Làm bài test đầu vào"
+    },
+    "finished": {
+      "title": "Đã hoàn thành 12 tuần giáo án",
+      "body": "Hãy ra sân đánh vài vòng có tính handicap để kiểm chứng, rồi đặt mục tiêu mới."
+    },
+    "today": {
+      "title": "Hôm nay: buổi tập {{mins}}",
+      "done": "Hôm nay đã tập xong",
+      "start": "Bắt đầu buổi tập",
+      "rest": "Hôm nay là ngày nghỉ",
+      "restBody": "Muốn tập thêm vẫn được, buổi tập thêm sẽ đi tiếp giáo án.",
+      "extra": "Tập thêm hôm nay"
+    },
+    "goal": {
+      "now": "Handicap hiện tại",
+      "nowHint": "Handicap chính thức hoặc ước tính của bạn.",
+      "noHcp": "Tôi chưa có handicap",
+      "noHcpHint": "Làm bài test đầu vào để có handicap ước tính:",
+      "target": "Handicap mục tiêu",
+      "months": "Thời hạn",
+      "monthN": "{{n}} tháng",
+      "program": "Giáo án phù hợp: {{name}}",
+      "submit": "Lưu mục tiêu",
+      "replace": "Đặt mục tiêu mới",
+      "replaceNote": "Đặt mục tiêu mới sẽ bắt đầu lại giáo án từ tuần 1. Lịch sử buổi tập cũ vẫn được giữ.",
+      "saved": "Đã lưu mục tiêu",
+      "targetLower": "Handicap mục tiêu phải thấp hơn handicap hiện tại."
+    },
+    "sched": {
+      "mode": "Cách xếp lịch",
+      "fixed_12_weeks": "Giữ đúng 12 tuần",
+      "flexible": "Theo thời gian rảnh",
+      "fixed_12_weeksHint": "Đủ số bóng, xong trong 12 tuần. App tự tính thời lượng mỗi buổi theo số ngày bạn chọn.",
+      "flexibleHint": "Bạn chọn thời lượng mỗi buổi. Đủ bài tập, chỉ kéo dài thời gian hoàn thành.",
+      "days": "Ngày tập trong tuần",
+      "minutes": "Thời lượng mỗi buổi",
+      "estimate": "Giáo án đầy đủ khoảng {{total}}. Với lịch này mất khoảng {{weeks}} tuần.",
+      "tooLong": "Lâu hơn thời hạn mục tiêu ({{months}} tháng). Có thể thêm ngày, tăng thời lượng hoặc chọn giữ đúng 12 tuần.",
+      "fixedIntro": "Mỗi tuần giáo án cần khoảng {{min}} đến {{max}}. Thời lượng mỗi buổi theo số ngày tập:",
+      "perWeek": "Số buổi/tuần",
+      "avg": "Trung bình",
+      "heaviest": "Tuần nặng nhất",
+      "nSessions": "{{n}} buổi",
+      "fewDays": "Dưới 3 buổi mỗi tuần thì mỗi buổi rất dài. Nên chọn từ 4 đến 6 buổi."
+    },
+    "test": {
+      "intro": "3 bài, mỗi bài 5 bóng. Làm trên sân tập rồi chọn số lần đạt.",
+      "putt": "Putt 5 bóng từ 6 ft (khoảng 1,8 m). Vào lỗ mấy bóng?",
+      "chip": "Chip 5 bóng từ 10 y (khoảng 9 m). Mấy bóng dừng trong 6 ft quanh cờ?",
+      "long": "Đánh 5 cú phát bóng. Mấy cú vào fairway (lệch không quá 30 y) và đi xa từ 130 y?",
+      "submit": "Xem kết quả",
+      "result": "Handicap ước tính",
+      "hcp": "Khoảng {{n}}",
+      "weak": "Kỹ năng cần ưu tiên: {{area}}",
+      "note": "Đây chỉ là ước tính để chọn giáo án, không phải handicap chính thức. Nên làm lại sau mỗi 4 tuần.",
+      "useIt": "Dùng kết quả này để đặt mục tiêu"
+    },
+    "session": {
+      "title": "{{name}}: buổi tập hôm nay",
+      "intro": "Khoảng {{mins}}. Bài tập giữ đúng giáo án gốc, app chia theo thời lượng bạn chọn.",
+      "doneBlock": "Đã làm xong phần này",
+      "result": "Kết quả",
+      "resultHint": "Ghi như phiếu, ví dụ 32/50. Có thể để trống.",
+      "save": "Lưu buổi tập",
+      "saveNote": "Phần nào chưa làm xong thì bỏ chọn. Buổi sau app làm tiếp từ đúng chỗ đó.",
+      "saved": "Đã lưu {{n}} phần, khoảng {{mins}}"
+    },
+    "plan": {
+      "done": "Đã tập",
+      "past": "Đã qua",
+      "rest": "Nghỉ",
+      "schedule": "Lịch tập",
+      "left": "Đang ở tuần {{w}} của giáo án, còn khoảng {{mins}}.",
+      "reminders": "Nhắc tập trong app vào ngày có lịch",
+      "milestones": "Các mốc theo tháng",
+      "month": "Tháng {{n}} ({{date}})",
+      "milestoneNote": "Mốc tham khảo chia đều theo thời hạn. Handicap thật cần ra sân đánh để kiểm chứng."
+    },
+    "rounds": {
+      "add": "Ghi vòng đấu mới",
+      "summary": "Trung bình {{n}} vòng gần nhất",
+      "you": "Của bạn",
+      "std": "Chuẩn HCP {{h}}",
+      "stdNone": "Chuẩn",
+      "ok": "Đạt",
+      "below": "Cần cải thiện",
+      "putts18": "Số putt mỗi 18 hố",
+      "putts": "{{n}} putt",
+      "miss": "trượt trái {{l}}, phải {{r}}",
+      "weak": "Phần yếu nhất so với chuẩn: {{area}}.",
+      "setWeak": "Ưu tiên phần này trong buổi tập",
+      "none": "Chưa có vòng đấu nào.",
+      "noCourse": "Sân chưa ghi tên",
+      "holes": "{{n}} hố",
+      "delete": "Xoá vòng này",
+      "course": "Tên sân",
+      "date": "Ngày chơi",
+      "hole": "Hố {{n}}",
+      "strokes": "Số gậy",
+      "puttsLabel": "Số putt",
+      "fairway": "Cú phát bóng",
+      "fw": {
+        "left": "Trượt trái",
+        "hit": "Vào fairway",
+        "right": "Trượt phải"
+      },
+      "yes": "Lên green đúng chuẩn",
+      "no": "Không",
+      "preview": "Tổng {{strokes}} gậy, {{putts}} putt",
+      "save": "Lưu vòng đấu",
+      "needStrokes": "Cần nhập số gậy của mọi hố."
+    },
+    "clubs": {
+      "club": "Gậy",
+      "carry": "Bay (y)",
+      "total": "Tổng (y)",
+      "measured": "Ngày đo",
+      "hint": "Đo trên sân tập hoặc máy đo. Mỗi lần đo được lưu lại; bảng hiện lần đo mới nhất.",
+      "save": "Lưu khoảng cách",
+      "none": "Chưa có khoảng cách gậy nào.",
+      "code": {
+        "dr": "Driver",
+        "3w": "Gỗ 3",
+        "5w": "Gỗ 5",
+        "7w": "Gỗ 7",
+        "h3": "Hybrid 3",
+        "h4": "Hybrid 4",
+        "h5": "Hybrid 5",
+        "3i": "Sắt 3",
+        "4i": "Sắt 4",
+        "5i": "Sắt 5",
+        "6i": "Sắt 6",
+        "7i": "Sắt 7",
+        "8i": "Sắt 8",
+        "9i": "Sắt 9",
+        "pw": "Pitching wedge",
+        "gw": "Gap wedge",
+        "sw": "Sand wedge",
+        "lw": "Lob wedge"
+      }
+    }
   }
 }

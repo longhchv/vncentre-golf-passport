@@ -73,6 +73,8 @@ const PARENT_NAV: NavItem[] = [
   { to: '/app', labelKey: 'parent.nav.home', end: true },
   { to: '/app/notifications', labelKey: 'parent.nav.notifications' },
   { to: '/app/partners', labelKey: 'partners.offers.nav' },
+  // Spec 23: Tập luyện (người lớn), chỉ hiện khi training_enabled()
+  { to: '/app/training', labelKey: 'training.title', requireFeature: 'training' },
   { to: '/account', labelKey: 'account.title' },
 ]
 
@@ -150,6 +152,13 @@ export const router = createBrowserRouter([
     { path: 'children/:studentId', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.ParentChildPage) },
     { path: 'notifications', lazy: page(() => import('@/features/profile/ProfilePages'), (m) => m.NotificationsPage) },
     { path: 'partners', lazy: page(() => import('@/features/partners/CustomerOffers'), (m) => m.PartnerOffersPage) },
+    { path: 'training', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingHomePage) },
+    { path: 'training/goal', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingGoalPage) },
+    { path: 'training/test', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingTestPage) },
+    { path: 'training/session', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingSessionPage) },
+    { path: 'training/plan', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingPlanPage) },
+    { path: 'training/rounds', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingRoundsPage) },
+    { path: 'training/clubs', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingClubsPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
   workspaceRoute('event', '/event', EVENT_NAV, [
