@@ -4,7 +4,7 @@ Bản 1 · 23/11/2026 · Người soạn: Minh · Đọc kèm: `23-module-tap-lu
 
 **Nguồn đối chiếu:** 61 migration trong `supabase/migrations` và code `src` ở commit `6f4fe6a` (main, 10/11/2026). Em **chưa đọc trực tiếp** cơ sở dữ liệu staging vì phiên làm việc không có khoá Supabase. Trước khi chạy migration phải so lại danh sách migration đã áp dụng trên staging (`supabase migration list`) với repo; nếu staging có thay đổi ngoài repo thì dừng lại báo anh.
 
-**Trạng thái: anh Long đã xác nhận 23/11/2026 (cách B). Migration `20261123000001_training_s1.sql` đã áp dụng lên staging 23/11/2026 qua SQL Editor (một giao dịch, có ghi vào `supabase_migrations.schema_migrations`); kiểm thử `050_training_s1.sql` đạt trên staging.**
+**Trạng thái: anh Long đã xác nhận 23/11/2026 (cách B). Migration `20261123000001_training_s1.sql` đã áp dụng lên staging 23/11/2026 qua SQL Editor (một giao dịch, có ghi vào `supabase_migrations.schema_migrations`); kiểm thử `050_training_s1.sql` đạt trên staging. Migration `20261123000002_training_admin.sql` (màn admin) cũng đã áp dụng cùng ngày, kiểm thử `051_training_admin.sql` đạt. Staging đặt `training.visibility = all` theo yêu cầu anh Long.**
 
 **Lưu ý thứ tự:** staging đã có 6 migration điểm thưởng `20261110000001`–`20261111000001` của PR #14 (chưa vào `main`). Migration này không đụng các bảng đó; đã chạy thử cả hai cùng nhau. Bài kiểm thử đổi số thành `050` vì PR #14 dùng `044`–`049`.
 
