@@ -42,12 +42,12 @@ function adminError(err: unknown, t: (k: string) => string) {
 /** Admin · Tập luyện: tổng quan, chương trình, giáo án từng buổi, chuẩn thống kê (spec 23 bước 4). */
 export function TrainingAdminPage() {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks'>('overview')
+  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills'>('overview')
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t('training.title')}</h1>
       <div className="flex flex-wrap gap-2">
-        {(['overview', 'programs', 'plans', 'benchmarks'] as const).map((k) => (
+        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills'] as const).map((k) => (
           <Button key={k} size="sm" variant={tab === k ? 'primary' : 'outline'} onClick={() => setTab(k)}>
             {t(`training.admin.tab.${k}`)}
           </Button>
@@ -57,6 +57,8 @@ export function TrainingAdminPage() {
       {tab === 'programs' && <Programs />}
       {tab === 'plans' && <Plans />}
       {tab === 'benchmarks' && <Benchmarks />}
+      {tab === 'challenges' && <Challenges />}
+      {tab === 'drills' && <Drills />}
     </div>
   )
 }
@@ -404,5 +406,117 @@ function BenchLine({ row, onSave, onDelete }: { row: BenchRow; onSave: (v: { hcp
         <Button size="sm" variant="ghost" className="text-red-700" onClick={onDelete} aria-label={t('training.admin.deleteRow')}><Trash2 className="h-4 w-4" /></Button>
       </td>
     </tr>
+  )
+}
+
+// ---------------------------------------------------------------- Spec 24: thẻ thử thách, thư viện bài tập
+
+interface ChallengeRow {
+  id: string
+  level_number: number
+  code: string
+  kind: string
+  area: string
+  title_vi: string
+  verify: string
+  parts: { label_vi: string; attempts: number; target: number; provisional?: boolean }[]
+  points_reward: number
+  is_provisional: boolean
+  is_active: boolean
+}
+
+const opts = (list: readonly string[], t: (k: string) => string, prefix: string) => list.map((v) => ({ value: v, label: t(`${prefix}.${v}`) }))
+const CH_AREAS = ['tee', 'approach', 'pitch', 'bunker', 'chip', 'putt_short', 'putt_mid', 'putt_long', 'formula', 'culture', 'other'] as const
+const DRILL_SKILLS = ['fitness', 'basics', 'putt', 'chip', 'pitch', 'bunker', 'full_swing', 'on_course', 'mental', 'rules'] as const
+
+function Challenges() {
+  const { t } = useTranslation()
+  const [level, setLevel] = useState<number | ''>('')
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-navy/70">{t('training.admin.chHint')}</p>
+      <Field label={t('training.coach.level')} className="max-w-40">
+        <Select value={level} onChange={(e) => setLevel(e.target.value ? Number(e.target.value) : '')}>
+          <option value="">{t('common.all')}</option>
+          {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n}</option>)}
+        </Select>
+      </Field>
+      <CrudTable<ChallengeRow>
+        table="training_challenges"
+        titleKey="training.admin.tab.challenges"
+        order="sort_order"
+        filter={(r) => level === '' || r.level_number === level}
+        invalidate={['training_challenges']}
+        newDefaults={{ kind: 'level_up', verify: 'video_or_adult', points_rank: 30, points_reward: 30, is_active: true, parts: [{ label_vi: '', attempts: 5, target: 3 }] }}
+        columns={[
+          { key: 'level_number', labelKey: 'training.coach.level' },
+          { key: 'title', labelKey: 'training.admin.chTitle', render: (c) => <div><div className="font-semibold">{c.title_vi}</div><code className="text-xs text-navy/50">{c.code}</code></div> },
+          { key: 'parts', labelKey: 'training.admin.chParts', render: (c) => c.parts.map((p) => `${p.target}/${p.attempts}${p.provisional ? '*' : ''}`).join(' · ') },
+          { key: 'verify', labelKey: 'training.admin.chVerify', render: (c) => t(`training.jr.verify.${c.verify}`) },
+          { key: 'is_active', labelKey: 'fields.status', render: (c) => <span>{c.is_active ? t('common.active') : t('common.inactive')}{c.is_provisional && <Badge className="ml-2">{t('training.jr.provisional')}</Badge>}</span> },
+        ]}
+        fields={[
+          { name: 'level_number', labelKey: 'training.coach.level', type: 'number', required: true },
+          { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
+          { name: 'kind', labelKey: 'training.admin.chKind', type: 'select', options: opts(['level_up', 'practice'], t, 'training.admin.kind') },
+          { name: 'area', labelKey: 'training.admin.chArea', type: 'select', required: true, options: opts(CH_AREAS, t, 'training.admin.chAreaOpt') },
+          { name: 'title_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'title_en', labelKey: 'fields.nameEn' },
+          { name: 'how_vi', labelKey: 'training.admin.chHow', type: 'textarea' },
+          { name: 'parts', labelKey: 'training.admin.chParts', type: 'json', required: true, hintKey: 'training.admin.chPartsHint' },
+          { name: 'verify', labelKey: 'training.admin.chVerify', type: 'select', options: opts(['self', 'video_or_adult', 'coach'], t, 'training.jr.verify') },
+          { name: 'points_reward', labelKey: 'training.admin.chPoints', type: 'number' },
+          { name: 'points_rank', labelKey: 'training.admin.chRank', type: 'number' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_provisional', labelKey: 'training.jr.provisional', type: 'checkbox' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+    </div>
+  )
+}
+
+interface DrillRow { id: string; code: string; title_vi: string; skill: string; contexts: string[]; minutes: number | null; is_active: boolean }
+
+function Drills() {
+  const { t } = useTranslation()
+  return (
+    <CrudTable<DrillRow>
+      table="training_drills"
+      titleKey="training.admin.tab.drills"
+      order="sort_order"
+      invalidate={['training_drills']}
+      newDefaults={{ form: 'drill', audience: 'all', contexts: ['home'], steps: [], is_active: true }}
+      columns={[
+        { key: 'title', labelKey: 'training.admin.chTitle', render: (d) => <div><div className="font-semibold">{d.title_vi}</div><code className="text-xs text-navy/50">{d.code}</code></div> },
+        { key: 'skill', labelKey: 'training.admin.drSkill', render: (d) => t(`training.jr.skill.${d.skill}`) },
+        { key: 'contexts', labelKey: 'training.admin.drContexts', render: (d) => d.contexts.map((c) => t(`training.admin.ctx.${c}`)).join(', ') },
+        { key: 'minutes', labelKey: 'training.admin.drMinutes' },
+        { key: 'is_active', labelKey: 'fields.status', render: (d) => (d.is_active ? t('common.active') : t('common.inactive')) },
+      ]}
+      fields={[
+        { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
+        { name: 'title_vi', labelKey: 'fields.nameVi', required: true },
+        { name: 'title_en', labelKey: 'fields.nameEn' },
+        { name: 'skill', labelKey: 'training.admin.drSkill', type: 'select', required: true, options: opts(DRILL_SKILLS, t, 'training.jr.skill') },
+        { name: 'form', labelKey: 'training.admin.drForm', type: 'select', options: opts(['game', 'drill', 'challenge', 'test', 'round'], t, 'training.admin.form') },
+        { name: 'audience', labelKey: 'training.admin.drAudience', type: 'select', options: opts(['all', 'junior', 'adult'], t, 'training.admin.audience') },
+        { name: 'contexts', labelKey: 'training.admin.drContexts', type: 'multicheck', options: opts(['home', 'club_only', 'small_room', 'range', 'course'], t, 'training.admin.ctx') },
+        { name: 'level_from', labelKey: 'training.admin.drLevelFrom', type: 'number' },
+        { name: 'level_to', labelKey: 'training.admin.drLevelTo', type: 'number' },
+        { name: 'minutes', labelKey: 'training.admin.drMinutes', type: 'number' },
+        { name: 'attempts', labelKey: 'training.admin.drAttempts', type: 'number' },
+        { name: 'target', labelKey: 'training.admin.drTarget', type: 'number' },
+        { name: 'unit_vi', labelKey: 'training.admin.drUnit' },
+        { name: 'goal_vi', labelKey: 'training.admin.drGoal', type: 'textarea' },
+        { name: 'steps', labelKey: 'training.admin.drSteps', type: 'json', hintKey: 'training.admin.drStepsHint' },
+        { name: 'easier_vi', labelKey: 'training.jr.easier', type: 'textarea' },
+        { name: 'harder_vi', labelKey: 'training.jr.harder', type: 'textarea' },
+        { name: 'safety_vi', labelKey: 'training.jr.safety', type: 'textarea' },
+        { name: 'video_url', labelKey: 'training.admin.drVideo' },
+        { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+        { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+      ]}
+    />
   )
 }

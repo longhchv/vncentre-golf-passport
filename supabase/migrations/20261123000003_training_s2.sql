@@ -402,6 +402,22 @@ begin
     where r.status = 'pending' and exists (select 1 from public.enrollments e where e.class_id = p_class_id and e.student_id = r.student_id and e.status = 'active')), '[]');
 end $$;
 
+-- Bài về nhà của một học viên (các lớp đang học) kèm trạng thái đánh dấu
+create or replace function public.training_student_assignments(p_student_id uuid)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+begin
+  if not public.training_can_view(p_student_id) then raise exception 'forbidden' using errcode = '42501'; end if;
+  return coalesce((select jsonb_agg(jsonb_build_object(
+      'id', a.id, 'class_name', c.name, 'title_vi', a.title_vi, 'body_vi', a.body_vi, 'due_date', a.due_date, 'points', a.points,
+      'in_class', a.in_class, 'challenge_id', a.challenge_id, 'drill_id', a.drill_id, 'created_at', a.created_at,
+      'done_at', m.done_at, 'confirmed', m.confirmed_at is not null) order by (m.done_at is not null), a.due_date nulls last, a.created_at desc)
+    from public.training_assignments a
+    join public.classes c on c.id = a.class_id
+    join public.enrollments e on e.class_id = a.class_id and e.student_id = p_student_id and e.status = 'active'
+    left join public.training_assignment_marks m on m.assignment_id = a.id and m.student_id = p_student_id
+    where a.deleted_at is null and a.created_at > now() - interval '120 days'), '[]');
+end $$;
+
 -------------------------------------------------------------------------------
 -- 8. Gộp hồ sơ: thêm bảng mới vào danh sách đi theo
 -------------------------------------------------------------------------------
@@ -443,7 +459,7 @@ begin
     'public.training_challenge_done(uuid, uuid)', 'public.training_parts_met(jsonb, int[])',
     'public.training_submit_result(uuid, uuid, int[], text, boolean)', 'public.training_review_result(uuid, boolean, text)',
     'public.training_coach_mark(uuid, uuid[], boolean, text)', 'public.training_mark_assignment(uuid, uuid, boolean, text)',
-    'public.training_confirm_marks(uuid, uuid[])', 'public.training_in_my_class(uuid)', 'public.training_class_progress(uuid)', 'public.training_class_pending(uuid)'
+    'public.training_confirm_marks(uuid, uuid[])', 'public.training_in_my_class(uuid)', 'public.training_student_assignments(uuid)', 'public.training_class_progress(uuid)', 'public.training_class_pending(uuid)'
   ] loop
     execute format('revoke execute on function %s from public, anon', f);
     execute format('grant execute on function %s to authenticated', f);

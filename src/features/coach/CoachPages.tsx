@@ -136,6 +136,9 @@ export function CoachClassPage() {
           <p className="text-navy/70">{t('coach.rosterSummary', { count: roster.data.length, activated })}</p>
         )}
       </div>
+      <Link to={`/coach/classes/${cls.id}/training`} className="inline-flex items-center gap-2 font-semibold text-bronze">
+        {t('training.coach.openClass')}
+      </Link>
       <ClassCode classId={cls.id} code={cls.class_join_code} canChange={myRole === 'coach' || myRole === 'head_coach'} />
       {roster.isPending ? (
         <p className="text-navy/60">{t('common.loading')}</p>

@@ -3,7 +3,7 @@
 Bản 1 · 23/11/2026 · Người yêu cầu: Vũ Anh Long · Người soạn: Minh
 Đọc kèm: `23-module-tap-luyen-dot-1.md` (đợt 1 đã chạy trên app.vncentre.net), `03-dot-2-lop-hoc.md` (khung 3 trụ lên level), Claude Doc "Khung kho bài tập" mục 5b, 9, 9.5.
 
-**Trạng thái: bản thiết kế chờ anh Long duyệt 5 điểm ở mục 7. Chưa có migration, chưa sửa code.**
+**Trạng thái: anh Long đã duyệt 5 điểm ở mục 7 (23/11/2026). Đã có migration `20261123000003_training_s2.sql`, kiểm thử `052` và màn hình phụ huynh, học viên, HLV, admin (PR #16). Chưa phát hành lên app.vncentre.net.**
 
 ---
 
@@ -117,7 +117,11 @@ Theo mẫu mục 2 Khung kho bài tập: `code`, `title_vi/en`, `form` (trò ch�
 4. Màn admin.
 5. Gộp vào main (là phát hành lên app.vncentre.net).
 
-## 7. Cần anh chốt
+## 7. Đã chốt (anh Long, 23/11/2026)
+
+1. Theo đề xuất. 2. Theo đề xuất. 3. Theo đề xuất, có điều chỉnh: phụ huynh nhập cho các bạn từ 10 tuổi trở xuống; các bạn từ 11 tuổi tự nhập bằng tài khoản học viên (cài đặt `training.child_self_entry_min_age` = 11). 4. Đồng ý. 5. Đồng ý (cài đặt `training.points`).
+
+Nội dung đề xuất ban đầu:
 
 1. **Lên level:** Khung kho bài tập ghi "đủ thẻ thì app tự mở level tiếp theo", còn `03` mục 2.9 ghi "hệ thống không tự cấp level, HLV trưởng duyệt". **Minh đề xuất:** đủ thẻ thì tự tạo đề xuất vào hàng chờ duyệt, HLV trưởng bấm duyệt (duyệt cả loạt được).
 2. **Bốn câu hỏi số liệu ở mục 9.4 Khung kho bài tập.** Minh đề xuất số tạm để chạy, admin sửa sau:

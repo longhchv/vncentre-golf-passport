@@ -19,6 +19,7 @@ import {
   addDays, calendarWeek, dow, exerciseLineIndexes, fixedTable, isFinished, lineCoverage, minutesLeft, mondayOf, nextChunks,
   planDays, programForTarget, realisticMonths, sessionMinutesFor, totalMinutes, vnToday, weeksNeeded, type Chunk, type Program,
 } from './planner'
+import { PersonSwitcher } from './JuniorTraining'
 import { averageStats, benchmark, estimateFromIntake, roundStats, weakestArea, type Area, type HoleRow } from './stats'
 
 const BASE = '/app/training'
@@ -190,7 +191,12 @@ function schedule(g: Goal, s: ReturnType<typeof useTrainingSettings>) {
 // ---------------------------------------------------------------- Trang chủ Tập luyện
 
 export function TrainingHomePage() {
-  return <Gate>{(me) => <Home me={me} />}</Gate>
+  return (
+    <div className="space-y-4">
+      <PersonSwitcher current="me" />
+      <Gate>{(me) => <Home me={me} />}</Gate>
+    </div>
+  )
 }
 
 function Home({ me }: { me: Me }) {
