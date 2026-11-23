@@ -123,11 +123,14 @@ begin
   foreach t in array array['sim_brands', 'practice_venues'] loop
     execute format('drop trigger if exists set_updated_at on public.%I', t);
     execute format('create trigger set_updated_at before update on public.%I for each row execute function public.set_updated_at()', t);
-    execute format('drop trigger if exists audit_row on public.%I', t);
-    execute format('create trigger audit_row after insert or update or delete on public.%I for each row execute function public.audit_row()', t);
     execute format('alter table public.%I enable row level security', t);
   end loop;
 end $$;
+-- audit_row() ép id sang uuid nên chỉ gắn cho sim_brands (không có cột id). practice_venues có id dạng 'hn-0'
+-- và đã có nhật ký riêng practice_venue_history (trigger pv_log_change) — KHÔNG gắn audit_row.
+drop trigger if exists audit_row on public.sim_brands;
+create trigger audit_row after insert or update or delete on public.sim_brands for each row execute function public.audit_row();
+drop trigger if exists audit_row on public.practice_venues;
 drop trigger if exists pv_log_change on public.practice_venues;
 create trigger pv_log_change after insert or update or delete on public.practice_venues
   for each row execute function public.pv_log_change();
