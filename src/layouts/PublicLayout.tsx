@@ -12,7 +12,7 @@ export function PublicLayout() {
       >
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex min-w-0 items-center gap-2">
-            <img src="/logo.svg" alt="" className="h-9 w-9 shrink-0 rounded-lg" />
+            <img src="/logo.png" alt="" className="h-9 w-9 shrink-0 rounded-lg" />
             <span className="truncate font-bold">{t('app.shortName')}</span>
           </Link>
           <LanguageToggle className="text-white" />

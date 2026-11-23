@@ -1,17 +1,17 @@
 /**
- * Giao diện màu: "vnc" theo website mới VN Centre (nâu đậm + vàng logo, mặc định) hoặc "passport" (màu Golf Passport cũ).
+ * Giao diện màu: "passport" (màu Golf Passport, mặc định) hoặc "vnc" (tuỳ chọn theo website mới VN Centre: nâu đậm + vàng logo).
  * Lưu trên máy người dùng; index.html đặt sẵn data-theme trước khi tải app để không nháy màu.
  */
 export type Theme = 'vnc' | 'passport'
-export const THEMES: Theme[] = ['vnc', 'passport']
+export const THEMES: Theme[] = ['passport', 'vnc']
 const KEY = 'gp-theme'
 const BAR: Record<Theme, string> = { vnc: '#3a1f0c', passport: '#080634' }
 
 export function getTheme(): Theme {
   try {
-    return localStorage.getItem(KEY) === 'passport' ? 'passport' : 'vnc'
+    return localStorage.getItem(KEY) === 'vnc' ? 'vnc' : 'passport'
   } catch {
-    return 'vnc'
+    return 'passport'
   }
 }
 

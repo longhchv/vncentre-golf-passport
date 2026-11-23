@@ -91,7 +91,7 @@ export function WorkspaceLayout({ workspace, nav }: { workspace: Workspace; nav?
               <Menu className="h-5 w-5" />
             </button>
             <Link to="/" className="flex min-w-0 items-center gap-2">
-              <img src="/logo.svg" alt="" className="h-9 w-9 shrink-0 rounded-lg" />
+              <img src="/logo.png" alt="" className="h-9 w-9 shrink-0 rounded-lg" />
               <span className="truncate font-bold">{t(`workspace.${workspace}`)}</span>
             </Link>
           </div>

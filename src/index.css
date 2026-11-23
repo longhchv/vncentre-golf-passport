@@ -13,7 +13,7 @@
 }
 
 /* Giao diện màu VN Centre theo website mới (vncentre.pages.dev): nâu đậm #3a1f0c, vàng logo #f1ab50.
-   Mặc định; người dùng đổi về màu Golf Passport ở trang Tài khoản (src/lib/theme.ts). */
+   Tuỳ chọn; mặc định là màu Golf Passport, người dùng đổi sang màu VN Centre ở trang Tài khoản (src/lib/theme.ts). */
 :root[data-theme='vnc'] {
   --color-navy: #3a1f0c;
   --color-navy-soft: #55290e;
