@@ -80,6 +80,17 @@ export function useAssignSurvey() {
     },
   })
 }
+export function useChangeSurvey() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (a: { id: string; to: string | null }) =>
+      a.to ? rows(db().rpc('pv_reassign_survey', { p_id: a.id, p_surveyor: a.to })) : rows(db().rpc('pv_cancel_survey', { p_id: a.id })),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['pv_all_surveys'] })
+      qc.invalidateQueries({ queryKey: ['pv_surveyors'] })
+    },
+  })
+}
 export function useDecideSurvey() {
   const qc = useQueryClient()
   return useMutation({
@@ -179,7 +190,7 @@ export function useOwnerReply() {
 export function surveyErr(e: unknown, t: (k: string, o?: Record<string, unknown>) => string): string {
   const m = (e as { message?: string })?.message || String(e)
   for (const code of ['scores_incomplete', 'visit_date_required', 'score_out_of_range', 'not_editable', 'not_pending', 'note_required', 'not_a_surveyor',
-    'stars_invalid', 'venue_not_found', 'owner_cannot_review', 'already_replied', 'reply_required', 'not_signed_in']) {
+    'already_assigned', 'stars_invalid', 'venue_not_found', 'owner_cannot_review', 'already_replied', 'reply_required', 'not_signed_in']) {
     if (m.includes(code)) return t(`venues.s.err.${code}`)
   }
   if (/row-level security|permission denied|not_allowed|insufficient/i.test(m)) return t('venues.err.permission')
