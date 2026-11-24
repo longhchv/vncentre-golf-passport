@@ -1,4 +1,4 @@
-// Spec 26 · A3 Sửa địa điểm (và Thêm địa điểm) · 5 mục: Thông tin · Máy & dịch vụ · Giá · Trạng thái · Lịch sử
+// Spec 26 · A3 Sửa địa điểm (và Thêm địa điểm) · 6 mục: Thông tin · Máy & dịch vụ · Giá · Chi tiết (spec 29) · Trạng thái · Lịch sử
 import { useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { Link, useNavigate, useParams } from 'react-router'
@@ -17,9 +17,10 @@ import {
   type HistoryRow, type PriceRow, type Venue,
 } from './api'
 import { StatusPill } from './parts'
+import { DetailsEditor, cleanDetails, detailsError, detailsOf, type VenueDetails, type VenueInternal } from './details'
 
-type Tab = 'info' | 'machine' | 'prices' | 'status' | 'history'
-const TABS: Tab[] = ['info', 'machine', 'prices', 'status', 'history']
+type Tab = 'info' | 'machine' | 'prices' | 'details' | 'status' | 'history'
+const TABS: Tab[] = ['info', 'machine', 'prices', 'details', 'status', 'history']
 
 interface Draft {
   region: string; name: string; type: string; district: string; address: string; maps: string
@@ -27,6 +28,7 @@ interface Draft {
   hours: string; late: boolean; machine: string; model: string; software: string; machineNote: string; bays: string
   svc: string[]; parking: string; parking_note: string; residents_only: boolean; prices: PriceRow[]; status: string
   google_rating: string; google_reviews: string
+  details: VenueDetails; internal: VenueInternal
 }
 
 const s = (x: unknown) => (x == null ? '' : String(x))
@@ -41,6 +43,7 @@ function draftOf(v: Venue | null): Draft {
     svc: [...(v?.svc ?? [])], parking: v?.parking ?? 'unknown', parking_note: s(v?.parking_note), residents_only: !!v?.residents_only,
     prices: (v?.prices ?? []).map((p) => ({ ...p })), status: v?.status ?? 'draft',
     google_rating: s(v?.google_rating), google_reviews: s(v?.google_reviews),
+    details: detailsOf(v), internal: { needs_survey: [...(v?.needs_survey ?? [])], info_sources: { ...(v?.info_sources ?? {}) } },
   }
 }
 
@@ -88,6 +91,8 @@ function EditForm({ venue }: { venue: Venue | null }) {
     if (videos.some((x) => !isUrl(x))) { setTab('info'); return setError(t('venues.err.badUrl')) }
     const bays = d.bays.trim() ? parseInt(d.bays, 10) : null
     if (bays != null && (!Number.isFinite(bays) || bays < 0 || bays > 500)) { setTab('machine'); return setError(t('venues.err.badBays')) }
+    const dErr = detailsError(d.details)
+    if (dErr) { setTab('details'); return setError(t(dErr)) }
     const rating = d.google_rating.trim() ? parseFloat(d.google_rating.replace(',', '.')) : null
     const keepCoords = mapsState !== 'ok' && venue && d.maps === initial.maps
     const values: Partial<Venue> = {
@@ -102,6 +107,7 @@ function EditForm({ venue }: { venue: Venue | null }) {
       status: d.status as Venue['status'],
       google_rating: rating != null && Number.isFinite(rating) ? rating : null,
       google_reviews: d.google_reviews.trim() ? parseInt(d.google_reviews, 10) || null : null,
+      ...cleanDetails(d.details), needs_survey: d.internal.needs_survey,
     }
     if (venue && values.region !== venue.region) values.region = venue.region // mã gắn với vùng: không đổi vùng khi đã có mã
     try {
@@ -240,6 +246,14 @@ function EditForm({ venue }: { venue: Venue | null }) {
           <Button variant="outline" onClick={() => set('prices', [...d.prices, { item_vi: '', price: '', unit: t('venues.p.unitDefault'), verified_at: new Date().toISOString().slice(0, 10) }])}>
             <Plus className="h-5 w-5" /> {t('venues.p.add')}
           </Button>
+        </Section>
+      )}
+
+      {tab === 'details' && (
+        <Section title={t('venues.tab.details')}>
+          <p className="text-sm text-navy/70">{t('venues.d.adminHint')}</p>
+          <DetailsEditor value={d.details} onChange={(x) => set('details', x)} brands={(brands.data ?? []).map((b) => b.key)} venueType={d.type}
+            internal={d.internal} onInternal={(x) => set('internal', x)} />
         </Section>
       )}
 

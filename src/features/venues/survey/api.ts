@@ -189,6 +189,8 @@ export function useOwnerReply() {
 /** Lỗi → câu dễ hiểu (khoá venues.s.err.*). */
 export function surveyErr(e: unknown, t: (k: string, o?: Record<string, unknown>) => string): string {
   const m = (e as { message?: string })?.message || String(e)
+  const di = m.match(/detail_invalid: (\w+)/)
+  if (di) return t('venues.d.err.invalid', { f: t(`venues.d.errField.${di[1]}`, { defaultValue: di[1] }) })
   for (const code of ['scores_incomplete', 'visit_date_required', 'score_out_of_range', 'not_editable', 'not_pending', 'note_required', 'not_a_surveyor',
     'already_assigned', 'stars_invalid', 'venue_not_found', 'owner_cannot_review', 'already_replied', 'reply_required', 'not_signed_in']) {
     if (m.includes(code)) return t(`venues.s.err.${code}`)

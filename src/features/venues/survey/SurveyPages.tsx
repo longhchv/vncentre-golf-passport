@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/toast'
 import { Section, StickyActions, fmtDate } from '@/features/courses/parts'
 import { cn } from '@/lib/utils'
 import { PARKING, useBrands, type Venue } from '../api'
+import { DetailsEditor, changedDetailFields, cleanDetails, detailsError, detailsOf, type VenueDetails } from '../details'
 import { RequireSignIn, Shell, TAPGOLF } from '../contribute/ContributePages'
 import { usePublicVenue, useVenueNames, type PublicVenue } from '../contribute/api'
 import {
@@ -113,6 +114,8 @@ function SurveyForm({ s, v }: { s: Survey; v: PublicVenue }) {
     machine: (a.machine ?? v.machine ?? '') as string, bays: String(a.bays ?? v.bays ?? ''), hours: (a.hours ?? v.hours ?? '') as string,
     phone: (a.phone ?? v.phone ?? '') as string, parking: (a.parking ?? v.parking) as Venue['parking'], late: (a.late ?? v.late) as boolean,
   })
+  const baseDetails = useMemo(() => detailsOf(v), [v])
+  const [det, setDet] = useState(() => detailsOf({ ...baseDetails, ...(a as Partial<VenueDetails>) }))
   const [pros, setPros] = useState(s.pros_vi ?? '')
   const [cons, setCons] = useState(s.cons_vi ?? '')
   const [err, setErr] = useState<string | null>(null)
@@ -123,6 +126,8 @@ function SurveyForm({ s, v }: { s: Survey; v: PublicVenue }) {
     setErr(null)
     if (info.bays.trim() && !/^\d{1,3}$/.test(info.bays.trim())) return setErr(t('venues.err.badBays'))
     if (submit && filled < 6) return setErr(t('venues.s.err.scores_incomplete'))
+    const dErr = detailsError(det)
+    if (dErr) return setErr(t(dErr))
     // chỉ gửi trường khác với dữ liệu hiện có — admin sẽ thấy đúng phần thay đổi
     const cur: Record<string, unknown> = { machine: v.machine ?? '', bays: v.bays == null ? '' : String(v.bays), hours: v.hours ?? '', phone: v.phone ?? '', parking: v.parking, late: v.late }
     const ans: Record<string, unknown> = {}
@@ -130,6 +135,8 @@ function SurveyForm({ s, v }: { s: Survey; v: PublicVenue }) {
       if (val === cur[k]) continue
       ans[k] = k === 'bays' ? (String(val).trim() ? parseInt(String(val), 10) : null) : typeof val === 'string' ? val.trim() || null : val
     }
+    const cleanDet = cleanDetails(det)
+    for (const k of changedDetailFields(det, baseDetails)) ans[k] = cleanDet[k]
     try {
       await save.mutateAsync({ id: s.id, visitDate: visit || null, answers: ans, scores, pros, cons, submit })
       toast(submit ? t('venues.s.submitted') : t('common.saved'))
@@ -166,6 +173,10 @@ function SurveyForm({ s, v }: { s: Survey; v: PublicVenue }) {
             </Field>
             <div className="flex items-end"><Checkbox label={t('venues.f.late')} checked={info.late} onChange={(e) => setInfo({ ...info, late: e.target.checked })} /></div>
           </div>
+        </Section>
+        <Section title={t('venues.d.surveyTitle')}>
+          <p className="text-sm text-navy/70">{t('venues.d.surveyHint')}</p>
+          <DetailsEditor value={det} onChange={setDet} brands={(brands.data ?? []).map((b) => b.key)} venueType={v.type} />
         </Section>
         <Section title={t('venues.s.notes')}>
           <Field label={t('venues.s.pros')}><Textarea rows={3} value={pros} onChange={(e) => setPros(e.target.value)} /></Field>

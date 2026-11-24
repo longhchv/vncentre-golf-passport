@@ -1,6 +1,7 @@
 // Spec 25/26 · Sân tập & phòng golf 3D — truy cập practice_venues, sim_brands, practice_venue_history.
 // Quyền ở cơ sở dữ liệu: chỉ admin ghi (is_admin); người xem web đọc view pv_public_venues.
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { VenueDetails, VenueInternal } from './details'
 import { supabase } from '@/lib/supabase'
 
 export const REGIONS = ['hn', 'hcm', 'dn', 'north', 'central', 'south'] as const
@@ -18,7 +19,7 @@ export const BRAND_GROUPS = ['tour', 'screen', 'home'] as const
 export interface PriceRow { item_vi: string; item_en?: string; price: string; unit?: string; note?: string; verified_at?: string }
 export interface MachineDetail { model?: string; software?: string; note?: string }
 
-export interface Venue {
+export type Venue = {
   id: string; region: Region; name: string; type: VenueType; district: string | null; address: string | null
   lat: number | null; lng: number | null; phone: string | null; email: string | null; web: string | null
   fb_url: string | null; fb_chain_url: string | null; fb_chain_name: string | null; videos: string[]
@@ -27,7 +28,7 @@ export interface Venue {
   google_rating: number | null; google_reviews: number | null; google_at: string | null
   status: VenueStatus; partner_id: string | null; vnc_score: number | null; user_rating: number | null; user_reviews: number
   created_at: string; updated_at: string
-}
+} & VenueDetails & VenueInternal
 
 export interface Brand {
   key: string; group: (typeof BRAND_GROUPS)[number]; origin_vi: string | null; origin_en: string | null; badges: string[]
@@ -152,6 +153,8 @@ export function changedFields(before: Partial<Venue> | null, after: Partial<Venu
 /** Lỗi Supabase → câu dễ hiểu. */
 export function venueErr(e: unknown, t: (k: string, o?: Record<string, unknown>) => string): string {
   const m = (e as { message?: string })?.message || String(e)
+  const di = m.match(/detail_invalid: (\w+)/)
+  if (di) return t('venues.d.err.invalid', { f: t(`venues.d.errField.${di[1]}`, { defaultValue: di[1] }) })
   if (/row-level security|permission denied|not_allowed|not authorized/i.test(m)) return t('venues.err.permission')
   if (/Failed to fetch|NetworkError|network/i.test(m)) return t('venues.err.network')
   if (/does not exist|schema cache/i.test(m)) return t('venues.err.notMigrated')
