@@ -4003,8 +4003,17 @@
         "owner_cannot_review": "Owners and staff cannot review their own venue.",
         "already_replied": "This review already has a reply.",
         "reply_required": "Write a reply.",
-        "not_signed_in": "Please sign in."
-      }
+        "not_signed_in": "Please sign in.",
+        "already_assigned": "This person already has this venue."
+      },
+      "allSurveyors": "All surveyors",
+      "moveTo": "Move to…",
+      "move": "Move",
+      "cancel": "Cancel task",
+      "cancelSure": "Tap again to cancel",
+      "movedOk": "Task moved",
+      "cancelledOk": "Task cancelled",
+      "draftKept": "Draft in progress: moving keeps what has been filled in; cancelling discards it."
     },
     "r": {
       "nav": "Reported reviews ({{n}})",

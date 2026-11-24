@@ -4003,8 +4003,17 @@
         "owner_cannot_review": "Chủ sân và nhân viên không tự đánh giá địa điểm của mình.",
         "already_replied": "Đánh giá này đã được trả lời.",
         "reply_required": "Viết nội dung trả lời.",
-        "not_signed_in": "Cần đăng nhập."
-      }
+        "not_signed_in": "Cần đăng nhập.",
+        "already_assigned": "Người này đã được giao địa điểm này."
+      },
+      "allSurveyors": "Mọi khảo sát viên",
+      "moveTo": "Chuyển cho…",
+      "move": "Chuyển",
+      "cancel": "Huỷ việc",
+      "cancelSure": "Bấm lần nữa để huỷ",
+      "movedOk": "Đã chuyển việc",
+      "cancelledOk": "Đã huỷ việc",
+      "draftKept": "Phiếu đang nháp: chuyển thì người mới làm tiếp phần đã điền; huỷ thì mất phần đã điền."
     },
     "r": {
       "nav": "Đánh giá bị báo cáo ({{n}})",

@@ -26,3 +26,9 @@ Bản 1 · 24/11/2026 · Người làm: Minh · Anh Long duyệt đợt C và y�
 ## Kiểm thử đã chạy
 
 Postgres 16 sạch: migration A + B + dữ liệu + C, chạy C hai lần không lỗi. Giao việc 2/3 mã (bỏ mã sai, không giao trùng); người thường bị chặn giao việc và không đọc được phiếu; gửi thiếu điểm bị chặn; trả lại → nháp; duyệt chỉ áp dụng trường được chọn (số ô = 12, tên không đổi), điểm 7.8 hiện ở view công khai. Đánh giá: sửa cùng dòng; chủ sân bị chặn tự đánh giá; trả lời một lần; báo cáo trùng không cộng; ẩn → điểm người dùng tính lại (3.0/2 → 4.0/1); view công khai chỉ hiện đánh giá đang hiện, tên "Long V.". App: `tsc`, 136 test, `vite build`; chạy thử 7 màn với Supabase giả lập, không lỗi. Web: mục Đánh giá, nhãn VNC và bộ lọc chạy với dữ liệu giả lập.
+
+## Bổ sung 24/11/2026: huỷ / chuyển việc khảo sát
+
+- Migration `20261124000004_practice_venues_c2.sql`: `pv_cancel_survey` (xoá việc chưa gửi), `pv_reassign_survey` (chuyển sang khảo sát viên khác, giữ phần nháp; chặn nếu người nhận đã có địa điểm đó). Phiếu đã gửi / đã duyệt không huỷ, không chuyển được.
+- `/admin/venues/surveys` tab "Đang làm": lọc theo khảo sát viên; mỗi việc có "Chuyển cho…" và "Huỷ việc" (bấm hai lần).
+- Hàm `admin-users`: thêm `venue_surveyor` vào danh sách vai được phép khi tạo tài khoản nhân viên.
