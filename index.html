@@ -44,7 +44,7 @@ a{color:inherit}
 
 /* Brand bar */
 .top{background:var(--brand);color:var(--on-brand);padding-top:env(safe-area-inset-top,0px)}
-.top .wrap{display:flex;align-items:center;gap:12px;min-height:60px}
+.top .wrap{display:flex;align-items:center;gap:12px;min-height:60px}.toplink{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);color:inherit;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap}.toplink:hover{background:color-mix(in srgb,currentColor 10%,transparent)}@media(max-width:440px){header.top .logo small{display:none!important}.logo b{white-space:nowrap}.toplink{padding:0 10px;font-size:12px}.tl-full{display:none}.tl-short{display:inline!important}.top .seg,.toplink{flex-shrink:0}.logo span{min-width:0;overflow:hidden}header.top .logo b{display:block;overflow:hidden;text-overflow:ellipsis;font-size:14px;letter-spacing:0}header.top .wrap{gap:6px}header.top .logo{gap:6px}.logo svg{width:32px;height:32px;flex-shrink:0}}.tl-short{display:none}.crsnear{display:grid;gap:8px;margin-top:10px}.crsnear a{display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:52px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:var(--surface)}.crsnear small{color:var(--muted)}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
 .logo svg{flex:none}
 .logo b{font-family:var(--serif);font-size:18px;letter-spacing:.02em;display:block;line-height:1.1}
@@ -292,6 +292,7 @@ aside.dside{position:sticky;top:64px;display:grid;gap:14px}
       <span><b>VN CENTRE</b><small data-i="brandSub"></small></span>
     </a>
     <span class="sp"></span>
+    <a class="toplink" id="coursesLink" href="https://courses.vncentre.net/"><span class="tl-full" data-i="coursesLink"></span><span class="tl-short" data-i="coursesShort"></span></a>
     <div class="seg" role="group" aria-label="Theme">
       <button id="th-vnc" aria-pressed="true"><span class="swatch" style="background:#3a1f0c"></span><span class="hide-xs">VN Centre</span></button>
       <button id="th-gp" aria-pressed="false"><span class="swatch" style="background:#080634"></span><span class="hide-xs">Golf Passport</span></button>
@@ -472,7 +473,7 @@ const T={
   priceSub:"Giá tham khảo sẽ được VN Centre xác nhận trực tiếp với địa điểm.",colItem:"Hạng mục",colWeek:"Ngày thường",colWkd:"Cuối tuần / lễ",
   svcSub:"Tiện ích theo Google Maps. Mục mờ là chưa xác nhận.",equipSub:"Hệ thống máy, phần mềm và quy mô khu tập.",photosSub:"Ảnh do VN Centre chụp tại chỗ — đang cập nhật.",
   newsSub:"Bài viết, báo chí và review về địa điểm.",newsNone:"Chưa có bài viết được tổng hợp.",gNews:"Tìm tin tức trên Google",gWeb:"Tìm review trên Google",fbSearch:"Tìm trên Facebook",brandBtn:"Hồ sơ hãng máy ›",brandsAll:"Các hãng máy golf 3D",bTech:"Công nghệ đo",bModels:"Các dòng máy",bFeats:"Điểm nổi bật",bApps:"Phần mềm & ứng dụng",bFit:"Phù hợp với",bOrigin:"Xuất xứ",bdg:{tour:"Chuẩn tour",plate:"Sàn nghiêng",ai:"AI phân tích swing",vi:"Có tiếng Việt"},grp:{tour:"Máy đo chuẩn tour",screen:"Hệ thống screen golf trọn bộ",home:"Máy đo cho phòng nhỏ & tại gia"},grpSub:{home:"Gọn, giá mềm hơn máy chuẩn tour; ghép với phần mềm chơi sân như GSPro, E6 Connect. Hay gặp ở phòng tập nhỏ, học viện và nhà riêng.",tour:"Đo số liệu bóng – gậy rất chính xác; mạnh về luyện tập, dạy học, fitting.",screen:"Trọn gói phòng chơi: cảm biến, sàn nghiêng, tự đặt bóng, đồ hoạ sân; mạnh về chơi 18 hố, chơi nhóm, giải online."},unkMachine:"Chưa xác định hãng máy – VN Centre sẽ cập nhật sau khảo sát.",seeBrands:"Tìm hiểu các hãng máy golf 3D ›",closeB:"Đóng",bNote:"",bSrc:"Nguồn: trang chính hãng và nhà phân phối, cập nhật 23/11/2026. Số liệu do hãng công bố.",bRooms:"Phòng dùng máy này",tip:"Muốn chỉnh swing, đo khoảng cách từng gậy → ưu tiên Trackman, Foresight, Golfzon GDR. Muốn chơi sân cùng bạn bè, cảm giác dốc thật → Golfzon, Friends Screen, SG Golf, K-Golf, GTR, MS Golf.",embedNote:"Trình xem này chặn khung Facebook nên video mở ở tab mới. Khi đặt trang lên vncentre.net, video và fanpage phát ngay trong trang.",fbBox:"Fanpage Facebook",vidSubE:"Video giới thiệu đăng trên Facebook của địa điểm. Bấm ▶ để xem ngay trong trang.",fb:"Facebook",fbChainBtn:"Fanpage chuỗi",fbChainNote:"Địa điểm này chưa có fanpage riêng được xác nhận; đang dẫn về trang chung của chuỗi {c}.",vids:"{n} video",vidSub:"Video giới thiệu đăng trên Facebook của địa điểm. Bấm để xem trên Facebook.",vidNone:"Chưa tìm thấy video. Xem thêm ở mục Video trên fanpage.",vidItem:"Video {i}",vidOpen:"Xem trên Facebook ›",vidTab:"Mở mục Video của fanpage",fFb:"Facebook",
-  aroundSub:"Gợi ý quanh địa điểm, mở bằng Google Maps.",forMe:"Cá nhân",forFam:"Gia đình",forBiz:"Doanh nghiệp",golfNear:"Chỗ tập golf khác gần đó",
+  aroundSub:"Gợi ý quanh địa điểm, mở bằng Google Maps.",forMe:"Cá nhân",forFam:"Gia đình",forBiz:"Doanh nghiệp",golfNear:"Chỗ tập golf khác gần đó",coursesLink:"Sân golf Việt Nam",coursesShort:"Sân golf",crsT:"Sân golf gần đây",crsSub:"Thông tin sân, số đo và ảnh trên courses.vncentre.net.",crsOpen:"Xem sân ›",
   closedTemp:"Tạm đóng cửa",vncT:"Điểm khảo sát VN Centre",vncSub:"VN Centre đến tận nơi, chấm 6 tiêu chí theo thang 10. Độc lập với đánh giá của người dùng.",vncNone:"Chưa được VN Centre khảo sát.",vncOn:"Khảo sát ngày {d}",vk:{facility:"Cơ sở vật chất",tech:"Máy & công nghệ",service:"Phục vụ",clean:"Sạch sẽ",value:"Đáng tiền",family:"Hợp gia đình, trẻ em"},vPros:"Điểm mạnh",vCons:"Cần cải thiện",uT:"Người chơi đánh giá",uSub:"Đánh giá của tài khoản VNC Golf Passport, hiện ngay khi đăng. Không tính điểm thưởng.",uNone:"Chưa có đánh giá. Hãy là người đầu tiên.",uN:"{n} đánh giá",uWrite:"✍ Viết đánh giá",uReply:"Chủ sân trả lời",uMore:"Xem tất cả và báo cáo ›",contrib:"Bạn biết thêm về nơi này?",contribSub:"Đăng nhập VNC Golf Passport để góp thông tin; đóng góp được duyệt được cộng điểm.",cSuggest:"Đề xuất sửa thông tin",cPhoto:"Gửi ảnh",cClaim:"Tôi là chủ sân – nhận trang",cNew:"+ Thêm địa điểm mới",cMine:"Đóng góp của tôi",ownerUpd:"Chủ sân cập nhật",photosLive:"Ảnh do người dùng và VN Centre gửi, đã được duyệt.",facts:"Thông tin nhanh",fType:"Loại",fArea:"Khu vực",fAddr:"Địa chỉ",fPhone:"Điện thoại",fHours:"Giờ mở",fWeb:"Website",fCoord:"Toạ độ",fUpd:"Cập nhật",
   bookTitle:"Đặt chỗ",bookText:"Đặt sân/phòng trực tuyến sắp có. Hiện tại anh chị gọi trực tiếp địa điểm, hoặc nhờ VN Centre đặt hộ qua Zalo/hotline 083 570 1111.",bookDate:"Ngày",bookTime:"Giờ",bookPeople:"Số người",bookBtn:"Đặt chỗ · sắp ra mắt",zalo:"Nhắn Zalo VN Centre",
   machineInfo:{Golfzon:"Golfzon (Hàn Quốc) — hệ thống golf 3D phổ biến nhất Việt Nam, mô phỏng nhiều sân golf thật, có chế độ luyện tập, chơi theo nhóm và tính điểm.",Foresight:"Foresight Sports (Mỹ) — máy đo dùng camera tốc độ cao, đo chính xác thông số bóng và gậy, hay dùng cho luyện tập kỹ thuật và fitting gậy."},
@@ -500,7 +501,7 @@ const T={
   priceSub:"Reference prices will be confirmed with the venue by VN Centre.",colItem:"Item",colWeek:"Weekday",colWkd:"Weekend / holiday",
   svcSub:"Amenities per Google Maps. Faded items are unconfirmed.",equipSub:"Simulator system, software and size of the practice area.",photosSub:"Photos taken on site by VN Centre — coming soon.",
   newsSub:"Articles, press and reviews about this place.",newsNone:"No articles collected yet.",gNews:"Search news on Google",gWeb:"Search reviews on Google",fbSearch:"Search on Facebook",brandBtn:"Simulator profile ›",brandsAll:"Golf simulator brands",bTech:"How it measures",bModels:"Models",bFeats:"Highlights",bApps:"Software & apps",bFit:"Best for",bOrigin:"Origin",bdg:{tour:"Tour-grade",plate:"Slope plate",ai:"AI swing analysis",vi:"Vietnamese UI"},grp:{tour:"Tour-grade launch monitors",screen:"All-in-one screen golf systems",home:"Launch monitors for small rooms & home"},grpSub:{home:"Compact and cheaper than tour-grade units; paired with course software such as GSPro or E6 Connect. Common in small studios, academies and homes.",tour:"Highly accurate ball and club data; best for practice, coaching and fitting.",screen:"Complete bays: sensors, moving slope plates, auto tee, course graphics; best for 18-hole play, groups and online events."},unkMachine:"Simulator brand not yet confirmed – VN Centre will update after its site visit.",seeBrands:"Learn about golf simulator brands ›",closeB:"Close",bNote:"Details below are in Vietnamese.",bSrc:"Sources: manufacturer and distributor sites, updated 23 Nov 2026. Figures as published by the makers.",bRooms:"Venues using this brand",tip:"For swing work and club distances → Trackman, Foresight, Golfzon GDR. For playing courses with friends on real slopes → Golfzon, Friends Screen, SG Golf, K-Golf, GTR, MS Golf.",embedNote:"This viewer blocks Facebook frames, so videos open in a new tab. Hosted on vncentre.net, videos and the page play right here.",fbBox:"Facebook page",vidSubE:"Intro videos from the venue's Facebook. Tap ▶ to watch here.",fb:"Facebook",fbChainBtn:"Chain page",fbChainNote:"No confirmed page of its own yet; this links to the chain's shared page, {c}.",vids:"{n} video",vidSub:"Intro videos posted on the venue's Facebook. Tap to watch on Facebook.",vidNone:"No videos found yet. See the Videos tab on its page.",vidItem:"Video {i}",vidOpen:"Watch on Facebook ›",vidTab:"Open the page's Videos tab",fFb:"Facebook",
-  aroundSub:"Ideas around this place, opened in Google Maps.",forMe:"Solo",forFam:"Family",forBiz:"Business",golfNear:"Other golf practice nearby",
+  aroundSub:"Ideas around this place, opened in Google Maps.",forMe:"Solo",forFam:"Family",forBiz:"Business",golfNear:"Other golf practice nearby",coursesLink:"Golf courses in Vietnam",coursesShort:"Courses",crsT:"Golf courses nearby",crsSub:"Course details, ratings and photos on courses.vncentre.net.",crsOpen:"View course ›",
   closedTemp:"Temporarily closed",vncT:"VN Centre survey score",vncSub:"VN Centre visits in person and scores 6 criteria out of 10, separately from player reviews.",vncNone:"Not yet surveyed by VN Centre.",vncOn:"Surveyed {d}",vk:{facility:"Facilities",tech:"Simulator & tech",service:"Service",clean:"Cleanliness",value:"Value for money",family:"Family & kids friendly"},vPros:"Strengths",vCons:"To improve",uT:"Player reviews",uSub:"Reviews from VNC Golf Passport accounts, published immediately. No points are awarded.",uNone:"No reviews yet. Be the first.",uN:"{n} reviews",uWrite:"✍ Write a review",uReply:"Owner's reply",uMore:"See all and report ›",contrib:"Know more about this place?",contribSub:"Sign in with VNC Golf Passport to contribute; approved contributions earn points.",cSuggest:"Suggest an edit",cPhoto:"Send photos",cClaim:"I own this venue – claim it",cNew:"+ Add a new venue",cMine:"My contributions",ownerUpd:"Updated by the owner",photosLive:"Photos from users and VN Centre, reviewed before publishing.",facts:"Quick facts",fType:"Type",fArea:"Area",fAddr:"Address",fPhone:"Phone",fHours:"Hours",fWeb:"Website",fCoord:"Coordinates",fUpd:"Updated",
   bookTitle:"Booking",bookText:"Online booking is coming. For now, call the venue directly or ask VN Centre to book for you via Zalo/hotline +84 835 701 111.",bookDate:"Date",bookTime:"Time",bookPeople:"Players",bookBtn:"Book · coming soon",zalo:"Message VN Centre on Zalo",
   machineInfo:{Golfzon:"Golfzon (Korea) — the most widespread golf simulator in Vietnam, with many real courses, practice modes, group play and scoring.",Foresight:"Foresight Sports (USA) — high-speed camera launch monitors measuring ball and club data precisely; popular for technique work and club fitting."},
@@ -646,9 +647,21 @@ const TC={range:"--t-range","3d":"--t-3d",academy:"--t-academy",course:"--t-cour
 const PAGE=30;
 const EMBED=(()=>{try{const q=new URLSearchParams(location.search).get("embed");if(q==="1")return true;if(q==="0")return false;return /^https?:$/.test(location.protocol)&&!/claudeusercontent|claude\.ai|anthropic/.test(location.hostname)}catch(e){return false}})();
 const fbPlug=(u,w)=>"https://www.facebook.com/plugins/video.php?href="+encodeURIComponent(u)+"&show_text=false&width="+w;
+const QP=(()=>{try{return new URLSearchParams(location.search)}catch(e){return new URLSearchParams()}})();
 let lang="vi",brand="vnc",CITY="hn",DATA,LANDMARKS,me=null,meLabel="",lmIdx="",sel=null,shown=PAGE;
 const st={types:new Set(),district:"",rating:0,machine:"",svc:new Set(),radius:0,sort:"rating",q:""};
+for(const k of String(QP.get("loai")||"").split(","))if(["range","3d","academy","course","mini"].includes(k))st.types.add(k);
+if(QP.get("q"))st.q=QP.get("q").slice(0,80);
+if(["1","3","5","10"].includes(QP.get("r")))st.radius=+QP.get("r");
+const WANT_GPS=QP.get("gan")==="1";
+/* Ghi bộ lọc vào đường link (giữ nguyên tham số khác và #/<id>) để chia sẻ được */
+function syncUrl(){try{const u=new URL(location.href),q=u.searchParams;
+  q.set("city",CITY);st.types.size?q.set("loai",[...st.types].join(",")):q.delete("loai");
+  st.q?q.set("q",st.q):q.delete("q");st.radius?q.set("r",st.radius):q.delete("r");
+  me&&meLabel==="gps"?q.set("gan","1"):q.delete("gan");
+  const qs=q.toString().replace(/%2C/gi,",");const n=u.pathname+(qs?"?"+qs:"")+u.hash;if(n!==location.pathname+location.search+location.hash)history.replaceState(history.state,"",n)}catch(e){}}
 try{const s=JSON.parse(localStorage.getItem("gp-pref2")||"{}");if(s.lang)lang=s.lang;if(s.brand)brand=s.brand;if(s.city&&ALL[s.city])CITY=s.city;}catch(e){}
+if(CITIES.includes(QP.get("city"))&&ALL[QP.get("city")])CITY=QP.get("city");
 DATA=ALL[CITY];LANDMARKS=LM[CITY];
 const $=id=>document.getElementById(id);
 const t=k=>k.split('.').reduce((o,p)=>o&&o[p],T[lang]);
@@ -855,7 +868,7 @@ function renderStatic(){contribLinks();
   $("th-vnc").setAttribute("aria-pressed",brand==="vnc");$("th-gp").setAttribute("aria-pressed",brand==="passport");
   renderRegions();
 }
-function update(resetPage=true){if(resetPage)shown=PAGE;$("sort").value=st.sort;renderBrandSel();renderTypes();renderFilters();renderRadius();const r=filtered();renderList(r);renderMap(r);renderWhere()}
+function update(resetPage=true){if(resetPage)shown=PAGE;syncUrl();$("sort").value=st.sort;renderBrandSel();renderTypes();renderFilters();renderRadius();const r=filtered();renderList(r);renderMap(r);renderWhere()}
 function setCity(c){if(c===CITY)return;CITY=c;DATA=ALL[c];LANDMARKS=LM[c];me=null;meLabel="";lmIdx="";sel=null;st.district="";st.radius=0;st.sort="rating";st.types.clear();save();renderStatic();update()}
 function syncView(){const v=document.body.dataset.view||"list";$("v-list").setAttribute("aria-pressed",v==="list");$("v-map").setAttribute("aria-pressed",v==="map");
   for(const b of [$("v-list"),$("v-map")]){const on=b.getAttribute("aria-pressed")==="true";b.style.background=on?"var(--ink)":"transparent";b.style.color=on?"var(--surface)":"var(--ink)"}}
@@ -920,6 +933,19 @@ function revHtml(p){
 async function loadReviews(p){
   try{const r=await fetch(SB.url+"/rest/v1/pv_public_reviews?select=*&venue_id=eq."+encodeURIComponent(p.id)+"&order=created_at.desc&limit=20",{headers:{apikey:SB.key,Authorization:"Bearer "+SB.key}});
     if(!r.ok)return;REV[p.id]=await r.json();const u=document.getElementById("ulist");if(u&&cur&&cur.id===p.id)u.innerHTML=revHtml(p)}catch(e){}
+}
+/* Sân golf: danh sách + toạ độ đọc từ trang chủ courses.vncentre.net đã đăng (bảng site_courses, mục _index) */
+let COURSES=null,crsP=null;
+function loadCourses(){if(COURSES)return Promise.resolve();if(crsP)return crsP;
+  crsP=fetch(SB.url+"/rest/v1/site_courses?select=html&course_id=eq._index",{headers:{apikey:SB.key,Authorization:"Bearer "+SB.key}}).then(r=>r.ok?r.json():[]).then(r=>{
+    const h=(r[0]&&r[0].html)||"";COURSES=[];const seen=new Set();
+    for(const m of h.matchAll(/\{"s":[^{}]*\}/g)){try{const o=JSON.parse(m[0]);if(o.s&&o.a!=null&&o.o!=null&&!seen.has(o.s)){seen.add(o.s);COURSES.push({s:o.s,n:o.n||o.s,p:o.p||"",lat:+o.a,lng:+o.o})}}catch(e){}}
+  }).catch(()=>{COURSES=[]});return crsP}
+function crsHtml(p){
+  if(!COURSES)return `<div id="crsbox"></div>`;
+  const L=COURSES.map(c=>({...c,d:km(p,c)})).filter(c=>c.d<80).sort((a,b)=>a.d-b.d).slice(0,5);
+  if(!L.length)return `<div id="crsbox"></div>`;
+  return `<div id="crsbox"><h3 style="font-family:var(--serif);font-size:18px;margin:18px 0 0">${t("crsT")}</h3><p class="sub">${t("crsSub")}</p><div class="crsnear">${L.map(c=>`<a href="https://courses.vncentre.net/san/${encodeURIComponent(c.s)}/"><span><b>${esc(c.n)}</b><br><small>${esc(c.p)} · ${fmtD(c.d)}</small></span><small>${t("crsOpen")}</small></a>`).join("")}</div></div>`;
 }
 let cur=null,aroundTab="me";
 function openDetail(id){if(!cur)listY=window.scrollY;try{if(location.hash!=="#/"+id){location.hash="#/"+id;return}}catch(e){}showDetail(id)}
@@ -996,7 +1022,7 @@ function showDetail(id){
         <a target="_blank" rel="noopener" href="https://www.facebook.com/search/top?q=${qn}">💬 ${t("fbSearch")}<span>Facebook ›</span></a></div></section>
     <section class="panel dsec" id="s-around"><h2>${t("nav.around")}</h2><p class="sub">${t("aroundSub")}</p>
       <div class="tabs" id="atabs"></div><div class="near" id="anear"></div>
-      ${near.length?`<h3 style="font-family:var(--serif);font-size:18px;margin:18px 0 0">${t("golfNear")}</h3><div class="golfnear">${near.slice(0,6).map(n=>`<button data-id="${n.id}"><span><b>${esc(n.name)}</b><br><small>${t("types."+n.type)} · ${esc(n.district)}</small></span><small>${fmtD(n.d)} ›</small></button>`).join("")}</div>`:""}</section>
+      ${near.length?`<h3 style="font-family:var(--serif);font-size:18px;margin:18px 0 0">${t("golfNear")}</h3><div class="golfnear">${near.slice(0,6).map(n=>`<button data-id="${n.id}"><span><b>${esc(n.name)}</b><br><small>${t("types."+n.type)} · ${esc(n.district)}</small></span><small>${fmtD(n.d)} ›</small></button>`).join("")}</div>`:""}${SB.url?crsHtml(p):""}</section>
    </div>
    <aside class="dside">
     <div class="panel facts"><h3>${t("facts")}</h3>
@@ -1024,8 +1050,9 @@ function showDetail(id){
   D.querySelectorAll(".dnav a").forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.go)?.scrollIntoView({behavior:"smooth",block:"start"})});
   D.querySelectorAll(".golfnear button").forEach(b=>b.onclick=()=>openDetail(b.dataset.id));
   if(SB.url)loadReviews(p);
+  if(SB.url)loadCourses().then(()=>{const b=document.getElementById("crsbox");if(b&&cur&&cur.id===p.id)b.outerHTML=crsHtml(p)});
   document.body.classList.add("detail");D.hidden=false;window.scrollTo(0,0);
   document.title=p.name+" · VN Centre";
 }
-document.body.dataset.view="list";syncView();renderStatic();update();route();loadLive();
+document.body.dataset.view="list";syncView();renderStatic();if(st.q)$("q").value=st.q;update();route();loadLive();if(WANT_GPS)setTimeout(()=>$("gps").click(),0);
 </script>
