@@ -92,7 +92,11 @@ const LEAGUE_NAV: NavItem[] = [
 ]
 
 // Quầy đối tác Golf Passport Partners (spec 18): quét QR động, nhập hoá đơn, lượt trong ngày
-const PARTNER_NAV: NavItem[] = [{ to: '/partner', labelKey: 'partners.counter.nav', end: true }]
+const PARTNER_NAV: NavItem[] = [
+  { to: '/partner', labelKey: 'partners.counter.nav', end: true },
+  // Spec 27: chủ sân tập tự cập nhật trang trên tapgolf.vncentre.net
+  { to: '/partner/venues', labelKey: 'venues.o.nav' },
+]
 
 // Nhân viên sự kiện (module 10): danh sách sự kiện → quầy đổi quà
 const EVENT_NAV: NavItem[] = [{ to: '/event', labelKey: 'counter.myEvents', end: true }]
@@ -153,6 +157,12 @@ export const router = createBrowserRouter([
       { path: '/terms', element: <LegalPage titleKey="pages.terms" /> },
       { path: '/privacy', element: <LegalPage titleKey="pages.privacy" /> },
       { path: '/status', element: <StatusPage /> },
+      // Spec 27: người dùng góp thông tin sân tập (tapgolf.vncentre.net) — tự kiểm tra đăng nhập
+      { path: '/venues/new', lazy: page(() => import('@/features/venues/contribute/ContributePages'), (m) => m.NewVenuePage) },
+      { path: '/venues/mine', lazy: page(() => import('@/features/venues/contribute/ContributePages'), (m) => m.MinePage) },
+      { path: '/venues/:id/suggest', lazy: page(() => import('@/features/venues/contribute/ContributePages'), (m) => m.SuggestPage) },
+      { path: '/venues/:id/photos', lazy: page(() => import('@/features/venues/contribute/ContributePages'), (m) => m.PhotosPage) },
+      { path: '/venues/:id/claim', lazy: page(() => import('@/features/venues/contribute/ContributePages'), (m) => m.ClaimPage) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
@@ -190,6 +200,7 @@ export const router = createBrowserRouter([
   ]),
   workspaceRoute('partner', '/partner', PARTNER_NAV, [
     { index: true, lazy: page(() => import('@/features/partners/CounterPages'), (m) => m.PartnerCounterHome) },
+    { path: 'venues', lazy: page(() => import('@/features/venues/contribute/OwnerPage'), (m) => m.OwnerVenuesPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
   workspaceRoute('student', '/me', STUDENT_NAV, [
@@ -244,6 +255,8 @@ export const router = createBrowserRouter([
     },
     // Spec 26: brands, import trước :id để không bị hiểu là mã địa điểm
     { path: 'venues/brands', lazy: page(() => import('@/features/venues/BrandsPage'), (m) => m.BrandsPage) },
+    { path: 'venues/queue', lazy: page(() => import('@/features/venues/contribute/ReviewPages'), (m) => m.QueuePage) },
+    { path: 'venues/photos', lazy: page(() => import('@/features/venues/contribute/ReviewPages'), (m) => m.PhotoQueuePage) },
     { path: 'venues/import', lazy: page(() => import('@/features/venues/ImportPage'), (m) => m.ImportPage) },
     { path: 'venues/:id', lazy: page(() => import('@/features/venues/VenueEditPage'), (m) => m.VenueEditPage) },
     { path: 'passports/:batchId', lazy: page(() => import('@/features/passports/BatchDetailPage'), (m) => m.BatchDetailPage) },

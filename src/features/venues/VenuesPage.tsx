@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { FormError, Select } from '@/components/ui/form'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { Chip, StickyActions, fmtDate } from '@/features/courses/parts'
+import { usePendingCounts } from './contribute/api'
 import { REGIONS, VENUE_STATUS, VENUE_TYPES, gaps, useBrands, useVenues, venueErr, type Gap, type Venue } from './api'
 import { StatusPill } from './parts'
 
@@ -16,6 +17,7 @@ export function VenuesPage() {
   const { t, i18n } = useTranslation()
   const venues = useVenues()
   const brands = useBrands()
+  const pending = usePendingCounts()
   const [region, setRegion] = useState<string>('all')
   const [type, setType] = useState<string>('all')
   const [status, setStatus] = useState<string>('all')
@@ -68,6 +70,8 @@ export function VenuesPage() {
         <h1 className="mt-1 text-2xl font-bold">{t('venues.title')}</h1>
         <p className="mt-1 text-sm text-white/75">{t('venues.count', { n: all.length, s: shown.length })}</p>
         <div className="mt-3 flex flex-wrap gap-2">
+          <Link to="/admin/venues/queue" className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-gold px-4 text-sm font-bold text-navy hover:bg-gold/90">{t('venues.q.nav', { n: pending.data?.subs ?? 0 })}</Link>
+          <Link to="/admin/venues/photos" className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-gold px-4 text-sm font-bold text-navy hover:bg-gold/90">{t('venues.q.navPhotos', { n: pending.data?.photos ?? 0 })}</Link>
           <Link to="/admin/venues/brands" className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-semibold hover:bg-white/20"><Tags className="h-4 w-4" /> {t('venues.brands.title')}</Link>
           <Link to="/admin/venues/import" className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-semibold hover:bg-white/20"><Upload className="h-4 w-4" /> {t('venues.import.title')}</Link>
         </div>
