@@ -36,6 +36,14 @@ export function photoUrl(path: string) {
   return db().storage.from('venue-photos').getPublicUrl(path).data.publicUrl
 }
 
+/** Giấy tờ nhận trang nằm ở kho riêng venue-private: chỉ người gửi và admin mở được, qua đường dẫn ký hạn 10 phút.
+ *  Giấy tờ gửi trước 24/11/2026 (kho công khai cũ) vẫn mở được nhờ dự phòng. */
+export async function evidenceUrl(path: string) {
+  const { data, error } = await db().storage.from('venue-private').createSignedUrl(path, 600)
+  if (!error && data?.signedUrl) return data.signedUrl
+  return photoUrl(path)
+}
+
 const K = {
   pub: (id: string) => ['pv_public_venues', id] as const,
   mine: ['pv_my_submissions'] as const,
