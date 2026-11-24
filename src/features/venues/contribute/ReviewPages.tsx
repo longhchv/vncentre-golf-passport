@@ -8,7 +8,7 @@ import { FormError, Input } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { Section, fmtDate } from '@/features/courses/parts'
-import { contribErr, photoUrl, useModeratePhoto, usePhotoQueue, useQueue, useReview, useVenueNames, type Photo, type Submission } from './api'
+import { contribErr, evidenceUrl, photoUrl, useModeratePhoto, usePhotoQueue, useQueue, useReview, useVenueNames, type Photo, type Submission } from './api'
 import type { Venue } from '../api'
 
 function Header({ title }: { title: string }) {
@@ -87,7 +87,7 @@ function SubCard({ s, venue, photos }: { s: Submission; venue?: Venue; photos: P
       {s.kind === 'claim' && (
         <div className="space-y-1 text-sm">
           <p>{t('venues.c.businessName')}: <b>{show(s.payload.business_name)}</b> · {t('venues.c.yourRole')}: {show(s.payload.role)} · {t('venues.c.contactPhone')}: <b>{show(s.payload.contact_phone)}</b></p>
-          {s.evidence_path && <a href={photoUrl(s.evidence_path)} target="_blank" rel="noreferrer" className="font-semibold underline">{t('venues.q.viewLicence')}</a>}
+          {s.evidence_path && <button type="button" className="min-h-11 font-semibold underline" onClick={async () => { const w = window.open('', '_blank'); const u = await evidenceUrl(s.evidence_path!); if (w) w.location.href = u; else window.location.href = u }}>{t('venues.q.viewLicence')}</button>}
           <p className="text-xs text-navy/60">{t('venues.q.claimEffect')}</p>
         </div>
       )}

@@ -11,6 +11,7 @@ export type Role =
   | 'event_staff'
   | 'league_staff'
   | 'partner_staff'
+  | 'venue_surveyor'
 
 export interface Profile {
   id: string
@@ -255,6 +256,7 @@ export const STAFF_ROLES: Role[] = [
   'event_staff',
   'league_staff',
   'partner_staff',
+  'venue_surveyor',
 ]
 
 // ===== Khu quản trị sân golf (bảng gc_*, migration 20261023000001) =====

@@ -20,7 +20,7 @@ import {
 export const TAPGOLF = 'https://tapgolf.vncentre.net'
 
 /** Bắt buộc đăng nhập Golf Passport; quay lại đúng trang sau khi đăng nhập. */
-function RequireSignIn({ children }: { children: ReactNode }) {
+export function RequireSignIn({ children }: { children: ReactNode }) {
   const { session, loading } = useAuth()
   const loc = useLocation()
   if (loading) return <FullPageSpinner />
@@ -28,7 +28,7 @@ function RequireSignIn({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
-function Shell({ title, sub, back, children }: { title: string; sub?: string; back?: string; children: ReactNode }) {
+export function Shell({ title, sub, back, children }: { title: string; sub?: string; back?: string; children: ReactNode }) {
   const { t } = useTranslation()
   return (
     <div className="min-h-dvh bg-cream">
@@ -364,7 +364,7 @@ function ClaimInner() {
       if (file) {
         const blob = await compressImage(file, 1_000_000, 1600)
         path = `${session!.user.id}/claim-${crypto.randomUUID()}.jpg`
-        const { error } = await supabase!.storage.from('venue-photos').upload(path, blob, { contentType: 'image/jpeg' })
+        const { error } = await supabase!.storage.from('venue-private').upload(path, blob, { contentType: 'image/jpeg' })
         if (error) throw error
       }
       await submit.mutateAsync({ kind: 'claim', venueId: id, payload: f, evidence, evidencePath: path })
@@ -405,6 +405,7 @@ function MineInner() {
   const { t, i18n } = useTranslation()
   const mine = useMySubmissions()
   const pts = useMyPoints()
+  const { hasRole } = useAuth()
   const names = useVenueNames([...(mine.data?.subs ?? []).map((s) => s.result_venue_id ?? s.venue_id ?? ''), ...(mine.data?.photos ?? []).map((p) => p.venue_id)])
   if (mine.isPending) return <FullPageSpinner />
   const total = (pts.data ?? []).reduce((a, p) => a + p.points, 0)
@@ -422,6 +423,7 @@ function MineInner() {
         <p className="text-3xl font-bold">{total} <span className="text-base font-medium text-white/75">{t('venues.c.pointsUnit')}</span></p>
         <p className="text-sm text-white/75">{t('venues.c.pointsHint')}</p>
       </section>
+      {(hasRole('venue_surveyor') || hasRole('admin')) && <Button asChild><Link to="/venues/survey">{t('venues.s.myTitle')}</Link></Button>}
       {(mine.data?.subs ?? []).map((s) => (
         <div key={s.id} className="flex flex-col gap-1 rounded-2xl border border-navy/10 bg-white px-4 py-3">
           <span className="flex items-center justify-between gap-2">

@@ -10,6 +10,9 @@ import { Section, StickyActions } from '@/features/courses/parts'
 import { PARKING, useBrands, type PriceRow, type Venue } from '../api'
 import { contribErr, useMyVenues, useOwnerUpdate } from './api'
 import { TAPGOLF } from './ContributePages'
+import { surveyErr, useOwnerReply, useVenueReviewsForOwner } from '../survey/api'
+import { Stars } from '../survey/SurveyPages'
+import { fmtDate } from '@/features/courses/parts'
 
 export function OwnerVenuesPage() {
   const { t } = useTranslation()
@@ -30,6 +33,7 @@ export function OwnerVenuesPage() {
         </Select>
       )}
       {v && <OwnerForm key={v.id + v.updated_at} v={v} />}
+      {v && <OwnerReviews venueId={v.id} />}
     </div>
   )
 }
@@ -104,5 +108,40 @@ function OwnerForm({ v }: { v: Venue }) {
       <FormError message={err} />
       <StickyActions><Button size="full" onClick={save} disabled={!dirty || upd.isPending}>{upd.isPending ? t('venues.saving') : t('venues.save')}</Button></StickyActions>
     </>
+  )
+}
+
+/** Chủ sân trả lời đánh giá (mỗi đánh giá một lần, hiện công khai dưới đánh giá). */
+function OwnerReviews({ venueId }: { venueId: string }) {
+  const { t, i18n } = useTranslation()
+  const toast = useToast()
+  const list = useVenueReviewsForOwner(venueId)
+  const reply = useOwnerReply()
+  const [txt, setTxt] = useState<Record<string, string>>({})
+  const [err, setErr] = useState<string | null>(null)
+  async function send(id: string) {
+    setErr(null)
+    if (!txt[id]?.trim()) return setErr(t('venues.s.err.reply_required'))
+    try { await reply.mutateAsync({ id, reply: txt[id] }); toast(t('venues.o.replied')) } catch (e) { setErr(surveyErr(e, t)) }
+  }
+  const rows = list.data ?? []
+  return (
+    <Section title={t('venues.o.reviews', { n: rows.length })}>
+      <p className="text-sm text-navy/70">{t('venues.o.reviewsHint')}</p>
+      <FormError message={err ?? (list.error ? surveyErr(list.error, t) : null)} />
+      {!rows.length && !list.isPending && <p className="text-sm text-navy/60">{t('venues.r.none')}</p>}
+      {rows.map((r) => (
+        <article key={r.id} className="space-y-2 border-t border-navy/10 pt-3 first:border-0 first:pt-0">
+          <p className="flex flex-wrap items-center gap-2 text-sm"><Stars n={r.stars} /> <b>{r.author}</b> <span className="text-navy/60">{fmtDate(r.created_at, i18n.language)}</span></p>
+          {r.body && <p className="text-sm whitespace-pre-line">{r.body}</p>}
+          {r.owner_reply ? <p className="rounded-lg bg-cream px-3 py-2 text-sm"><b>{t('venues.r.ownerReply')}:</b> {r.owner_reply}</p> : (
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Input className="min-w-0 flex-1" maxLength={1000} aria-label={t('venues.o.replyPh')} placeholder={t('venues.o.replyPh')} value={txt[r.id] ?? ''} onChange={(e) => setTxt({ ...txt, [r.id]: e.target.value })} />
+              <Button variant="outline" onClick={() => send(r.id)} disabled={reply.isPending}>{t('venues.o.reply')}</Button>
+            </div>
+          )}
+        </article>
+      ))}
+    </Section>
   )
 }
