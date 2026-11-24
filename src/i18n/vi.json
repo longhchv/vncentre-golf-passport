@@ -2051,6 +2051,12 @@
     "toPar": "So với par",
     "notRanked": "Không tính vào bảng xếp hạng",
     "certificate": "Tải chứng nhận",
+    "snagHandicap": "SNAG Handicap",
+    "snagNote": "Chỉ số nội bộ VN Centre tính từ kết quả SNAG Golf League theo nguyên lý WHS, dùng để chia bảng và tham khảo trình độ. Không phải WHS Handicap Index.",
+    "snagScale": "SNAG Handicap càng nhỏ càng giỏi. Số 0 là đánh đúng chuẩn sân SNAG. Số không dấu, ví dụ 12.0, là con còn cần thêm khoảng 12 gậy so với chuẩn trên 9 hố. Số có dấu cộng, ví dụ +8.1, là con đã giỏi hơn chuẩn khoảng 8 gậy, là mức rất tốt.",
+    "snagNeedHoles": "Cần thêm {{count}} hố để có chỉ số",
+    "snagRounds": "{{count}} vòng · cập nhật {{date}}",
+    "snagDiff": "Differential {{value}}",
     "queue": {
       "title": "Ghép VĐV SNAG League",
       "intro": "Các bạn đăng ký giải hoặc có kết quả mà hệ thống chưa chắc là ai. Kiểm tra rồi gộp vào hồ sơ có sẵn, gắn kết quả, hoặc giữ hồ sơ mới.",

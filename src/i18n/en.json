@@ -2051,6 +2051,12 @@
     "toPar": "To par",
     "notRanked": "Not counted in the rankings",
     "certificate": "Download certificate",
+    "snagHandicap": "SNAG Handicap",
+    "snagNote": "A VN Centre index calculated from SNAG Golf League results on WHS principles, used for grouping and as a guide to ability. Not a WHS Handicap Index.",
+    "snagScale": "The lower the SNAG Handicap, the better. 0 means playing exactly to the SNAG course standard. A number without a sign, e.g. 12.0, means your child still needs about 12 extra strokes over 9 holes compared with the standard. A number with a plus sign, e.g. +8.1, means your child is about 8 strokes better than the standard, which is a very good level.",
+    "snagNeedHoles": "{{count}} more holes needed for an index",
+    "snagRounds": "{{count}} rounds · updated {{date}}",
+    "snagDiff": "Differential {{value}}",
     "queue": {
       "title": "Match SNAG League players",
       "intro": "Players registered for the league, or with results, whom the system could not identify for sure. Check, then merge into an existing profile, attach the result, or keep the new profile.",
