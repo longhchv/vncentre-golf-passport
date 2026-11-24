@@ -7,6 +7,7 @@ export interface HoleRow {
   fairway: 'hit' | 'left' | 'right' | 'na' | null
   gir: boolean | null
   putts: number | null
+  penalties?: number | null
 }
 
 export interface RoundStats {
@@ -21,6 +22,14 @@ export interface RoundStats {
   putts: number
   putts18: number
   threePuttPct: number | null
+  /** Tổng gậy phạt và mất bóng (chỉ tính hố có ghi). */
+  penalties: number
+  /** Số hố lên green trước 1 gậy so với chuẩn: số gậy trước khi putt ≤ par − 1. */
+  reg1: number
+  /** Số hố có ghi số putt (để biết reg1 đếm trên bao nhiêu hố). */
+  reg1Known: number
+  /** Số hố từ triple bogey trở lên. */
+  bigHoles: number
 }
 
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 1000) / 10 : null)
@@ -48,6 +57,10 @@ export function roundStats(holes: HoleRow[]): RoundStats {
     putts,
     putts18: puttHoles.length ? Math.round((putts / puttHoles.length) * 18 * 10) / 10 : 0,
     threePuttPct: pct(puttHoles.filter((h) => (h.putts ?? 0) >= 3).length, puttHoles.length),
+    penalties: played.reduce((a, h) => a + (h.penalties ?? 0), 0),
+    reg1: puttHoles.filter((h) => (h.strokes ?? 99) - (h.putts ?? 0) <= h.par - 1).length,
+    reg1Known: puttHoles.length,
+    bigHoles: played.filter((h) => (h.strokes ?? 0) >= h.par + 3).length,
   }
 }
 

@@ -2768,7 +2768,7 @@
     "partialHint": "dòng mờ để buổi sau",
     "lineShare": "làm {{n}}/{{of}}",
     "weekDay": "Tuần {{w}} · ngày tập {{d}}/3 của giáo án",
-    "behind": "Đang chậm {{n}} tuần so với lịch 12 tuần. Các buổi sẽ dài hơn để bù dần; nếu vẫn chậm, nên thêm ngày tập.",
+    "behind": "Đang chậm {{n}} tuần so với lịch {{weeks}} tuần. Các buổi sẽ dài hơn để bù dần; nếu vẫn chậm, nên thêm ngày tập.",
     "unrealistic": "Mục tiêu này khá gắt. Với tốc độ thực tế, cần khoảng {{n}} tháng. Bạn vẫn có thể giữ mục tiêu.",
     "fmt": {
       "min": "{{n}} phút",
@@ -2832,7 +2832,7 @@
       "test": "Chưa có handicap? Làm bài test đầu vào"
     },
     "finished": {
-      "title": "Đã hoàn thành 12 tuần giáo án",
+      "title": "Đã hoàn thành {{weeks}} tuần giáo án",
       "body": "Hãy ra sân đánh vài vòng có tính handicap để kiểm chứng, rồi đặt mục tiêu mới."
     },
     "today": {
@@ -2856,18 +2856,19 @@
       "replace": "Đặt mục tiêu mới",
       "replaceNote": "Đặt mục tiêu mới sẽ bắt đầu lại giáo án từ tuần 1. Lịch sử buổi tập cũ vẫn được giữ.",
       "saved": "Đã lưu mục tiêu",
-      "targetLower": "Handicap mục tiêu phải thấp hơn handicap hiện tại."
+      "targetLower": "Handicap mục tiêu phải thấp hơn handicap hiện tại.",
+      "firstHcp": "Mục tiêu đầu tiên: có Handicap Index. App xếp chương trình Có Handicap 8 tuần, rồi dẫn sang app Handicap để nộp điểm."
     },
     "sched": {
       "mode": "Cách xếp lịch",
-      "fixed_12_weeks": "Giữ đúng 12 tuần",
+      "fixed_12_weeks": "Giữ đúng {{weeks}} tuần",
       "flexible": "Theo thời gian rảnh",
-      "fixed_12_weeksHint": "Đủ số bóng, xong trong 12 tuần. App tự tính thời lượng mỗi buổi theo số ngày bạn chọn.",
+      "fixed_12_weeksHint": "Đủ số bóng, xong trong {{weeks}} tuần. App tự tính thời lượng mỗi buổi theo số ngày bạn chọn.",
       "flexibleHint": "Bạn chọn thời lượng mỗi buổi. Đủ bài tập, chỉ kéo dài thời gian hoàn thành.",
       "days": "Ngày tập trong tuần",
       "minutes": "Thời lượng mỗi buổi",
       "estimate": "Giáo án đầy đủ khoảng {{total}}. Với lịch này mất khoảng {{weeks}} tuần.",
-      "tooLong": "Lâu hơn thời hạn mục tiêu ({{months}} tháng). Có thể thêm ngày, tăng thời lượng hoặc chọn giữ đúng 12 tuần.",
+      "tooLong": "Lâu hơn thời hạn mục tiêu ({{months}} tháng). Có thể thêm ngày, tăng thời lượng hoặc chọn giữ đúng {{weeks}} tuần.",
       "fixedIntro": "Mỗi tuần giáo án cần khoảng {{min}} đến {{max}}. Thời lượng mỗi buổi theo số ngày tập:",
       "perWeek": "Số buổi/tuần",
       "avg": "Trung bình",
@@ -2940,7 +2941,9 @@
       "no": "Không",
       "preview": "Tổng {{strokes}} gậy, {{putts}} putt",
       "save": "Lưu vòng đấu",
-      "needStrokes": "Cần nhập số gậy của mọi hố."
+      "needStrokes": "Cần nhập số gậy của mọi hố.",
+      "penaltiesLabel": "Phạt/mất bóng",
+      "extra": "Phạt/mất bóng {{pen}} · Lên green trước 1 gậy {{reg1}}/{{known}} · Từ triple bogey {{big}} hố"
     },
     "clubs": {
       "club": "Gậy",

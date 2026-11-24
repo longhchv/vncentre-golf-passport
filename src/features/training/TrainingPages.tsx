@@ -282,7 +282,7 @@ function Home({ me }: { me: Me }) {
         <div className="h-2 rounded-full bg-navy/10"><div className="h-2 rounded-full bg-bronze" style={{ width: `${progress}%` }} /></div>
         {finished ? (
           <>
-            <p className="text-xl font-bold">{t('training.finished.title')}</p>
+            <p className="text-xl font-bold">{t('training.finished.title', { weeks: p?.weeks ?? 12 })}</p>
             <p className="text-navy/70">{t('training.finished.body')}</p>
           </>
         ) : doneToday ? (
@@ -311,7 +311,7 @@ function Home({ me }: { me: Me }) {
             <Button asChild size="full" variant="outline"><Link to={`${BASE}/session?extra=1`}>{t('training.today.extra')}</Link></Button>
           </>
         )}
-        {behind > 0 && <p className="rounded-xl bg-gold/15 px-3 py-2 text-sm text-brown">{t('training.behind', { n: behind })}</p>}
+        {behind > 0 && <p className="rounded-xl bg-gold/15 px-3 py-2 text-sm text-brown">{t('training.behind', { n: behind, weeks: p?.weeks ?? 12 })}</p>}
         {realistic && <p className="rounded-xl bg-gold/15 px-3 py-2 text-sm text-brown">{t('training.unrealistic', { n: realistic })}</p>}
       </Card>
       {links}
@@ -346,7 +346,8 @@ function GoalForm({ me }: { me: Me }) {
   const [minutes, setMinutes] = useState(current?.session_minutes ?? 60)
   const [err, setErr] = useState<string | null>(null)
 
-  const tgt = target === '' ? null : Number(target)
+  // Chưa có handicap: mục tiêu đầu tiên là có Handicap Index (chương trình Có Handicap, mục tiêu 54)
+  const tgt = noHcp ? 54 : target === '' ? null : Number(target)
   const now = noHcp || hcpNow === '' ? null : Number(hcpNow)
   const code = tgt == null ? null : programForTarget(tgt)
   const prog = programs.data?.find((p) => p.code === code)
@@ -365,9 +366,13 @@ function GoalForm({ me }: { me: Me }) {
             {t('training.goal.noHcpHint')} <Link className="font-semibold text-bronze" to={`${BASE}/test`}>{t('training.nav.test')}</Link>
           </p>
         )}
-        <Field label={t('training.goal.target')}>
-          <Input type="number" inputMode="decimal" step="0.1" min={-10} max={54} value={target} onChange={(e) => setTarget(e.target.value)} />
-        </Field>
+        {noHcp ? (
+          <p className="rounded-xl bg-gold/15 px-3 py-2 text-sm text-brown">{t('training.goal.firstHcp')}</p>
+        ) : (
+          <Field label={t('training.goal.target')}>
+            <Input type="number" inputMode="decimal" step="0.1" min={-10} max={54} value={target} onChange={(e) => setTarget(e.target.value)} />
+          </Field>
+        )}
         <Field label={t('training.goal.months')}>
           <Chips options={[3, 6, 9, 12]} value={[months]} onToggle={setMonths} label={(m) => t('training.goal.monthN', { n: m })} />
         </Field>
@@ -395,7 +400,7 @@ function GoalForm({ me }: { me: Me }) {
             {
               p_data: {
                 hcp_start: now, hcp_start_source: now == null ? 'none' : location.state?.hcp != null && Number(hcpNow) === location.state.hcp ? 'intake_test' : 'self_declared',
-                hcp_target: tgt, months, schedule_mode: mode, days_of_week: daysOfWeek, session_minutes: minutes,
+                hcp_target: tgt, program_code: code, months, schedule_mode: mode, days_of_week: daysOfWeek, session_minutes: minutes,
                 weak_area: location.state?.weak ?? current?.weak_area ?? null,
               },
             },
@@ -431,10 +436,10 @@ function ScheduleFields({ program, mode, setMode, days, setDays, minutes, setMin
           options={['fixed_12_weeks', 'flexible'] as Goal['schedule_mode'][]}
           value={[mode]}
           onToggle={setMode}
-          label={(m) => t(`training.sched.${m}`)}
+          label={(m) => t(`training.sched.${m}`, { weeks: program?.weeks ?? 12 })}
         />
       </Field>
-      <p className="text-sm text-navy/60">{t(`training.sched.${mode}Hint`)}</p>
+      <p className="text-sm text-navy/60">{t(`training.sched.${mode}Hint`, { weeks: program?.weeks ?? 12 })}</p>
       <Field label={t('training.sched.days')}>
         <Chips
           options={WEEK_ORDER}
@@ -454,7 +459,7 @@ function ScheduleFields({ program, mode, setMode, days, setDays, minutes, setMin
           {program && weeks != null && (
             <p className="text-sm">
               {t('training.sched.estimate', { total: fmt(totalMinutes(program)), weeks })}
-              {weeks > Math.round(goalMonths * 4.35) && <span className="block text-brown">{t('training.sched.tooLong', { months: goalMonths })}</span>}
+              {weeks > Math.round(goalMonths * 4.35) && <span className="block text-brown">{t('training.sched.tooLong', { months: goalMonths, weeks: program.weeks })}</span>}
             </p>
           )}
         </>
@@ -622,7 +627,7 @@ function Session({ me }: { me: Me }) {
 
   if (loading) return <p className="text-navy/60">{t('common.loading')}</p>
   if (!g || !plan) return <Shell title={t('training.title')}><Button asChild size="full"><Link to={`${BASE}/goal`}>{t('training.nav.setGoal')}</Link></Button></Shell>
-  if (!plan.chunks.length) return <Shell title={t('training.finished.title')}><p>{t('training.finished.body')}</p></Shell>
+  if (!plan.chunks.length) return <Shell title={t('training.finished.title', { weeks: program.data?.weeks ?? 12 })}><p>{t('training.finished.body')}</p></Shell>
 
   const get = (i: number) => state[i] ?? { done: true, result: '' }
   const set = (i: number, v: Partial<{ done: boolean; result: string }>) => setState({ ...state, [i]: { ...get(i), ...v } })
@@ -818,6 +823,7 @@ function Rounds({ me }: { me: Me }) {
                   FIR {s.firPct ?? '–'}% · GIR {s.girPct ?? '–'}% · {t('training.area.scr')} {s.scramblePct ?? '–'}% · {t('training.rounds.putts', { n: s.putts })}
                   {s.missLeft + s.missRight > 0 && ` · ${t('training.rounds.miss', { l: s.missLeft, r: s.missRight })}`}
                 </p>
+                <p className="text-sm text-navy/70">{t('training.rounds.extra', { pen: s.penalties, reg1: s.reg1, known: s.reg1Known, big: s.bigHoles })}</p>
                 <button
                   type="button"
                   className="text-sm font-semibold text-red-700"
@@ -842,7 +848,7 @@ function NewRound({ me, onDone }: { me: Me; onDone: () => void }) {
   const [course, setCourse] = useState('')
   const [date, setDate] = useState(vnToday())
   const [holes, setHoles] = useState<HoleRow[]>(() =>
-    Array.from({ length: 18 }, (_, i) => ({ hole_no: i + 1, par: 4, strokes: null, fairway: null, gir: null, putts: null })),
+    Array.from({ length: 18 }, (_, i) => ({ hole_no: i + 1, par: 4, strokes: null, fairway: null, gir: null, putts: null, penalties: null })),
   )
   const [busy, setBusy] = useState(false)
   const shown = holes.slice(0, n)
@@ -866,12 +872,15 @@ function NewRound({ me, onDone }: { me: Me; onDone: () => void }) {
             <p className="font-bold">{t('training.rounds.hole', { n: h.hole_no })}</p>
             <Chips options={[3, 4, 5]} value={[h.par]} onToggle={(p) => set(i, { par: p })} label={(p) => `Par ${p}`} />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <Field label={t('training.rounds.strokes')}>
               <Input type="number" inputMode="numeric" min={1} max={20} value={h.strokes ?? ''} onChange={(e) => set(i, { strokes: e.target.value ? Number(e.target.value) : null })} />
             </Field>
             <Field label={t('training.rounds.puttsLabel')}>
               <Input type="number" inputMode="numeric" min={0} max={10} value={h.putts ?? ''} onChange={(e) => set(i, { putts: e.target.value ? Number(e.target.value) : null })} />
+            </Field>
+            <Field label={t('training.rounds.penaltiesLabel')}>
+              <Input type="number" inputMode="numeric" min={0} max={10} value={h.penalties ?? ''} onChange={(e) => set(i, { penalties: e.target.value ? Number(e.target.value) : null })} />
             </Field>
           </div>
           {h.par > 3 && (
@@ -884,7 +893,10 @@ function NewRound({ me, onDone }: { me: Me; onDone: () => void }) {
           </Field>
         </Card>
       ))}
-      <Card className="p-4 text-sm">{t('training.rounds.preview', { strokes: s.strokes, putts: s.putts })}</Card>
+      <Card className="p-4 text-sm">
+        {t('training.rounds.preview', { strokes: s.strokes, putts: s.putts })}
+        {' · '}{t('training.rounds.extra', { pen: s.penalties, reg1: s.reg1, known: s.reg1Known, big: s.bigHoles })}
+      </Card>
       <Button
         size="full"
         disabled={!complete || busy}

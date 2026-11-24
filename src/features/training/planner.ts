@@ -244,8 +244,12 @@ export function weeksNeeded(p: Program, days: number, minutes: number) {
   return Math.ceil(totalMinutes(p) / Math.max(1, days * minutes))
 }
 
-/** Chương trình theo handicap mục tiêu (khớp target_hcp_min/max của training_programs). */
-export function programForTarget(target: number): 'b90' | 'b80' | 'b70' {
+export type ProgramCode = 'hcp54' | 'b100' | 'b90' | 'b80' | 'b70'
+
+/** Chương trình theo handicap mục tiêu (khớp target_hcp_min/max của training_programs). 54 = mục tiêu "có handicap". */
+export function programForTarget(target: number): ProgramCode {
+  if (target >= 54) return 'hcp54'
+  if (target >= 25) return 'b100'
   if (target >= 18) return 'b90'
   if (target >= 8) return 'b80'
   return 'b70'

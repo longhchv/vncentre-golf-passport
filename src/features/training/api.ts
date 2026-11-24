@@ -191,7 +191,7 @@ export function useRounds(studentId: string | undefined) {
     queryFn: async () => {
       const { data, error } = await db()
         .from('round_stats')
-        .select('id, played_on, course_name, holes_played, total_strokes, holes:round_stat_holes(hole_no, par, strokes, fairway, gir, putts)')
+        .select('id, played_on, course_name, holes_played, total_strokes, holes:round_stat_holes(hole_no, par, strokes, fairway, gir, putts, penalties)')
         .eq('student_id', studentId!)
         .is('deleted_at', null)
         .order('played_on', { ascending: false })

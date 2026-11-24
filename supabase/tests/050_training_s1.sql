@@ -99,7 +99,8 @@ begin
   ok := false;
   begin perform public.training_save_session(goal, public.vn_today(), 30, '[{}]'); exception when insufficient_privilege then ok := true; end;
   if not ok then raise exception 'FAIL người khác lưu được buổi tập vào mục tiêu của A'; end if;
-  select count(*) into n from public.training_program_blocks;
+  select count(*) into n from public.training_program_blocks b join public.training_program_sessions s on s.id = b.session_id
+    join public.training_programs p on p.id = s.program_id where p.code in ('b90', 'b80', 'b70');
   if n <> 194 then raise exception 'FAIL người dùng thử đọc giáo án ra % phần (mong đợi 194)', n; end if;
 
   -- 6. Vòng đấu và khoảng cách gậy
