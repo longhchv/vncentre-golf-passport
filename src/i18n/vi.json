@@ -2824,7 +2824,8 @@
       "clubs": "Khoảng cách gậy",
       "test": "Bài test đầu vào",
       "setGoal": "Đặt mục tiêu",
-      "changeGoal": "Đổi mục tiêu"
+      "changeGoal": "Đổi mục tiêu",
+      "challenges": "Thử thách và luật"
     },
     "noGoal": {
       "title": "Bắt đầu bằng một mục tiêu",
@@ -2981,7 +2982,8 @@
         "plans": "Giáo án",
         "benchmarks": "Chuẩn thống kê",
         "challenges": "Thẻ thử thách",
-        "drills": "Thư viện bài tập"
+        "drills": "Thư viện bài tập",
+        "quiz": "Câu hỏi luật"
       },
       "ov": {
         "profiles_self_created": "Hồ sơ tự tạo",
@@ -3047,7 +3049,15 @@
       "deleteRow": "Xoá mốc",
       "err": {
         "block_in_use": "Phần này đã có người tập nên không xoá được. Có thể sửa nội dung thay vì xoá.",
-        "last_block": "Buổi phải còn ít nhất một phần."
+        "last_block": "Buổi phải còn ít nhất một phần.",
+        "week_in_use": "Tuần này đã có người tập, không bớt được.",
+        "last_week": "Chương trình phải còn ít nhất 1 tuần.",
+        "too_many_weeks": "Tối đa 52 tuần.",
+        "day_exists": "Ngày này đã có buổi riêng.",
+        "invalid_day": "Ngày không hợp lệ.",
+        "session_in_use": "Buổi này đã có người tập, không xoá được.",
+        "last_session": "Tuần phải còn ít nhất 1 buổi.",
+        "code_taken": "Mã chương trình đã có hoặc để trống."
       },
       "chHint": "Thẻ thử thách theo level. Phần (parts) là danh sách các chỉ tiêu, mọi phần phải đạt.",
       "chTitle": "Tên",
@@ -3109,6 +3119,36 @@
         "all": "Mọi người",
         "junior": "Trẻ em",
         "adult": "Người lớn"
+      },
+      "daysPerWeek": "Số buổi mỗi tuần",
+      "daysPerWeekHint": "Buổi chung của tuần dùng cho mọi ngày; tạo buổi riêng theo ngày ở mục Giáo án.",
+      "chLevelHint": "Thẻ của các bạn nhỏ: nhập level 1–20. Thẻ người lớn: để trống và nhập mã chương trình.",
+      "chProgram": "Chương trình",
+      "chProgramHint": "Mã chương trình, ví dụ hcp54, b100",
+      "chAdult": "Người lớn",
+      "quizHint": "Câu hỏi luật cho người lớn. Người tập không thấy đáp án; máy chủ chấm điểm.",
+      "quizQuestion": "Câu hỏi",
+      "quizOptions": "Các phương án",
+      "quizOptionsHint": "Dạng [\"Phương án 1\", \"Phương án 2\", ...], 2–6 phương án",
+      "quizCorrect": "Đáp án đúng",
+      "quizCorrectHint": "Số thứ tự phương án đúng, đếm từ 0",
+      "quizExplain": "Giải thích",
+      "tools": {
+        "title": "Thêm, bớt, chỉnh giáo án",
+        "addWeek": "Thêm tuần mới (chép tuần {{n}})",
+        "weekAdded": "Đã thêm tuần {{n}}",
+        "removeWeek": "Bớt tuần cuối (tuần {{n}})",
+        "removeConfirm": "Xoá tuần {{n}} và mọi phần trong tuần đó?",
+        "dayLabel": "Ngày",
+        "addDay": "Tạo buổi riêng cho ngày này",
+        "deleteSession": "Xoá buổi đang chọn",
+        "deleteSessionConfirm": "Xoá buổi này?",
+        "dayHint": "Buổi chung dùng cho mọi ngày tập trong tuần. Buổi riêng (chép từ buổi chung) thay cho ngày đó.",
+        "cloneCode": "Mã mới",
+        "cloneName": "Tên mới",
+        "clone": "Nhân bản chương trình",
+        "cloned": "Đã nhân bản, bản mới đang tắt",
+        "cloneHint": "Sửa lớn thì nhân bản, sửa bản sao, rồi bật lên ở mục Chương trình. Người đang tập bản cũ không bị ảnh hưởng."
       }
     },
     "jr": {
@@ -3249,6 +3289,32 @@
         "mark": "Chấm tại lớp",
         "homework": "Bài về nhà"
       }
+    },
+    "whs": {
+      "title": "Handicap Index (app Handicap)",
+      "open": "Mở app Handicap",
+      "none": "Chưa có chỉ số. Đã nộp {{holes}}/{{min}} hố, {{scores}} vòng đã xác nhận.",
+      "next": "Đã có handicap: đặt mục tiêu tiếp theo"
+    },
+    "adult": {
+      "title": "Thẻ thử thách",
+      "note": "Thẻ tự xác nhận. Qua hết thẻ chỉ là mức tham khảo, vẫn cần ra sân để kiểm chứng.",
+      "program": {
+        "hcp54": "Có Handicap",
+        "b100": "Break 100"
+      }
+    },
+    "quiz": {
+      "title": "Bài kiểm tra luật",
+      "intro": "{{n}} câu, chọn một đáp án mỗi câu. Cần đúng từ 80% để qua.",
+      "none": "Chưa làm bài kiểm tra.",
+      "last": "Lần gần nhất: {{score}}/{{total}}",
+      "passedBadge": "đã qua",
+      "start": "Làm bài",
+      "retry": "Làm lại",
+      "submit": "Nộp bài ({{n}}/{{total}} câu)",
+      "passed": "Đạt. Bạn đã nắm các luật cơ bản để ra sân.",
+      "failed": "Chưa đạt, cần đúng từ {{need}} câu. Xem giải thích bên dưới rồi làm lại."
     }
   },
   "rewards": {

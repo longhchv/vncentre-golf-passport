@@ -94,7 +94,7 @@ export function useChallenges() {
     queryFn: async () => {
       const { data, error } = await db()
         .from('training_challenges')
-        .select('id, level_number, code, kind, area, title_vi, title_en, how_vi, parts, verify, points_rank, points_reward, is_provisional, sort_order')
+        .select('id, level_number, program_code, code, kind, area, title_vi, title_en, how_vi, parts, verify, points_rank, points_reward, is_provisional, sort_order')
         .eq('is_active', true)
         .order('level_number')
         .order('sort_order')
@@ -104,7 +104,7 @@ export function useChallenges() {
   })
 }
 
-function useResults(studentId: string) {
+export function useResults(studentId: string) {
   return useQuery({
     queryKey: ['training_jr_results', studentId],
     enabled: Boolean(studentId),
@@ -431,7 +431,7 @@ function Stepper({ value, max, onChange, label }: { value: number; max: number; 
 
 const YT = /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i
 
-function ChallengeEntry({ studentId, challengeId, back, guardian }: { studentId: string; challengeId: string; back: string; guardian?: boolean }) {
+export function ChallengeEntry({ studentId, challengeId, back, guardian }: { studentId: string; challengeId: string; back: string; guardian?: boolean }) {
   const { t } = useTranslation()
   const toast = useToast()
   const student = useStudent(studentId)
@@ -457,7 +457,7 @@ function ChallengeEntry({ studentId, challengeId, back, guardian }: { studentId:
     <Page title={c.title_vi} back={back}>
       <div className="flex flex-wrap items-center gap-2">
         <StateBadge state={state} />
-        <Badge>{t('training.jr.level', { n: c.level_number })}</Badge>
+        {c.level_number != null && <Badge>{t('training.jr.level', { n: c.level_number })}</Badge>}
         <Badge>{t(`training.jr.verify.${c.verify}`)}</Badge>
         {c.is_provisional && <Badge>{t('training.jr.provisional')}</Badge>}
       </div>
@@ -838,7 +838,7 @@ function CoachHomework({ classId }: { classId: string }) {
         <Field label={t('training.coach.hwCard')}>
           <Select value={form.challengeId} onChange={(e) => setForm({ ...form, challengeId: e.target.value })}>
             <option value="">—</option>
-            {(challenges.data ?? []).filter((c) => levels.includes(c.level_number) && c.verify !== 'coach').map((c) => (
+            {(challenges.data ?? []).filter((c) => c.level_number != null && levels.includes(c.level_number) && c.verify !== 'coach').map((c) => (
               <option key={c.id} value={c.id}>{t('training.jr.level', { n: c.level_number })} · {c.title_vi}</option>
             ))}
           </Select>

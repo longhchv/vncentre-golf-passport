@@ -9,7 +9,8 @@ export interface Part {
 }
 export interface Challenge {
   id: string
-  level_number: number
+  level_number: number | null
+  program_code?: string | null
   code: string
   kind: 'level_up' | 'practice'
   area: string

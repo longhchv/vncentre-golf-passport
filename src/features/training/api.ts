@@ -276,3 +276,26 @@ export async function addClub(row: Record<string, unknown>) {
   const { error } = await db().from('club_distances').insert(row)
   if (error) throw error
 }
+
+/** Handicap Index từ app Handicap (dùng chung máy chủ, gắn mã VNC). Lỗi (chưa có phần máy chủ) thì coi như không có. */
+export interface HandicapInfo {
+  handicap_index: number | null
+  holes_posted: number
+  scores_posted: number
+  min_holes_required: number | null
+  updated_at: string | null
+}
+export function useHandicapIndex(studentId: string | undefined) {
+  return useQuery({
+    queryKey: ['training_whs_index', studentId],
+    enabled: Boolean(studentId),
+    retry: false,
+    staleTime: 5 * 60_000,
+    queryFn: async (): Promise<HandicapInfo | null> => {
+      const { data, error } = await db().rpc('whs_current_index', { p_student_id: studentId })
+      if (error) return null
+      const row = (Array.isArray(data) ? data[0] : data) as HandicapInfo | undefined
+      return row ? { ...row, handicap_index: row.handicap_index == null ? null : Number(row.handicap_index) } : null
+    },
+  })
+}

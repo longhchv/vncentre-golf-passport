@@ -36,18 +36,19 @@ interface ProgramRow {
 
 function adminError(err: unknown, t: (k: string) => string) {
   const msg = (err as { message?: string })?.message ?? ''
-  return ['block_in_use', 'last_block'].includes(msg) ? t(`training.admin.err.${msg}`) : errorMessage(err, t)
+  const known = ['block_in_use', 'last_block', 'week_in_use', 'last_week', 'too_many_weeks', 'day_exists', 'invalid_day', 'session_in_use', 'last_session', 'code_taken']
+  return known.includes(msg) ? t(`training.admin.err.${msg}`) : errorMessage(err, t)
 }
 
 /** Admin · Tập luyện: tổng quan, chương trình, giáo án từng buổi, chuẩn thống kê (spec 23 bước 4). */
 export function TrainingAdminPage() {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills'>('overview')
+  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz'>('overview')
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t('training.title')}</h1>
       <div className="flex flex-wrap gap-2">
-        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills'] as const).map((k) => (
+        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz'] as const).map((k) => (
           <Button key={k} size="sm" variant={tab === k ? 'primary' : 'outline'} onClick={() => setTab(k)}>
             {t(`training.admin.tab.${k}`)}
           </Button>
@@ -59,6 +60,7 @@ export function TrainingAdminPage() {
       {tab === 'benchmarks' && <Benchmarks />}
       {tab === 'challenges' && <Challenges />}
       {tab === 'drills' && <Drills />}
+      {tab === 'quiz' && <Quiz />}
     </div>
   )
 }
@@ -130,6 +132,8 @@ function Programs() {
         { name: 'name_en', labelKey: 'fields.nameEn' },
         { name: 'target_hcp_min', labelKey: 'training.admin.hcpMin', type: 'number', hintKey: 'training.admin.hcpHint' },
         { name: 'target_hcp_max', labelKey: 'training.admin.hcpMax', type: 'number' },
+        { name: 'days_per_week', labelKey: 'training.admin.daysPerWeek', type: 'number', hintKey: 'training.admin.daysPerWeekHint' },
+        { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
         { name: 'summary_vi', labelKey: 'training.admin.summaryVi', type: 'textarea' },
         { name: 'summary_en', labelKey: 'training.admin.summaryEn', type: 'textarea' },
         { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
@@ -145,9 +149,9 @@ function Plans() {
   const programs = useQuery({
     queryKey: ['training_programs_admin'],
     queryFn: async () => {
-      const { data, error } = await db().from('training_programs').select('id, code, name_vi, weeks').order('sort_order')
+      const { data, error } = await db().from('training_programs').select('id, code, name_vi, weeks, days_per_week').order('sort_order')
       if (error) throw error
-      return data as Pick<ProgramRow, 'id' | 'code' | 'name_vi' | 'weeks'>[]
+      return data as Pick<ProgramRow, 'id' | 'code' | 'name_vi' | 'weeks' | 'days_per_week'>[]
     },
   })
   const [programId, setProgramId] = useState('')
@@ -191,8 +195,92 @@ function Plans() {
         </Field>
       </Card>
       <p className="text-sm text-navy/60">{t('training.admin.planHint')}</p>
+      {programId && (
+        <PlanTools
+          programId={programId}
+          week={week}
+          weeks={weeks}
+          daysPerWeek={programs.data?.find((p) => p.id === programId)?.days_per_week ?? 3}
+          session={sessions.data?.find((x) => x.id === sessionId)}
+          days={(sessions.data ?? []).map((x) => x.day_no)}
+          onWeek={setWeek}
+          onCloned={(id) => setProgramId(id)}
+        />
+      )}
       {sessionId && <SessionBlocks sessionId={sessionId} />}
     </div>
+  )
+}
+
+/** Thêm/bớt tuần, buổi riêng theo ngày, nhân bản chương trình (spec 25). */
+function PlanTools({ programId, week, weeks, daysPerWeek, session, days, onWeek, onCloned }: {
+  programId: string; week: number; weeks: number; daysPerWeek: number
+  session: { id: string; day_no: number } | undefined; days: number[]
+  onWeek: (w: number) => void; onCloned: (id: string) => void
+}) {
+  const { t } = useTranslation()
+  const toast = useToast()
+  const qc = useQueryClient()
+  const [day, setDay] = useState(1)
+  const [code, setCode] = useState('')
+  const [name, setName] = useState('')
+  const rpc = useMutation({
+    mutationFn: async ({ fn, args }: { fn: string; args: Record<string, unknown> }) => {
+      const { data, error } = await db().rpc(fn, args)
+      if (error) throw error
+      return data as unknown
+    },
+    onSuccess: () => {
+      for (const k of ['training_programs_admin', 'training_admin_sessions', 'training_program', 'training_programs']) qc.invalidateQueries({ queryKey: [k] })
+    },
+    onError: (e) => toast(adminError(e, t), 'error'),
+  })
+  const freeDays = Array.from({ length: daysPerWeek }, (_, i) => i + 1).filter((d) => !days.includes(d))
+  return (
+    <Card className="space-y-3 p-4">
+      <p className="font-semibold">{t('training.admin.tools.title')}</p>
+      <div className="flex flex-wrap gap-2">
+        <Button size="sm" variant="outline" disabled={rpc.isPending}
+          onClick={() => rpc.mutate({ fn: 'training_admin_add_week', args: { p_program_id: programId, p_copy_week: week } }, { onSuccess: (w) => { toast(t('training.admin.tools.weekAdded', { n: w as number })); onWeek(w as number) } })}>
+          {t('training.admin.tools.addWeek', { n: week })}
+        </Button>
+        <Button size="sm" variant="outline" disabled={rpc.isPending || weeks <= 1}
+          onClick={() => { if (window.confirm(t('training.admin.tools.removeConfirm', { n: weeks }))) rpc.mutate({ fn: 'training_admin_remove_last_week', args: { p_program_id: programId } }, { onSuccess: () => onWeek(Math.min(week, weeks - 1)) }) }}>
+          {t('training.admin.tools.removeWeek', { n: weeks })}
+        </Button>
+      </div>
+      <div className="flex flex-wrap items-end gap-2">
+        {freeDays.length > 0 && (
+          <>
+            <Field label={t('training.admin.tools.dayLabel')} className="w-44">
+              <Select value={freeDays.includes(day) ? day : freeDays[0]} onChange={(e) => setDay(Number(e.target.value))}>
+                {freeDays.map((d) => <option key={d} value={d}>{t('training.admin.dayN', { n: d })}</option>)}
+              </Select>
+            </Field>
+            <Button size="sm" variant="outline" disabled={rpc.isPending}
+              onClick={() => rpc.mutate({ fn: 'training_admin_add_day_session', args: { p_program_id: programId, p_week: week, p_day: freeDays.includes(day) ? day : freeDays[0] } })}>
+              {t('training.admin.tools.addDay')}
+            </Button>
+          </>
+        )}
+        {session && days.length > 1 && (
+          <Button size="sm" variant="ghost" disabled={rpc.isPending}
+            onClick={() => { if (window.confirm(t('training.admin.tools.deleteSessionConfirm'))) rpc.mutate({ fn: 'training_admin_delete_session', args: { p_session_id: session.id } }) }}>
+            {t('training.admin.tools.deleteSession')}
+          </Button>
+        )}
+      </div>
+      <p className="text-xs text-navy/55">{t('training.admin.tools.dayHint')}</p>
+      <div className="flex flex-wrap items-end gap-2 border-t border-navy/10 pt-3">
+        <Field label={t('training.admin.tools.cloneCode')} className="w-36"><Input value={code} onChange={(e) => setCode(e.target.value.trim())} /></Field>
+        <Field label={t('training.admin.tools.cloneName')} className="w-56"><Input value={name} onChange={(e) => setName(e.target.value)} /></Field>
+        <Button size="sm" variant="outline" disabled={rpc.isPending || !code}
+          onClick={() => rpc.mutate({ fn: 'training_admin_clone_program', args: { p_program_id: programId, p_code: code, p_name_vi: name } }, { onSuccess: (id) => { toast(t('training.admin.tools.cloned')); setCode(''); setName(''); onCloned(id as string) } })}>
+          {t('training.admin.tools.clone')}
+        </Button>
+      </div>
+      <p className="text-xs text-navy/55">{t('training.admin.tools.cloneHint')}</p>
+    </Card>
   )
 }
 
@@ -413,7 +501,8 @@ function BenchLine({ row, onSave, onDelete }: { row: BenchRow; onSave: (v: { hcp
 
 interface ChallengeRow {
   id: string
-  level_number: number
+  level_number: number | null
+  program_code: string | null
   code: string
   kind: string
   area: string
@@ -438,6 +527,7 @@ function Challenges() {
       <Field label={t('training.coach.level')} className="max-w-40">
         <Select value={level} onChange={(e) => setLevel(e.target.value ? Number(e.target.value) : '')}>
           <option value="">{t('common.all')}</option>
+          <option value={0}>{t('training.admin.chAdult')}</option>
           {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n}</option>)}
         </Select>
       </Field>
@@ -445,18 +535,19 @@ function Challenges() {
         table="training_challenges"
         titleKey="training.admin.tab.challenges"
         order="sort_order"
-        filter={(r) => level === '' || r.level_number === level}
+        filter={(r) => level === '' || r.level_number === level || (level === 0 && r.level_number == null)}
         invalidate={['training_challenges']}
         newDefaults={{ kind: 'level_up', verify: 'video_or_adult', points_rank: 30, points_reward: 30, is_active: true, parts: [{ label_vi: '', attempts: 5, target: 3 }] }}
         columns={[
-          { key: 'level_number', labelKey: 'training.coach.level' },
+          { key: 'level_number', labelKey: 'training.coach.level', render: (c) => c.level_number ?? c.program_code },
           { key: 'title', labelKey: 'training.admin.chTitle', render: (c) => <div><div className="font-semibold">{c.title_vi}</div><code className="text-xs text-navy/50">{c.code}</code></div> },
           { key: 'parts', labelKey: 'training.admin.chParts', render: (c) => c.parts.map((p) => `${p.target}/${p.attempts}${p.provisional ? '*' : ''}`).join(' · ') },
           { key: 'verify', labelKey: 'training.admin.chVerify', render: (c) => t(`training.jr.verify.${c.verify}`) },
           { key: 'is_active', labelKey: 'fields.status', render: (c) => <span>{c.is_active ? t('common.active') : t('common.inactive')}{c.is_provisional && <Badge className="ml-2">{t('training.jr.provisional')}</Badge>}</span> },
         ]}
         fields={[
-          { name: 'level_number', labelKey: 'training.coach.level', type: 'number', required: true },
+          { name: 'level_number', labelKey: 'training.coach.level', type: 'number', hintKey: 'training.admin.chLevelHint' },
+          { name: 'program_code', labelKey: 'training.admin.chProgram', hintKey: 'training.admin.chProgramHint' },
           { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
           { name: 'kind', labelKey: 'training.admin.chKind', type: 'select', options: opts(['level_up', 'practice'], t, 'training.admin.kind') },
           { name: 'area', labelKey: 'training.admin.chArea', type: 'select', required: true, options: opts(CH_AREAS, t, 'training.admin.chAreaOpt') },
@@ -518,5 +609,39 @@ function Drills() {
         { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
       ]}
     />
+  )
+}
+
+// ---------------------------------------------------------------- Spec 25: câu hỏi luật người lớn
+
+interface QuizRow { id: string; program_code: string; question_vi: string; options: string[]; correct_index: number; sort_order: number; is_active: boolean }
+
+function Quiz() {
+  const { t } = useTranslation()
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-navy/70">{t('training.admin.quizHint')}</p>
+      <CrudTable<QuizRow>
+        table="training_quiz_questions"
+        titleKey="training.admin.tab.quiz"
+        order="sort_order"
+        newDefaults={{ program_code: 'hcp54', options: ['', '', '', ''], correct_index: 0, is_active: true }}
+        columns={[
+          { key: 'sort_order', labelKey: 'training.admin.sortOrder' },
+          { key: 'question_vi', labelKey: 'training.admin.quizQuestion', render: (q) => <div><div className="font-semibold">{q.question_vi}</div><div className="text-xs text-navy/55">{q.options[q.correct_index]}</div></div> },
+          { key: 'program_code', labelKey: 'training.admin.chProgram' },
+          { key: 'is_active', labelKey: 'fields.status', render: (q) => (q.is_active ? t('common.active') : t('common.inactive')) },
+        ]}
+        fields={[
+          { name: 'program_code', labelKey: 'training.admin.chProgram', required: true },
+          { name: 'question_vi', labelKey: 'training.admin.quizQuestion', type: 'textarea', required: true },
+          { name: 'options', labelKey: 'training.admin.quizOptions', type: 'json', required: true, hintKey: 'training.admin.quizOptionsHint' },
+          { name: 'correct_index', labelKey: 'training.admin.quizCorrect', type: 'number', required: true, hintKey: 'training.admin.quizCorrectHint' },
+          { name: 'explain_vi', labelKey: 'training.admin.quizExplain', type: 'textarea' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+    </div>
   )
 }

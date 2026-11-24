@@ -1,7 +1,8 @@
 import { useMemo, useState, type ReactNode } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate, useParams } from 'react-router'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { CalendarDays, ChevronLeft, ClipboardList, Dumbbell, Flag, Ruler, Target } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ClipboardList, Dumbbell, Flag, Ruler, Target, Trophy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Checkbox, Field, FormError, Input, Select } from '@/components/ui/form'
@@ -10,16 +11,18 @@ import { ComingSoon } from '@/components/ComingSoon'
 import { Mascot } from '@/components/Mascot'
 import { errorMessage } from '@/lib/db'
 import { useLocalized } from '@/lib/i18nField'
+import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import {
   addClub, cursorOf, deleteRound, saveIntake, saveRound, useBenchmarks, useClubs, useGoal, useMe, usePracticeDays, useProgram,
-  usePrograms, useRounds, useRpc, useTrainingEnabled, useTrainingSettings, useUpdateGoal, type Goal, type Me,
+  useHandicapIndex, usePrograms, useRounds, useRpc, useTrainingEnabled, useTrainingSettings, useUpdateGoal, type Goal, type Me,
 } from './api'
 import {
   addDays, calendarWeek, dow, exerciseLineIndexes, fixedTable, isFinished, lineCoverage, minutesLeft, mondayOf, nextChunks,
   planDays, programForTarget, realisticMonths, sessionMinutesFor, totalMinutes, vnToday, weeksNeeded, type Chunk, type Program,
 } from './planner'
-import { PersonSwitcher } from './JuniorTraining'
+import { ChallengeEntry, PersonSwitcher, useChallenges, useResults } from './JuniorTraining'
+import { cardState } from './junior'
 import { averageStats, benchmark, estimateFromIntake, roundStats, weakestArea, type Area, type HoleRow } from './stats'
 
 const BASE = '/app/training'
@@ -213,6 +216,7 @@ function Home({ me }: { me: Me }) {
     <div className="grid grid-cols-2 gap-3">
       {[
         { to: `${BASE}/plan`, icon: CalendarDays, label: t('training.nav.plan'), show: Boolean(g) },
+        { to: `${BASE}/challenges`, icon: Trophy, label: t('training.nav.challenges'), show: true },
         { to: `${BASE}/rounds`, icon: Flag, label: t('training.nav.rounds'), show: true },
         { to: `${BASE}/clubs`, icon: Ruler, label: t('training.nav.clubs'), show: true },
         { to: `${BASE}/test`, icon: ClipboardList, label: t('training.nav.test'), show: true },
@@ -240,10 +244,13 @@ function Home({ me }: { me: Me }) {
     </div>
   )
 
+  const hcpCard = <HandicapCard studentId={me.id} goalCode={g?.program?.code ?? null} />
+
   if (!g || !program.data) {
     return (
       <div className="mx-auto max-w-lg space-y-5">
         {header}
+        {hcpCard}
         <Card className="space-y-3 p-5">
           <p className="text-lg font-semibold">{t('training.noGoal.title')}</p>
           <p className="text-navy/70">{t('training.noGoal.body')}</p>
@@ -272,6 +279,7 @@ function Home({ me }: { me: Me }) {
   return (
     <div className="mx-auto max-w-lg space-y-5">
       {header}
+      {hcpCard}
       <Card className="space-y-3 p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <p className="text-sm text-navy/60">
@@ -320,6 +328,38 @@ function Home({ me }: { me: Me }) {
   )
 }
 
+// ---------------------------------------------------------------- Handicap Index (app Handicap)
+
+export const HANDICAP_APP_URL = 'https://hdcp.vncentre.net'
+
+/** Chỉ số từ app Handicap; chưa có thì hiện số hố đã nộp. Có chỉ số khi đang ở Có Handicap thì gợi ý mục tiêu tiếp theo. */
+function HandicapCard({ studentId, goalCode }: { studentId: string; goalCode: string | null }) {
+  const { t } = useTranslation()
+  const q = useHandicapIndex(studentId)
+  if (!q.data) return null
+  const h = q.data
+  const has = h.handicap_index != null
+  const next = has && (goalCode == null || goalCode === 'hcp54')
+  return (
+    <Card className="space-y-2 p-4">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="text-sm text-navy/60">{t('training.whs.title')}</p>
+        <a href={HANDICAP_APP_URL} target="_blank" rel="noreferrer" className="text-sm font-semibold text-bronze">{t('training.whs.open')}</a>
+      </div>
+      {has ? (
+        <p className="text-3xl font-bold">{h.handicap_index!.toFixed(1)}</p>
+      ) : (
+        <p className="text-sm text-navy/75">
+          {t('training.whs.none', { holes: h.holes_posted, min: h.min_holes_required ?? '–', scores: h.scores_posted })}
+        </p>
+      )}
+      {next && (
+        <Button asChild size="sm"><Link to={`${BASE}/goal`} state={{ hcp: h.handicap_index, source: 'whs' }}>{t('training.whs.next')}</Link></Button>
+      )}
+    </Card>
+  )
+}
+
 // ---------------------------------------------------------------- Đặt mục tiêu
 
 export function TrainingGoalPage() {
@@ -331,7 +371,7 @@ function GoalForm({ me }: { me: Me }) {
   const loc = useLocalized()
   const toast = useToast()
   const nav = useNavigate()
-  const location = useLocation() as { state?: { hcp?: number; weak?: Area } }
+  const location = useLocation() as { state?: { hcp?: number; weak?: Area; source?: 'whs' } }
   const s = useTrainingSettings()
   const current = useGoal(me.id).data
   const programs = usePrograms()
@@ -399,7 +439,7 @@ function GoalForm({ me }: { me: Me }) {
           start.mutate(
             {
               p_data: {
-                hcp_start: now, hcp_start_source: now == null ? 'none' : location.state?.hcp != null && Number(hcpNow) === location.state.hcp ? 'intake_test' : 'self_declared',
+                hcp_start: now, hcp_start_source: now == null ? 'none' : location.state?.hcp != null && Number(hcpNow) === location.state.hcp ? (location.state.source ?? 'intake_test') : 'self_declared',
                 hcp_target: tgt, program_code: code, months, schedule_mode: mode, days_of_week: daysOfWeek, session_minutes: minutes,
                 weak_area: location.state?.weak ?? current?.weak_area ?? null,
               },
@@ -997,3 +1037,159 @@ function Clubs({ me }: { me: Me }) {
   )
 }
 
+
+// ---------------------------------------------------------------- Spec 25: thẻ thử thách và bài kiểm tra luật của người lớn
+
+const ADULT_PROGRAMS = ['hcp54', 'b100'] as const
+
+export function TrainingChallengesPage() {
+  return <Gate>{(me) => <AdultChallenges me={me} />}</Gate>
+}
+
+function AdultChallenges({ me }: { me: Me }) {
+  const { t } = useTranslation()
+  const goal = useGoal(me.id)
+  const challenges = useChallenges()
+  const results = useResults(me.id)
+  const attempts = useQuizAttempts(me.id)
+  const current = goal.data?.program?.code
+  const [pick, setPick] = useState<string | null>(null)
+  const withCards: string[] = ADULT_PROGRAMS.filter((c) => challenges.data?.some((x) => x.program_code === c))
+  const code = pick ?? (current && withCards.includes(current) ? current : withCards[0])
+  if (challenges.isPending || results.isPending) return <p className="text-navy/60">{t('common.loading')}</p>
+  const cards = (challenges.data ?? []).filter((c) => c.program_code === code)
+  const byId = (id: string) => (results.data ?? []).filter((r) => r.challenge_id === id)
+  const done = cards.filter((c) => cardState(byId(c.id)) === 'done').length
+  const last = (attempts.data ?? []).find((a) => a.program_code === code)
+  const passedQuiz = (attempts.data ?? []).some((a) => a.program_code === code && a.passed)
+  return (
+    <Shell title={t('training.adult.title')}>
+      <Chips options={withCards} value={code ? [code] : []} onToggle={(c) => setPick(c)} label={(c) => t(`training.adult.program.${c}`)} />
+      <Card className="space-y-1 p-4">
+        <p className="text-sm text-navy/60">{t('training.jr.cardsDone')}</p>
+        <p className="text-2xl font-bold">{cards.length ? `${done}/${cards.length}` : '–'}</p>
+        <p className="text-sm text-navy/60">{t('training.adult.note')}</p>
+      </Card>
+      {cards.map((c) => (
+        <Link key={c.id} to={`${BASE}/c/${c.id}`} className="block">
+          <Card className="flex items-center justify-between gap-3 p-4 hover:border-bronze">
+            <div>
+              <p className="font-semibold">{c.title_vi}</p>
+              <p className="text-sm text-navy/60">{c.parts.map((x) => t('training.jr.partGoal', { target: x.target, attempts: x.attempts })).join(' · ')}</p>
+            </div>
+            <Badge tone={cardState(byId(c.id)) === 'done' ? 'good' : 'neutral'}>{t(`training.jr.state.${cardState(byId(c.id))}`)}</Badge>
+          </Card>
+        </Link>
+      ))}
+      {code === 'hcp54' && (
+        <Card className="space-y-2 p-4">
+          <p className="font-semibold">{t('training.quiz.title')}</p>
+          <p className="text-sm text-navy/70">
+            {last ? t('training.quiz.last', { score: last.score, total: last.total }) : t('training.quiz.none')}
+            {passedQuiz && ` · ${t('training.quiz.passedBadge')}`}
+          </p>
+          <Button asChild size="sm"><Link to={`${BASE}/quiz/${code}`}>{last ? t('training.quiz.retry') : t('training.quiz.start')}</Link></Button>
+        </Card>
+      )}
+    </Shell>
+  )
+}
+
+export function TrainingChallengePage() {
+  return <Gate>{(me) => <AdultChallengeEntry me={me} />}</Gate>
+}
+function AdultChallengeEntry({ me }: { me: Me }) {
+  const { challengeId = '' } = useParams()
+  return <ChallengeEntry studentId={me.id} challengeId={challengeId} back={`${BASE}/challenges`} />
+}
+
+interface QuizAttempt { id: string; program_code: string; score: number; total: number; passed: boolean; created_at: string }
+function useQuizAttempts(studentId: string) {
+  return useQuery({
+    queryKey: ['training_quiz_attempts', studentId],
+    queryFn: async () => {
+      const { data, error } = await supabase!.from('training_quiz_attempts').select('id, program_code, score, total, passed, created_at')
+        .eq('student_id', studentId).order('created_at', { ascending: false }).limit(20)
+      if (error) throw error
+      return data as QuizAttempt[]
+    },
+  })
+}
+
+export function TrainingQuizPage() {
+  return <Gate>{(me) => <RulesQuiz me={me} />}</Gate>
+}
+
+interface QuizQuestion { id: string; question_vi: string; options: string[] }
+interface QuizResult { score: number; total: number; passed: boolean; need: number; detail: { id: string; correct_index: number; chosen: number | null; explain_vi: string | null }[] }
+
+function RulesQuiz({ me }: { me: Me }) {
+  const { t } = useTranslation()
+  const { code = 'hcp54' } = useParams()
+  const qc = useQueryClient()
+  const questions = useQuery({
+    queryKey: ['training_quiz', code],
+    queryFn: async () => {
+      const { data, error } = await supabase!.rpc('training_quiz_questions', { p_program_code: code })
+      if (error) throw error
+      return data as QuizQuestion[]
+    },
+  })
+  const [answers, setAnswers] = useState<Record<string, number>>({})
+  const [result, setResult] = useState<QuizResult | null>(null)
+  const [err, setErr] = useState<string | null>(null)
+  const submit = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase!.rpc('training_submit_quiz', { p_student_id: me.id, p_program_code: code, p_answers: answers })
+      if (error) throw error
+      return data as QuizResult
+    },
+    onSuccess: (r) => { setResult(r); qc.invalidateQueries({ queryKey: ['training_quiz_attempts'] }); window.scrollTo({ top: 0 }) },
+    onError: (e) => setErr(trainingError(e, t)),
+  })
+  if (questions.isPending) return <p className="text-navy/60">{t('common.loading')}</p>
+  const list = questions.data ?? []
+  const detail = new Map((result?.detail ?? []).map((d) => [d.id, d]))
+  return (
+    <Shell title={t('training.quiz.title')} back={`${BASE}/challenges`}>
+      {result ? (
+        <Card className={cn('space-y-1 p-4', result.passed ? 'border-emerald-300 bg-emerald-50' : 'bg-gold/15')}>
+          <p className="text-2xl font-bold">{result.score}/{result.total}</p>
+          <p>{result.passed ? t('training.quiz.passed') : t('training.quiz.failed', { need: result.need })}</p>
+          <Button size="sm" variant="outline" onClick={() => { setResult(null); setAnswers({}) }}>{t('training.quiz.retry')}</Button>
+        </Card>
+      ) : (
+        <p className="text-sm text-navy/70">{t('training.quiz.intro', { n: list.length })}</p>
+      )}
+      {list.map((q, i) => {
+        const d = detail.get(q.id)
+        return (
+          <Card key={q.id} className="space-y-2 p-4">
+            <p className="font-semibold">{i + 1}. {q.question_vi}</p>
+            <div className="space-y-1" role="radiogroup" aria-label={q.question_vi}>
+              {q.options.map((o, j) => {
+                const chosen = answers[q.id] === j
+                const right = d && d.correct_index === j
+                const wrong = d && chosen && d.correct_index !== j
+                return (
+                  <label key={j} className={cn('flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm',
+                    right ? 'border-emerald-400 bg-emerald-50' : wrong ? 'border-red-300 bg-red-50' : chosen ? 'border-bronze bg-gold/15' : 'border-navy/15')}>
+                    <input type="radio" name={q.id} checked={chosen} disabled={Boolean(result)} onChange={() => setAnswers({ ...answers, [q.id]: j })} />
+                    {o}
+                  </label>
+                )
+              })}
+            </div>
+            {d?.explain_vi && <p className="text-sm text-navy/70">{d.explain_vi}</p>}
+          </Card>
+        )
+      })}
+      <FormError message={err} />
+      {!result && list.length > 0 && (
+        <Button size="full" disabled={Object.keys(answers).length < list.length || submit.isPending} onClick={() => { setErr(null); submit.mutate() }}>
+          {t('training.quiz.submit', { n: Object.keys(answers).length, total: list.length })}
+        </Button>
+      )}
+    </Shell>
+  )
+}
