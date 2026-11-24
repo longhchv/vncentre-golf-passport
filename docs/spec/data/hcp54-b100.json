@@ -1,0 +1,1874 @@
+{
+ "hcp54": [
+  {
+   "w": 1,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Cầm gậy putt và tư thế",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "Đặt gậy sắt dưới đất làm đường thẳng, 5 phút putt dọc theo gậy (không cần lỗ)"
+      ],
+      [
+       "b",
+       "Vào 15 bóng từ 2 ft"
+      ],
+      [
+       "b",
+       "Vào 15 bóng từ 3 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip từ mép green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "20 chip từ mép green bằng gậy sắt 9, đếm số bóng lên green"
+      ],
+      [
+       "b",
+       "10 chip nhắm khu vực 3 bước trước lỗ"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Swing nửa không bóng",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "20 lần swing nửa không bóng với gậy sắt 7, giữ thăng bằng khi kết thúc"
+      ],
+      [
+       "b",
+       "10 bóng swing nửa với gậy sắt 7, bóng đặt trên tee"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: An toàn: đứng sau và chéo người đang đánh, không đứng trước mặt; chỉ swing khi xung quanh trống; thứ tự đánh: người xa lỗ đánh trước."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 2,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Putt ngắn và đều tay",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "5 phút putt dọc theo gậy sắt đặt dưới đất"
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "10 putt từ 10 ft, đếm số bóng dừng trong 3 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip lên green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "20 chip từ mép green tới lỗ gần (10 ft), đếm số bóng lên green"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ xa (25 ft), đếm số bóng lên green"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Sắt 7 swing nửa có bóng",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "15 lần swing nửa không bóng với sắt 7"
+      ],
+      [
+       "b",
+       "20 bóng swing nửa với sắt 7, bóng đặt trên tee; đếm số bóng bay lên, không top, không chunk"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Chăm sóc sân: sửa vết bóng rơi trên green, lấp hoặc đặt lại divot, cào bunker sau khi đánh."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 3,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Putt ngắn và putt xa",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "10 putt từ 15 ft, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Pitch 20–50 yd",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 pitch tới mục tiêu 20 yd bằng wedge"
+      ],
+      [
+       "b",
+       "10 pitch tới mục tiêu 30 yd, đếm số bóng rơi vào vùng rộng như green"
+      ],
+      [
+       "b",
+       "10 pitch tới mục tiêu 50 yd"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Swing 3/4",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "15 lần swing 3/4 không bóng với sắt 7"
+      ],
+      [
+       "b",
+       "20 bóng swing 3/4 với sắt 7, bóng đặt trên tee, đếm số bóng bay lên"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Bóng ngoài biên (OB) và bóng mất: phạt 1 gậy và đánh lại từ chỗ cũ. Không chắc tìm được bóng thì đánh bóng tạm trước khi đi tìm."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 4,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Putt xa",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "10 putt từ 15 ft và 10 putt từ 20 ft, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip và pitch xen kẽ",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 chip từ mép green, đếm số bóng lên green"
+      ],
+      [
+       "b",
+       "10 pitch tới mục tiêu 30 yd, đếm số bóng lên green"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Phát bóng bằng gậy dễ nhất",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Chọn gậy phát bóng dễ nhất (hybrid hoặc sắt 5–7)"
+      ],
+      [
+       "b",
+       "20 bóng phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "b",
+       "10 bóng sắt 7 swing 3/4"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Vùng phạt (cọc đỏ, cọc vàng) và bóng không đánh được: các cách xử lý, phạt 1 gậy."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 5,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Chuẩn bị ra sân",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "Vào 10 bóng từ 3 ft liên tiếp"
+      ],
+      [
+       "b",
+       "10 putt từ 20 ft, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip trước vòng",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 chip từ mép green, đếm số bóng lên green"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Phát bóng trước khi ra sân",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "10 bóng sắt 7 swing 3/4"
+      ],
+      [
+       "b",
+       "15 bóng phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Nhịp chơi: 9 hố trong tối đa 2 giờ 15 phút. Đến par + 5 mà chưa vào lỗ thì nhặt bóng, ghi par + 5 và đi tiếp."
+      ],
+      [
+       "p",
+       "Ra sân lần 1 trong tuần này (thay một buổi tập): chơi 9 hố hoặc sân ngắn cùng người hướng dẫn hoặc bạn chơi; ghi phiếu rút gọn số gậy, số putt, gậy phạt mỗi hố; đến par + 5 thì nhặt bóng."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 6,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Putt xa trong 6 ft",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "10 putt từ 20 ft và 10 putt từ 25 ft, đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Bunker cơ bản (nếu sân tập có)",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 cú ra bunker: mở mặt gậy, đánh vào cát sau bóng 2 inch; đếm số bóng ra khỏi bunker"
+      ],
+      [
+       "b",
+       "10 chip từ cỏ dày cách green 5 yd, đếm số bóng lên green"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Sắt 7 swing đầy đủ",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "10 lần swing đầy đủ không bóng"
+      ],
+      [
+       "b",
+       "20 bóng sắt 7 swing đầy đủ, đếm số bóng bay lên"
+      ],
+      [
+       "b",
+       "10 bóng phát bóng, đếm số bóng vào hành lang 40 yd"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Ghi điểm: mỗi vòng có người ghi điểm cùng chơi, hai bên ký phiếu; ghi đúng số gậy mỗi hố kể cả gậy phạt."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 7,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Thói quen trước mỗi cú putt",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "Đi quanh, chọn đường, 2 lần swing tập, rồi putt"
+      ],
+      [
+       "b",
+       "Vào 10 bóng từ 3 ft liên tiếp"
+      ],
+      [
+       "b",
+       "10 putt từ 20 ft, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Thói quen trước mỗi cú chip",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Chọn điểm rơi trước khi đánh"
+      ],
+      [
+       "b",
+       "20 chip từ mép green, đếm số bóng lên green"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Thói quen trước mỗi cú phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Đứng sau bóng chọn mục tiêu, 1 lần swing tập, rồi đánh"
+      ],
+      [
+       "b",
+       "20 bóng phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Handicap là gì: chỉ số cho biết trình độ, giúp người chơi khác trình độ thi đấu công bằng. Muốn có chỉ số phải nộp đủ số hố tối thiểu trong app Handicap."
+      ],
+      [
+       "p",
+       "Ra sân lần 2 và 3 trong tuần này (thay hai buổi tập): chơi 9 hố, ghi phiếu đủ; tính giờ, không quá 2 giờ 15 phút cho 9 hố."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 8,
+   "d": 0,
+   "s": [
+    {
+     "a": "putt",
+     "h": "Bài kiểm tra kết thúc: putt",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "b",
+       "Putt ngắn: vào 7/10 từ 3 ft"
+      ],
+      [
+       "b",
+       "Putt xa: 5/10 từ 20 ft dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Bài kiểm tra kết thúc: chip và pitch",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Chip: 8/10 từ mép green lên green"
+      ],
+      [
+       "b",
+       "Pitch: 5/10 từ 30 yd lên green"
+      ]
+     ]
+    },
+    {
+     "a": "fir",
+     "h": "Bài kiểm tra kết thúc: sắt 7 và phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Sắt 7: 7/10 bóng bay lên, không top, không chunk"
+      ],
+      [
+       "b",
+       "Phát bóng: 6/10 vào hành lang rộng 40 yd"
+      ],
+      [
+       "b",
+       "Chơi vòng ghi điểm đầu tiên có người ghi điểm và nộp vào app Handicap"
+      ],
+      [
+       "p",
+       "Luật và phép lịch sự tuần này: Bài kiểm tra luật 20 câu: cần đúng từ 16 câu. Sau đó nộp điểm các vòng vào app Handicap (cùng mã VNC)."
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "b100": [
+  {
+   "w": 1,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng sân: tiếp xúc chắc với sắt 7, swing có kiểm soát"
+      ],
+      [
+       "b",
+       "10 lần swing nửa không bóng với sắt 7, đường swing từ trong ra ngoài"
+      ],
+      [
+       "b",
+       "10 bóng swing nửa với sắt 7, bóng đặt trên tee"
+      ],
+      [
+       "b",
+       "10 lần swing 3/4 không bóng, rồi 10 bóng swing 3/4 với sắt 7"
+      ],
+      [
+       "b",
+       "10 bóng swing đầy đủ với gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lần swing nửa và 10 lần swing đầy đủ không bóng với wedge"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 30 yd, ghi số bóng vào green tưởng tượng rộng 20 yd"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 50 yd, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Đánh 10 bóng tới mục tiêu 75 yd, ghi số bóng vào green"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Một bóng duy nhất. Lượt thành công khi bóng lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "10 lượt từ mép green tới lỗ gần (10–15 ft)"
+      ],
+      [
+       "b",
+       "5 lượt tới lỗ xa (25–30 ft)"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Tạo vòng tròn 6 ft quanh lỗ bằng tee hoặc mác bóng"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ xa (40 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ vừa (25 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ gần (10–15 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ 3 lỗ, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "5 phút putt dọc theo gậy sắt đặt dưới đất"
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 2 ft và 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 15 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 2,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng sân: tiếp xúc chắc với sắt 6, swing có kiểm soát"
+      ],
+      [
+       "b",
+       "10 lần swing nửa không bóng với sắt 6, đường swing từ trong ra ngoài"
+      ],
+      [
+       "b",
+       "10 bóng swing nửa với sắt 6, bóng đặt trên tee"
+      ],
+      [
+       "b",
+       "10 lần swing 3/4 không bóng, rồi 10 bóng swing 3/4 với sắt 6"
+      ],
+      [
+       "b",
+       "10 bóng swing đầy đủ với gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lần swing nửa và 10 lần swing đầy đủ không bóng với wedge"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 30 yd, ghi số bóng vào green tưởng tượng rộng 20 yd"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 50 yd, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Đánh 10 bóng tới mục tiêu 75 yd, ghi số bóng vào green"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Một bóng duy nhất. Lượt thành công khi bóng lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "10 lượt từ mép green tới lỗ gần (10–15 ft)"
+      ],
+      [
+       "b",
+       "5 lượt tới lỗ xa (25–30 ft)"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Tạo vòng tròn 6 ft quanh lỗ bằng tee hoặc mác bóng"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ xa (40 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ vừa (25 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ gần (10–15 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ 3 lỗ, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "5 phút putt dọc theo gậy sắt đặt dưới đất"
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 2 ft và 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 15 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "p",
+       "Tuần này nên ra sân 9 hố một lần và ghi phiếu đủ: số gậy, số putt, gậy phạt và mất bóng, số hố lên green trước 1 gậy."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 3,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng sân: tiếp xúc chắc với hybrid, swing có kiểm soát"
+      ],
+      [
+       "b",
+       "10 lần swing nửa không bóng với hybrid, đường swing từ trong ra ngoài"
+      ],
+      [
+       "b",
+       "10 bóng swing nửa với hybrid, bóng đặt trên tee"
+      ],
+      [
+       "b",
+       "10 lần swing 3/4 không bóng, rồi 10 bóng swing 3/4 với hybrid"
+      ],
+      [
+       "b",
+       "10 bóng swing đầy đủ với gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lần swing nửa và 10 lần swing đầy đủ không bóng với wedge"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 30 yd, ghi số bóng vào green tưởng tượng rộng 20 yd"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 50 yd, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Đánh 10 bóng tới mục tiêu 75 yd, ghi số bóng vào green"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Một bóng duy nhất. Lượt thành công khi bóng lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "10 lượt từ mép green tới lỗ gần (10–15 ft)"
+      ],
+      [
+       "b",
+       "5 lượt tới lỗ xa (25–30 ft)"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Tạo vòng tròn 6 ft quanh lỗ bằng tee hoặc mác bóng"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ xa (40 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ vừa (25 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ gần (10–15 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ 3 lỗ, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "5 phút putt dọc theo gậy sắt đặt dưới đất"
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 2 ft và 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 15 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 4,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng sân: tiếp xúc chắc với gậy phát bóng, swing có kiểm soát"
+      ],
+      [
+       "b",
+       "10 lần swing nửa không bóng với gậy phát bóng, đường swing từ trong ra ngoài"
+      ],
+      [
+       "b",
+       "10 bóng swing nửa với gậy phát bóng, bóng đặt trên tee"
+      ],
+      [
+       "b",
+       "10 lần swing 3/4 không bóng, rồi 10 bóng swing 3/4 với gậy phát bóng"
+      ],
+      [
+       "b",
+       "10 bóng swing đầy đủ với gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lần swing nửa và 10 lần swing đầy đủ không bóng với wedge"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 30 yd, ghi số bóng vào green tưởng tượng rộng 20 yd"
+      ],
+      [
+       "b",
+       "Đánh 5 bóng tới mục tiêu 50 yd, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Đánh 10 bóng tới mục tiêu 75 yd, ghi số bóng vào green"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Một bóng duy nhất. Lượt thành công khi bóng lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "10 lượt từ mép green tới lỗ gần (10–15 ft)"
+      ],
+      [
+       "b",
+       "5 lượt tới lỗ xa (25–30 ft)"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Tạo vòng tròn 6 ft quanh lỗ bằng tee hoặc mác bóng"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ xa (40 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ vừa (25 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip tới lỗ gần (10–15 ft), đếm số bóng dừng trong 6 ft"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ 3 lỗ, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "5 phút putt dọc theo gậy sắt đặt dưới đất"
+      ],
+      [
+       "b",
+       "Vào 20 bóng từ 2 ft và 20 bóng từ 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 15 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "p",
+       "Tuần này nên ra sân 9 hố một lần và ghi phiếu đủ: số gậy, số putt, gậy phạt và mất bóng, số hố lên green trước 1 gậy."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 5,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Gate drill: cắm 2 tee hai bên đầu gậy, rộng hơn đầu gậy 1 cm, để bóng trúng giữa mặt gậy"
+      ],
+      [
+       "b",
+       "20 bóng sắt 7 qua gate drill, đếm số lần không chạm tee"
+      ],
+      [
+       "b",
+       "20 bóng gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Đánh 5 bóng tới 50 yd, 10 bóng tới 75 yd, 10 bóng tới 100 yd; ghi số bóng vào green rộng 20 yd"
+      ],
+      [
+       "b",
+       "Trajectory: 5 bóng sắt 7 đánh thấp, 5 bóng đánh cao tới cùng mục tiêu"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lượt từ cỏ dày cách green 5 yd: lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "5 lượt chip rồi 1 putt (up & down thật), đếm số lần thành công"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Kiểm soát khoảng cách: đặt khăn 1 ft × 1 ft làm điểm rơi"
+      ],
+      [
+       "b",
+       "20 chip từ mép green rơi vào khăn đặt 5 ft trên green"
+      ],
+      [
+       "b",
+       "20 chip rơi vào khăn đặt 10 ft trên green"
+      ],
+      [
+       "b",
+       "20 bump & run bằng sắt 7 tới lỗ xa, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft và 20 bóng từ 4 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 30 ft, đếm số bóng dừng trong 3 ft"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 6,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Gate drill: cắm 2 tee hai bên đầu gậy, rộng hơn đầu gậy 1 cm, để bóng trúng giữa mặt gậy"
+      ],
+      [
+       "b",
+       "20 bóng sắt 7 qua gate drill, đếm số lần không chạm tee"
+      ],
+      [
+       "b",
+       "20 bóng gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Đánh 5 bóng tới 50 yd, 10 bóng tới 75 yd, 10 bóng tới 100 yd; ghi số bóng vào green rộng 20 yd"
+      ],
+      [
+       "b",
+       "Trajectory: 5 bóng sắt 7 đánh thấp, 5 bóng đánh cao tới cùng mục tiêu"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lượt từ cỏ dày cách green 5 yd: lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "5 lượt chip rồi 1 putt (up & down thật), đếm số lần thành công"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Kiểm soát khoảng cách: đặt khăn 1 ft × 1 ft làm điểm rơi"
+      ],
+      [
+       "b",
+       "20 chip từ mép green rơi vào khăn đặt 5 ft trên green"
+      ],
+      [
+       "b",
+       "20 chip rơi vào khăn đặt 10 ft trên green"
+      ],
+      [
+       "b",
+       "20 bump & run bằng sắt 7 tới lỗ xa, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft và 20 bóng từ 4 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 30 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "p",
+       "Tuần này nên ra sân 9 hố một lần và ghi phiếu đủ: số gậy, số putt, gậy phạt và mất bóng, số hố lên green trước 1 gậy."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 7,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Gate drill: cắm 2 tee hai bên đầu gậy, rộng hơn đầu gậy 1 cm, để bóng trúng giữa mặt gậy"
+      ],
+      [
+       "b",
+       "20 bóng sắt 7 qua gate drill, đếm số lần không chạm tee"
+      ],
+      [
+       "b",
+       "20 bóng gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Đánh 5 bóng tới 50 yd, 10 bóng tới 75 yd, 10 bóng tới 100 yd; ghi số bóng vào green rộng 20 yd"
+      ],
+      [
+       "b",
+       "Trajectory: 5 bóng sắt 7 đánh thấp, 5 bóng đánh cao tới cùng mục tiêu"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lượt từ cỏ dày cách green 5 yd: lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "5 lượt chip rồi 1 putt (up & down thật), đếm số lần thành công"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Kiểm soát khoảng cách: đặt khăn 1 ft × 1 ft làm điểm rơi"
+      ],
+      [
+       "b",
+       "20 chip từ mép green rơi vào khăn đặt 5 ft trên green"
+      ],
+      [
+       "b",
+       "20 chip rơi vào khăn đặt 10 ft trên green"
+      ],
+      [
+       "b",
+       "20 bump & run bằng sắt 7 tới lỗ xa, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft và 20 bóng từ 4 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 30 ft, đếm số bóng dừng trong 3 ft"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 8,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Gate drill: cắm 2 tee hai bên đầu gậy, rộng hơn đầu gậy 1 cm, để bóng trúng giữa mặt gậy"
+      ],
+      [
+       "b",
+       "20 bóng sắt 7 qua gate drill, đếm số lần không chạm tee"
+      ],
+      [
+       "b",
+       "20 bóng gậy phát bóng, đếm số bóng vào hành lang rộng 40 yd"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Đánh 5 bóng tới 50 yd, 10 bóng tới 75 yd, 10 bóng tới 100 yd; ghi số bóng vào green rộng 20 yd"
+      ],
+      [
+       "b",
+       "Trajectory: 5 bóng sắt 7 đánh thấp, 5 bóng đánh cao tới cùng mục tiêu"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "10 lượt từ cỏ dày cách green 5 yd: lên green và vào lỗ trong tối đa 2 putt"
+      ],
+      [
+       "b",
+       "5 lượt chip rồi 1 putt (up & down thật), đếm số lần thành công"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Kiểm soát khoảng cách: đặt khăn 1 ft × 1 ft làm điểm rơi"
+      ],
+      [
+       "b",
+       "20 chip từ mép green rơi vào khăn đặt 5 ft trên green"
+      ],
+      [
+       "b",
+       "20 chip rơi vào khăn đặt 10 ft trên green"
+      ],
+      [
+       "b",
+       "20 bump & run bằng sắt 7 tới lỗ xa, đếm số bóng dừng trong 6 ft"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Vào 20 bóng từ 3 ft và 20 bóng từ 4 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 20 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 25 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "b",
+       "20 putt từ 30 ft, đếm số bóng dừng trong 3 ft"
+      ],
+      [
+       "p",
+       "Tuần này nên ra sân 9 hố một lần và ghi phiếu đủ: số gậy, số putt, gậy phạt và mất bóng, số hố lên green trước 1 gậy."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 9,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng 18 hố trên sân tập: mỗi hố chọn gậy phát bóng như trên sân thật"
+      ],
+      [
+       "b",
+       "14 cú phát bóng (14 hố par 4 và par 5), đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "b",
+       "Chơi 2 bóng, lấy bóng tệ hơn: 6 cặp phát bóng"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Green Assault: 18 cú tiếp cận, mỗi cú đổi khoảng cách 30–120 yd ngẫu nhiên, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Ghi lại khoảng cách gậy (carry) của wedge, sắt 9, sắt 7 vào mục Khoảng cách gậy"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Áp lực: mỗi lượt coi như cần cứu bogey ở hố cuối"
+      ],
+      [
+       "b",
+       "10 lượt từ vị trí ngẫu nhiên (mép green, cỏ dày, bunker nếu có), đếm số lần lên green và tối đa 2 putt"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Points chipping: 20 chip, trong 3 ft được 2 điểm, trong 6 ft được 1 điểm; ghi tổng điểm"
+      ],
+      [
+       "b",
+       "Chip áp lực: dừng trong 6 ft 10 lần liên tiếp ở lỗ vừa"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ lỗ gần, vừa, xa"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Circle drill: 5 tee quanh lỗ cách 3 ft, vào cả 5 liên tiếp; làm 3 vòng"
+      ],
+      [
+       "b",
+       "Vào 10 bóng từ 3 ft liên tiếp"
+      ],
+      [
+       "b",
+       "18 putt xa ngẫu nhiên 15–35 ft, mỗi lượt tối đa 2 putt; đếm số lần 3 putt"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 10,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng 18 hố trên sân tập: mỗi hố chọn gậy phát bóng như trên sân thật"
+      ],
+      [
+       "b",
+       "14 cú phát bóng (14 hố par 4 và par 5), đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "b",
+       "Chơi 2 bóng, lấy bóng tệ hơn: 6 cặp phát bóng"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Green Assault: 18 cú tiếp cận, mỗi cú đổi khoảng cách 30–120 yd ngẫu nhiên, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Ghi lại khoảng cách gậy (carry) của wedge, sắt 9, sắt 7 vào mục Khoảng cách gậy"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Áp lực: mỗi lượt coi như cần cứu bogey ở hố cuối"
+      ],
+      [
+       "b",
+       "10 lượt từ vị trí ngẫu nhiên (mép green, cỏ dày, bunker nếu có), đếm số lần lên green và tối đa 2 putt"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Points chipping: 20 chip, trong 3 ft được 2 điểm, trong 6 ft được 1 điểm; ghi tổng điểm"
+      ],
+      [
+       "b",
+       "Chip áp lực: dừng trong 6 ft 10 lần liên tiếp ở lỗ vừa"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ lỗ gần, vừa, xa"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Circle drill: 5 tee quanh lỗ cách 3 ft, vào cả 5 liên tiếp; làm 3 vòng"
+      ],
+      [
+       "b",
+       "Vào 10 bóng từ 3 ft liên tiếp"
+      ],
+      [
+       "b",
+       "18 putt xa ngẫu nhiên 15–35 ft, mỗi lượt tối đa 2 putt; đếm số lần 3 putt"
+      ],
+      [
+       "p",
+       "Tuần này nên ra sân 9 hố một lần và ghi phiếu đủ: số gậy, số putt, gậy phạt và mất bóng, số hố lên green trước 1 gậy."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 11,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng 18 hố trên sân tập: mỗi hố chọn gậy phát bóng như trên sân thật"
+      ],
+      [
+       "b",
+       "14 cú phát bóng (14 hố par 4 và par 5), đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "b",
+       "Chơi 2 bóng, lấy bóng tệ hơn: 6 cặp phát bóng"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Green Assault: 18 cú tiếp cận, mỗi cú đổi khoảng cách 30–120 yd ngẫu nhiên, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Ghi lại khoảng cách gậy (carry) của wedge, sắt 9, sắt 7 vào mục Khoảng cách gậy"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Áp lực: mỗi lượt coi như cần cứu bogey ở hố cuối"
+      ],
+      [
+       "b",
+       "10 lượt từ vị trí ngẫu nhiên (mép green, cỏ dày, bunker nếu có), đếm số lần lên green và tối đa 2 putt"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Points chipping: 20 chip, trong 3 ft được 2 điểm, trong 6 ft được 1 điểm; ghi tổng điểm"
+      ],
+      [
+       "b",
+       "Chip áp lực: dừng trong 6 ft 10 lần liên tiếp ở lỗ vừa"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ lỗ gần, vừa, xa"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Circle drill: 5 tee quanh lỗ cách 3 ft, vào cả 5 liên tiếp; làm 3 vòng"
+      ],
+      [
+       "b",
+       "Vào 10 bóng từ 3 ft liên tiếp"
+      ],
+      [
+       "b",
+       "18 putt xa ngẫu nhiên 15–35 ft, mỗi lượt tối đa 2 putt; đếm số lần 3 putt"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "w": 12,
+   "d": 0,
+   "s": [
+    {
+     "a": "fir",
+     "h": "Phát bóng",
+     "m": 25,
+     "it": [
+      [
+       "p",
+       "Khởi động 10 phút trước khi tập: xoay vai, xoay hông, giãn đùi sau, 10 lần swing nhẹ không bóng."
+      ],
+      [
+       "p",
+       "Mô phỏng 18 hố trên sân tập: mỗi hố chọn gậy phát bóng như trên sân thật"
+      ],
+      [
+       "b",
+       "14 cú phát bóng (14 hố par 4 và par 5), đếm số bóng vào hành lang rộng 40 yd"
+      ],
+      [
+       "b",
+       "Chơi 2 bóng, lấy bóng tệ hơn: 6 cặp phát bóng"
+      ]
+     ]
+    },
+    {
+     "a": "gir",
+     "h": "Tiếp cận green",
+     "m": 20,
+     "it": [
+      [
+       "b",
+       "Green Assault: 18 cú tiếp cận, mỗi cú đổi khoảng cách 30–120 yd ngẫu nhiên, ghi số bóng vào green"
+      ],
+      [
+       "b",
+       "Ghi lại khoảng cách gậy (carry) của wedge, sắt 9, sắt 7 vào mục Khoảng cách gậy"
+      ]
+     ]
+    },
+    {
+     "a": "scr",
+     "h": "Cứu điểm quanh green",
+     "m": 20,
+     "it": [
+      [
+       "p",
+       "Áp lực: mỗi lượt coi như cần cứu bogey ở hố cuối"
+      ],
+      [
+       "b",
+       "10 lượt từ vị trí ngẫu nhiên (mép green, cỏ dày, bunker nếu có), đếm số lần lên green và tối đa 2 putt"
+      ]
+     ]
+    },
+    {
+     "a": "chip",
+     "h": "Chip",
+     "m": 25,
+     "it": [
+      [
+       "b",
+       "Points chipping: 20 chip, trong 3 ft được 2 điểm, trong 6 ft được 1 điểm; ghi tổng điểm"
+      ],
+      [
+       "b",
+       "Chip áp lực: dừng trong 6 ft 10 lần liên tiếp ở lỗ vừa"
+      ],
+      [
+       "b",
+       "20 chip xen kẽ lỗ gần, vừa, xa"
+      ]
+     ]
+    },
+    {
+     "a": "putt",
+     "h": "Putt",
+     "m": 30,
+     "it": [
+      [
+       "b",
+       "Circle drill: 5 tee quanh lỗ cách 3 ft, vào cả 5 liên tiếp; làm 3 vòng"
+      ],
+      [
+       "b",
+       "Vào 10 bóng từ 3 ft liên tiếp"
+      ],
+      [
+       "b",
+       "18 putt xa ngẫu nhiên 15–35 ft, mỗi lượt tối đa 2 putt; đếm số lần 3 putt"
+      ],
+      [
+       "p",
+       "Tuần này nên ra sân 9 hố một lần và ghi phiếu đủ: số gậy, số putt, gậy phạt và mất bóng, số hố lên green trước 1 gậy."
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

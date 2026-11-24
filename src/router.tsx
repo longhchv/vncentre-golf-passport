@@ -184,6 +184,10 @@ export const router = createBrowserRouter([
     { path: 'training/plan', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingPlanPage) },
     { path: 'training/rounds', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingRoundsPage) },
     { path: 'training/clubs', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingClubsPage) },
+    // Spec 25: thẻ thử thách và bài kiểm tra luật của người lớn
+    { path: 'training/challenges', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingChallengesPage) },
+    { path: 'training/c/:challengeId', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingChallengePage) },
+    { path: 'training/quiz/:code', lazy: page(() => import('@/features/training/TrainingPages'), (m) => m.TrainingQuizPage) },
     // Spec 24: tập luyện của các con, thẻ thử thách, thư viện bài tập
     { path: 'training/kid/:studentId', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.ParentKidTrainingPage) },
     { path: 'training/kid/:studentId/c/:challengeId', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.ParentKidChallengePage) },

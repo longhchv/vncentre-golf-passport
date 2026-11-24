@@ -2768,7 +2768,7 @@
     "partialHint": "dòng mờ để buổi sau",
     "lineShare": "làm {{n}}/{{of}}",
     "weekDay": "Tuần {{w}} · ngày tập {{d}}/3 của giáo án",
-    "behind": "Đang chậm {{n}} tuần so với lịch 12 tuần. Các buổi sẽ dài hơn để bù dần; nếu vẫn chậm, nên thêm ngày tập.",
+    "behind": "Đang chậm {{n}} tuần so với lịch {{weeks}} tuần. Các buổi sẽ dài hơn để bù dần; nếu vẫn chậm, nên thêm ngày tập.",
     "unrealistic": "Mục tiêu này khá gắt. Với tốc độ thực tế, cần khoảng {{n}} tháng. Bạn vẫn có thể giữ mục tiêu.",
     "fmt": {
       "min": "{{n}} phút",
@@ -2824,7 +2824,8 @@
       "clubs": "Khoảng cách gậy",
       "test": "Bài test đầu vào",
       "setGoal": "Đặt mục tiêu",
-      "changeGoal": "Đổi mục tiêu"
+      "changeGoal": "Đổi mục tiêu",
+      "challenges": "Thử thách và luật"
     },
     "noGoal": {
       "title": "Bắt đầu bằng một mục tiêu",
@@ -2832,7 +2833,7 @@
       "test": "Chưa có handicap? Làm bài test đầu vào"
     },
     "finished": {
-      "title": "Đã hoàn thành 12 tuần giáo án",
+      "title": "Đã hoàn thành {{weeks}} tuần giáo án",
       "body": "Hãy ra sân đánh vài vòng có tính handicap để kiểm chứng, rồi đặt mục tiêu mới."
     },
     "today": {
@@ -2856,18 +2857,19 @@
       "replace": "Đặt mục tiêu mới",
       "replaceNote": "Đặt mục tiêu mới sẽ bắt đầu lại giáo án từ tuần 1. Lịch sử buổi tập cũ vẫn được giữ.",
       "saved": "Đã lưu mục tiêu",
-      "targetLower": "Handicap mục tiêu phải thấp hơn handicap hiện tại."
+      "targetLower": "Handicap mục tiêu phải thấp hơn handicap hiện tại.",
+      "firstHcp": "Mục tiêu đầu tiên: có Handicap Index. App xếp chương trình Có Handicap 8 tuần, rồi dẫn sang app Handicap để nộp điểm."
     },
     "sched": {
       "mode": "Cách xếp lịch",
-      "fixed_12_weeks": "Giữ đúng 12 tuần",
+      "fixed_12_weeks": "Giữ đúng {{weeks}} tuần",
       "flexible": "Theo thời gian rảnh",
-      "fixed_12_weeksHint": "Đủ số bóng, xong trong 12 tuần. App tự tính thời lượng mỗi buổi theo số ngày bạn chọn.",
+      "fixed_12_weeksHint": "Đủ số bóng, xong trong {{weeks}} tuần. App tự tính thời lượng mỗi buổi theo số ngày bạn chọn.",
       "flexibleHint": "Bạn chọn thời lượng mỗi buổi. Đủ bài tập, chỉ kéo dài thời gian hoàn thành.",
       "days": "Ngày tập trong tuần",
       "minutes": "Thời lượng mỗi buổi",
       "estimate": "Giáo án đầy đủ khoảng {{total}}. Với lịch này mất khoảng {{weeks}} tuần.",
-      "tooLong": "Lâu hơn thời hạn mục tiêu ({{months}} tháng). Có thể thêm ngày, tăng thời lượng hoặc chọn giữ đúng 12 tuần.",
+      "tooLong": "Lâu hơn thời hạn mục tiêu ({{months}} tháng). Có thể thêm ngày, tăng thời lượng hoặc chọn giữ đúng {{weeks}} tuần.",
       "fixedIntro": "Mỗi tuần giáo án cần khoảng {{min}} đến {{max}}. Thời lượng mỗi buổi theo số ngày tập:",
       "perWeek": "Số buổi/tuần",
       "avg": "Trung bình",
@@ -2940,7 +2942,9 @@
       "no": "Không",
       "preview": "Tổng {{strokes}} gậy, {{putts}} putt",
       "save": "Lưu vòng đấu",
-      "needStrokes": "Cần nhập số gậy của mọi hố."
+      "needStrokes": "Cần nhập số gậy của mọi hố.",
+      "penaltiesLabel": "Phạt/mất bóng",
+      "extra": "Phạt/mất bóng {{pen}} · Lên green trước 1 gậy {{reg1}}/{{known}} · Từ triple bogey {{big}} hố"
     },
     "clubs": {
       "club": "Gậy",
@@ -2978,7 +2982,8 @@
         "plans": "Giáo án",
         "benchmarks": "Chuẩn thống kê",
         "challenges": "Thẻ thử thách",
-        "drills": "Thư viện bài tập"
+        "drills": "Thư viện bài tập",
+        "quiz": "Câu hỏi luật"
       },
       "ov": {
         "profiles_self_created": "Hồ sơ tự tạo",
@@ -3044,7 +3049,15 @@
       "deleteRow": "Xoá mốc",
       "err": {
         "block_in_use": "Phần này đã có người tập nên không xoá được. Có thể sửa nội dung thay vì xoá.",
-        "last_block": "Buổi phải còn ít nhất một phần."
+        "last_block": "Buổi phải còn ít nhất một phần.",
+        "week_in_use": "Tuần này đã có người tập, không bớt được.",
+        "last_week": "Chương trình phải còn ít nhất 1 tuần.",
+        "too_many_weeks": "Tối đa 52 tuần.",
+        "day_exists": "Ngày này đã có buổi riêng.",
+        "invalid_day": "Ngày không hợp lệ.",
+        "session_in_use": "Buổi này đã có người tập, không xoá được.",
+        "last_session": "Tuần phải còn ít nhất 1 buổi.",
+        "code_taken": "Mã chương trình đã có hoặc để trống."
       },
       "chHint": "Thẻ thử thách theo level. Phần (parts) là danh sách các chỉ tiêu, mọi phần phải đạt.",
       "chTitle": "Tên",
@@ -3106,6 +3119,36 @@
         "all": "Mọi người",
         "junior": "Trẻ em",
         "adult": "Người lớn"
+      },
+      "daysPerWeek": "Số buổi mỗi tuần",
+      "daysPerWeekHint": "Buổi chung của tuần dùng cho mọi ngày; tạo buổi riêng theo ngày ở mục Giáo án.",
+      "chLevelHint": "Thẻ của các bạn nhỏ: nhập level 1–20. Thẻ người lớn: để trống và nhập mã chương trình.",
+      "chProgram": "Chương trình",
+      "chProgramHint": "Mã chương trình, ví dụ hcp54, b100",
+      "chAdult": "Người lớn",
+      "quizHint": "Câu hỏi luật cho người lớn. Người tập không thấy đáp án; máy chủ chấm điểm.",
+      "quizQuestion": "Câu hỏi",
+      "quizOptions": "Các phương án",
+      "quizOptionsHint": "Dạng [\"Phương án 1\", \"Phương án 2\", ...], 2–6 phương án",
+      "quizCorrect": "Đáp án đúng",
+      "quizCorrectHint": "Số thứ tự phương án đúng, đếm từ 0",
+      "quizExplain": "Giải thích",
+      "tools": {
+        "title": "Thêm, bớt, chỉnh giáo án",
+        "addWeek": "Thêm tuần mới (chép tuần {{n}})",
+        "weekAdded": "Đã thêm tuần {{n}}",
+        "removeWeek": "Bớt tuần cuối (tuần {{n}})",
+        "removeConfirm": "Xoá tuần {{n}} và mọi phần trong tuần đó?",
+        "dayLabel": "Ngày",
+        "addDay": "Tạo buổi riêng cho ngày này",
+        "deleteSession": "Xoá buổi đang chọn",
+        "deleteSessionConfirm": "Xoá buổi này?",
+        "dayHint": "Buổi chung dùng cho mọi ngày tập trong tuần. Buổi riêng (chép từ buổi chung) thay cho ngày đó.",
+        "cloneCode": "Mã mới",
+        "cloneName": "Tên mới",
+        "clone": "Nhân bản chương trình",
+        "cloned": "Đã nhân bản, bản mới đang tắt",
+        "cloneHint": "Sửa lớn thì nhân bản, sửa bản sao, rồi bật lên ở mục Chương trình. Người đang tập bản cũ không bị ảnh hưởng."
       }
     },
     "jr": {
@@ -3246,6 +3289,32 @@
         "mark": "Chấm tại lớp",
         "homework": "Bài về nhà"
       }
+    },
+    "whs": {
+      "title": "Handicap Index (app Handicap)",
+      "open": "Mở app Handicap",
+      "none": "Chưa có chỉ số. Đã nộp {{holes}}/{{min}} hố, {{scores}} vòng đã xác nhận.",
+      "next": "Đã có handicap: đặt mục tiêu tiếp theo"
+    },
+    "adult": {
+      "title": "Thẻ thử thách",
+      "note": "Thẻ tự xác nhận. Qua hết thẻ chỉ là mức tham khảo, vẫn cần ra sân để kiểm chứng.",
+      "program": {
+        "hcp54": "Có Handicap",
+        "b100": "Break 100"
+      }
+    },
+    "quiz": {
+      "title": "Bài kiểm tra luật",
+      "intro": "{{n}} câu, chọn một đáp án mỗi câu. Cần đúng từ 80% để qua.",
+      "none": "Chưa làm bài kiểm tra.",
+      "last": "Lần gần nhất: {{score}}/{{total}}",
+      "passedBadge": "đã qua",
+      "start": "Làm bài",
+      "retry": "Làm lại",
+      "submit": "Nộp bài ({{n}}/{{total}} câu)",
+      "passed": "Đạt. Bạn đã nắm các luật cơ bản để ra sân.",
+      "failed": "Chưa đạt, cần đúng từ {{need}} câu. Xem giải thích bên dưới rồi làm lại."
     }
   },
   "rewards": {

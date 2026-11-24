@@ -2768,7 +2768,7 @@
     "partialHint": "faded lines are for later",
     "lineShare": "do {{n}}/{{of}}",
     "weekDay": "Week {{w}} · training day {{d}}/3 of the plan",
-    "behind": "{{n}} week(s) behind the 12-week schedule. Sessions get longer to catch up; if you stay behind, add a training day.",
+    "behind": "{{n}} week(s) behind the {{weeks}}-week schedule. Sessions get longer to catch up; if you stay behind, add a training day.",
     "unrealistic": "This goal is ambitious. At a realistic pace it takes about {{n}} months. You can still keep it.",
     "fmt": {
       "min": "{{n}} min",
@@ -2824,7 +2824,8 @@
       "clubs": "Club distances",
       "test": "Starting test",
       "setGoal": "Set a goal",
-      "changeGoal": "Change goal"
+      "changeGoal": "Change goal",
+      "challenges": "Challenges and rules"
     },
     "noGoal": {
       "title": "Start with a goal",
@@ -2832,7 +2833,7 @@
       "test": "No handicap yet? Take the starting test"
     },
     "finished": {
-      "title": "12-week plan completed",
+      "title": "{{weeks}}-week plan completed",
       "body": "Play a few handicap rounds to confirm your level, then set a new goal."
     },
     "today": {
@@ -2856,18 +2857,19 @@
       "replace": "Set new goal",
       "replaceNote": "A new goal restarts the plan from week 1. Your past sessions are kept.",
       "saved": "Goal saved",
-      "targetLower": "The target handicap must be lower than your current handicap."
+      "targetLower": "The target handicap must be lower than your current handicap.",
+      "firstHcp": "First goal: get a Handicap Index. The app sets the 8-week Get a Handicap plan, then sends you to the Handicap app to post scores."
     },
     "sched": {
       "mode": "Scheduling",
-      "fixed_12_weeks": "Keep to 12 weeks",
+      "fixed_12_weeks": "Keep to {{weeks}} weeks",
       "flexible": "Fit my free time",
-      "fixed_12_weeksHint": "Every ball, finished in 12 weeks. The app works out each session's length from the days you choose.",
+      "fixed_12_weeksHint": "Every ball, finished in {{weeks}} weeks. The app works out each session's length from the days you choose.",
       "flexibleHint": "You choose each session's length. All drills stay; it just takes longer to finish.",
       "days": "Training days",
       "minutes": "Session length",
       "estimate": "The full plan is about {{total}}. With this schedule it takes about {{weeks}} weeks.",
-      "tooLong": "Longer than your goal deadline ({{months}} months). Add days, lengthen sessions or keep to 12 weeks.",
+      "tooLong": "Longer than your goal deadline ({{months}} months). Add days, lengthen sessions or keep to {{weeks}} weeks.",
       "fixedIntro": "Each plan week needs about {{min}} to {{max}}. Session length by number of training days:",
       "perWeek": "Sessions/week",
       "avg": "Average",
@@ -2940,7 +2942,9 @@
       "no": "No",
       "preview": "Total {{strokes}} strokes, {{putts}} putts",
       "save": "Save round",
-      "needStrokes": "Enter strokes for every hole."
+      "needStrokes": "Enter strokes for every hole.",
+      "penaltiesLabel": "Penalties/lost",
+      "extra": "Penalties/lost {{pen}} · On in reg+1 {{reg1}}/{{known}} · Triple bogey+ {{big}} holes"
     },
     "clubs": {
       "club": "Club",
@@ -2978,7 +2982,8 @@
         "plans": "Plans",
         "benchmarks": "Benchmarks",
         "challenges": "Challenge cards",
-        "drills": "Drill library"
+        "drills": "Drill library",
+        "quiz": "Rules questions"
       },
       "ov": {
         "profiles_self_created": "Self-created profiles",
@@ -3044,7 +3049,15 @@
       "deleteRow": "Delete point",
       "err": {
         "block_in_use": "Someone has trained this part, so it can't be deleted. Edit its content instead.",
-        "last_block": "A session needs at least one part."
+        "last_block": "A session needs at least one part.",
+        "week_in_use": "This week has been trained; it cannot be removed.",
+        "last_week": "A program needs at least one week.",
+        "too_many_weeks": "At most 52 weeks.",
+        "day_exists": "This day already has its own session.",
+        "invalid_day": "Invalid day.",
+        "session_in_use": "This session has been trained; it cannot be deleted.",
+        "last_session": "A week needs at least one session.",
+        "code_taken": "The code is empty or already used."
       },
       "chHint": "Challenge cards per level. Parts is the list of targets; all must be met.",
       "chTitle": "Title",
@@ -3106,6 +3119,36 @@
         "all": "Everyone",
         "junior": "Juniors",
         "adult": "Adults"
+      },
+      "daysPerWeek": "Sessions per week",
+      "daysPerWeekHint": "The shared session is used every day; add day-specific sessions in Plans.",
+      "chLevelHint": "Junior cards: level 1–20. Adult cards: leave empty and set a program code.",
+      "chProgram": "Program",
+      "chProgramHint": "Program code, e.g. hcp54, b100",
+      "chAdult": "Adults",
+      "quizHint": "Adult rules questions. Golfers never see the answers; the server scores them.",
+      "quizQuestion": "Question",
+      "quizOptions": "Options",
+      "quizOptionsHint": "Format [\"Option 1\", \"Option 2\", ...], 2–6 options",
+      "quizCorrect": "Correct answer",
+      "quizCorrectHint": "Index of the correct option, starting at 0",
+      "quizExplain": "Explanation",
+      "tools": {
+        "title": "Add, remove, edit the plan",
+        "addWeek": "Add a week (copy week {{n}})",
+        "weekAdded": "Week {{n}} added",
+        "removeWeek": "Remove last week (week {{n}})",
+        "removeConfirm": "Delete week {{n}} and everything in it?",
+        "dayLabel": "Day",
+        "addDay": "Add a session for this day",
+        "deleteSession": "Delete selected session",
+        "deleteSessionConfirm": "Delete this session?",
+        "dayHint": "The shared session applies to every training day. A day session (copied from it) replaces that day.",
+        "cloneCode": "New code",
+        "cloneName": "New name",
+        "clone": "Clone program",
+        "cloned": "Cloned; the copy is inactive",
+        "cloneHint": "For big changes, clone, edit the copy, then activate it in Programs. Golfers on the old plan are not affected."
       }
     },
     "jr": {
@@ -3246,6 +3289,32 @@
         "mark": "Mark in class",
         "homework": "Homework"
       }
+    },
+    "whs": {
+      "title": "Handicap Index (Handicap app)",
+      "open": "Open the Handicap app",
+      "none": "No index yet. Posted {{holes}}/{{min}} holes, {{scores}} attested rounds.",
+      "next": "You have a handicap: set your next goal"
+    },
+    "adult": {
+      "title": "Challenge cards",
+      "note": "Self-checked cards. Passing them all is a guide only; play rounds to confirm your level.",
+      "program": {
+        "hcp54": "Get a Handicap",
+        "b100": "Break 100"
+      }
+    },
+    "quiz": {
+      "title": "Rules quiz",
+      "intro": "{{n}} questions, one answer each. 80% correct to pass.",
+      "none": "Not taken yet.",
+      "last": "Last attempt: {{score}}/{{total}}",
+      "passedBadge": "passed",
+      "start": "Start",
+      "retry": "Try again",
+      "submit": "Submit ({{n}}/{{total}})",
+      "passed": "Passed. You know the basic rules to play.",
+      "failed": "Not yet: {{need}} correct needed. Read the explanations below and try again."
     }
   },
   "rewards": {
