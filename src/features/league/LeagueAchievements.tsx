@@ -159,6 +159,7 @@ export function LeagueAchievementsCard({
             </div>
             <p className="shrink-0 text-3xl font-bold text-navy">{snagIdxLabel(snag.idx)}</p>
           </div>
+          <p className="pt-2 text-sm text-navy/80">{t('league.snagScale')}</p>
           <p className="pt-2 text-xs text-navy/55">{t('league.snagNote')}</p>
         </div>
       )}
