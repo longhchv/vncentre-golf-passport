@@ -1911,6 +1911,9 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     if (SV.ctx.me && SV.ctx.me.status === 'active') await loadMine();
     if (isStaff()) await loadQueue();
     if (isStaff()) { try { const yp = await W.select('whs_youth_rounds', 'select=id&status=eq.pending'); SV.ctx.youthPend = yp.length; } catch (e) { SV.ctx.youthPend = 0; } }
+    // Golf 3D: tài khoản là admin phòng 3D nào; số điểm 3D đang chờ người này xác nhận
+    try { SV.ctx.roomAdmin = (await W.select('whs_sim_room_admins', 'select=venue_id&deleted_at=is.null&user_id=eq.' + uid)).map(x => x.venue_id); } catch (e) { SV.ctx.roomAdmin = []; }
+    if (isStaff() || SV.ctx.roomAdmin.length) { try { SV.ctx.simPend = (await W.rpc('whs_sim_queue')).length; } catch (e) { SV.ctx.simPend = 0; } }
   }
   const isStaff = () => SV.ctx && (SV.ctx.admin || SV.ctx.staff.length > 0);
   async function loadMine() {
@@ -1947,7 +1950,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     if (SV.err) h = `<div class="card srverr" role="alert">${esc(SV.err)}</div>` + h;
     // Khi báo lỗi: giữ nguyên những gì người dùng đã nhập
     const keep = SV.err ? [...el.querySelectorAll('input[id],select[id]')].filter(i => i.type !== 'file').map(i => [i.id, i.value]) : [];
-    const keepY = SV.err ? ['yin', 'ycin'].map(c => [c, [...el.querySelectorAll('.' + c)].map(i => i.value)]) : [];
+    const keepY = SV.err ? ['yin', 'ycin', 'g3in', 'g3cin'].map(c => [c, [...el.querySelectorAll('.' + c)].map(i => i.value)]) : [];
     el.innerHTML = h;
     keep.forEach(([id, v]) => { const i = $s(id); if (i && v !== '' && i.value !== v) i.value = v; });
     keepY.forEach(([c, vs]) => { const L = el.querySelectorAll('.' + c); if (L.length === vs.length) L.forEach((i, k) => { if (vs[k] !== '') i.value = vs[k]; }); });
@@ -1960,6 +1963,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     if ($s('svPostHoles') && SV.pick) postHoles();
     bindScan();
     if (window.srvYouthBind) window.srvYouthBind();
+    if (window.srvSimBind) window.srvSimBind();
     el.querySelectorAll('.hin').forEach(i => i.addEventListener('input', sumHoles));
     sumHoles();
     const nav = document.querySelector('#nav button[data-t="srv"] .nb');
@@ -1978,10 +1982,13 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const m = SV.ctx.me, u = W.user();
     const tabs = [['me', 'Của tôi'], ['play', 'Đánh vòng'], ['att', 'Xác nhận' + (SV.ctx.inbox && SV.ctx.inbox.length ? ` <i class="nb">${SV.ctx.inbox.length}</i>` : '')]];
     if ((m && m.status === 'active') || isStaff()) tabs.push(['kid', 'Trẻ em' + (SV.ctx.youthPend ? ` <i class="nb">${SV.ctx.youthPend}</i>` : '')]);
+    const roomAdmin = !!(SV.ctx.roomAdmin && SV.ctx.roomAdmin.length);
+    if ((m && m.status === 'active') || isStaff() || roomAdmin) tabs.push(['sim', 'Golf 3D' + (SV.ctx.simPend ? ` <i class="nb">${SV.ctx.simPend}</i>` : '')]);
     if (isStaff()) tabs.push(['com', 'Hội đồng' + (SV.ctx.queue && (SV.ctx.queue.length + SV.ctx.pending.length) ? ` <i class="nb">${SV.ctx.queue.length + SV.ctx.pending.length}</i>` : '')]);
-    const showTabs = (m && m.status === 'active') || isStaff();
+    const showTabs = (m && m.status === 'active') || isStaff() || roomAdmin;
     if (!showTabs) SV.tab = 'me';
-    if (SV.tab !== 'com' && SV.tab !== 'kid' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
+    if (SV.tab !== 'com' && SV.tab !== 'kid' && SV.tab !== 'sim' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
+    if (SV.tab !== 'sim' && !(m && m.status === 'active') && !isStaff() && roomAdmin) SV.tab = 'sim';
     const gf = SV.ctx.golfer, G = SV.ctx.golfers;
     const pick = G.length > 1 ? `<div class="f svwho"><label for="svWho">Golfer</label><select id="svWho">${G.map(g => `<option value="${g.student_id}"${g.student_id === SV.cur ? ' selected' : ''}>${esc(g.full_name)}${g.is_self ? ' (tôi)' : ''} · ${esc(g.student_code)}</option>`).join('')}</select></div>` : '';
     return `<div class="svhead"><div><b>${esc(m ? m.full_name : gf ? gf.full_name : (u.email || u.phone))}</b><span>${gf ? 'Mã VNC ' + esc(gf.student_code) + ' · ' : ''}${m ? esc((m.fed && m.fed.short) || m.federation_id) + (m.club ? ' · ' + esc(m.club.name) : '') : 'Chưa là hội viên'}</span></div>
@@ -1992,6 +1999,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const m = SV.ctx.me;
     if (SV.tab === 'com' && isStaff()) return comTab();
     if (SV.tab === 'kid' && window.srvYouthTab) return window.srvYouthTab();
+    if (SV.tab === 'sim' && window.srvSimTab) return window.srvSimTab();
     if (!m) return joinCard();
     if (m.status === 'pending') return `<div class="card"><h2>Đang chờ CLB duyệt</h2><p class="sub">Hồ sơ của anh/chị đã gửi tới ${esc(m.club ? m.club.name : 'CLB')}. Khi CLB duyệt, anh/chị sẽ đăng ký vòng và nộp điểm được.</p><button class="btn ghost" data-a="reload">Kiểm tra lại</button></div>`;
     if (m.status !== 'active') return `<div class="card"><h2>Hồ sơ đang bị khoá</h2><p class="sub">Liên hệ CLB hoặc liên đoàn để biết thêm.</p></div>`;
@@ -2243,8 +2251,9 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
   // ---------- Thao tác ----------
   async function onAct(e) {
     const b = e.currentTarget, a = b.dataset.a, v = b.dataset.v;
-    if (a === 'tab') { SV.tab = v; SV.open = null; SV.err = ''; if (v === 'play') await loadCourses().catch(err); paint(); if (v === 'kid' && window.srvYouthLoad) { try { await window.srvYouthLoad(); } catch (e) { SV.err = e.message; } paint(); } return; }
+    if (a === 'tab') { SV.tab = v; SV.open = null; SV.err = ''; if (v === 'play') await loadCourses().catch(err); paint(); if (v === 'kid' && window.srvYouthLoad) { try { await window.srvYouthLoad(); } catch (e) { SV.err = e.message; } paint(); } if (v === 'sim' && window.srvSimLoad) { try { await window.srvSimLoad(); } catch (e) { SV.err = e.message; } paint(); } return; }
     if (a[0] === 'y' && window.srvYouthAct) return window.srvYouthAct(a, v, b, act, paint);
+    if (a.startsWith('g3') && window.srvSimAct) return window.srvSimAct(a, v, b, act, paint);
     if (a === 'all') { SV.all = true; return paint(); }
     if (a === 'scanpick') return applyScanRow(SV._scan[+v]);
     if (a === 'mode') { SV.mode = v; return paint(); }
@@ -2320,6 +2329,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
   }
 
   window.srvToast = toast;
+  window.srvPaint = paint;
   window.srvShow = async function () {
     paint();
     if (W.user() && !SV.ctx) { try { await loadCtx(); } catch (e) { if (e.status === 401) W.signOut(); SV.err = e.message; } paint(); }
@@ -2921,5 +2931,6 @@ function __whsEngineRefs() { return { r1, hiTable, applyCap, calcPCC, get PARAMS
   window.youthRender = render;
 })();
 </script>
+<script src="golf3d.js"></script>
 </body>
 </html>
