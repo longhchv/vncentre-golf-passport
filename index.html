@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3a1f0c">
 <title>Sân Tập Golf Việt Nam</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,7 +141,7 @@ aside.filters{padding:16px;position:sticky;top:76px;max-height:calc(100vh - 92px
 .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .phone{font-variant-numeric:tabular-nums}
 .mapbox{position:sticky;top:76px;padding:10px;display:flex;flex-direction:column;gap:8px}
-.mapbox svg{width:100%;height:auto;max-height:calc(100vh - 190px);display:block;border-radius:10px;background:var(--surface-2);touch-action:manipulation;cursor:crosshair}
+.mapbox>svg[hidden],#lmap[hidden]{display:none!important}.mapbox>svg{width:100%;height:auto;max-height:calc(100vh - 190px);display:block;border-radius:10px;background:var(--surface-2);touch-action:manipulation;cursor:crosshair}
 .legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:5px}
 .legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
@@ -205,7 +211,7 @@ aside.dside{position:sticky;top:64px;display:grid;gap:14px}
 .facts dl{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin:0}
 .facts dt{color:var(--muted);font-size:13px}
 .facts dd{margin:0;overflow-wrap:anywhere}
-.minimap svg{width:100%;height:auto;display:block;border-radius:12px;background:var(--surface-2)}
+#lmap{height:520px;border-radius:12px;z-index:0;background:var(--surface-2)}.leaflet-container{font-family:inherit}.leaflet-tooltip.ptip{font-weight:700;font-size:12.5px;border-radius:8px;padding:3px 8px}.leaflet-control-attribution{font-size:10px}.minimap svg{width:100%;height:auto;display:block;border-radius:12px;background:var(--surface-2)}
 .book{padding:16px;display:grid;gap:10px;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
 .book h3{font-family:var(--serif);font-size:18px;margin:0}
 .book p{margin:0;font-size:13.5px;color:var(--muted)}
@@ -217,13 +223,14 @@ aside.dside{position:sticky;top:64px;display:grid;gap:14px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
 .toast.on{opacity:1}
 
-@media (max-width:1180px){main.grid{grid-template-columns:240px minmax(0,1fr)} .mapbox{grid-column:1/-1;grid-row:1;position:static} .mapbox svg{max-height:420px}}
+@media (max-width:1180px){main.grid{grid-template-columns:240px minmax(0,1fr)} .mapbox{grid-column:1/-1;grid-row:1;position:static} .mapbox>svg{max-height:420px} #lmap{height:420px}}
 @media (max-width:820px){
   main.grid{grid-template-columns:minmax(0,1fr)}
   .viewtog{display:inline-flex}
   body[data-view="list"] .mapbox{display:none}
   body[data-view="map"] .results{display:none}
-  body[data-view="map"] .mapbox svg{max-height:calc(100vh - 200px)}
+  body[data-view="map"] .mapbox>svg{max-height:calc(100vh - 200px)}
+  #lmap{height:calc(100svh - 230px);min-height:340px}
   aside.filters{position:fixed;inset:auto 0 0 0;top:auto;max-height:85vh;border-radius:18px 18px 0 0;z-index:50;transform:translateY(105%);transition:transform .25s;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.25)}
   body.fopen aside.filters{transform:none}
   .scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:45;display:none}
@@ -284,6 +291,9 @@ aside.dside{position:sticky;top:64px;display:grid;gap:14px}
 .flink{font:inherit;background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;padding:0}
 .fbnote{font-size:13px;color:var(--muted);margin:8px 0 0}
 </style>
+</head>
+<body>
+
 
 <header class="top">
   <div class="wrap">
@@ -352,6 +362,7 @@ aside.dside{position:sticky;top:64px;display:grid;gap:14px}
 
   <section class="panel mapbox" aria-label="Map">
     <svg id="map" viewBox="0 0 600 560" role="img"></svg>
+    <div id="lmap" hidden></div>
     <div class="legend" id="legend"></div>
     <div class="hint" data-i="mapHint"></div>
   </section>
@@ -813,6 +824,44 @@ function renderList(rows){
     c.onclick=e=>{if(e.target.closest(".det"))return openDetail(e.target.closest(".det").dataset.id);if(!e.target.closest("a,button"))openDetail(c.dataset.id)};c.onkeydown=e=>{if(e.key==="Enter")openDetail(c.dataset.id)};c.onmouseenter=go});
 }
 // Map projection, refit per render
+/* Bản đồ thật (Leaflet + nền CARTO/OpenStreetMap) cho trang chạy riêng; bản nhúng / lỗi tải thì dùng bản đồ SVG tối giản */
+let LM_OK=false,LMAP=null,LLAYER=null,LFIT="";
+function loadLeaflet(){if(!SB.url)return;
+  const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";document.head.appendChild(c);
+  const j=document.createElement("script");j.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";j.async=true;
+  j.onload=()=>{if(window.L&&L.map){LM_OK=true;update(false)}};document.head.appendChild(j)}
+const cssv=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim()||"#888";
+function darkTheme(){const t=document.documentElement.dataset.theme;return t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches)}
+let LTILE=null,LTILEDARK=null;
+function renderLeaflet(rows){
+  if(!LMAP){
+    LMAP=L.map("lmap",{zoomControl:true,scrollWheelZoom:false,tap:true});
+    LMAP.on("focus click",()=>LMAP.scrollWheelZoom.enable());
+    LMAP.on("click",e=>{me={lat:e.latlng.lat,lng:e.latlng.lng};meLabel="map";lmIdx="";if(!st.radius)st.radius=5;st.sort="dist";update()});
+    LLAYER=L.layerGroup().addTo(LMAP);
+    const c=DATA.filter(p=>p.lat!=null);LMAP.setView(c.length?[c.reduce((a,p)=>a+p.lat,0)/c.length,c.reduce((a,p)=>a+p.lng,0)/c.length]:[16,106.5],c.length?10:5);
+  }
+  const dk=darkTheme();if(LTILEDARK!==dk){if(LTILE)LMAP.removeLayer(LTILE);LTILEDARK=dk;
+    LTILE=L.tileLayer("https://{s}.basemaps.cartocdn.com/"+(dk?"dark_all":"rastertiles/voyager")+"/{z}/{x}/{y}{r}.png",{maxZoom:19,subdomains:"abcd",attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(LMAP)}
+  LLAYER.clearLayers();
+  const ids=new Set(rows.map(r=>r.name)),surf=cssv("--surface"),ink=cssv("--ink");
+  if(me&&st.radius)L.circle([me.lat,me.lng],{radius:st.radius*1000,color:cssv("--accent-2"),weight:1.5,dashArray:"5 4",fillColor:cssv("--accent"),fillOpacity:.1,interactive:false}).addTo(LLAYER);
+  const draw=p=>{const on=ids.has(p.name),is=p.name===sel;
+    const m=L.circleMarker([p.lat,p.lng],{radius:is?11:on?8:5,color:is?ink:surf,weight:is?3:1.5,fillColor:cssv(TC[p.type]),fillOpacity:on?1:.25,bubblingMouseEvents:false}).addTo(LLAYER);
+    m.bindTooltip(esc(p.name),{direction:"top",offset:[0,-8],className:"ptip",permanent:is});
+    m.on("click",()=>{sel=p.name;const r=filtered();const i=r.findIndex(x=>x.name===sel);if(i>=shown)shown=i+1;
+      if(document.body.dataset.view==="map")document.body.dataset.view="list",syncView();
+      update(false);const el=[...document.querySelectorAll(".card")].find(x=>x.dataset.n===sel);el?.scrollIntoView({behavior:"smooth",block:"center"})})};
+  DATA.filter(p=>!ids.has(p.name)&&p.lat!=null).forEach(draw);DATA.filter(p=>ids.has(p.name)&&p.lat!=null).forEach(draw);
+  if(me)L.circleMarker([me.lat,me.lng],{radius:9,color:surf,weight:3,fillColor:cssv("--me"),fillOpacity:1,interactive:false}).addTo(LLAYER).bindTooltip(t("you"),{permanent:true,direction:"right",offset:[10,0],className:"ptip"});
+  const key=[CITY,me?me.lat.toFixed(4)+","+me.lng.toFixed(4):"",st.radius,rows.length,[...st.types].join()].join("|");
+  LMAP.invalidateSize();const sized=LMAP.getSize().x>0;
+  if(key!==LFIT&&sized){LFIT=key;
+    if(me&&st.radius)LMAP.fitBounds(L.latLng(me.lat,me.lng).toBounds(st.radius*2000),{padding:[12,12]});
+    else{const pts=(rows.length?rows:DATA).filter(p=>p.lat!=null).map(p=>[p.lat,p.lng]);if(me)pts.push([me.lat,me.lng]);
+      if(pts.length===1)LMAP.setView(pts[0],15);else if(pts.length)LMAP.fitBounds(pts,{padding:[24,24],maxZoom:15})}}
+  else if(sel){const p=DATA.find(d=>d.name===sel);if(p&&!LMAP.getBounds().contains([p.lat,p.lng]))LMAP.panTo([p.lat,p.lng])}
+}
 const W=600,H=560,PAD=26;let B,kx,S,ox,oy;
 function fit(pts){
   const la=pts.map(p=>p.lat),ln=pts.map(p=>p.lng);let b={a:Math.min(...la),b:Math.max(...la),c:Math.min(...ln),d:Math.max(...ln)};
@@ -823,6 +872,7 @@ function fit(pts){
 }
 const px=l=>ox+(l-B.minLng)*kx*S,py=l=>H-oy-(l-B.minLat)*S,unx=x=>(x-ox)/(kx*S)+B.minLng,uny=y=>(H-oy-y)/S+B.minLat;
 function renderMap(rows){
+  if(LM_OK){$("map").style.display="none";$("lmap").hidden=false;return renderLeaflet(rows)}
   let pts=DATA;
   if(me&&st.radius){const dl=st.radius/111,dg=st.radius/(111*Math.cos(me.lat*Math.PI/180));pts=[{lat:me.lat-dl,lng:me.lng-dg},{lat:me.lat+dl,lng:me.lng+dg}]}
   else if(me)pts=[...DATA,me];
@@ -870,7 +920,7 @@ function renderStatic(){contribLinks();
 }
 function update(resetPage=true){if(resetPage)shown=PAGE;syncUrl();$("sort").value=st.sort;renderBrandSel();renderTypes();renderFilters();renderRadius();const r=filtered();renderList(r);renderMap(r);renderWhere()}
 function setCity(c){if(c===CITY)return;CITY=c;DATA=ALL[c];LANDMARKS=LM[c];me=null;meLabel="";lmIdx="";sel=null;st.district="";st.radius=0;st.sort="rating";st.types.clear();save();renderStatic();update()}
-function syncView(){const v=document.body.dataset.view||"list";$("v-list").setAttribute("aria-pressed",v==="list");$("v-map").setAttribute("aria-pressed",v==="map");
+function syncView(){const v=document.body.dataset.view||"list";if(LMAP&&v==="map")setTimeout(()=>{LMAP.invalidateSize();renderMap(filtered())},30);$("v-list").setAttribute("aria-pressed",v==="list");$("v-map").setAttribute("aria-pressed",v==="map");
   for(const b of [$("v-list"),$("v-map")]){const on=b.getAttribute("aria-pressed")==="true";b.style.background=on?"var(--ink)":"transparent";b.style.color=on?"var(--surface)":"var(--ink)"}}
 $("q").oninput=e=>{st.q=e.target.value;update()};
 $("brandSel").onchange=e=>{st.machine=e.target.value;update();const L=$("list")||document.querySelector(".grid");if(L&&st.machine)L.scrollIntoView({behavior:"smooth",block:"start"})};
@@ -883,7 +933,7 @@ $("landmark").onchange=e=>{const i=e.target.value;if(i==="")return;lmIdx=i;const
 const openF=o=>document.body.classList.toggle("fopen",o);
 $("fopen").onclick=()=>{if(matchMedia("(max-width:820px)").matches)openF(true);else $("filters").scrollIntoView({behavior:"smooth"})};
 $("fclose").onclick=()=>openF(false);$("scrim").onclick=()=>openF(false);$("apply").onclick=()=>{openF(false);document.querySelector(".results").scrollIntoView({behavior:"smooth"})};
-$("v-list").onclick=()=>{document.body.dataset.view="list";syncView()};$("v-map").onclick=()=>{document.body.dataset.view="map";syncView()};
+$("v-list").onclick=()=>{document.body.dataset.view="list";syncView()};$("v-map").onclick=()=>{document.body.dataset.view="map";syncView();setTimeout(()=>{const t=document.querySelector(".toolbar"),m=document.querySelector(".mapbox");if(m)scrollTo({top:m.getBoundingClientRect().top+scrollY-(t?t.offsetHeight:0)-8,behavior:"smooth"})},60)};
 $("gps").onclick=()=>{const w=$("where");if(!navigator.geolocation){w.textContent=t("gpsFail");return}w.textContent=t("gpsWait");
   let done=false;const to=setTimeout(()=>{if(!done){done=true;w.textContent=t("gpsFail")}},8000);
   try{navigator.geolocation.getCurrentPosition(pos=>{if(done)return;done=true;clearTimeout(to);me={lat:pos.coords.latitude,lng:pos.coords.longitude};meLabel="gps";lmIdx="";
@@ -1054,5 +1104,8 @@ function showDetail(id){
   document.body.classList.add("detail");D.hidden=false;window.scrollTo(0,0);
   document.title=p.name+" · VN Centre";
 }
-document.body.dataset.view="list";syncView();renderStatic();if(st.q)$("q").value=st.q;update();route();loadLive();if(WANT_GPS)setTimeout(()=>$("gps").click(),0);
+document.body.dataset.view="list";syncView();loadLeaflet();renderStatic();if(st.q)$("q").value=st.q;update();route();loadLive();if(WANT_GPS)setTimeout(()=>$("gps").click(),0);
 </script>
+
+</body>
+</html>
