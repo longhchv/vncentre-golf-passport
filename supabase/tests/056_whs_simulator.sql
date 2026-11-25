@@ -63,7 +63,11 @@ begin
 
   perform pg_temp.act_as(ua);
   crs := public.whs_sim_save_course(null, v_brand, 'Sân ảo Test', 'Trắng', par18, si18, 72.0, 113);
-  perform public.whs_sim_set_room_admin(v1, ura, true);
+  e := pg_temp.err(format('select public.whs_sim_set_room_admin_by_login(%L, %L)', v1, 'khong-co@example.test'));
+  assert e like '%user_not_found%', 'không tìm thấy tài khoản: ' || coalesce(e, 'null');
+  perform public.whs_sim_set_room_admin_by_login(v1, upper('test-sim-' || ura || '@example.test'), true);
+  select count(*) into n from public.whs_sim_room_admin_list() l where l.venue_id = v1 and l.user_id = ura;
+  assert n = 1, 'giao admin phòng bằng email đăng nhập';
   perform public.whs_sim_set_brand_status(v_brand, false, null, null, true, 'chưa có giấy phép');
 
   ----------------------------------------------------------------- Gửi điểm: các trường hợp bị chặn
@@ -92,8 +96,8 @@ begin
   assert n = 0, 'người ngoài không thấy vòng của golfer';
 
   perform pg_temp.act_as(ura);
-  select count(*) into n from public.whs_sim_queue() q where q.round_id = r;
-  assert n = 1, 'admin phòng thấy vòng chờ trong hàng chờ';
+  select count(*) into n from public.whs_sim_queue() q where q.round_id = r and cardinality(q.par) = 18 and q.ai_scores = all5;
+  assert n = 1, 'admin phòng thấy vòng chờ trong hàng chờ (kèm par và điểm AI đọc)';
   e := pg_temp.err(format('select public.whs_sim_decide(%L, false)', r));
   assert e like '%reason_required%', 'từ chối phải có lý do: ' || coalesce(e, 'null');
   perform public.whs_sim_decide(r, true);

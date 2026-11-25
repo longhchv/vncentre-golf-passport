@@ -466,12 +466,14 @@ end $$;
 
 -- Hàng chờ xác nhận của người đăng nhập. overdue = quá simConfirmHours.
 -- Admin phòng thấy vòng của phòng mình; nhân sự VN Centre thấy vòng của phòng chưa có admin và vòng quá hạn.
+drop function if exists public.whs_sim_queue();
 create or replace function public.whs_sim_queue() returns table (
-  round_id uuid, venue_id text, venue_name text, golfer text, course text, tee text, holes text, played_on date,
-  gross int[], gimme boolean, flags text[], created_at timestamptz, overdue boolean, room_has_admin boolean, has_photo boolean)
+  round_id uuid, venue_id text, venue_name text, golfer text, course_id uuid, course text, tee text, par int[], holes text, played_on date,
+  gross int[], ai_scores int[], gimme boolean, flags text[], created_at timestamptz, overdue boolean, room_has_admin boolean, has_photo boolean)
 language sql stable security definer set search_path = public as $$
-  select r.id, r.venue_id, v.name, mb.full_name, cs.name, cs.tee_name, r.holes, r.played_on,
-    r.gross, r.gimme, r.flags, r.created_at,
+  select r.id, r.venue_id, v.name, mb.full_name, cs.id, cs.name, cs.tee_name,
+    case when r.holes = 'B' then cs.par[10:18] when r.holes = 'F' and cs.holes = 18 then cs.par[1:9] else cs.par end,
+    r.holes, r.played_on, r.gross, r.ai_scores, r.gimme, r.flags, r.created_at,
     r.created_at < now() - make_interval(hours => public.whs_sim_num(r.federation_id, 'simConfirmHours', 72)::int),
     public.whs_sim_room_has_admin(r.venue_id),
     exists (select 1 from whs_sim_photos p where p.round_id = r.id)
@@ -549,6 +551,36 @@ begin
   else
     update whs_sim_room_admins set deleted_at = now() where venue_id = p_venue and user_id = p_user and deleted_at is null;
   end if;
+end $$;
+
+-- Giao / bỏ quyền admin phòng bằng tài khoản Golf Passport (email hoặc số điện thoại đăng nhập)
+create or replace function public.whs_sim_set_room_admin_by_login(p_venue text, p_login text, p_active boolean default true) returns text
+language plpgsql security definer set search_path = public, auth as $$
+declare v_q text := lower(btrim(coalesce(p_login, ''))); v_phone text; v_user uuid; v_label text;
+begin
+  if not whs_is_platform_admin() then raise exception 'forbidden'; end if;
+  if v_q = '' then raise exception 'login_required'; end if;
+  -- SĐT kiểu Việt Nam 0xxx → 84xxx (auth.users.phone lưu không có dấu +)
+  v_phone := regexp_replace(v_q, '[^0-9]', '', 'g');
+  if v_phone ~ '^0[0-9]{8,10}$' then v_phone := '84' || substr(v_phone, 2); end if;
+  select u.id, coalesce(u.email, u.phone) into v_user, v_label from auth.users u
+  where (position('@' in v_q) > 0 and lower(u.email) = v_q)
+     or (position('@' in v_q) = 0 and v_phone <> '' and regexp_replace(coalesce(u.phone, ''), '[^0-9]', '', 'g') = v_phone)
+  limit 1;
+  if v_user is null then raise exception 'user_not_found'; end if;
+  perform whs_sim_set_room_admin(p_venue, v_user, p_active);
+  return v_label;
+end $$;
+
+-- Danh sách admin phòng (cho admin nền tảng)
+create or replace function public.whs_sim_room_admin_list() returns table (venue_id text, venue_name text, user_id uuid, login text, created_at timestamptz)
+language plpgsql stable security definer set search_path = public, auth as $$
+begin
+  if not whs_is_platform_admin() then raise exception 'forbidden'; end if;
+  return query
+    select a.venue_id, v.name, a.user_id, coalesce(u.email, u.phone)::text, a.created_at
+    from whs_sim_room_admins a join practice_venues v on v.id = a.venue_id left join auth.users u on u.id = a.user_id
+    where a.deleted_at is null order by v.name, a.created_at;
 end $$;
 
 -- Cấu hình thay đổi (hệ số R&A, trần…) → tính lại toàn bộ
@@ -650,13 +682,15 @@ revoke execute on function public.whs_sim_is_room_admin(text), public.whs_sim_ro
   public.whs_sim_withdraw(uuid), public.whs_sim_decide(uuid, boolean, int[], text), public.whs_sim_void(uuid, text),
   public.whs_sim_queue(), public.whs_sim_set_brand_status(text, boolean, date, date, boolean, text),
   public.whs_sim_save_course(uuid, text, text, text, int[], int[], numeric, int, numeric, int, numeric, int, text, text),
-  public.whs_sim_set_room_admin(text, uuid, boolean), public.whs_sim_recompute_all() from public, anon;
+  public.whs_sim_set_room_admin(text, uuid, boolean), public.whs_sim_recompute_all(),
+  public.whs_sim_set_room_admin_by_login(text, text, boolean), public.whs_sim_room_admin_list() from public, anon;
 grant execute on function public.whs_sim_is_room_admin(text), public.whs_sim_room_has_admin(text),
   public.whs_sim_can_decide(public.whs_sim_rounds), public.whs_sim_submit(text, uuid, text, date, int[], boolean, boolean, text, text, int[], uuid),
   public.whs_sim_withdraw(uuid), public.whs_sim_decide(uuid, boolean, int[], text), public.whs_sim_void(uuid, text),
   public.whs_sim_queue(), public.whs_sim_set_brand_status(text, boolean, date, date, boolean, text),
   public.whs_sim_save_course(uuid, text, text, text, int[], int[], numeric, int, numeric, int, numeric, int, text, text),
-  public.whs_sim_set_room_admin(text, uuid, boolean), public.whs_sim_recompute_all() to authenticated;
+  public.whs_sim_set_room_admin(text, uuid, boolean), public.whs_sim_recompute_all(),
+  public.whs_sim_set_room_admin_by_login(text, text, boolean), public.whs_sim_room_admin_list() to authenticated;
 
 insert into supabase_migrations.schema_migrations (version, name)
 values ('20261125000001', 'whs_simulator') on conflict (version) do nothing;
