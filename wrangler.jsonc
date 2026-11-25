@@ -1,0 +1,6 @@
+{
+  // hdcp.vncentre.net: app Handicap WHS, chỉ phục vụ file tĩnh trong ./public
+  "name": "vncentre-hdcp-app",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "./public", "not_found_handling": "single-page-application" }
+}
