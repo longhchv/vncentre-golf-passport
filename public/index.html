@@ -1990,7 +1990,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     if (SV.tab !== 'com' && SV.tab !== 'kid' && SV.tab !== 'sim' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
     if (SV.tab !== 'sim' && !(m && m.status === 'active') && !isStaff() && roomAdmin) SV.tab = 'sim';
     const gf = SV.ctx.golfer, G = SV.ctx.golfers;
-    const pick = G.length > 1 ? `<div class="f svwho"><label for="svWho">Golfer</label><select id="svWho">${G.map(g => `<option value="${g.student_id}"${g.student_id === SV.cur ? ' selected' : ''}>${esc(g.full_name)}${g.is_self ? ' (tôi)' : ''} · ${esc(g.student_code)}</option>`).join('')}</select></div>` : '';
+    const pick = G.length > 1 ? `<div class="f svwho"><label for="svWho">Golfer</label><select id="svWho">${G.map(g => `<option value="${g.student_id}"${g.student_id === SV.cur ? ' selected' : ''}>${g.is_self ? 'Tôi: ' : ''}${esc(g.full_name)} · ${esc(g.student_code)}</option>`).join('')}</select></div>` : '';
     return `<div class="svhead"><div><b>${esc(m ? m.full_name : gf ? gf.full_name : (u.email || u.phone))}</b><span>${gf ? 'Mã VNC ' + esc(gf.student_code) + ' · ' : ''}${m ? esc((m.fed && m.fed.short) || m.federation_id) + (m.club ? ' · ' + esc(m.club.name) : '') : 'Chưa là hội viên'}</span></div>
       <button class="btn ghost sm" data-a="logout">Đăng xuất</button></div>` + pick +
       (showTabs ? `<div class="seg svtabs" role="tablist">${tabs.filter(t => t[0] !== 'me' && t[0] !== 'play' && t[0] !== 'att' || (m && m.status === 'active')).map(([k, l]) => `<button role="tab" data-a="tab" data-v="${k}" class="${SV.tab === k ? 'on' : ''}">${l}</button>`).join('')}</div>` : '');
@@ -2001,7 +2001,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     if (SV.tab === 'kid' && window.srvYouthTab) return window.srvYouthTab();
     if (SV.tab === 'sim' && window.srvSimTab) return window.srvSimTab();
     if (!m) return joinCard();
-    if (m.status === 'pending') return `<div class="card"><h2>Đang chờ CLB duyệt</h2><p class="sub">Hồ sơ của anh/chị đã gửi tới ${esc(m.club ? m.club.name : 'CLB')}. Khi CLB duyệt, anh/chị sẽ đăng ký vòng và nộp điểm được.</p><button class="btn ghost" data-a="reload">Kiểm tra lại</button></div>`;
+    if (m.status === 'pending') return `<div class="card"><h2>Đang chờ CLB duyệt</h2><p class="sub"><span>Hồ sơ của anh/chị đã gửi tới</span> <b>${esc(m.club ? m.club.name : 'CLB')}</b>. <span>Khi CLB duyệt, anh/chị sẽ đăng ký vòng và nộp điểm được.</span></p><button class="btn ghost" data-a="reload">Kiểm tra lại</button></div>`;
     if (m.status !== 'active') return `<div class="card"><h2>Hồ sơ đang bị khoá</h2><p class="sub">Liên hệ CLB hoặc liên đoàn để biết thêm.</p></div>`;
     if (SV.tab === 'play') return playTab();
     if (SV.tab === 'att') return attTab();
@@ -2012,7 +2012,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const g = SV.ctx.golfer;
     if (!g) return `<div class="card"><h2>Chưa có hồ sơ golfer</h2><p class="sub">Handicap gắn với hồ sơ golfer và mã VNC trong Golf Passport. Anh/chị tạo hồ sơ (hoặc liên kết hồ sơ của con) trong app Golf Passport tại app.vncentre.net, rồi quay lại đây.</p><button class="btn ghost" data-a="reload">Kiểm tra lại</button></div>`;
     const needG = g.gender !== 'male' && g.gender !== 'female';
-    return `<div class="card"><h2>Gia nhập CLB để có Handicap Index</h2><p class="sub">Handicap Index gắn với hồ sơ golfer <b>${esc(g.full_name)}</b> (mã VNC ${esc(g.student_code)}${g.birth_year ? ', sinh năm ' + g.birth_year : ''}). CLB sẽ duyệt hồ sơ trước khi nộp điểm.</p>
+    return `<div class="card"><h2>Gia nhập CLB để có Handicap Index</h2><p class="sub"><span>Handicap Index gắn với hồ sơ golfer</span> <b>${esc(g.full_name)}</b> (<span>mã VNC</span> ${esc(g.student_code)}${g.birth_year ? '<span>, sinh năm</span> ' + g.birth_year : ''}). <span>CLB sẽ duyệt hồ sơ trước khi nộp điểm.</span></p>
       <div class="fields"><div class="f"><label for="svFed">Liên đoàn</label><select id="svFed">${SV.ctx.feds.map(f => `<option value="${f.id}">${esc(f.name)}</option>`).join('')}</select></div>
       <div class="f"><label for="svClub">CLB chủ quản</label><select id="svClub"></select></div>
       ${needG ? `<div class="f"><label>Giới tính (theo tee)</label><div class="seg" id="svG"><button data-a="g" data-v="M" class="on">Nam</button><button data-a="g" data-v="F">Nữ</button></div></div>` : ''}</div>
@@ -2093,7 +2093,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
   function teeOpts() {
     const c = SV.pick && SV.courses && SV.courses.find(x => x.id === SV.pick);
     if (!c) return '<option value="">Chọn sân trước</option>';
-    return Object.entries(c.data.tees).filter(([, t]) => t.cr || (t.F && t.F.cr)).map(([k, t]) => `<option value="${k}">${esc(t.name)} (${t.g === 'F' ? 'nữ' : 'nam'}${t.cr ? ' · CR ' + t.cr + ' / SR ' + t.sr : ''})</option>`).join('');
+    return Object.entries(c.data.tees).filter(([, t]) => t.cr || (t.F && t.F.cr)).map(([k, t]) => `<option value="${k}">${esc(t.name)} · ${t.g === 'F' ? 'nữ' : 'nam'}${t.cr ? ' · CR ' + t.cr + ' / SR ' + t.sr : ''}</option>`).join('');
   }
   function drawCourseList(q) {
     const ul = $s('svCl'); if (!ul || !SV.courses) return;
@@ -2171,7 +2171,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
       const P = (r && r.players || []).filter(p => (p.scores || []).some(x => x != null));
       if (!P.length) throw { code: 'invalid_json' };
       SV._scan = P;
-      out.innerHTML = `<p class="note">App đọc được ${P.length} người trên thẻ. Chọn dòng điểm của anh/chị:</p><div class="acts" style="margin-top:6px">${P.map((p, i) => `<button class="btn ghost sm" data-a="scanpick" data-v="${i}">${esc(p.name || 'Người ' + (i + 1))} · ${(p.scores || []).reduce((a, b) => a + (parseInt(b) || 0), 0)} gậy</button>`).join('')}</div>`;
+      out.innerHTML = `<p class="note"><span>App đọc được ${P.length} người trên thẻ.</span> <span>Chọn dòng điểm của anh/chị:</span></p><div class="acts" style="margin-top:6px">${P.map((p, i) => `<button class="btn ghost sm" data-a="scanpick" data-v="${i}">${esc(p.name || 'Người ' + (i + 1))} · ${(p.scores || []).reduce((a, b) => a + (parseInt(b) || 0), 0)} gậy</button>`).join('')}</div>`;
       out.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', onAct));
     } catch (err) {
       const m = { not_granted: 'Anh/chị chưa cho phép app dùng Claude để đọc ảnh.', images_unavailable: 'Trình xem này chưa gửi được ảnh.', image_rejected: 'Ảnh không đọc được (định dạng hoặc quá lớn). Thử ảnh khác.', rate_limited: 'Đang gửi quá nhiều – thử lại sau ít phút.', invalid_json: 'Không đọc được thẻ điểm từ ảnh này. Chụp lại rõ hơn, thẳng góc.', cancelled: 'Đã dừng.', refused: 'Không đọc được ảnh này.' };
@@ -2188,7 +2188,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
       inp.closest('.hole').classList.toggle('unc', unc.has(idx[k] + 1) || (typeof v === 'string' && /^x$/i.test(v.trim())));
     });
     sumHoles();
-    $s('svScan').innerHTML = `<p class="okmsg">Đã điền điểm của ${esc(p.name || '')}. Kiểm tra lại từng hố${unc.size ? ' – ô viền cam là hố app đọc chưa chắc' : ''}${x ? '; hố bỏ dở (X) cần nhập tay số gậy tối đa' : ''}.</p>`;
+    $s('svScan').innerHTML = `<p class="okmsg"><span>Đã điền điểm của</span> <b>${esc(p.name || '')}</b>. <span>Kiểm tra lại từng hố.</span>${unc.size ? ' <span>Ô viền cam là hố app đọc chưa chắc.</span>' : ''}${x ? ' <span>Hố bỏ dở (X) cần nhập tay số gậy tối đa.</span>' : ''}</p>`;
   }
 
   // ---- Xác nhận cho bạn chơi ----
@@ -2197,7 +2197,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
     if (!L.length) return '<div class="card"><h2>Chờ anh/chị xác nhận</h2><div class="empty">Không có vòng nào cần xác nhận.</div></div>';
     return `<div class="card"><h2>Chờ anh/chị xác nhận</h2><p class="sub">Đối chiếu với thẻ điểm anh/chị đã ghi. Nếu sai, chọn "Không đúng" và ghi rõ hố nào.</p></div>` + L.map(r => {
       const tot = r.gross.reduce((a, b) => a + (b || 0), 0), tee = r.course.data.tees[r.tee_key];
-      return `<div class="card svatt"><h2>${esc(r.member.full_name)}</h2><p class="sub">${dmy(r.played_on)} · ${esc(r.course.name)} · Tee ${esc(tee ? tee.name : '')} · ${holeTxt(r.holes)} · <b>${tot} gậy</b></p>${scoreTable(r)}
+      return `<div class="card svatt"><h2>${esc(r.member.full_name)}</h2><p class="sub">${dmy(r.played_on)} · ${esc(r.course.name)} · Tee ${esc(tee ? tee.name : '')} · ${holeTxt(r.holes)}<span> · </span><b>${tot} gậy</b></p>${scoreTable(r)}
         <div class="f" style="margin-top:12px"><label for="an-${r.id}">Ghi chú (bắt buộc nếu không đúng)</label><input id="an-${r.id}" placeholder="Ví dụ: hố 7 đánh 6 gậy"></div>
         <div class="acts"><button class="btn" data-a="attest" data-v="${r.id}">Xác nhận đúng</button><button class="btn ghost" data-a="dispute" data-v="${r.id}">Không đúng</button></div></div>`;
     }).join('');
@@ -2206,8 +2206,8 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
   // ---- Hội đồng ----
   function comTab() {
     const P = SV.ctx.pending || [], Q = SV.ctx.queue || [];
-    const roles = SV.ctx.admin ? 'Quản trị nền tảng' : SV.ctx.staff.map(s => ({ fed_admin: 'Quản trị liên đoàn', committee: 'Hội đồng Handicap', club_admin: 'Quản trị CLB' }[s.role])).join(', ');
-    return `<div class="card"><h2>Việc cần xử lý</h2><p class="sub">${esc(roles)}. Mọi quyết định đều phải ghi lý do và được lưu vào nhật ký, không sửa hay xoá được.</p>
+    const roles = SV.ctx.admin ? 'Quản trị nền tảng' : SV.ctx.staff.map(s => ({ fed_admin: 'Quản trị liên đoàn', committee: 'Hội đồng Handicap', club_admin: 'Quản trị CLB' }[s.role])).join(' · ');
+    return `<div class="card"><h2>Việc cần xử lý</h2><p class="sub"><span>${esc(roles)}</span>. <span>Mọi quyết định đều phải ghi lý do và được lưu vào nhật ký, không sửa hay xoá được.</span></p>
       <div class="kv"><div>Hội viên chờ duyệt<b>${P.length}</b></div><div>Vòng cần xem<b>${Q.length}</b></div><div>Marker phản đối<b>${Q.filter(r => r.status === 'disputed').length}</b></div></div>
       ${SV.ctx.admin ? '<div class="acts"><button class="btn ghost" data-a="recompute">Tính lại handicap ngay</button></div>' : ''}</div>
       ${adminCard()}
