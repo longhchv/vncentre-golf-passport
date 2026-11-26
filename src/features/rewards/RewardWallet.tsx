@@ -30,6 +30,7 @@ export interface RewardLine {
   rule: Named | null
   gift?: (Named & { qty: number }) | null
   event?: (Named & { gift_label: string | null }) | null
+  training?: (Named & { kind: 'challenge' | 'assignment' | 'in_class'; level?: number | null }) | null
 }
 export interface RewardWalletData {
   balance: number
@@ -62,6 +63,8 @@ const KNOWN_REASONS = [
   'event_redemption',
   'opening_balance',
   'opening_balance_adjust',
+  'training_challenge',
+  'training_assignment',
 ]
 
 /** Tên nguồn của một dòng sổ (giải + chặng / đối tác / nguồn điểm / loại giao dịch). */
@@ -80,6 +83,10 @@ export function useRewardSource() {
     if (l.event) {
       const what = l.reason === 'event_points' ? t('rewards.reason.event_points') : l.event.gift_label || t('rewards.reason.event_redemption')
       return `${loc(l.event, 'name')} · ${what}`
+    }
+    if (l.training) {
+      const k = l.training.kind === 'challenge' ? 'trainingChallenge' : l.training.kind === 'in_class' ? 'trainingInClass' : 'trainingAssignment'
+      return t(`rewards.source.${k}`, { name: loc(l.training, 'name'), level: l.training.level ?? '' })
     }
     if (l.gift) return `${t('rewards.reason.gift_order')} · ${loc(l.gift, 'name')}${l.gift.qty > 1 ? ` × ${l.gift.qty}` : ''}`
     if (l.partner_name) return l.partner_name
