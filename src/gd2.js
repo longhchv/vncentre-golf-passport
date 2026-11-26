@@ -1,6 +1,6 @@
 /* ===== GĐ2 (spec 29): thẻ tóm tắt, so sánh, gợi ý theo nhu cầu, thông tin chi tiết, "Quanh đây" 5 nhóm ===== */
 const G2={
- vi:{need:"Bạn cần gì?",needAll:"Tất cả",needs:{kids:"Đi cùng con",noon:"Tranh thủ giờ trưa",early:"Tập sáng sớm",after_work:"Sau giờ làm",group:"Đi nhóm, tiếp khách",foreigners:"Khách nước ngoài",beginner:"Mới chơi, cần thuê gậy"},
+ vi:{docT:"Sân tập golf",need:"Bạn cần gì?",needAll:"Tất cả",needs:{kids:"Đi cùng con",noon:"Tranh thủ giờ trưa",early:"Tập sáng sớm",after_work:"Sau giờ làm",group:"Đi nhóm, tiếp khách",foreigners:"Khách nước ngoài",beginner:"Mới chơi, cần thuê gậy"},
   needHit:"Hợp nhu cầu",from:"từ",perH:"/giờ",perHP:"/giờ/người",perRound:"/vòng",perBalls:"/{b} bóng",
   ico:{parking:"Đỗ xe",shop:"Shop golf",academy:"Học viện",kids:"Hợp trẻ em",lang:"Nói tiếng",vip:"Phòng VIP",rental:"Thuê gậy"},
   cmpAdd:"So sánh",cmpOn:"Đã chọn",cmpTray:"{n}/3 nơi để so sánh",cmpGo:"So sánh ngay",cmpClear:"Bỏ chọn",cmpTitle:"So sánh địa điểm",cmpMax:"Chỉ so sánh tối đa 3 nơi.",cmpNeed2:"Chọn thêm ít nhất 1 nơi.",
@@ -24,7 +24,7 @@ const G2={
   arQ:{kids:[["🎠","Khu vui chơi trẻ em","khu vui chơi trẻ em"],["🎮","Trò chơi, game","khu trò chơi"],["🌳","Công viên","công viên"],["📚","Nhà sách, thư viện","nhà sách"]],beauty:[["💆","Spa, gội đầu dưỡng sinh","spa gội đầu dưỡng sinh"],["💅","Làm nail","tiệm nail"],["💇","Làm tóc","salon tóc"]],shop:[["🛍","Trung tâm thương mại","trung tâm thương mại"],["🛒","Siêu thị","siêu thị"]],cafe:[["☕","Cà phê yên tĩnh","quán cà phê yên tĩnh"],["💻","Cà phê làm việc","cà phê làm việc"]],elder:[["🌳","Công viên đi dạo","công viên"],["🛕","Chùa, đền","chùa"],["🍵","Quán trà","quán trà"]]},
   arK:{playground:"Sân chơi",park:"Công viên",arcade:"Khu trò chơi",library:"Thư viện",books:"Nhà sách",cinema:"Rạp phim",amusement:"Khu vui chơi",water_park:"Công viên nước",zoo:"Vườn thú",beauty:"Làm đẹp",hairdresser:"Làm tóc",massage:"Massage",spa:"Spa",sauna:"Xông hơi",nail:"Làm nail",mall:"Trung tâm thương mại",supermarket:"Siêu thị",department_store:"Bách hoá",cafe:"Cà phê",tea:"Trà",worship:"Chùa, đền",garden:"Vườn"},
   lngName:"Tiếng Việt"},
- en:{need:"What do you need?",needAll:"All",needs:{kids:"With kids",noon:"Lunch-break session",early:"Early morning",after_work:"After work",group:"Groups & clients",foreigners:"International visitors",beginner:"Beginner, need clubs"},
+ en:{docT:"Golf practice",need:"What do you need?",needAll:"All",needs:{kids:"With kids",noon:"Lunch-break session",early:"Early morning",after_work:"After work",group:"Groups & clients",foreigners:"International visitors",beginner:"Beginner, need clubs"},
   needHit:"Good match",from:"from",perH:"/hour",perHP:"/hour/person",perRound:"/round",perBalls:"/{b} balls",
   ico:{parking:"Parking",shop:"Golf shop",academy:"Academy",kids:"Kids friendly",lang:"Speaks",vip:"VIP room",rental:"Club rental"},
   cmpAdd:"Compare",cmpOn:"Selected",cmpTray:"{n}/3 places to compare",cmpGo:"Compare now",cmpClear:"Clear",cmpTitle:"Compare places",cmpMax:"You can compare up to 3 places.",cmpNeed2:"Pick at least one more place.",

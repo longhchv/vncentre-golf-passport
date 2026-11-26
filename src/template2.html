@@ -698,7 +698,7 @@ function renderRadius(){const R=$("radius");R.innerHTML=`<span class="lbl">${t("
   for(const n of [1,3,5,10,0])R.append(chip(n?n+" km":t("any"),st.radius===n,()=>{st.radius=n;if(n&&me)st.sort="dist";update()}));}
 function renderStatic(){contribLinks();renderNeeds();renderTray();document.documentElement.lang=lang==="zh"?"zh-Hans":lang;
   document.documentElement.lang=lang;document.documentElement.dataset.brand=brand;
-  document.title=(lang==="vi"?"Sân tập golf ":"Golf practice ")+CITYNAME[CITY][lang]+" · VN Centre";
+  document.title=(t("docT")+" ")+CITYNAME[CITY][lang]+" · VN Centre";
   document.querySelectorAll("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));
   $("h1").innerHTML=t("h1");
   $("lead").textContent=t("lead").replace("{n}",DATA.length).replace("{in}",CITYIN[CITY][lang]);
@@ -793,7 +793,7 @@ let cur=null,aroundTab="me";
 function openDetail(id){if(!cur)listY=window.scrollY;try{if(location.hash!=="#/"+id){location.hash="#/"+id;return}}catch(e){}showDetail(id)}
 let listY=0;
 function closeDetail(){try{if(location.hash)location.hash="";}catch(e){}hideDetail()}
-function hideDetail(){const was=!!cur;cur=null;document.body.classList.remove("detail");$("detail").hidden=true;if(was){document.title=(lang==="vi"?"Sân tập golf ":"Golf practice ")+CITYNAME[CITY][lang]+" · VN Centre";window.scrollTo(0,listY)}}
+function hideDetail(){const was=!!cur;cur=null;document.body.classList.remove("detail");$("detail").hidden=true;if(was){document.title=(t("docT")+" ")+CITYNAME[CITY][lang]+" · VN Centre";window.scrollTo(0,listY)}}
 function route(){let h="";try{h=location.hash}catch(e){}const m=h.match(/^#\/(.+)$/);if(m&&BYID[m[1]])showDetail(m[1]);else hideDetail()}
 window.addEventListener("hashchange",route);
 const gq=(q,p)=>`https://www.google.com/maps/search/${encodeURIComponent(q)}/@${p.lat},${p.lng},15z`;

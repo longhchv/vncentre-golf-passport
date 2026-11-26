@@ -6,7 +6,7 @@ Object.assign(CITYNAME.hn,{ko:"하노이",ja:"ハノイ",zh:"河内"});Object.as
 Object.assign(CITYNAME.dn,{ko:"다낭",ja:"ダナン",zh:"岘港"});Object.assign(CITYNAME.north,{ko:"북부 지방",ja:"北部の省",zh:"北部各省"});
 Object.assign(CITYNAME.central,{ko:"중부 지방",ja:"中部の省",zh:"中部各省"});Object.assign(CITYNAME.south,{ko:"남부 지방",ja:"南部の省",zh:"南部各省"});
 const CJK={
-ko:{brandSub:"베트남 전국 골프연습장",h1:"<em>가까운</em> 골프연습장 찾기",lead:"{in} 골프연습장, 스크린골프, 골프 아카데미 {n}곳. 위치를 정하고 조건을 고른 뒤 바로 전화하거나 길찾기를 하세요.",
+ko:{docT:"골프연습장",brandSub:"베트남 전국 골프연습장",h1:"<em>가까운</em> 골프연습장 찾기",lead:"{in} 골프연습장, 스크린골프, 골프 아카데미 {n}곳. 위치를 정하고 조건을 고른 뒤 바로 전화하거나 길찾기를 하세요.",
  q:"이름, 거리, 구, 시뮬레이터 검색…",bSel:"시뮬레이터 브랜드로 찾기",bFind:"🔍 이 브랜드로 목록 보기",bAll:"모든 브랜드",bHere:"이 지역 {n}곳",bNat:"전국 {n}곳",bUnk:"브랜드 미확인",bElse:"{b} 매장이 있는 지역:",gps:"📍 내 위치",lm:"또는 현재 있는 곳 선택…",radius:"반경",any:"전체",
  filters:"필터",vList:"목록",vMap:"지도",fDistrict:"지역",allD:"전체 지역",fRating:"구글 평점",fSvc:"편의시설",fMachine:"시뮬레이터 브랜드",fOther:"기타",reset:"필터 초기화",apply:"결과 보기",
  types:{range:"야외 연습장","3d":"스크린골프",academy:"골프 아카데미",course:"골프장 내 연습장",mini:"미니골프"},
@@ -52,7 +52,7 @@ ko:{brandSub:"베트남 전국 골프연습장",h1:"<em>가까운</em> 골프연
  arLoading:"주변을 찾는 중…",arNone:"이 그룹의 주변 지도 자료가 아직 없습니다.",arMore:"구글 지도에서 더 찾기",arErr:"주변 정보를 불러오지 못했습니다. 구글 지도를 열어 보세요.",
  arQ:{kids:[["🎠","키즈카페·놀이터","kids playground"],["🎮","게임센터","game center"],["🌳","공원","park"],["📚","서점·도서관","bookstore"]],beauty:[["💆","스파·헤드스파","spa"],["💅","네일숍","nail salon"],["💇","미용실","hair salon"]],shop:[["🛍","쇼핑몰","shopping mall"],["🛒","마트","supermarket"]],cafe:[["☕","조용한 카페","quiet cafe"],["💻","작업하기 좋은 카페","cafe wifi"]],elder:[["🌳","산책 공원","park"],["🛕","사찰","pagoda"],["🍵","찻집","tea house"]]},
  arK:{playground:"놀이터",park:"공원",arcade:"게임센터",library:"도서관",books:"서점",cinema:"영화관",amusement:"놀이공원",water_park:"워터파크",zoo:"동물원",beauty:"뷰티",hairdresser:"미용실",massage:"마사지",spa:"스파",sauna:"사우나",nail:"네일",mall:"쇼핑몰",supermarket:"마트",department_store:"백화점",cafe:"카페",tea:"찻집",worship:"사찰",garden:"정원"},lngName:"한국어"},
-ja:{brandSub:"ベトナム全国のゴルフ練習場",h1:"<em>近くの</em>ゴルフ練習場を探す",lead:"{in}の打ちっぱなし、シミュレーションゴルフ、ゴルフスクール {n}か所。場所を決めて条件を選び、ワンタップで電話・ルート案内。",
+ja:{docT:"ゴルフ練習場",brandSub:"ベトナム全国のゴルフ練習場",h1:"<em>近くの</em>ゴルフ練習場を探す",lead:"{in}の打ちっぱなし、シミュレーションゴルフ、ゴルフスクール {n}か所。場所を決めて条件を選び、ワンタップで電話・ルート案内。",
  q:"名前・通り・区・シミュレーターで検索…",bSel:"シミュレーターのメーカーで探す",bFind:"🔍 このメーカーで絞り込む",bAll:"すべてのメーカー",bHere:"この地域 {n}か所",bNat:"全国 {n}か所",bUnk:"メーカー未確認",bElse:"{b} がある地域:",gps:"📍 現在地",lm:"または今いる場所を選ぶ…",radius:"半径",any:"すべて",
  filters:"絞り込み",vList:"リスト",vMap:"地図",fDistrict:"エリア",allD:"すべてのエリア",fRating:"Google評価",fSvc:"設備",fMachine:"シミュレーター",fOther:"その他",reset:"条件をクリア",apply:"結果を表示",
  types:{range:"屋外練習場","3d":"シミュレーションゴルフ",academy:"ゴルフスクール",course:"ゴルフ場併設",mini:"ミニゴルフ"},
@@ -98,7 +98,7 @@ ja:{brandSub:"ベトナム全国のゴルフ練習場",h1:"<em>近くの</em>ゴ
  arLoading:"周辺を検索中…",arNone:"このグループの周辺データはまだありません。",arMore:"Googleマップでさらに探す",arErr:"周辺情報を読み込めませんでした。Googleマップを開いてください。",
  arQ:{kids:[["🎠","キッズスペース・遊び場","kids playground"],["🎮","ゲームセンター","game center"],["🌳","公園","park"],["📚","書店・図書館","bookstore"]],beauty:[["💆","スパ・ヘッドスパ","spa"],["💅","ネイルサロン","nail salon"],["💇","美容院","hair salon"]],shop:[["🛍","ショッピングモール","shopping mall"],["🛒","スーパー","supermarket"]],cafe:[["☕","静かなカフェ","quiet cafe"],["💻","作業できるカフェ","cafe wifi"]],elder:[["🌳","散歩できる公園","park"],["🛕","お寺","pagoda"],["🍵","茶店","tea house"]]},
  arK:{playground:"遊び場",park:"公園",arcade:"ゲームセンター",library:"図書館",books:"書店",cinema:"映画館",amusement:"遊園地",water_park:"ウォーターパーク",zoo:"動物園",beauty:"美容",hairdresser:"美容院",massage:"マッサージ",spa:"スパ",sauna:"サウナ",nail:"ネイル",mall:"モール",supermarket:"スーパー",department_store:"百貨店",cafe:"カフェ",tea:"茶店",worship:"お寺",garden:"庭園"},lngName:"日本語"},
-zh:{brandSub:"越南全国高尔夫练习场",h1:"寻找<em>附近的</em>高尔夫练习场",lead:"{in}共 {n} 家高尔夫练习场、模拟高尔夫和高尔夫学院。设定位置、选择条件,一键致电或导航。",
+zh:{docT:"高尔夫练习场",brandSub:"越南全国高尔夫练习场",h1:"寻找<em>附近的</em>高尔夫练习场",lead:"{in}共 {n} 家高尔夫练习场、模拟高尔夫和高尔夫学院。设定位置、选择条件,一键致电或导航。",
  q:"搜索名称、街道、区、模拟器…",bSel:"按模拟器品牌查找",bFind:"🔍 按此品牌筛选",bAll:"所有品牌",bHere:"本地 {n} 家",bNat:"全国 {n} 家",bUnk:"品牌未确认",bElse:"{b} 所在地区:",gps:"📍 我的位置",lm:"或选择您所在的地点…",radius:"范围",any:"全部",
  filters:"筛选",vList:"列表",vMap:"地图",fDistrict:"区域",allD:"所有区域",fRating:"Google 评分",fSvc:"设施",fMachine:"模拟器品牌",fOther:"其他",reset:"清除筛选",apply:"查看结果",
  types:{range:"户外练习场","3d":"模拟高尔夫",academy:"高尔夫学院",course:"球场内练习场",mini:"迷你高尔夫"},
