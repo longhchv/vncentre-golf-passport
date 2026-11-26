@@ -3183,7 +3183,7 @@
       "noCards": "Level này chưa có thẻ.",
       "practice": "Thẻ luyện thêm",
       "library": "Thư viện bài tập",
-      "pointsNote": "Điểm hiện chỉ ghi nhận mức điểm, sẽ cộng vào ví ở đợt sau.",
+      "pointsNote": "Điểm thưởng vào ví khi thẻ đạt (mỗi thẻ một lần) và khi HLV xác nhận bài giao. Thẻ không có HLV xác nhận được cộng tối đa {{cap}} điểm mỗi tuần.",
       "watchVideo": "Xem video",
       "provisional": "Chỉ tiêu tạm",
       "pointsLine": "Đạt thẻ: {{n}} điểm",
@@ -3295,7 +3295,8 @@
         "pending": "Chờ xác nhận",
         "mark": "Chấm tại lớp",
         "homework": "Bài về nhà"
-      }
+      },
+      "pointsNote": "Các bạn được cộng điểm của bài vào ví khi HLV xác nhận (bài tại lớp: khi HLV đánh dấu). Mỗi bài cộng một lần."
     },
     "whs": {
       "title": "Handicap Index (app Handicap)",
@@ -3372,7 +3373,10 @@
       "redeem": "Đổi quà"
     },
     "source": {
-      "tournament": "{{series}} · Chặng {{stage}} · {{season}}"
+      "tournament": "{{series}} · Chặng {{stage}} · {{season}}",
+      "trainingChallenge": "Thẻ thử thách level {{level}} · {{name}}",
+      "trainingAssignment": "Bài về nhà · {{name}}",
+      "trainingInClass": "Bài tại lớp · {{name}}"
     },
     "reason": {
       "tournament_result": "Kết quả giải",
@@ -3389,7 +3393,9 @@
       "event_points": "điểm sự kiện dùng tại quầy",
       "event_redemption": "Đổi quà tại sự kiện",
       "opening_balance": "Điểm tích luỹ trước đây",
-      "opening_balance_adjust": "chỉnh điểm tích luỹ trước đây"
+      "opening_balance_adjust": "chỉnh điểm tích luỹ trước đây",
+      "training_challenge": "Thẻ thử thách",
+      "training_assignment": "Bài HLV giao"
     },
     "record": {
       "nav": "Ghi điểm thưởng",

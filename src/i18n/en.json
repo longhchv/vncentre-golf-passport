@@ -3183,7 +3183,7 @@
       "noCards": "No cards for this level yet.",
       "practice": "Practice card",
       "library": "Drill library",
-      "pointsNote": "Points are recorded only for now and will be credited to the wallet later.",
+      "pointsNote": "Reward points go to the wallet when a card is passed (once per card) and when the coach confirms an assignment. Cards without coach confirmation earn at most {{cap}} points a week.",
       "watchVideo": "Watch video",
       "provisional": "Provisional target",
       "pointsLine": "Pass: {{n}} points",
@@ -3295,7 +3295,8 @@
         "pending": "To review",
         "mark": "Mark in class",
         "homework": "Homework"
-      }
+      },
+      "pointsNote": "Students get the assignment points in their wallet when the coach confirms (in-class tasks: when the coach marks them). Each assignment counts once."
     },
     "whs": {
       "title": "Handicap Index (Handicap app)",
@@ -3372,7 +3373,10 @@
       "redeem": "Redeem gifts"
     },
     "source": {
-      "tournament": "{{series}} · Stage {{stage}} · {{season}}"
+      "tournament": "{{series}} · Stage {{stage}} · {{season}}",
+      "trainingChallenge": "Level {{level}} challenge card · {{name}}",
+      "trainingAssignment": "Homework · {{name}}",
+      "trainingInClass": "In-class task · {{name}}"
     },
     "reason": {
       "tournament_result": "Tournament result",
@@ -3389,7 +3393,9 @@
       "event_points": "event points used at the counter",
       "event_redemption": "Gift at an event",
       "opening_balance": "Points earned earlier",
-      "opening_balance_adjust": "correction of earlier points"
+      "opening_balance_adjust": "correction of earlier points",
+      "training_challenge": "Challenge card",
+      "training_assignment": "Coach assignment"
     },
     "record": {
       "nav": "Record reward points",

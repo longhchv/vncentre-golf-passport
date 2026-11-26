@@ -155,6 +155,10 @@ export function useTrainingPoints() {
   }).value
 }
 
+export function useSelfPointsCap() {
+  return useSetting<{ per_week: number }>('training.self_points_cap', { per_week: 60 }).value.per_week
+}
+
 // ---------------------------------------------------------------- khung trang
 
 function Back({ to, label }: { to: string; label?: string }) {
@@ -242,6 +246,7 @@ export function StudentTrainingPage() {
 
 function JuniorHome({ studentId, base, libraryTo, guardian }: { studentId: string; base: string; libraryTo: string; guardian?: boolean }) {
   const { t } = useTranslation()
+  const selfCap = useSelfPointsCap()
   const toast = useToast()
   const student = useStudent(studentId)
   const challenges = useChallenges()
@@ -385,7 +390,7 @@ function JuniorHome({ studentId, base, libraryTo, guardian }: { studentId: strin
       <Link to={libraryTo} className="flex items-center gap-2 font-semibold text-bronze">
         <BookOpen className="h-4 w-4" /> {t('training.jr.library')}
       </Link>
-      <p className="text-sm text-navy/50">{t('training.jr.pointsNote')}</p>
+      <p className="text-sm text-navy/50">{t('training.jr.pointsNote', { cap: selfCap })}</p>
     </Page>
   )
 }
@@ -849,7 +854,7 @@ function CoachHomework({ classId }: { classId: string }) {
         <Checkbox label={t('training.coach.hwInClass')} checked={form.inClass} onChange={(e) => setForm({ ...form, inClass: e.target.checked })} />
         <FormError message={err} />
         <Button disabled={!form.title.trim() || create.isPending} onClick={() => { setErr(null); create.mutate() }}>{t('training.coach.assign')}</Button>
-        <p className="text-xs text-navy/50">{t('training.jr.pointsNote')}</p>
+        <p className="text-xs text-navy/50">{t('training.coach.pointsNote')}</p>
       </Card>
 
       {list.isPending ? <Loading /> : (list.data ?? []).map((a) => {
