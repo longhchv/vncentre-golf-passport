@@ -173,7 +173,7 @@
     const peer = kind === 'whs' ? '' : `<div class="f pl-peer"><label for="plPeer-${kind}">Bạn chơi xác nhận (mã VNC) <span class="note">– không bắt buộc</span></label>
       <div class="svia"><input id="plPeer-${kind}" data-plk="${kind}" placeholder="VNC-000123" value="${esc(pv.code || '')}" autocomplete="off" autocapitalize="characters"><span class="note" id="plPeerN-${kind}">${pv.name ? '✓ ' + esc(pv.name) : pv.err ? esc(pv.err) : ''}</span></div>
       <p class="note">Có bạn chơi xác nhận thì điểm được tính ngay, không phải chờ admin.</p></div>`;
-    return `<div class="pl-x" data-plx="${kind}">${peer}<label class="chk pl-adv"><input type="checkbox" data-pladv="${kind}"${adv ? ' checked' : ''}> <span>Nâng cao: ghi thêm fairway, GIR, putt, phạt, OB từng hố</span></label></div>`;
+    return `<div class="pl-x" data-plx="${kind}">${peer}<label class="chk pl-adv"><input type="checkbox" data-pladv="${kind}"${adv ? ' checked' : ''}> <span>Nâng cao: ghi thêm driver, số gậy on, GIR, putt, phạt, OB, bunker từng hố</span></label></div>`;
   }
   async function resolvePeer(kind) {
     const pv = P.peer[kind] || (P.peer[kind] = {});
@@ -254,10 +254,12 @@
       const fw = p === 3 ? '<span class="note">Par 3</span>' : FW.map(([v, l]) => chip(i, 'fw', v, `<span>${l}</span>`, r.fw === v)).join('');
       return `<div class="pl-sr"><div class="pl-hn"><b>${i + 1}</b><small>${p != null ? 'Par ' + p : ''}</small></div>
         <div class="pl-g"><small>Phát bóng</small><div>${fw}</div></div>
+        <div class="pl-g"><small>Số gậy on</small><div>${[1, 2, 3, 4, 5, 6].map(n => chip(i, 'on', n, n === 6 ? '6+' : n, r.on === n || (n === 6 && r.on >= 6))).join('')}</div></div>
         <div class="pl-g"><small>GIR</small><div>${chip(i, 'gir', 'true', '<span>Có</span>', r.gir === true)}${chip(i, 'gir', 'false', '<span>Không</span>', r.gir === false)}</div></div>
         <div class="pl-g"><small>Putt</small><div>${[0, 1, 2, 3, 4].map(n => chip(i, 'putts', n, n === 4 ? '4+' : n, r.putts === n || (n === 4 && r.putts >= 4))).join('')}</div></div>
         <div class="pl-g"><small>Phạt</small><div class="pl-step">${chip(i, 'pen', '-', '−', false)}<b>${r.pen || 0}</b>${chip(i, 'pen', '+', '+', false)}</div></div>
-        <div class="pl-g"><small>OB</small><div class="pl-step">${chip(i, 'ob', '-', '−', false)}<b>${r.ob || 0}</b>${chip(i, 'ob', '+', '+', false)}</div></div></div>`;
+        <div class="pl-g"><small>OB</small><div class="pl-step">${chip(i, 'ob', '-', '−', false)}<b>${r.ob || 0}</b>${chip(i, 'ob', '+', '+', false)}</div></div>
+        <div class="pl-g"><small>Bunker</small><div class="pl-step">${chip(i, 'bunker', '-', '−', false)}<b>${r.bunker || 0}</b>${chip(i, 'bunker', '+', '+', false)}</div></div></div>`;
     }).join('');
     modal(`<div class="pl-h"><h2>Nâng cao</h2><button class="btn ghost sm" data-pl="mclose" aria-label="Đóng">✕</button></div>
       <p class="sub"><span>${esc(ST.title)}</span> · <span>Không bắt buộc, không ảnh hưởng chỉ số. Bấm để chọn, bấm lại để bỏ.</span></p>
@@ -269,12 +271,17 @@
     if (k === 'fw') r.fw = r.fw === val ? undefined : val;
     else if (k === 'gir') { const b = val === 'true'; r.gir = r.gir === b ? undefined : b; }
     else if (k === 'putts') r.putts = r.putts === +val ? undefined : +val;
+    else if (k === 'on') {
+      r.on = r.on === +val ? undefined : +val;
+      // On tiêu chuẩn: lên green trong (par − 2) gậy; vẫn sửa tay được ở dòng GIR
+      const p = ST.par[+h]; if (r.on !== undefined && p) r.gir = r.on <= p - 2;
+    }
     else { r[k] = Math.max(0, Math.min(9, (r[k] || 0) + (val === '+' ? 1 : -1))); if (!r[k]) delete r[k]; }
     const sc = document.querySelector('.pl-st') ? document.querySelector('.pl-st').scrollTop : 0;
     drawStats(); const el = document.querySelector('.pl-st'); if (el) el.scrollTop = sc;
   }
   async function saveStats(del) {
-    const clean = ST.rows.map(r => { const o = {}; ['fw', 'gir', 'putts', 'pen', 'ob'].forEach(k => { if (r[k] !== undefined && r[k] !== null) o[k] = r[k]; }); return Object.keys(o).length ? o : null; });
+    const clean = ST.rows.map(r => { const o = {}; ['fw', 'on', 'gir', 'putts', 'pen', 'ob', 'bunker'].forEach(k => { if (r[k] !== undefined && r[k] !== null) o[k] = r[k]; }); return Object.keys(o).length ? o : null; });
     const payload = del || !clean.some(Boolean) ? null : clean;
     await rpc('whs_set_round_stats', { p_kind: ST.kind, p_round: ST.round, p_stats: payload });
     closeModal(); toast(payload ? 'Đã lưu thống kê.' : 'Đã xoá thống kê.');
@@ -338,9 +345,10 @@
         <div><small>Fairway trúng</small><b class="n">${pct(sum.fw_hit, sum.fw_att)}</b><span><span>trái</span> ${sum.fw_left || 0} · <span>phải</span> ${sum.fw_right || 0} · <span>ngắn</span> ${sum.fw_short || 0}</span></div>
         <div><small>GIR</small><b class="n">${pct(sum.gir, sum.gir_att)}</b><span>${sum.gir || 0}/${sum.gir_att || 0} <span>hố</span></span></div>
         <div><small>Putt mỗi hố</small><b class="n">${sum.putt_holes ? (sum.putts / sum.putt_holes).toFixed(2) : '–'}</b><span>${sum.putts || 0} <span>putt</span></span></div>
-        <div><small>Phạt · OB</small><b class="n">${sum.pen || 0} · ${sum.ob || 0}</b><span>${sum.rounds || 0} <span>vòng có thống kê</span></span></div></div>
-      <div class="pl-tw"><table class="tb pl-mt"><thead><tr><th>Tháng</th><th>Vòng</th><th>Fairway</th><th>Trái / phải / ngắn</th><th>GIR</th><th>Putt/hố</th><th>Phạt</th><th>OB</th></tr></thead><tbody>
-        ${S.slice().reverse().map(x => `<tr><td>${esc(x.month.slice(5) + '/' + x.month.slice(0, 4))}</td><td class="n">${x.rounds}</td><td class="n">${pct(x.fw_hit, x.fw_att)}</td><td class="n">${x.fw_left}/${x.fw_right}/${x.fw_short}</td><td class="n">${pct(x.gir, x.gir_att)}</td><td class="n">${x.putt_holes ? (x.putts / x.putt_holes).toFixed(2) : '–'}</td><td class="n">${x.pen}</td><td class="n">${x.ob}</td></tr>`).join('')}
+        <div><small>Số gậy on TB</small><b class="n">${sum.on_holes ? (sum.on_sum / sum.on_holes).toFixed(1) : '–'}</b><span>${sum.on_holes || 0} <span>hố</span></span></div>
+        <div><small>Phạt · OB · Bunker</small><b class="n">${sum.pen || 0} · ${sum.ob || 0} · ${sum.bunker || 0}</b><span>${sum.rounds || 0} <span>vòng có thống kê</span></span></div></div>
+      <div class="pl-tw"><table class="tb pl-mt"><thead><tr><th>Tháng</th><th>Vòng</th><th>Fairway</th><th>Trái / phải / ngắn</th><th>GIR</th><th>Gậy on TB</th><th>Putt/hố</th><th>Phạt</th><th>OB</th><th>Bunker</th></tr></thead><tbody>
+        ${S.slice().reverse().map(x => `<tr><td>${esc(x.month.slice(5) + '/' + x.month.slice(0, 4))}</td><td class="n">${x.rounds}</td><td class="n">${pct(x.fw_hit, x.fw_att)}</td><td class="n">${x.fw_left}/${x.fw_right}/${x.fw_short}</td><td class="n">${pct(x.gir, x.gir_att)}</td><td class="n">${x.on_holes ? (x.on_sum / x.on_holes).toFixed(1) : '–'}</td><td class="n">${x.putt_holes ? (x.putts / x.putt_holes).toFixed(2) : '–'}</td><td class="n">${x.pen}</td><td class="n">${x.ob}</td><td class="n">${x.bunker || 0}</td></tr>`).join('')}
       </tbody></table></div>` : '<div class="empty">Chưa có vòng nào ghi thống kê nâng cao. Bấm "Nâng cao" ở một vòng bên dưới để ghi.</div>';
     const rec = P.prog.rec.length ? `<div class="pl-list">${P.prog.rec.map(r => `<div class="svitem"><div><b>${esc(TYPE[r.kind])} · ${dmy(r.d)}</b><span>${esc(r.name)}</span></div><div class="svia">${r.has ? '<span class="bd">Có thống kê</span>' : ''}<button class="btn ghost sm" data-pl="stopen" data-v="${r.kind}|${r.id}">Nâng cao</button></div></div>`).join('')}</div>` : '<div class="empty">Chưa có vòng nào.</div>';
     return `<div class="card"><h2><span>Tiến bộ của</span> ${esc(g ? g.full_name : m.full_name)}</h2><p class="sub">Mỗi điểm là chỉ số sau một vòng được tính. Chỉ số càng thấp là chơi càng tốt.</p>
@@ -560,14 +568,14 @@
 .pl-why{flex-basis:100%;margin-top:4px}
 .pl-mod{position:fixed;inset:0;background:rgba(20,12,6,.45);display:flex;align-items:flex-end;justify-content:center;z-index:60}
 .pl-box{background:var(--card);border-radius:18px 18px 0 0;padding:18px 18px 20px;width:100%;max-width:560px;max-height:92vh;overflow:auto}
-.pl-box.wide{max-width:880px}
+.pl-box.wide{max-width:960px}
 @media(min-width:700px){.pl-mod{align-items:center}.pl-box{border-radius:18px}}
 .pl-steps{padding-left:20px;line-height:1.9}
 .pl-st{display:grid;gap:0;margin:8px -18px;max-height:60vh;overflow:auto}
 .pl-sr{display:grid;grid-template-columns:40px minmax(0,1fr);gap:6px 12px;align-items:center;padding:10px 18px;border-top:1px solid var(--line)}
-.pl-hn{display:grid;text-align:center;grid-row:span 5;align-self:start}.pl-hn b{font-size:18px;color:var(--g)}.pl-hn small{font-size:11px;color:var(--mute)}
+.pl-hn{display:grid;text-align:center;grid-row:span 7;align-self:start}.pl-hn b{font-size:18px;color:var(--g)}.pl-hn small{font-size:11px;color:var(--mute)}
 .pl-g{display:flex;align-items:center;gap:8px;min-width:0}.pl-g small{width:68px;flex:none;font-size:11.5px;color:var(--mute)}.pl-g>div{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
-@media(min-width:861px){.pl-sr{grid-template-columns:48px 2.3fr 1.3fr 2.2fr 1fr 1fr}.pl-hn{grid-row:auto}.pl-g{display:block}.pl-g small{display:block;width:auto;margin-bottom:3px}}
+@media(min-width:900px){.pl-sr{grid-template-columns:44px minmax(0,1fr) minmax(0,1fr)}.pl-hn{grid-row:span 4}}
 .pl-c{border:1px solid var(--line);background:var(--card);border-radius:9px;min-height:38px;min-width:38px;padding:4px 9px;font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink)}
 .pl-c.on{background:var(--gIn);border-color:var(--gIn);color:#fff}.pl-c:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 .pl-g>div.pl-step{flex-wrap:nowrap}.pl-step b{min-width:18px;text-align:center;font-variant-numeric:tabular-nums}
@@ -577,7 +585,7 @@
 .pl-tiles>div{background:var(--soft);border-radius:12px;padding:10px 12px;display:grid;gap:2px}.pl-tiles small{font-size:12px;color:var(--mute)}
 .pl-tiles b{font-size:22px;color:var(--g)}.pl-tiles>div>span{font-size:12px;color:var(--mute)}
 .pl-tiles.sm{grid-template-columns:repeat(auto-fit,minmax(110px,1fr));margin:8px 0 4px}.pl-tiles.sm b{font-size:18px}
-.pl-tw{overflow-x:auto;margin:0 -4px}.pl-mt{font-size:13px;min-width:520px}.pl-mt td.n,.pl-mt th{text-align:right}.pl-mt th:first-child,.pl-mt td:first-child{text-align:left}
+.pl-tw{overflow-x:auto;margin:0 -4px}.pl-mt{font-size:13px;min-width:620px}.pl-mt td.n,.pl-mt th{text-align:right}.pl-mt th:first-child,.pl-mt td:first-child{text-align:left}
 .pl-list .svitem:first-child{border-top:0}.pl-lk .pl-tiles.sm{background:none;padding:0;border-radius:0}
 .pl-rec b{display:inline}.pl-lq input{flex:1;min-width:0}.pl-lk>div{flex:1}.pl-rec{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--mute)}
 .pl-fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 14px}
