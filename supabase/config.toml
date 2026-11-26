@@ -424,3 +424,7 @@ verify_jwt = false
 # App giải SNAG League gọi máy chủ với máy chủ bằng khoá X-League-Key, không có JWT người dùng
 [functions.league-bridge]
 verify_jwt = false
+
+# Gửi thông báo đẩy app Handicap: pg_cron gọi bằng header X-Push-Key (khoá trong whs_push_keys), không dùng JWT
+[functions.whs-push]
+verify_jwt = false
