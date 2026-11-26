@@ -4,7 +4,8 @@
 --   2. Chấm chéo: bạn chơi cùng xác nhận điểm Junior / SNAG / Golf 3D; xác nhận xong là điểm được tính, admin chỉ xem khi có tranh chấp.
 --      (Vòng sân thật đã có marker xác nhận từ migration 20261124000006.)
 --   3. Tra cứu golfer theo mã VNC hoặc tên: người lớn xem đủ bốn chỉ số; trẻ em chỉ tìm đúng mã VNC, tên viết tắt, không có vòng chi tiết.
---   4. Thống kê nâng cao (không bắt buộc): fairway / lệch trái / phải / ngắn, GIR, số putt, bóng phạt, OB theo từng hố.
+--   4. Thống kê nâng cao (không bắt buộc): driver vào fairway / lệch trái / phải / ngắn, OB, gậy phạt, số lần vào bunker,
+--      on tiêu chuẩn (GIR), số gậy on, số putt – theo từng hố.
 --   5. Dữ liệu biểu đồ tiến bộ cho phụ huynh: diễn biến các chỉ số + thống kê theo tháng.
 --   6. Ban tổ chức giải nhập điểm hàng loạt (kiểm tra trước, rồi mới ghi).
 --
@@ -16,7 +17,7 @@ begin;
 insert into public.whs_settings (key, value, note) values
   ('peerAttestYouth', 'true', 'Junior / SNAG: bạn chơi xác nhận là điểm được tính, không chờ admin. false = vẫn chờ admin.'),
   ('peerAttestSim', 'true', 'Golf 3D: bạn chơi xác nhận là điểm được tính, không chờ admin phòng. false = vẫn chờ admin phòng.'),
-  ('vapidPublicKey', '""', 'Khoá công khai VAPID cho thông báo đẩy (Web Push). Rỗng = chỉ thông báo trong app.'),
+  ('vapidPublicKey', '""', 'Khoá công khai VAPID cho thông báo đẩy (Web Push), do Edge Function whs-push tự tạo. Rỗng = chỉ thông báo trong app.'),
   ('lookupMinors', 'true', 'Cho tra cứu trẻ em bằng đúng mã VNC (chỉ hiện chỉ số, tên viết tắt). false = trẻ em không xuất hiện trong tra cứu.')
 on conflict (key) do nothing;
 
@@ -378,7 +379,8 @@ $$;
 -------------------------------------------------------------------------------
 -- 4. Thống kê nâng cao theo từng hố (không bắt buộc, không ảnh hưởng chỉ số)
 --    stats: mảng đúng số hố của vòng, mỗi phần tử null hoặc
---    {"fw": "hit"|"left"|"right"|"short", "gir": true|false, "putts": 0–9, "pen": 0–9, "ob": 0–9}
+--    {"fw": "hit"|"left"|"right"|"short", "gir": true|false, "on": 1–9 (số gậy on green), "putts": 0–9,
+--     "pen": 0–9 (gậy phạt), "ob": 0–9, "bunker": 0–9 (số lần vào bunker)}
 -------------------------------------------------------------------------------
 create table if not exists public.whs_round_stats (
   kind text not null check (kind in ('whs', 'junior', 'snag', 'sim')),
@@ -397,7 +399,8 @@ create or replace function public.whs_stats_summary(p_stats jsonb, p_par jsonb) 
 language plpgsql immutable as $$
 declare e jsonb; i int := 0; par int;
   n int := 0; fw_att int := 0; fw_hit int := 0; fl int := 0; fr int := 0; fs int := 0;
-  gir_att int := 0; gir int := 0; putts int := 0; putt_h int := 0; pen int := 0; ob int := 0;
+  gir_att int := 0; gir int := 0; putts int := 0; putt_h int := 0; pen int := 0; ob int := 0; bunker int := 0;
+  on_sum int := 0; on_h int := 0;
 begin
   for e in select value from jsonb_array_elements(p_stats) loop
     i := i + 1;
@@ -412,9 +415,12 @@ begin
     if jsonb_typeof(e -> 'putts') = 'number' then putt_h := putt_h + 1; putts := putts + (e ->> 'putts')::int; end if;
     if jsonb_typeof(e -> 'pen') = 'number' then pen := pen + (e ->> 'pen')::int; end if;
     if jsonb_typeof(e -> 'ob') = 'number' then ob := ob + (e ->> 'ob')::int; end if;
+    if jsonb_typeof(e -> 'bunker') = 'number' then bunker := bunker + (e ->> 'bunker')::int; end if;
+    if jsonb_typeof(e -> 'on') = 'number' then on_h := on_h + 1; on_sum := on_sum + (e ->> 'on')::int; end if;
   end loop;
   return jsonb_build_object('holes', n, 'fw_att', fw_att, 'fw_hit', fw_hit, 'fw_left', fl, 'fw_right', fr, 'fw_short', fs,
-    'gir_att', gir_att, 'gir', gir, 'putts', putts, 'putt_holes', putt_h, 'pen', pen, 'ob', ob);
+    'gir_att', gir_att, 'gir', gir, 'putts', putts, 'putt_holes', putt_h, 'pen', pen, 'ob', ob, 'bunker', bunker,
+    'on_sum', on_sum, 'on_holes', on_h);
 end $$;
 
 create or replace function public.whs_set_round_stats(p_kind text, p_round uuid, p_stats jsonb) returns jsonb
@@ -458,11 +464,15 @@ begin
     continue when jsonb_typeof(e) = 'null';
     if jsonb_typeof(e) <> 'object' then raise exception 'stats_bad_value'; end if;
     for k in select jsonb_object_keys(e) loop
-      if k not in ('fw', 'gir', 'putts', 'pen', 'ob') then raise exception 'stats_bad_key'; end if;
+      if k not in ('fw', 'gir', 'on', 'putts', 'pen', 'ob', 'bunker') then raise exception 'stats_bad_key'; end if;
     end loop;
     if e ? 'fw' and jsonb_typeof(e -> 'fw') <> 'null' and (e ->> 'fw') not in ('hit', 'left', 'right', 'short') then raise exception 'stats_bad_value'; end if;
     if e ? 'gir' and jsonb_typeof(e -> 'gir') not in ('boolean', 'null') then raise exception 'stats_bad_value'; end if;
-    foreach k in array array['putts', 'pen', 'ob'] loop
+    if e ? 'on' and jsonb_typeof(e -> 'on') <> 'null' and (jsonb_typeof(e -> 'on') <> 'number'
+       or (e ->> 'on')::numeric not between 1 and 9 or (e ->> 'on')::numeric <> trunc((e ->> 'on')::numeric)) then
+      raise exception 'stats_bad_value';
+    end if;
+    foreach k in array array['putts', 'pen', 'ob', 'bunker'] loop
       if e ? k and jsonb_typeof(e -> k) <> 'null' and (jsonb_typeof(e -> k) <> 'number'
          or (e ->> k)::numeric not between 0 and 9 or (e ->> k)::numeric <> trunc((e ->> k)::numeric)) then
         raise exception 'stats_bad_value';
@@ -506,7 +516,9 @@ begin
                        'fw_short', sum((summary ->> 'fw_short')::int),
                        'gir_att', sum((summary ->> 'gir_att')::int), 'gir', sum((summary ->> 'gir')::int),
                        'putts', sum((summary ->> 'putts')::int), 'putt_holes', sum((summary ->> 'putt_holes')::int),
-                       'pen', sum((summary ->> 'pen')::int), 'ob', sum((summary ->> 'ob')::int)) m
+                       'pen', sum((summary ->> 'pen')::int), 'ob', sum((summary ->> 'ob')::int),
+                       'bunker', sum(coalesce((summary ->> 'bunker')::int, 0)),
+                       'on_sum', sum(coalesce((summary ->> 'on_sum')::int, 0)), 'on_holes', sum(coalesce((summary ->> 'on_holes')::int, 0))) m
                      from whs_round_stats where member_id = p_member group by to_char(played_on, 'YYYY-MM')) z), '[]'::jsonb)
   ) into v;
   return v;
@@ -647,6 +659,56 @@ language sql security definer set search_path = public as $$
 $$;
 
 -------------------------------------------------------------------------------
+-- 7b. Khoá cho thông báo đẩy – tạo và giữ trên máy chủ, không ai phải gõ tay
+--     cron_key: khoá ngẫu nhiên tạo ngay tại đây; lịch chạy đọc khoá từ bảng nên không lộ trong lệnh.
+--     VAPID: Edge Function whs-push tự tạo cặp khoá ở lần chạy đầu rồi lưu lại; khoá công khai chép sang whs_settings.
+--     Chỉ service_role (Edge Function) và chủ cơ sở dữ liệu đọc được bảng này.
+-------------------------------------------------------------------------------
+create table if not exists public.whs_push_keys (
+  id int primary key default 1 check (id = 1),
+  cron_key text not null default encode(extensions.gen_random_bytes(32), 'hex'),
+  vapid_public text,
+  vapid_private text,
+  created_at timestamptz not null default now()
+);
+insert into public.whs_push_keys (id) values (1) on conflict (id) do nothing;
+
+create or replace function public.whs_push_check(p_key text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce(length(p_key) >= 32 and p_key = (select cron_key from whs_push_keys where id = 1), false)
+$$;
+
+create or replace function public.whs_push_vapid() returns table (vapid_public text, vapid_private text)
+language sql stable security definer set search_path = public as $$
+  select vapid_public, vapid_private from whs_push_keys where id = 1
+$$;
+
+-- Ghi cặp khoá VAPID một lần (lần sau bỏ qua nếu đã có); khoá công khai cho app đăng ký thông báo
+create or replace function public.whs_push_set_vapid(p_public text, p_private text) returns text
+language plpgsql security definer set search_path = public as $$
+declare v text;
+begin
+  update whs_push_keys set vapid_public = p_public, vapid_private = p_private where id = 1 and vapid_public is null;
+  select vapid_public into v from whs_push_keys where id = 1;
+  insert into whs_settings (key, value, note) values ('vapidPublicKey', to_jsonb(v), 'Khoá công khai VAPID cho thông báo đẩy (Edge Function whs-push tự tạo).')
+  on conflict (key) do update set value = to_jsonb(v), updated_at = now();
+  return v;
+end $$;
+
+-- Đặt lịch gọi whs-push mỗi phút (cần pg_cron + pg_net). Chủ cơ sở dữ liệu chạy một lần:
+--   select public.whs_push_schedule('https://<project-ref>.supabase.co/functions/v1/whs-push');
+create or replace function public.whs_push_schedule(p_url text) returns text
+language plpgsql security definer set search_path = public as $$
+declare v_cmd text;
+begin
+  if to_regnamespace('cron') is null or to_regnamespace('net') is null then raise exception 'need_pg_cron_and_pg_net'; end if;
+  if p_url !~ '^https://[a-z0-9.-]+/functions/v1/whs-push$' then raise exception 'bad_url'; end if;
+  v_cmd := format($c$select net.http_post(url := %L, headers := jsonb_build_object('Content-Type', 'application/json', 'x-push-key', (select cron_key from public.whs_push_keys where id = 1)), body := '{}'::jsonb, timeout_milliseconds := 20000)$c$, p_url);
+  execute 'select cron.schedule($1, $2, $3)' using 'whs-push', '* * * * *', v_cmd;
+  return 'scheduled';
+end $$;
+
+-------------------------------------------------------------------------------
 -- 8. RLS và quyền
 -------------------------------------------------------------------------------
 alter table public.whs_notifications enable row level security;
@@ -654,6 +716,7 @@ alter table public.whs_notif_state enable row level security;
 alter table public.whs_push_subs enable row level security;
 alter table public.whs_round_stats enable row level security;
 alter table public.whs_imports enable row level security;
+alter table public.whs_push_keys enable row level security;
 
 drop policy if exists whs_notif_own on public.whs_notifications;
 create policy whs_notif_own on public.whs_notifications for select to authenticated using (user_id = auth.uid());
@@ -676,6 +739,11 @@ revoke all on public.whs_notifications, public.whs_notif_state, public.whs_push_
   from anon, authenticated;
 grant select on public.whs_notifications, public.whs_push_subs, public.whs_round_stats, public.whs_imports to authenticated;
 grant all on public.whs_notifications, public.whs_notif_state, public.whs_push_subs, public.whs_round_stats, public.whs_imports to service_role;
+revoke all on public.whs_push_keys from anon, authenticated, service_role;
+revoke execute on function public.whs_push_check(text), public.whs_push_vapid(), public.whs_push_set_vapid(text, text),
+  public.whs_push_schedule(text) from public, anon, authenticated;
+revoke execute on function public.whs_push_schedule(text) from service_role;
+grant execute on function public.whs_push_check(text), public.whs_push_vapid(), public.whs_push_set_vapid(text, text) to service_role;
 
 -- Hàm nội bộ
 revoke execute on function public.whs_member_users(uuid), public.whs_notify(uuid, text, text, text, jsonb),

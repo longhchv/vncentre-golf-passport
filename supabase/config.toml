@@ -425,6 +425,6 @@ verify_jwt = false
 [functions.league-bridge]
 verify_jwt = false
 
-# Gửi thông báo đẩy app Handicap: cron gọi bằng header X-Push-Key (không dùng JWT)
+# Gửi thông báo đẩy app Handicap: pg_cron gọi bằng header X-Push-Key (khoá trong whs_push_keys), không dùng JWT
 [functions.whs-push]
 verify_jwt = false

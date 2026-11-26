@@ -151,7 +151,7 @@ begin
   perform pg_temp.act_as(ug);
   e := pg_temp.err(format('select public.whs_set_round_stats(%L, %L, %L::jsonb)', 'sim', rs, '[{"putts":2}]'));
   assert e like '%stats_length%', 'sai số hố: ' || coalesce(e, 'null');
-  j := (select jsonb_agg(case when i = 1 then '{"fw":"left","gir":false,"putts":2,"pen":1,"ob":1}'::jsonb
+  j := (select jsonb_agg(case when i = 1 then '{"fw":"left","gir":false,"on":4,"putts":2,"pen":1,"ob":1,"bunker":2}'::jsonb
                               when i <= 10 then '{"fw":"hit","gir":true,"putts":2}'::jsonb
                               when i = 11 then '{"fw":"short","putts":3}'::jsonb else 'null'::jsonb end order by i)
         from generate_series(1, 18) i);
@@ -162,7 +162,11 @@ begin
   j := public.whs_set_round_stats('sim', rs, j);
   assert (j ->> 'holes')::int = 11 and (j ->> 'fw_att')::int = 11 and (j ->> 'fw_hit')::int = 9 and (j ->> 'fw_left')::int = 1
      and (j ->> 'fw_short')::int = 1 and (j ->> 'gir_att')::int = 10 and (j ->> 'gir')::int = 9 and (j ->> 'putts')::int = 23
-     and (j ->> 'pen')::int = 1 and (j ->> 'ob')::int = 1, 'tóm tắt thống kê: ' || j::text;
+     and (j ->> 'pen')::int = 1 and (j ->> 'ob')::int = 1 and (j ->> 'bunker')::int = 2 and (j ->> 'on_sum')::int = 4
+     and (j ->> 'on_holes')::int = 1, 'tóm tắt thống kê: ' || j::text;
+  e := pg_temp.err(format('select public.whs_set_round_stats(%L, %L, %L::jsonb)', 'sim', rs,
+    (select jsonb_agg(case when i = 1 then '{"on":0}'::jsonb else 'null'::jsonb end) from generate_series(1, 18) i)));
+  assert e like '%stats_bad_value%', 'số gậy on phải từ 1: ' || coalesce(e, 'null');
   perform pg_temp.act_as(ux);
   e := pg_temp.err(format('select public.whs_set_round_stats(%L, %L, null)', 'sim', rs));
   assert e like '%not_your_round%', 'người khác không sửa được thống kê: ' || coalesce(e, 'null');
@@ -272,6 +276,20 @@ begin
   perform pg_temp.as_anon();
   e := pg_temp.err('select public.whs_notif_list(10)');
   assert e is not null, 'khách không gọi được danh sách thông báo';
+
+  ----------------------------------------------------------------- Khoá thông báo đẩy: chỉ máy chủ đọc được
+  perform pg_temp.act_as(us);
+  e := pg_temp.err('select count(*) from public.whs_push_keys');
+  assert e is not null, 'người dùng không đọc được khoá thông báo đẩy';
+  e := pg_temp.err('select public.whs_push_vapid()');
+  assert e is not null, 'người dùng không gọi được hàm lấy khoá VAPID';
+  execute 'reset role';
+  select cron_key into e from public.whs_push_keys where id = 1;
+  assert length(e) = 64 and public.whs_push_check(e) and not public.whs_push_check('sai') and not public.whs_push_check(null), 'kiểm tra khoá cron';
+  assert public.whs_push_set_vapid('PUB1', 'PRIV1') = 'PUB1' and public.whs_push_set_vapid('PUB2', 'PRIV2') = 'PUB1', 'VAPID chỉ ghi một lần';
+  assert (select value #>> '{}' from public.whs_settings where key = 'vapidPublicKey') = 'PUB1', 'khoá công khai chép sang cấu hình app';
+  e := pg_temp.err('select public.whs_push_schedule(''https://x.supabase.co/functions/v1/whs-push'')');
+  assert e like '%need_pg_cron_and_pg_net%', 'cần pg_cron + pg_net: ' || coalesce(e, 'null');
 
   raise exception 'ALL_OK';
 end $$;
