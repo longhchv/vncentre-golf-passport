@@ -211,7 +211,7 @@ aside.dside{position:sticky;top:64px;display:grid;gap:14px}
 .facts dl{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin:0}
 .facts dt{color:var(--muted);font-size:13px}
 .facts dd{margin:0;overflow-wrap:anywhere}
-#lmap{height:520px;border-radius:12px;z-index:0;background:var(--surface-2)}.leaflet-container{font-family:inherit}.leaflet-tooltip.ptip{font-weight:700;font-size:12.5px;border-radius:8px;padding:3px 8px}.leaflet-control-attribution{font-size:10px}.minimap svg{width:100%;height:auto;display:block;border-radius:12px;background:var(--surface-2)}
+#lmap{height:520px;border-radius:12px;z-index:0;background:var(--surface-2)}.leaflet-container{font-family:inherit}.tile-dark{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}.leaflet-tooltip.ptip{font-weight:700;font-size:12.5px;border-radius:8px;padding:3px 8px}.leaflet-control-attribution{font-size:10px}.minimap svg{width:100%;height:auto;display:block;border-radius:12px;background:var(--surface-2)}
 .book{padding:16px;display:grid;gap:10px;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
 .book h3{font-family:var(--serif);font-size:18px;margin:0}
 .book p{margin:0;font-size:13.5px;color:var(--muted)}
@@ -824,7 +824,7 @@ function renderList(rows){
     c.onclick=e=>{if(e.target.closest(".det"))return openDetail(e.target.closest(".det").dataset.id);if(!e.target.closest("a,button"))openDetail(c.dataset.id)};c.onkeydown=e=>{if(e.key==="Enter")openDetail(c.dataset.id)};c.onmouseenter=go});
 }
 // Map projection, refit per render
-/* Bản đồ thật (Leaflet + nền CARTO/OpenStreetMap) cho trang chạy riêng; bản nhúng / lỗi tải thì dùng bản đồ SVG tối giản */
+/* Bản đồ thật (Leaflet + nền OpenStreetMap) cho trang chạy riêng; bản nhúng / lỗi tải thì dùng bản đồ SVG tối giản */
 let LM_OK=false,LMAP=null,LLAYER=null,LFIT="";
 function loadLeaflet(){if(!SB.url)return;
   const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";document.head.appendChild(c);
@@ -842,7 +842,7 @@ function renderLeaflet(rows){
     const c=DATA.filter(p=>p.lat!=null);LMAP.setView(c.length?[c.reduce((a,p)=>a+p.lat,0)/c.length,c.reduce((a,p)=>a+p.lng,0)/c.length]:[16,106.5],c.length?10:5);
   }
   const dk=darkTheme();if(LTILEDARK!==dk){if(LTILE)LMAP.removeLayer(LTILE);LTILEDARK=dk;
-    LTILE=L.tileLayer("https://{s}.basemaps.cartocdn.com/"+(dk?"dark_all":"rastertiles/voyager")+"/{z}/{x}/{y}{r}.png",{maxZoom:19,subdomains:"abcd",attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(LMAP)}
+    LTILE=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,className:dk?"tile-dark":"",attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(LMAP)}
   LLAYER.clearLayers();
   const ids=new Set(rows.map(r=>r.name)),surf=cssv("--surface"),ink=cssv("--ink");
   if(me&&st.radius)L.circle([me.lat,me.lng],{radius:st.radius*1000,color:cssv("--accent-2"),weight:1.5,dashArray:"5 4",fillColor:cssv("--accent"),fillOpacity:.1,interactive:false}).addTo(LLAYER);
