@@ -189,20 +189,28 @@ function arClassify(tg){
   if(L==="park")return ["park","park"];if(L==="garden")return ["elder","garden"];
   return null;
 }
-function loadAround(p){
-  if(AROUND_CACHE[p.id])return Promise.resolve(AROUND_CACHE[p.id]);
-  try{const c=sessionStorage.getItem("ar:"+p.id);if(c){AROUND_CACHE[p.id]=JSON.parse(c);return Promise.resolve(AROUND_CACHE[p.id])}}catch(e){}
+/* Nguồn 1: around.json tính sẵn cho mọi địa điểm (đưa lên cùng trang); nguồn 2: hỏi trực tiếp Overpass (mirror nhanh trước) cho địa điểm mới */
+let AROUND_FILE=null;
+const aroundFile=()=>AROUND_FILE||(AROUND_FILE=fetch("around.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({})));
+const OVERPASS=["https://maps.mail.ru/osm/tools/overpass/api/interpreter","https://overpass-api.de/api/interpreter"];
+function arFromFile(p,f){const v=f&&f.v&&f.v[p.id];if(!v)return null;const out={};
+  for(const g of AR_GROUPS)out[g]=(v[g]||[]).map(([n,k,la,lo,en])=>({n:lang!=="vi"&&en?en:n,k,lat:la,lng:lo,d:km(p,{lat:la,lng:lo})}));return out}
+async function overpassFetch(q){let last;for(const u of OVERPASS){try{const c=new AbortController();const tm=setTimeout(()=>c.abort(),20000);
+  const r=await fetch(u,{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"},signal:c.signal});clearTimeout(tm);
+  if(r.ok)return await r.json();last=new Error(r.status)}catch(e){last=e}}throw last||new Error("overpass")}
+async function loadAround(p){
+  if(AROUND_CACHE[p.id])return AROUND_CACHE[p.id];
+  const f=await aroundFile();const fromFile=arFromFile(p,f);if(fromFile)return AROUND_CACHE[p.id]=fromFile;
+  try{const c=sessionStorage.getItem("ar2:"+p.id);if(c)return AROUND_CACHE[p.id]=JSON.parse(c)}catch(e){}
   const a=`(around:${AR_R},${p.lat},${p.lng})`;
   const q=`[out:json][timeout:20];(nwr["leisure"~"^(playground|amusement_arcade|water_park|park|garden|sauna)$"]${a};nwr["tourism"~"^(theme_park|zoo)$"]${a};nwr["amenity"~"^(library|cinema|cafe|place_of_worship|spa)$"]${a};nwr["shop"~"^(books|beauty|hairdresser|massage|mall|supermarket|department_store|tea)$"]${a};);out center tags 400;`;
-  return fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}})
-   .then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(j=>{
-    const out={kids:[],beauty:[],shop:[],cafe:[],elder:[]};
-    for(const e of j.elements||[]){const tg=e.tags||{};const nm=tg["name:"+(lang==="vi"?"vi":"en")]||tg.name;if(!nm)continue;const c=arClassify(tg);if(!c)continue;
-      const la=e.lat??(e.center&&e.center.lat),lo=e.lon??(e.center&&e.center.lon);if(la==null)continue;const d=km(p,{lat:la,lng:lo});
-      const it={n:nm,k:c[1],lat:la,lng:lo,d};
-      if(c[0]==="park"){out.kids.push(it);out.elder.push(it)}else out[c[0]].push(it)}
-    for(const g in out){const seen=new Set();out[g]=out[g].sort((a,b)=>a.d-b.d).filter(x=>{const key=x.n.toLowerCase();if(seen.has(key))return false;seen.add(key);return true}).slice(0,8)}
-    AROUND_CACHE[p.id]=out;try{sessionStorage.setItem("ar:"+p.id,JSON.stringify(out))}catch(e){}return out});
+  const j=await overpassFetch(q);
+  const out={kids:[],beauty:[],shop:[],cafe:[],elder:[]};
+  for(const e of j.elements||[]){const tg=e.tags||{};const nm=(lang!=="vi"&&tg["name:en"])||tg.name;if(!nm)continue;const c=arClassify(tg);if(!c)continue;
+    const la=e.lat??(e.center&&e.center.lat),lo=e.lon??(e.center&&e.center.lon);if(la==null)continue;const it={n:nm,k:c[1],lat:la,lng:lo,d:km(p,{lat:la,lng:lo})};
+    if(c[0]==="park"){out.kids.push(it);out.elder.push(it)}else out[c[0]].push(it)}
+  for(const g in out){const seen=new Set();out[g]=out[g].sort((a,b)=>a.d-b.d).filter(x=>{const key=x.n.toLowerCase();if(seen.has(key))return false;seen.add(key);return true}).slice(0,8)}
+  AROUND_CACHE[p.id]=out;try{sessionStorage.setItem("ar2:"+p.id,JSON.stringify(out))}catch(e){}return out;
 }
 function aroundHtml(p){
   return `<p class="sub">${t("arSub").replace("{r}",fmtD(AR_R/1000))}</p>
