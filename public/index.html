@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#3a1f0c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Handicap">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Handicap WHS – Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Noto+Sans+Lao:wght@400;600&family=Noto+Sans+Khmer:wght@400;600&family=Noto+Sans+Myanmar:wght@400;600&display=swap">
@@ -1964,6 +1972,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     bindScan();
     if (window.srvYouthBind) window.srvYouthBind();
     if (window.srvSimBind) window.srvSimBind();
+    if (window.srvPlusBind) window.srvPlusBind();
     el.querySelectorAll('.hin').forEach(i => i.addEventListener('input', sumHoles));
     sumHoles();
     const nav = document.querySelector('#nav button[data-t="srv"] .nb');
@@ -1985,18 +1994,24 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const roomAdmin = !!(SV.ctx.roomAdmin && SV.ctx.roomAdmin.length);
     if ((m && m.status === 'active') || isStaff() || roomAdmin) tabs.push(['sim', 'Golf 3D' + (SV.ctx.simPend ? ` <i class="nb">${SV.ctx.simPend}</i>` : '')]);
     if (isStaff()) tabs.push(['com', 'Hội đồng' + (SV.ctx.queue && (SV.ctx.queue.length + SV.ctx.pending.length) ? ` <i class="nb">${SV.ctx.queue.length + SV.ctx.pending.length}</i>` : '')]);
-    const showTabs = (m && m.status === 'active') || isStaff() || roomAdmin;
+    // Tab bổ sung (plus.js): tra cứu, tiến bộ, nhập điểm giải… – hiện cho mọi tài khoản đã đăng nhập
+    const xt = (window.srvExtraTabs || []).filter(t => t.show(SV.ctx));
+    xt.forEach(t => tabs.push([t.key, t.label(SV.ctx)]));
+    const onX = xt.some(t => t.key === SV.tab);
+    const showTabs = (m && m.status === 'active') || isStaff() || roomAdmin || xt.length > 0;
     if (!showTabs) SV.tab = 'me';
-    if (SV.tab !== 'com' && SV.tab !== 'kid' && SV.tab !== 'sim' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
-    if (SV.tab !== 'sim' && !(m && m.status === 'active') && !isStaff() && roomAdmin) SV.tab = 'sim';
+    if (!onX && SV.tab !== 'com' && SV.tab !== 'kid' && SV.tab !== 'sim' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
+    if (!onX && SV.tab !== 'sim' && !(m && m.status === 'active') && !isStaff() && roomAdmin) SV.tab = 'sim';
     const gf = SV.ctx.golfer, G = SV.ctx.golfers;
     const pick = G.length > 1 ? `<div class="f svwho"><label for="svWho">Golfer</label><select id="svWho">${G.map(g => `<option value="${g.student_id}"${g.student_id === SV.cur ? ' selected' : ''}>${g.is_self ? 'Tôi: ' : ''}${esc(g.full_name)} · ${esc(g.student_code)}</option>`).join('')}</select></div>` : '';
     return `<div class="svhead"><div><b>${esc(m ? m.full_name : gf ? gf.full_name : (u.email || u.phone))}</b><span>${gf ? 'Mã VNC ' + esc(gf.student_code) + ' · ' : ''}${m ? esc((m.fed && m.fed.short) || m.federation_id) + (m.club ? ' · ' + esc(m.club.name) : '') : 'Chưa là hội viên'}</span></div>
-      <button class="btn ghost sm" data-a="logout">Đăng xuất</button></div>` + pick +
+      <span class="svhx">${window.srvHeadExtra ? window.srvHeadExtra() : ''}<button class="btn ghost sm" data-a="logout">Đăng xuất</button></span></div>` + pick +
       (showTabs ? `<div class="seg svtabs" role="tablist">${tabs.filter(t => t[0] !== 'me' && t[0] !== 'play' && t[0] !== 'att' || (m && m.status === 'active')).map(([k, l]) => `<button role="tab" data-a="tab" data-v="${k}" class="${SV.tab === k ? 'on' : ''}">${l}</button>`).join('')}</div>` : '');
   }
   function body() {
     const m = SV.ctx.me;
+    const xt = (window.srvExtraTabs || []).find(t => t.key === SV.tab && t.show(SV.ctx));
+    if (xt) return xt.render();
     if (SV.tab === 'com' && isStaff()) return comTab();
     if (SV.tab === 'kid' && window.srvYouthTab) return window.srvYouthTab();
     if (SV.tab === 'sim' && window.srvSimTab) return window.srvSimTab();
@@ -2251,7 +2266,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
   // ---------- Thao tác ----------
   async function onAct(e) {
     const b = e.currentTarget, a = b.dataset.a, v = b.dataset.v;
-    if (a === 'tab') { SV.tab = v; SV.open = null; SV.err = ''; if (v === 'play') await loadCourses().catch(err); paint(); if (v === 'kid' && window.srvYouthLoad) { try { await window.srvYouthLoad(); } catch (e) { SV.err = e.message; } paint(); } if (v === 'sim' && window.srvSimLoad) { try { await window.srvSimLoad(); } catch (e) { SV.err = e.message; } paint(); } return; }
+    if (a === 'tab') { SV.tab = v; SV.open = null; SV.err = ''; if (v === 'play') await loadCourses().catch(err); paint(); if (v === 'kid' && window.srvYouthLoad) { try { await window.srvYouthLoad(); } catch (e) { SV.err = e.message; } paint(); } if (v === 'sim' && window.srvSimLoad) { try { await window.srvSimLoad(); } catch (e) { SV.err = e.message; } paint(); } const xt = (window.srvExtraTabs || []).find(t => t.key === v); if (xt && xt.load) { try { await xt.load(); } catch (e) { SV.err = e.message; } paint(); } return; }
     if (a[0] === 'y' && window.srvYouthAct) return window.srvYouthAct(a, v, b, act, paint);
     if (a.startsWith('g3') && window.srvSimAct) return window.srvSimAct(a, v, b, act, paint);
     if (a === 'all') { SV.all = true; return paint(); }
@@ -2933,5 +2948,7 @@ function __whsEngineRefs() { return { r1, hiTable, applyCap, calcPCC, get PARAMS
 </script>
 <script src="golf3d.js"></script>
 <script src="i18n-more.js"></script>
+<script src="plus-i18n.js"></script>
+<script src="plus.js"></script>
 </body>
 </html>
