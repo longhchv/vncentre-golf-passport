@@ -10,6 +10,7 @@ import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { Section, fmtDate } from '@/features/courses/parts'
 import { contribErr, evidenceUrl, photoUrl, useModeratePhoto, usePhotoQueue, useQueue, useReview, useVenueNames, type Photo, type Submission } from './api'
 import type { Venue } from '../api'
+import { DETAIL_FIELDS, fmtDetail } from '../details'
 
 function Header({ title }: { title: string }) {
   const { t } = useTranslation()
@@ -62,7 +63,7 @@ function SubCard({ s, venue, photos }: { s: Submission; venue?: Venue; photos: P
   }
   const diffable = s.kind === 'edit' || s.kind === 'new_venue'
   const label = (k: string, v: unknown) =>
-    k === 'type' && v ? t(`venues.type.${v}`) : k === 'parking' && v ? t(`venues.parking.${v}`) : k === 'late' || k === 'residents_only' ? (v ? '✓' : '—') : show(v)
+    (DETAIL_FIELDS as readonly string[]).includes(k) ? fmtDetail(k, v, t) : k === 'type' && v ? t(`venues.type.${v}`) : k === 'parking' && v ? t(`venues.parking.${v}`) : k === 'late' || k === 'residents_only' ? (v ? '✓' : '—') : show(v)
   return (
     <Section title={`${t(`venues.c.kind.${s.kind}`)} · ${venue ? `${venue.name} (${venue.id})` : String(s.payload.name ?? '')}`}
       aside={<span className="text-xs text-navy/60">{fmtDate(s.submitted_at, i18n.language)}</span>}>

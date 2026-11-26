@@ -10,6 +10,7 @@ import { Section, StickyActions } from '@/features/courses/parts'
 import { PARKING, useBrands, type PriceRow, type Venue } from '../api'
 import { contribErr, useMyVenues, useOwnerUpdate } from './api'
 import { TAPGOLF } from './ContributePages'
+import { DetailsEditor, changedDetailFields, cleanDetails, detailsError, detailsOf } from '../details'
 import { surveyErr, useOwnerReply, useVenueReviewsForOwner } from '../survey/api'
 import { Stars } from '../survey/SurveyPages'
 import { fmtDate } from '@/features/courses/parts'
@@ -49,19 +50,27 @@ function OwnerForm({ v }: { v: Venue }) {
     parking: v.parking, parking_note: v.parking_note ?? '', prices: (v.prices ?? []).map((p) => ({ ...p })),
   }), [v])
   const [d, setD] = useState(init)
+  const baseDet = useMemo(() => detailsOf(v), [v])
+  const [det, setDet] = useState(baseDet)
   const [err, setErr] = useState<string | null>(null)
   const set = <K extends keyof typeof d>(k: K, val: (typeof d)[K]) => setD((x) => ({ ...x, [k]: val }))
-  const dirty = JSON.stringify(d) !== JSON.stringify(init)
+  const detChanged = changedDetailFields(det, baseDet)
+  const dirty = JSON.stringify(d) !== JSON.stringify(init) || detChanged.length > 0
 
   async function save() {
     setErr(null)
     if (d.bays.trim() && !/^\d{1,3}$/.test(d.bays.trim())) return setErr(t('venues.err.badBays'))
+    const dErr = detailsError(det)
+    if (dErr) return setErr(t(dErr))
+    const cleanDet = cleanDetails(det)
+    const detPatch = Object.fromEntries(detChanged.map((k) => [k, cleanDet[k]]))
     try {
       await upd.mutateAsync({ id: v.id, payload: {
         phone: d.phone.trim() || null, hours: d.hours.trim() || null, web: d.web.trim() || null, fb_url: d.fb_url.trim() || null, late: d.late,
         machine: d.machine || null, machine_detail: { ...(v.machine_detail ?? {}), model: d.model.trim() || undefined, software: d.software.trim() || undefined },
         bays: d.bays.trim() ? parseInt(d.bays, 10) : null, parking: d.parking, parking_note: d.parking_note.trim() || null,
         prices: d.prices.filter((p: PriceRow) => p.item_vi.trim() && p.price.trim()),
+        ...detPatch,
       } })
       toast(t('common.saved'))
     } catch (e) { setErr(contribErr(e, t)) }
@@ -104,6 +113,10 @@ function OwnerForm({ v }: { v: Venue }) {
         <Button variant="outline" onClick={() => set('prices', [...d.prices, { item_vi: '', price: '', unit: t('venues.p.unitDefault'), verified_at: new Date().toISOString().slice(0, 10) }])}>
           <Plus className="h-5 w-5" /> {t('venues.p.add')}
         </Button>
+      </Section>
+      <Section title={t('venues.tab.details')}>
+        <p className="text-sm text-navy/70">{t('venues.d.ownerHint')}</p>
+        <DetailsEditor value={det} onChange={setDet} brands={(brands.data ?? []).map((b) => b.key)} venueType={v.type} />
       </Section>
       <FormError message={err} />
       <StickyActions><Button size="full" onClick={save} disabled={!dirty || upd.isPending}>{upd.isPending ? t('venues.saving') : t('venues.save')}</Button></StickyActions>

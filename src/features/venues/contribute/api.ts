@@ -21,7 +21,7 @@ export interface Photo {
 export interface PointRow { id: string; points: number; reason: string; created_at: string; credited_at: string | null }
 
 /** Địa điểm công khai (view pv_public_venues) — người đóng góp không đọc bảng gốc. */
-export type PublicVenue = Omit<Venue, 'partner_id' | 'created_at' | 'google_at'> & { cover_path: string | null; claimed: boolean; owner_updated_at: string | null }
+export type PublicVenue = Omit<Venue, 'partner_id' | 'created_at' | 'google_at' | 'needs_survey' | 'info_sources'> & { cover_path: string | null; claimed: boolean; owner_updated_at: string | null }
 
 function db() {
   if (!supabase) throw new Error('Supabase chưa được cấu hình')
@@ -176,6 +176,8 @@ export function useOwnerUpdate() {
 /** Lỗi → câu dễ hiểu. */
 export function contribErr(e: unknown, t: (k: string, o?: Record<string, unknown>) => string): string {
   const m = (e as { message?: string })?.message || String(e)
+  const di = m.match(/detail_invalid: (\w+)/)
+  if (di) return t('venues.d.err.invalid', { f: t(`venues.d.errField.${di[1]}`, { defaultValue: di[1] }) })
   for (const code of ['too_many_pending', 'nothing_changed', 'new_venue_incomplete', 'claim_needs_evidence', 'venue_not_found', 'note_required', 'not_pending', 'no_field_selected']) {
     if (m.includes(code)) return t(`venues.c.err.${code}`)
   }

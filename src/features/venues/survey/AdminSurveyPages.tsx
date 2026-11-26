@@ -11,6 +11,7 @@ import { Chip, Section, fmtDate } from '@/features/courses/parts'
 import { REGIONS, useVenues, type Venue } from '../api'
 import { SCORE_KEYS, surveyErr, useAllSurveys, useAssignSurvey, useChangeSurvey, useDecideSurvey, useModerateReview, useReviewsAdmin, useSurveyors, type Survey, type SurveyStatus } from './api'
 import { Stars, SurveyPill } from './SurveyPages'
+import { DETAIL_FIELDS, fmtDetail } from '../details'
 
 function Header({ title }: { title: string }) {
   const { t } = useTranslation()
@@ -23,7 +24,7 @@ function Header({ title }: { title: string }) {
 }
 
 const showVal = (k: string, v: unknown, t: (k: string) => string) =>
-  v == null || v === '' ? '∅' : k === 'parking' ? t(`venues.parking.${v}`) : k === 'late' ? (v ? '✓' : '—') : String(v)
+  (DETAIL_FIELDS as readonly string[]).includes(k) ? fmtDetail(k, v, t) : v == null || v === '' ? '∅' : k === 'parking' ? t(`venues.parking.${v}`) : k === 'late' ? (v ? '✓' : '—') : String(v)
 
 // ── A6 ─────────────────────────────────────────────────────────────────────
 export function AdminSurveysPage() {
