@@ -23,6 +23,7 @@ import {
 } from './planner'
 import { ChallengeEntry, PersonSwitcher, useChallenges, useResults } from './JuniorTraining'
 import { cardState } from './junior'
+import { FeedbackButton } from './Feedback'
 import { averageStats, benchmark, estimateFromIntake, roundStats, weakestArea, type Area, type HoleRow } from './stats'
 
 const BASE = '/app/training'
@@ -92,6 +93,7 @@ function Shell({ title, back, children }: { title: string; back?: string | false
       {back !== false && <Back to={back || BASE} />}
       <h1 className="text-2xl font-bold">{title}</h1>
       {children}
+      <FeedbackButton />
       <p className="text-sm text-navy/50">{t('training.sourceNote')}</p>
     </div>
   )
@@ -258,6 +260,8 @@ function Home({ me }: { me: Me }) {
           <Button asChild size="full" variant="outline"><Link to={`${BASE}/test`}>{t('training.noGoal.test')}</Link></Button>
         </Card>
         {links}
+      <FeedbackButton studentId={me.id} />
+        <FeedbackButton studentId={me.id} />
       </div>
     )
   }
@@ -323,6 +327,7 @@ function Home({ me }: { me: Me }) {
         {realistic && <p className="rounded-xl bg-gold/15 px-3 py-2 text-sm text-brown">{t('training.unrealistic', { n: realistic })}</p>}
       </Card>
       {links}
+      <FeedbackButton studentId={me.id} />
       <p className="text-sm text-navy/50">{t('training.sourceNote')}</p>
     </div>
   )

@@ -13,6 +13,7 @@ import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import type { PlanBlock, PlanLine } from './planner'
 import type { Benchmark } from './stats'
+import { FeedbackAdmin } from './Feedback'
 
 const db = () => supabase!
 const AREAS = ['fir', 'gir', 'scr', 'chip', 'putt'] as const
@@ -43,12 +44,12 @@ function adminError(err: unknown, t: (k: string) => string) {
 /** Admin · Tập luyện: tổng quan, chương trình, giáo án từng buổi, chuẩn thống kê (spec 23 bước 4). */
 export function TrainingAdminPage() {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz'>('overview')
+  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz' | 'feedback'>('overview')
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t('training.title')}</h1>
       <div className="flex flex-wrap gap-2">
-        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz'] as const).map((k) => (
+        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz', 'feedback'] as const).map((k) => (
           <Button key={k} size="sm" variant={tab === k ? 'primary' : 'outline'} onClick={() => setTab(k)}>
             {t(`training.admin.tab.${k}`)}
           </Button>
@@ -61,6 +62,7 @@ export function TrainingAdminPage() {
       {tab === 'challenges' && <Challenges />}
       {tab === 'drills' && <Drills />}
       {tab === 'quiz' && <Quiz />}
+      {tab === 'feedback' && <FeedbackAdmin />}
     </div>
   )
 }
