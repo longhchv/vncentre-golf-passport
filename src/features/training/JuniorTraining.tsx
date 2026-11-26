@@ -20,6 +20,7 @@ import { useSetting } from '@/lib/settings'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { useMe, useTrainingEnabled } from './api'
+import { FeedbackButton } from './Feedback'
 import { cardState, partsMet, type CardState, type Challenge, type Part, type Result } from './junior'
 
 const db = () => supabase!
@@ -165,12 +166,13 @@ function Back({ to, label }: { to: string; label?: string }) {
   )
 }
 
-function Page({ title, back, children }: { title: string; back?: string; children: ReactNode }) {
+function Page({ title, back, children, studentId }: { title: string; back?: string; children: ReactNode; studentId?: string }) {
   return (
     <div className="mx-auto max-w-lg space-y-5">
       {back && <Back to={back} />}
       <h1 className="text-2xl font-bold">{title}</h1>
       {children}
+      <FeedbackButton studentId={studentId} />
     </div>
   )
 }
@@ -268,7 +270,7 @@ function JuniorHome({ studentId, base, libraryTo, guardian }: { studentId: strin
   const openAsg = (assignments.data ?? []).filter((a) => !a.confirmed)
 
   return (
-    <Page title={guardian ? s.full_name : t('training.title')}>
+    <Page title={guardian ? s.full_name : t('training.title')} studentId={studentId}>
       <Card className="space-y-3 p-5">
         <div className="flex items-center justify-between gap-3">
           <div>
@@ -639,6 +641,7 @@ export function CoachClassTrainingPage() {
       {tab === 'pending' && <CoachPending classId={classId} />}
       {tab === 'mark' && <CoachMark classId={classId} />}
       {tab === 'homework' && <CoachHomework classId={classId} />}
+      <FeedbackButton />
     </div>
   )
 }

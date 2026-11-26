@@ -2989,7 +2989,8 @@
         "benchmarks": "Benchmarks",
         "challenges": "Challenge cards",
         "drills": "Drill library",
-        "quiz": "Rules questions"
+        "quiz": "Rules questions",
+        "feedback": "Feedback"
       },
       "ov": {
         "profiles_self_created": "Self-created profiles",
@@ -3321,6 +3322,36 @@
       "submit": "Submit ({{n}}/{{total}})",
       "passed": "Passed. You know the basic rules to play.",
       "failed": "Not yet: {{need}} correct needed. Read the explanations below and try again."
+    },
+    "feedback": {
+      "button": "Feedback",
+      "title": "Training feedback",
+      "intro": "Bugs, confusing parts, drills that do not fit, or new ideas are all welcome. The VN Centre team reads every note.",
+      "category": "Type",
+      "cat": {
+        "bug": "Bug",
+        "idea": "Idea",
+        "content": "Drill content",
+        "other": "Other"
+      },
+      "message": "Message",
+      "placeholder": "e.g. tapping Save on the Chip card does nothing",
+      "pageNote": "Sent with the current page: {{page}}",
+      "send": "Send",
+      "thanks": "Thank you, your feedback was sent.",
+      "err": {
+        "feedback_too_short": "Too short.",
+        "feedback_rate_limited": "Too many notes today; please try tomorrow."
+      },
+      "adminHint": "Notes sent from the Feedback button in Training.",
+      "status": {
+        "new": "New",
+        "in_progress": "In progress",
+        "done": "Done",
+        "wont_fix": "Won't fix"
+      },
+      "note": "Admin note",
+      "none": "No feedback."
     }
   },
   "rewards": {

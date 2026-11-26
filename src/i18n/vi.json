@@ -2989,7 +2989,8 @@
         "benchmarks": "Chuẩn thống kê",
         "challenges": "Thẻ thử thách",
         "drills": "Thư viện bài tập",
-        "quiz": "Câu hỏi luật"
+        "quiz": "Câu hỏi luật",
+        "feedback": "Góp ý"
       },
       "ov": {
         "profiles_self_created": "Hồ sơ tự tạo",
@@ -3321,6 +3322,36 @@
       "submit": "Nộp bài ({{n}}/{{total}} câu)",
       "passed": "Đạt. Bạn đã nắm các luật cơ bản để ra sân.",
       "failed": "Chưa đạt, cần đúng từ {{need}} câu. Xem giải thích bên dưới rồi làm lại."
+    },
+    "feedback": {
+      "button": "Góp ý",
+      "title": "Góp ý cho mục Tập luyện",
+      "intro": "Lỗi, chỗ khó hiểu, bài tập chưa hợp lý hay ý tưởng mới đều được. Đội VN Centre đọc hết và sửa dần.",
+      "category": "Loại góp ý",
+      "cat": {
+        "bug": "Lỗi",
+        "idea": "Ý tưởng",
+        "content": "Nội dung bài tập",
+        "other": "Khác"
+      },
+      "message": "Nội dung",
+      "placeholder": "Ví dụ: bấm Lưu kết quả ở thẻ Chip thì không thấy gì xảy ra",
+      "pageNote": "Góp ý gửi kèm trang đang xem: {{page}}",
+      "send": "Gửi góp ý",
+      "thanks": "Cảm ơn anh chị, góp ý đã được gửi.",
+      "err": {
+        "feedback_too_short": "Góp ý quá ngắn.",
+        "feedback_rate_limited": "Hôm nay đã gửi nhiều góp ý, vui lòng thử lại ngày mai."
+      },
+      "adminHint": "Góp ý người dùng gửi từ nút \"Góp ý\" trong mục Tập luyện.",
+      "status": {
+        "new": "Mới",
+        "in_progress": "Đang xử lý",
+        "done": "Đã xong",
+        "wont_fix": "Không làm"
+      },
+      "note": "Ghi chú xử lý",
+      "none": "Không có góp ý."
     }
   },
   "rewards": {
