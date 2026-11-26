@@ -1,0 +1,898 @@
+<title>Sân Tập Golf Việt Nam</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap">
+<style>
+/* Two brand palettes (VN Centre brown+gold / Golf Passport navy+gold), each with light + dark */
+:root{
+  --brand:#3a1f0c; --brand-2:#55290e; --on-brand:#fbf3e6; --accent:#f1ab50; --accent-2:#c57b2f; --on-accent:#2a1607;
+  --bg:#faf7f2; --surface:#ffffff; --surface-2:#f4eee5; --ink:#2b2118; --muted:#6f655b; --line:#e7ded1;
+  --t-range:#2e7d4f; --t-3d:#2f5fa8; --t-academy:#8a3f8f; --t-course:#b06829; --t-mini:#7a7f87;
+  --star:#d08a16; --me:#d9482b;
+  --shadow:0 1px 2px rgba(40,25,10,.06),0 6px 20px rgba(40,25,10,.07);
+  --serif:"Playfair Display",Georgia,serif; --sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:14px;
+}
+:root[data-brand="passport"]{
+  --brand:#080634; --brand-2:#1c1a4f; --on-brand:#f6f2e7; --accent:#f9c74f; --accent-2:#b06829; --on-accent:#1a1608;
+  --bg:#fbf7ef; --surface:#ffffff; --surface-2:#f1ede3; --ink:#14123a; --muted:#5d5b78; --line:#e4dfd3;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --brand:#2a1708; --brand-2:#3d220c; --on-brand:#f6ead6; --accent:#f1ab50; --accent-2:#e0a060; --on-accent:#2a1607;
+  --bg:#15100b; --surface:#1f1811; --surface-2:#2a2118; --ink:#f3ebe0; --muted:#b5a998; --line:#3a2f23;
+  --t-range:#5cc28a; --t-3d:#7aa6ec; --t-academy:#d38ad8; --t-course:#e0a060; --t-mini:#a3a9b2; --star:#f2b84b; --me:#ff7a5c;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark}
+ :root[data-brand="passport"]:not([data-theme="light"]){
+  --brand:#080634; --brand-2:#14123f; --on-brand:#f6f2e7; --accent:#f9c74f; --accent-2:#e3a45c; --on-accent:#1a1608;
+  --bg:#0b0a1c; --surface:#141331; --surface-2:#1d1b42; --ink:#eeecf8; --muted:#a6a4c4; --line:#2c2a55;}}
+:root[data-theme="dark"]{
+  --brand:#2a1708; --brand-2:#3d220c; --on-brand:#f6ead6; --accent:#f1ab50; --accent-2:#e0a060; --on-accent:#2a1607;
+  --bg:#15100b; --surface:#1f1811; --surface-2:#2a2118; --ink:#f3ebe0; --muted:#b5a998; --line:#3a2f23;
+  --t-range:#5cc28a; --t-3d:#7aa6ec; --t-academy:#d38ad8; --t-course:#e0a060; --t-mini:#a3a9b2; --star:#f2b84b; --me:#ff7a5c;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark}
+:root[data-theme="dark"][data-brand="passport"]{
+  --brand:#080634; --brand-2:#14123f; --bg:#0b0a1c; --surface:#141331; --surface-2:#1d1b42; --ink:#eeecf8; --muted:#a6a4c4; --line:#2c2a55; --accent:#f9c74f;}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1360px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Brand bar */
+.top{background:var(--brand);color:var(--on-brand);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{display:flex;align-items:center;gap:12px;min-height:60px}.toplink{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);color:inherit;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap}.toplink:hover{background:color-mix(in srgb,currentColor 10%,transparent)}@media(max-width:440px){header.top .logo small{display:none!important}.logo b{white-space:nowrap}.toplink{padding:0 10px;font-size:12px}.tl-full{display:none}.tl-short{display:inline!important}.top .seg,.toplink{flex-shrink:0}.logo span{min-width:0;overflow:hidden}header.top .logo b{display:block;overflow:hidden;text-overflow:ellipsis;font-size:14px;letter-spacing:0}header.top .wrap{gap:6px}header.top .logo{gap:6px}.logo svg{width:32px;height:32px;flex-shrink:0}}.tl-short{display:none}.crsnear{display:grid;gap:8px;margin-top:10px}.crsnear a{display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:52px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:var(--surface)}.crsnear small{color:var(--muted)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.logo svg{flex:none}
+.logo b{font-family:var(--serif);font-size:18px;letter-spacing:.02em;display:block;line-height:1.1}
+.logo small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.top .sp{flex:1}
+.seg{display:inline-flex;border:1px solid color-mix(in srgb,var(--on-brand) 30%,transparent);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;color:var(--on-brand);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(255,255,255,.5)}
+
+/* Hero */
+.hero{background:linear-gradient(180deg,var(--brand) 0,var(--brand-2) 100%);color:var(--on-brand);padding:22px 0 26px}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.2vw,40px);line-height:1.15;margin:0 0 6px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{margin:0 0 16px;opacity:.85;max-width:62ch}
+.regions{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none}
+.regions::-webkit-scrollbar{display:none}
+.region{flex:none;border:1px solid color-mix(in srgb,var(--on-brand) 30%,transparent);background:transparent;color:var(--on-brand);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+.region span{opacity:.7;font-weight:500;margin-left:4px;font-size:12px}
+.region[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.finder{background:var(--surface);color:var(--ink);border-radius:18px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);display:grid;gap:10px}
+.searchbox{display:flex;align-items:center;gap:8px;background:var(--surface-2);border-radius:12px;padding:0 12px;height:48px}
+.searchbox input{flex:1;min-width:0;border:0;background:transparent;font-size:16px;outline:none}
+.searchbox svg{flex:none;opacity:.6}
+.locrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.btn.sm{height:34px;padding:0 11px;font-size:13px;border-radius:9px}
+.locrow select{height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);padding:0 10px;min-width:0;flex:1 1 180px;max-width:100%}
+@media (min-width:900px){.finder{grid-template-columns:minmax(0,1fr) auto;align-items:center}.finder .searchbox,.finder .where{grid-column:1/-1}}
+.radius{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.radius .lbl{font-size:13px;color:var(--muted);margin-right:2px}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.where{font-size:13px;color:var(--muted)}
+.where b{color:var(--ink)}
+
+/* Toolbar */
+.toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .wrap{display:flex;align-items:center;gap:8px;padding-top:10px;padding-bottom:10px}
+.brandrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;font-weight:700}.brandrow select{flex:1;min-width:200px;font:inherit;font-weight:600;padding:9px 12px;border-radius:10px;border:1px solid #cfc6b8;background:#fff;color:#111}.brandrow select option{background:#fff;color:#111}.elsewhere{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.mchips .pill:not([aria-pressed="true"]){background:#fff;color:#111;border-color:#cfc6b8}
+.types{display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none}
+.types::-webkit-scrollbar{display:none}
+.tchip{flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tchip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tchip small{color:var(--muted);font-weight:500}
+.tchip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--surface)}
+.tchip[aria-pressed="true"] small{color:inherit;opacity:.75}
+.fbtn{position:relative}
+.fbtn .n[hidden]{display:none}
+.fbtn .n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--me);color:#fff;font-size:11px;display:grid;place-items:center;padding:0 4px}
+.viewtog{display:none}
+.actives{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px}
+.actives:empty{display:none}
+.actives button{border:0;background:var(--surface-2);border-radius:999px;padding:4px 10px;font-size:12.5px;cursor:pointer}
+.actives button::after{content:" ✕";opacity:.6}
+
+/* Layout */
+main.grid{display:grid;grid-template-columns:260px minmax(0,1fr) minmax(0,1fr);gap:18px;padding-top:16px;padding-bottom:24px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+aside.filters{padding:16px;position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto;display:flex;flex-direction:column;gap:18px}
+.fg h3{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.fg select{width:100%;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);padding:0 10px}
+.drawer-head,.drawer-foot{display:none}
+.results{min-width:0}
+.rhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.rhead h2{font-family:var(--serif);font-size:22px;margin:0}
+.rhead select{height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);padding:0 8px}
+.list{display:grid;gap:12px}
+.card{padding:16px;display:grid;gap:8px;cursor:pointer;transition:border-color .15s,box-shadow .15s;position:relative}
+.card:hover{box-shadow:var(--shadow)}
+.card.sel{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+.crow{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.02em;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.dist{font-weight:700;font-size:13px;background:var(--surface-2);border-radius:999px;padding:3px 10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.card h3{margin:0;font-size:17px;line-height:1.3;font-weight:700;overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13px;color:var(--muted)}
+.meta .stars{color:var(--star);font-weight:700}
+.meta .warn{color:var(--me);font-weight:600}
+.addr{font-size:14px;overflow-wrap:anywhere}
+.svc{display:flex;flex-wrap:wrap;gap:5px}
+.svc span{font-size:12px;background:var(--surface-2);border-radius:6px;padding:2px 8px}
+.todo{font-size:12px;color:var(--muted)}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.phone{font-variant-numeric:tabular-nums}
+.mapbox{position:sticky;top:76px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.mapbox>svg[hidden],#lmap[hidden]{display:none!important}.mapbox>svg{width:100%;height:auto;max-height:calc(100vh - 190px);display:block;border-radius:10px;background:var(--surface-2);touch-action:manipulation;cursor:crosshair}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.hint{font-size:12px;color:var(--muted)}
+.empty{padding:32px 20px;text-align:center;color:var(--muted)}
+.more{display:flex;justify-content:center;margin-top:12px}
+footer{border-top:1px solid var(--line);padding:22px 0 36px;color:var(--muted);font-size:13px}
+footer .wrap{display:grid;gap:8px}
+footer b{color:var(--ink);font-family:var(--serif);font-size:16px}
+/* Detail page */
+body.detail .hero,body.detail .toolbar,body.detail main.grid{display:none}
+#detail{padding-bottom:28px}
+.dback{display:flex;align-items:center;gap:10px;padding:14px 0;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.dback .btn{height:36px}
+.dhero{background:linear-gradient(135deg,var(--brand) 0,var(--brand-2) 100%);color:var(--on-brand);border-radius:20px;padding:22px;display:grid;gap:12px;position:relative;overflow:hidden}
+.dhero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:28px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+.dhero h1{font-family:var(--serif);font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0;position:relative;z-index:1;overflow-wrap:anywhere}
+.dhero .badges{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.dhero .badges span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--on-brand) 14%,transparent)}
+.dhero .badges .gold{background:var(--accent);color:var(--on-accent)}
+.dhero .line{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;opacity:.92;position:relative;z-index:1}
+.dhero .line .stars{color:var(--accent);font-weight:700}
+.dhero .acts{position:relative;z-index:1}
+.dhero .btn:not(.primary){background:color-mix(in srgb,var(--on-brand) 10%,transparent);border-color:color-mix(in srgb,var(--on-brand) 25%,transparent);color:var(--on-brand)}
+.dhero .btn[disabled]{opacity:.65;cursor:not-allowed}
+.dnav{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);display:flex;gap:6px;overflow-x:auto;padding:10px 0;margin:6px 0 4px;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.dnav::-webkit-scrollbar{display:none}
+.dnav a{flex:none;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.dgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start;margin-top:14px}
+.dsec{padding:20px;scroll-margin-top:64px}
+.dsec+.dsec{margin-top:14px}
+.dsec h2{font-family:var(--serif);font-size:22px;margin:0 0 4px}
+.dsec .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+.dsec p{margin:0 0 10px}
+.pending{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--accent-2);background:color-mix(in srgb,var(--accent) 16%,transparent);border-radius:999px;padding:3px 10px;margin-bottom:12px}
+table.price{width:100%;border-collapse:collapse;font-size:14px}
+table.price th,table.price td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.price th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+table.price td.v{color:var(--muted);white-space:nowrap}
+.svcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.svcgrid div{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--surface-2);font-size:14px}
+.svcgrid div.off{opacity:.45}
+.svcgrid b{font-size:18px;width:24px;text-align:center}
+.gallery a{display:block;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:var(--surface-2)}.gallery a img{width:100%;height:100%;object-fit:cover;display:block}.contrib{padding:16px}.contrib h3{font-family:var(--serif);font-size:18px;margin:0}.contrib .cb{display:grid;gap:8px}.contrib .cb a{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface)}.contrib .cb a.pri{background:var(--accent);color:#2b1a08;border-color:transparent}.contrib p{font-size:13px;color:var(--muted);margin:4px 0 10px}.vncb{font-weight:800;color:#2b1a08;background:var(--accent);padding:0 7px;border-radius:6px}.rh{font-family:var(--serif);font-size:18px;margin:6px 0 0}.urs{font-family:var(--sans,inherit);font-size:14px;font-weight:700;color:var(--muted)}.vncbox{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:8px}.vncbig{display:flex;align-items:baseline;gap:2px;padding:14px 18px;border-radius:16px;background:var(--accent);color:#2b1a08}.vncbig b{font-size:40px;line-height:1}.vncbig span{font-weight:700}.vncbars{display:grid;gap:6px}.vncbars div{display:grid;grid-template-columns:minmax(0,9.5em) 1fr 2em;gap:8px;align-items:center;font-size:13px}.vncbars i{display:block;height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}.vncbars em{display:block;height:100%;background:var(--accent)}.vncbars b{text-align:right}.vnote{font-size:14px;margin:8px 0 0}.ulist{display:grid;gap:10px;margin-top:8px}.urev{border-top:1px solid var(--line);padding-top:10px}.urev p{margin:0 0 4px;font-size:14px}.urev small{color:var(--muted)}.orep{background:var(--surface-2);border-radius:10px;padding:8px 10px}@media(max-width:520px){.vncbox{grid-template-columns:1fr}.vncbig{justify-self:start}}.ownb{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.gallery div{aspect-ratio:4/3;border-radius:12px;background:linear-gradient(135deg,var(--surface-2),color-mix(in srgb,var(--accent) 18%,var(--surface-2)));display:grid;place-items:center;text-align:center;font-size:12px;color:var(--muted);padding:8px}
+.gallery div b{display:block;font-size:22px;margin-bottom:4px;color:var(--ink);opacity:.6}
+.gallery div:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.spec{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.spec div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.spec small{display:block;color:var(--muted);font-size:12px}
+.spec b{font-size:14px}
+.articles{display:grid;gap:8px}
+.articles a{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px}
+.articles a span{color:var(--muted);font-weight:500;font-size:12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.near{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.near a{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:12px;border:1px solid var(--line);text-decoration:none;background:var(--surface)}
+.near a b{font-size:14px}.near a span{font-size:12px;color:var(--muted)}
+.near a i{font-style:normal;font-size:20px}
+.golfnear{display:grid;gap:8px;margin-top:14px}
+.golfnear button{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.golfnear small{color:var(--muted)}
+aside.dside{position:sticky;top:64px;display:grid;gap:14px}
+.facts{padding:16px;display:grid;gap:10px;font-size:14px}
+.facts h3{font-family:var(--serif);font-size:18px;margin:0}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin:0}
+.facts dt{color:var(--muted);font-size:13px}
+.facts dd{margin:0;overflow-wrap:anywhere}
+#lmap{height:520px;border-radius:12px;z-index:0;background:var(--surface-2)}.leaflet-container{font-family:inherit}.langsel select{min-height:40px;border-radius:999px;border:1px solid color-mix(in srgb,var(--on-brand) 30%,transparent);background:transparent;color:var(--on-brand);font:inherit;font-weight:700;font-size:13px;padding:0 8px;max-width:96px}.langsel option{color:#111;background:#fff}.hl{margin:6px 0 0;font-style:italic;color:var(--ink);font-weight:600}.hl.big{font-size:17px;margin:0 0 10px;padding:10px 14px;border-left:4px solid var(--accent);background:var(--surface-2);border-radius:0 10px 10px 0}.sumrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.sumrow .pfrom{font-size:14px}.sumrow .pfrom b{font-size:16px;color:var(--accent-2)}.sumrow .ico{display:inline-flex;gap:4px;align-items:center;font-size:12.5px;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink)}.sumrow .nhit{font-size:12.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:color-mix(in srgb,var(--t-range) 18%,transparent);color:var(--ink)}.cmpb{margin-left:auto;min-height:36px;padding:0 12px;border-radius:999px;border:1px dashed var(--line);background:transparent;color:var(--ink);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.cmpb.on{border-style:solid;background:var(--ink);color:var(--surface)}.needs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.needs::-webkit-scrollbar{display:none}.needs .nlab{align-self:center;font-weight:700;font-size:13px;white-space:nowrap;color:var(--muted)}.needs .pill,.artabs .pill{flex:0 0 auto;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap}.needs .pill.on,.artabs .pill.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}.cmptray{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:60;width:min(760px,calc(100% - 24px));background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:10px 12px}.cmptray[hidden]{display:none}.ct-in{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ct-n{font-weight:800;font-size:14px}.ct-list{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 200px}.ct-list span{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;padding:2px 4px 2px 10px;border-radius:999px;background:var(--surface-2)}.ct-list button{border:0;background:transparent;font-size:18px;line-height:1;min-width:28px;min-height:28px;cursor:pointer;color:var(--ink)}.cmpmodal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}.cm-box{background:var(--bg,var(--surface));color:var(--ink);width:min(1000px,100%);max-height:92svh;border-radius:18px 18px 0 0;display:flex;flex-direction:column}@media(min-width:700px){.cmpmodal{align-items:center}.cm-box{border-radius:18px}}.cm-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}.cm-head h2{margin:0;font-family:var(--serif);font-size:20px}.cm-scroll{overflow:auto;padding:0 0 12px}table.cmp{border-collapse:collapse;min-width:100%;font-size:14px}table.cmp th,table.cmp td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top;min-width:150px}table.cmp thead th{position:sticky;top:0;background:var(--surface);z-index:1}table.cmp thead th a{font-weight:800;color:var(--ink)}table.cmp thead small{display:block;font-weight:500;font-style:italic;color:var(--muted);margin-top:4px}table.cmp tbody th{position:sticky;left:0;background:var(--surface);font-size:12.5px;color:var(--muted);min-width:110px;max-width:120px}body.noscroll{overflow:hidden}.fitchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.fitchips span{padding:5px 10px;border-radius:999px;background:var(--surface-2);font-size:13.5px;font-weight:600}.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin:6px 0}.slots span{padding:8px 10px;border-radius:10px;background:var(--surface-2);font-size:13px;display:flex;flex-direction:column}.slots span.q{background:color-mix(in srgb,var(--t-range) 22%,transparent)}.slots span.b{background:color-mix(in srgb,#c0392b 18%,transparent)}.slots small{font-weight:700}.ynl{margin:6px 0;padding-left:18px;font-size:14.5px;line-height:1.6}.promos{display:grid;gap:8px;margin-top:6px}.promos div{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;padding:10px 12px;border-radius:12px;background:var(--surface-2)}.promos small{color:var(--muted)}.arbox{margin-top:10px}.arlist{display:grid;gap:6px}.arlist a{display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:52px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:var(--surface)}.arlist small{color:var(--muted);display:block}.artabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0;scrollbar-width:none}.g2toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:8px 14px;border-radius:999px;opacity:0;transition:opacity .2s;z-index:90;font-size:14px}.g2toast.on{opacity:1}@media(max-width:600px){.ct-list{display:none}.ct-in{flex-wrap:nowrap}.ct-n{flex:1}.cmptray{padding:8px 10px}}@media(max-width:820px){.cmpb{margin-left:0}body:has(.cmptray:not([hidden])) .list{padding-bottom:90px}}.tile-dark{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}.leaflet-tooltip.ptip{font-weight:700;font-size:12.5px;border-radius:8px;padding:3px 8px}.leaflet-control-attribution{font-size:10px}.minimap svg{width:100%;height:auto;display:block;border-radius:12px;background:var(--surface-2)}
+.book{padding:16px;display:grid;gap:10px;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.book h3{font-family:var(--serif);font-size:18px;margin:0}
+.book p{margin:0;font-size:13.5px;color:var(--muted)}
+.book .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.book input,.book select{height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);padding:0 10px;width:100%;min-width:0}
+.card .more-l{font-weight:700;font-size:13px;color:var(--accent-2);text-decoration:none;background:none;border:0;cursor:pointer;padding:0}
+@media (max-width:980px){.dgrid{grid-template-columns:minmax(0,1fr)} aside.dside{position:static}}
+@media (max-width:520px){.gallery{grid-template-columns:1fr 1fr}.gallery div:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:16/9}.dhero{padding:18px;border-radius:16px}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
+.toast.on{opacity:1}
+
+@media (max-width:1180px){main.grid{grid-template-columns:240px minmax(0,1fr)} .mapbox{grid-column:1/-1;grid-row:1;position:static} .mapbox>svg{max-height:420px} #lmap{height:420px}}
+@media (max-width:820px){
+  main.grid{grid-template-columns:minmax(0,1fr)}
+  .viewtog{display:inline-flex}
+  body[data-view="list"] .mapbox{display:none}
+  body[data-view="map"] .results{display:none}
+  body[data-view="map"] .mapbox>svg{max-height:calc(100vh - 200px)}
+  #lmap{height:calc(100svh - 230px);min-height:340px}
+  aside.filters{position:fixed;inset:auto 0 0 0;top:auto;max-height:85vh;border-radius:18px 18px 0 0;z-index:50;transform:translateY(105%);transition:transform .25s;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+  body.fopen aside.filters{transform:none}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:45;display:none}
+  body.fopen .scrim{display:block}
+  .drawer-head{display:flex;justify-content:space-between;align-items:center}
+  .drawer-head b{font-family:var(--serif);font-size:20px}
+  .drawer-foot{display:flex;gap:8px;position:sticky;bottom:0;background:var(--surface);padding-top:8px}
+  .drawer-foot .btn{flex:1}
+  #reset{display:none}
+  .top .wrap{gap:8px}
+  .seg button{padding:6px 9px}
+  .logo b{font-size:16px}.logo small{font-size:9.5px;letter-spacing:.1em}
+  .toolbar .wrap{flex-wrap:wrap}
+  .types{flex-basis:100%}
+  .fbtn{margin-right:auto}
+}
+@media (max-width:520px){.hide-xs{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.btn.fb{background:#1877f2;border-color:#1877f2;color:#fff}
+.btn.fb.chain{background:transparent;color:#1877f2;border-color:#1877f2}
+.vtag{font-size:12px;font-weight:600;color:#1877f2}
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.videos a{display:flex;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;background:var(--surface-2)}
+.videos a i{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#1877f2;color:#fff;font-style:normal;font-size:15px}
+.videos a small{display:block;color:var(--muted);font-weight:500;font-size:12px}
+.vembed{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;align-items:start}
+.vitem{margin:0;display:grid;gap:6px}.vitem a.vlink{font-size:12.5px;color:var(--muted);text-decoration:none}
+.vembed .vf{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9}
+.vembed .vf.reel{aspect-ratio:9/16;max-height:560px;width:100%;max-width:300px}
+.vembed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.fbbox{padding:14px}.fbbox h3{margin:0 0 10px}.fbbox .fw{width:100%;overflow:hidden;border-radius:10px}.fbbox iframe{border:0;width:100%;height:520px;display:block}
+.embnote{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+.mbtn{display:inline-flex;align-items:center;gap:5px;font:inherit;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;border:1px solid var(--accent-2);background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--ink);cursor:pointer}
+.mbtn:hover{background:var(--accent);color:var(--on-accent,#111)}
+.dhero .badges .mbtn{border-color:currentColor;color:inherit;background:color-mix(in srgb,var(--on-brand) 14%,transparent);font-size:12px;padding:4px 10px}
+.bbox{border:1px solid var(--line);border-radius:12px;padding:14px;margin:0 0 12px;display:grid;gap:8px}
+.bbox p{margin:0}
+#bmodal{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-start;justify-content:center;background:rgba(0,0,0,.5);overflow:auto;padding:24px 16px}
+#bmodal[hidden]{display:none}
+.bm{background:var(--surface);color:var(--ink);border-radius:18px;max-width:760px;width:100%;padding:22px 22px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative}
+.bm h2{font-family:var(--serif);font-size:28px;margin:0 40px 4px 0}
+.bm h3{font-size:15px;margin:18px 0 8px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.bm .x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-size:18px;cursor:pointer}
+.bm .orig{color:var(--muted);font-size:13px;margin:0 0 10px}
+.bm .bd{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.bm .bd span{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.bm .lead{font-size:16px;line-height:1.55;margin:0}
+.bm ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.bm dl{margin:0;display:grid;gap:8px}
+.bm dl div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.bm dt{font-weight:700}.bm dd{margin:3px 0 0;color:var(--muted);font-size:14px}
+.bm .src{font-size:12px;color:var(--muted);margin-top:16px}
+.bm .back{font:inherit;font-size:13px;background:none;border:0;color:var(--muted);cursor:pointer;padding:0;margin:0 0 8px}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.bgrid button{font:inherit;text-align:left;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface-2);color:var(--ink);cursor:pointer;display:grid;gap:4px}
+.bgrid button b{font-size:16px}.bgrid button small{color:var(--muted)}
+.bm .rooms{display:flex;flex-wrap:wrap;gap:6px}.bm .rooms button{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:none;color:var(--ink);cursor:pointer}
+.flink{font:inherit;background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;padding:0}
+.fbnote{font-size:13px;color:var(--muted);margin:8px 0 0}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="https://www.vncentre.net" target="_blank" rel="noopener">
+      <svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="var(--brand-2)" stroke="var(--accent)" stroke-width="1.5"/><path d="M16 29V10l10 4.5-10 4.5" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="20" cy="29.5" rx="7" ry="1.8" fill="var(--accent)" opacity=".55"/></svg>
+      <span><b>VN CENTRE</b><small data-i="brandSub"></small></span>
+    </a>
+    <span class="sp"></span>
+    <a class="toplink" id="coursesLink" href="https://courses.vncentre.net/"><span class="tl-full" data-i="coursesLink"></span><span class="tl-short" data-i="coursesShort"></span></a>
+    <div class="seg" role="group" aria-label="Theme">
+      <button id="th-vnc" aria-pressed="true"><span class="swatch" style="background:#3a1f0c"></span><span class="hide-xs">VN Centre</span></button>
+      <button id="th-gp" aria-pressed="false"><span class="swatch" style="background:#080634"></span><span class="hide-xs">Golf Passport</span></button>
+    </div>
+    <label class="langsel"><span class="sr">Language / Ngôn ngữ</span><select id="langSel" aria-label="Language / Ngôn ngữ">
+      <option value="vi">VI</option><option value="en">EN</option><option value="ko">한국어</option><option value="ja">日本語</option><option value="zh">中文</option>
+    </select></label>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 id="h1"></h1>
+    <p class="lead" id="lead"></p>
+    <div class="regions" id="regions" role="group"></div>
+    <div class="finder">
+      <label class="searchbox"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr" data-i="q"></span><input id="q" type="search" autocomplete="off"></label>
+      <label class="brandrow"><span id="brandLbl"></span><select id="brandSel"></select></label>
+      <div class="locrow">
+        <button class="btn primary" id="gps"></button>
+        <select id="landmark" aria-label="Landmark"></select>
+      </div>
+      <div class="radius" id="radius"></div>
+      <div class="where" id="where"></div>
+    </div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="types" id="types" role="group"></div>
+    <button class="btn sm fbtn" id="fopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i="filters"></span><span class="n" id="fcount" hidden></span></button>
+    <div class="seg viewtog" style="border-color:var(--line)" role="group">
+      <button id="v-list" aria-pressed="true" style="color:var(--ink)" data-i="vList"></button><button id="v-map" aria-pressed="false" style="color:var(--ink)" data-i="vMap"></button>
+    </div>
+  </div>
+  <div class="wrap"><div class="actives" id="actives"></div></div>
+</div>
+
+<main class="wrap grid">
+  <aside class="panel filters" id="filters" aria-label="Filters">
+    <div class="drawer-head"><b data-i="filters"></b><button class="btn sm" id="fclose" aria-label="Close">✕</button></div>
+    <div class="fg"><h3 data-i="fDistrict"></h3><select id="fDistrict"></select></div>
+    <div class="fg"><h3 data-i="fRating"></h3><div class="chips" id="fRating"></div></div>
+    <div class="fg"><h3 data-i="fSvc"></h3><div class="chips" id="fSvc"></div></div>
+    <div class="fg"><h3 data-i="fMachine"></h3><div class="chips mchips" id="fMachine"></div></div>
+    <div class="fg"><h3 data-i="fOther"></h3><div class="chips" id="fOther"></div></div>
+    <div class="drawer-foot"><button class="btn" id="reset2" data-i="reset"></button><button class="btn dark" id="apply" data-i="apply"></button></div>
+    <button class="btn sm" id="reset" data-i="reset" style="align-self:flex-start"></button>
+  </aside>
+
+  <section class="results" aria-live="polite">
+    <div class="needs" id="needs"></div>
+    <div class="rhead"><h2 id="count"></h2><label><span class="sr" data-i="sort"></span><select id="sort"></select></label></div>
+    <div class="list" id="list"></div>
+    <div class="more"><button class="btn" id="more" hidden></button></div>
+  </section>
+
+  <section class="panel mapbox" aria-label="Map">
+    <svg id="map" viewBox="0 0 600 560" role="img"></svg>
+    <div id="lmap" hidden></div>
+    <div class="legend" id="legend"></div>
+    <div class="hint" data-i="mapHint"></div>
+  </section>
+</main>
+
+<section id="detail" class="wrap" hidden></section>
+<div class="scrim" id="scrim"></div>
+<footer>
+  <div class="wrap">
+    <b>VN Centre · Beyond the Swing</b>
+    <div data-i="foot"></div>
+    <div><button class="flink" data-brand="*" data-i="brandsAll"></button></div>
+    <div id="contribLinks"></div>
+    <div>Hotline / Zalo: <a href="tel:0835701111">083 570 1111</a> · <a href="https://www.vncentre.net" target="_blank" rel="noopener">vncentre.net</a></div>
+  </div>
+</footer>
+<div id="bmodal" hidden role="dialog" aria-modal="true"><div class="bm" id="bmc"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const ALL = /*DATA*/{};
+/*LM*/
+const CITIES=["hn","hcm","dn","north","central","south"];
+const CITYNAME={hn:{vi:"Hà Nội",en:"Hanoi"},hcm:{vi:"TP.HCM",en:"Ho Chi Minh City"},dn:{vi:"Đà Nẵng",en:"Da Nang"},north:{vi:"Tỉnh miền Bắc",en:"Northern provinces"},central:{vi:"Tỉnh miền Trung",en:"Central provinces"},south:{vi:"Tỉnh miền Nam",en:"Southern provinces"}};
+const CITYIN={hn:{vi:"ở Hà Nội",en:"in Hanoi"},hcm:{vi:"ở TP.HCM",en:"in Ho Chi Minh City"},dn:{vi:"ở Đà Nẵng",en:"in Da Nang"},north:{vi:"ở các tỉnh miền Bắc",en:"in northern provinces"},central:{vi:"ở các tỉnh miền Trung",en:"in central provinces"},south:{vi:"ở các tỉnh miền Nam",en:"in southern provinces"}};
+const T={
+ vi:{brandSub:"Sân tập golf toàn quốc",h1:"Tìm chỗ tập golf <em>gần bạn</em>",lead:"{n} sân tập, phòng golf 3D và học viện {in}. Chọn vị trí, lọc theo nhu cầu, gọi hoặc chỉ đường chỉ một chạm.",
+  q:"Tìm tên, đường, quận, hãng máy…",bSel:"Tìm theo hãng máy",bFind:"🔍 Lọc danh sách theo hãng này",bAll:"Tất cả hãng máy",bHere:"{n} tại đây",bNat:"{n} cả nước",bUnk:"Chưa rõ hãng máy",bElse:"Hãng {b} có phòng tại:",gps:"📍 Vị trí của tôi",lm:"Hoặc chọn nơi bạn đang ở…",radius:"Trong bán kính",any:"Tất cả",
+  filters:"Bộ lọc",vList:"Danh sách",vMap:"Bản đồ",fDistrict:"Khu vực",allD:"Tất cả khu vực",fRating:"Đánh giá Google",fSvc:"Tiện ích",fMachine:"Máy mô phỏng",fOther:"Khác",reset:"Xoá bộ lọc",apply:"Xem kết quả",
+  types:{range:"Sân tập ngoài trời","3d":"Phòng golf 3D",academy:"Học viện",course:"Trong sân golf",mini:"Mini golf"},
+  svc:{food:"Ăn uống",drink:"Cafe / bar",class:"Lớp học",parking:"Đỗ xe miễn phí",kids:"Trẻ em",card:"Quẹt thẻ",vip:"VIP / gym / bơi",late:"Mở muộn",hasfb:"Có Facebook",phone:"Có số điện thoại",hidecheck:"Ẩn nơi chỉ cho cư dân",vnc:"Đã được VN Centre khảo sát"},
+  unk:"Chưa rõ",sort:"Sắp xếp",sDist:"Gần nhất",sRating:"Đánh giá cao",sReviews:"Nhiều đánh giá",sName:"Tên A–Z",
+  count:"{n} địa điểm",none:"Không có địa điểm nào khớp. Thử nới bán kính hoặc xoá bớt bộ lọc.",more:"Xem thêm {n} địa điểm",
+  dir:"Chỉ đường",maps:"Google Maps",copy:"Chép số",copied:"Đã chép số {p}",web:"Website",call:"Gọi",
+  hours:"Giờ",open24:"Mở 24h",todo:"Giá · máy · số làn: đang cập nhật",residents:"Có thể chỉ dành cho cư dân",checked:"Long đã kiểm tra",reviews:"đánh giá",
+  whereNone:"Chưa chọn vị trí. Bật định vị, chọn một nơi hoặc chạm lên bản đồ để xem khoảng cách.",whereGps:"Đang tính từ vị trí GPS của bạn",whereMap:"Đang tính từ điểm bạn chạm trên bản đồ",whereLm:"Đang tính từ <b>{p}</b>",
+  gpsFail:"Không lấy được GPS ở chế độ xem này. Hãy chọn nơi bạn đang ở hoặc chạm lên bản đồ.",gpsWait:"Đang lấy vị trí…",
+  mapHint:"Chạm lên bản đồ để đặt vị trí của bạn; chạm vào chấm để xem địa điểm. Bản đồ tự thu phóng theo bán kính.",
+  foot:"Dữ liệu từ Google Maps và nguồn công khai, cập nhật 23/11/2026. Giá, loại máy, số làn và bãi đỗ đang được VN Centre đến tận nơi kiểm tra. Chỉ hiển thị địa điểm đang hoạt động.",
+  you:"Bạn",clear:"Bỏ",details:"Xem chi tiết ›",
+  back:"‹ Quay lại danh sách",share:"Chép link",linkCopied:"Đã chép link trang",book:"Đặt chỗ",soon:"sắp ra mắt",
+  nav:{rate:"Đánh giá",intro:"Giới thiệu",price:"Bảng giá",svc:"Dịch vụ",equip:"Máy & thiết bị",photos:"Hình ảnh",video:"Video",news:"Bài viết",around:"Xung quanh",booking:"Đặt chỗ"},
+  pend:"Đang cập nhật",introSub:"Tổng hợp từ dữ liệu Google Maps; bài giới thiệu chi tiết sẽ có sau khi VN Centre khảo sát tại chỗ.",
+  priceSub:"Giá tham khảo sẽ được VN Centre xác nhận trực tiếp với địa điểm.",colItem:"Hạng mục",colWeek:"Ngày thường",colWkd:"Cuối tuần / lễ",
+  svcSub:"Tiện ích theo Google Maps. Mục mờ là chưa xác nhận.",equipSub:"Hệ thống máy, phần mềm và quy mô khu tập.",photosSub:"Ảnh do VN Centre chụp tại chỗ — đang cập nhật.",
+  newsSub:"Bài viết, báo chí và review về địa điểm.",newsNone:"Chưa có bài viết được tổng hợp.",gNews:"Tìm tin tức trên Google",gWeb:"Tìm review trên Google",fbSearch:"Tìm trên Facebook",brandBtn:"Hồ sơ hãng máy ›",brandsAll:"Các hãng máy golf 3D",bTech:"Công nghệ đo",bModels:"Các dòng máy",bFeats:"Điểm nổi bật",bApps:"Phần mềm & ứng dụng",bFit:"Phù hợp với",bOrigin:"Xuất xứ",bdg:{tour:"Chuẩn tour",plate:"Sàn nghiêng",ai:"AI phân tích swing",vi:"Có tiếng Việt"},grp:{tour:"Máy đo chuẩn tour",screen:"Hệ thống screen golf trọn bộ",home:"Máy đo cho phòng nhỏ & tại gia"},grpSub:{home:"Gọn, giá mềm hơn máy chuẩn tour; ghép với phần mềm chơi sân như GSPro, E6 Connect. Hay gặp ở phòng tập nhỏ, học viện và nhà riêng.",tour:"Đo số liệu bóng – gậy rất chính xác; mạnh về luyện tập, dạy học, fitting.",screen:"Trọn gói phòng chơi: cảm biến, sàn nghiêng, tự đặt bóng, đồ hoạ sân; mạnh về chơi 18 hố, chơi nhóm, giải online."},unkMachine:"Chưa xác định hãng máy – VN Centre sẽ cập nhật sau khảo sát.",seeBrands:"Tìm hiểu các hãng máy golf 3D ›",closeB:"Đóng",bNote:"",bSrc:"Nguồn: trang chính hãng và nhà phân phối, cập nhật 23/11/2026. Số liệu do hãng công bố.",bRooms:"Phòng dùng máy này",tip:"Muốn chỉnh swing, đo khoảng cách từng gậy → ưu tiên Trackman, Foresight, Golfzon GDR. Muốn chơi sân cùng bạn bè, cảm giác dốc thật → Golfzon, Friends Screen, SG Golf, K-Golf, GTR, MS Golf.",embedNote:"Trình xem này chặn khung Facebook nên video mở ở tab mới. Khi đặt trang lên vncentre.net, video và fanpage phát ngay trong trang.",fbBox:"Fanpage Facebook",vidSubE:"Video giới thiệu đăng trên Facebook của địa điểm. Bấm ▶ để xem ngay trong trang.",fb:"Facebook",fbChainBtn:"Fanpage chuỗi",fbChainNote:"Địa điểm này chưa có fanpage riêng được xác nhận; đang dẫn về trang chung của chuỗi {c}.",vids:"{n} video",vidSub:"Video giới thiệu đăng trên Facebook của địa điểm. Bấm để xem trên Facebook.",vidNone:"Chưa tìm thấy video. Xem thêm ở mục Video trên fanpage.",vidItem:"Video {i}",vidOpen:"Xem trên Facebook ›",vidTab:"Mở mục Video của fanpage",fFb:"Facebook",
+  aroundSub:"Gợi ý quanh địa điểm, mở bằng Google Maps.",forMe:"Cá nhân",forFam:"Gia đình",forBiz:"Doanh nghiệp",golfNear:"Chỗ tập golf khác gần đó",coursesLink:"Sân golf Việt Nam",coursesShort:"Sân golf",crsT:"Sân golf gần đây",crsSub:"Thông tin sân, số đo và ảnh trên courses.vncentre.net.",crsOpen:"Xem sân ›",
+  closedTemp:"Tạm đóng cửa",vncT:"Điểm khảo sát VN Centre",vncSub:"VN Centre đến tận nơi, chấm 6 tiêu chí theo thang 10. Độc lập với đánh giá của người dùng.",vncNone:"Chưa được VN Centre khảo sát.",vncOn:"Khảo sát ngày {d}",vk:{facility:"Cơ sở vật chất",tech:"Máy & công nghệ",service:"Phục vụ",clean:"Sạch sẽ",value:"Đáng tiền",family:"Hợp gia đình, trẻ em"},vPros:"Điểm mạnh",vCons:"Cần cải thiện",uT:"Người chơi đánh giá",uSub:"Đánh giá của tài khoản VNC Golf Passport, hiện ngay khi đăng. Không tính điểm thưởng.",uNone:"Chưa có đánh giá. Hãy là người đầu tiên.",uN:"{n} đánh giá",uWrite:"✍ Viết đánh giá",uReply:"Chủ sân trả lời",uMore:"Xem tất cả và báo cáo ›",contrib:"Bạn biết thêm về nơi này?",contribSub:"Đăng nhập VNC Golf Passport để góp thông tin; đóng góp được duyệt được cộng điểm.",cSuggest:"Đề xuất sửa thông tin",cPhoto:"Gửi ảnh",cClaim:"Tôi là chủ sân – nhận trang",cNew:"+ Thêm địa điểm mới",cMine:"Đóng góp của tôi",ownerUpd:"Chủ sân cập nhật",photosLive:"Ảnh do người dùng và VN Centre gửi, đã được duyệt.",facts:"Thông tin nhanh",fType:"Loại",fArea:"Khu vực",fAddr:"Địa chỉ",fPhone:"Điện thoại",fHours:"Giờ mở",fWeb:"Website",fCoord:"Toạ độ",fUpd:"Cập nhật",
+  bookTitle:"Đặt chỗ",bookText:"Đặt sân/phòng trực tuyến sắp có. Hiện tại anh chị gọi trực tiếp địa điểm, hoặc nhờ VN Centre đặt hộ qua Zalo/hotline 083 570 1111.",bookDate:"Ngày",bookTime:"Giờ",bookPeople:"Số người",bookBtn:"Đặt chỗ · sắp ra mắt",zalo:"Nhắn Zalo VN Centre",
+  machineInfo:{Golfzon:"Golfzon (Hàn Quốc) — hệ thống golf 3D phổ biến nhất Việt Nam, mô phỏng nhiều sân golf thật, có chế độ luyện tập, chơi theo nhóm và tính điểm.",Foresight:"Foresight Sports (Mỹ) — máy đo dùng camera tốc độ cao, đo chính xác thông số bóng và gậy, hay dùng cho luyện tập kỹ thuật và fitting gậy."},
+  equipRows:{range:[["Số tầng / số làn",""],["Chiều dài sân",""],["Loại thảm / khu bunker, gạt",""],["Hệ thống đo bóng (nếu có)",""]],"3d":[["Hãng máy & phần mềm",""],["Số phòng / số máy",""],["Cảm biến (camera, radar)",""],["Phòng VIP / phòng nhóm",""]],academy:[["Chương trình đào tạo",""],["Đội ngũ HLV / chứng chỉ",""],["Khu tập & thiết bị",""],["Lớp trẻ em / người lớn",""]],course:[["Số làn sân tập",""],["Khu putting / chipping",""],["Thuê gậy",""],["Khách lẻ mua bóng",""]],mini:[["Số hố",""],["Phù hợp độ tuổi",""],["Khu cafe / nghỉ",""],["Tổ chức sinh nhật / sự kiện",""]]},
+  priceRows:{range:["Bóng tập (1 khay / xô)","Thẻ tháng / thẻ giờ","Thuê gậy","Học phí khóa cơ bản"],"3d":["Thuê phòng theo giờ","Gói chơi 9 / 18 hố","Thuê gậy, giày","Học 1 kèm 1"],academy:["Khóa người mới","Khóa trẻ em","Học 1 kèm 1","Kiểm tra kỹ thuật / fitting"],course:["Bóng tập sân tập","Phí ra sân (green fee)","Thuê xe điện / caddie","Thuê gậy"],mini:["Vé người lớn","Vé trẻ em","Combo đồ uống","Tổ chức sự kiện"]},
+  around:{me:[["☕","Cafe làm việc","cafe"],["🏋","Phòng gym","phòng gym"],["💆","Spa, massage","spa massage"],["🍜","Quán ăn","quán ăn"]],fam:[["🎠","Khu vui chơi trẻ em","khu vui chơi trẻ em"],["🌳","Công viên","công viên"],["🍽","Nhà hàng gia đình","nhà hàng gia đình"],["🛍","Trung tâm thương mại","trung tâm thương mại"]],biz:[["🏨","Khách sạn","khách sạn"],["🏢","Phòng hội nghị","phòng hội nghị"],["🥂","Nhà hàng tiếp khách","nhà hàng tiếp khách"],["🚐","Thuê xe du lịch","thuê xe du lịch"]]},
+  svcList:[["🍽","Ăn uống","food"],["☕","Cafe / bar","drink"],["🎓","Lớp học","class"],["🅿","Đỗ xe miễn phí","parking"],["👪","Phù hợp trẻ em","kids"],["💳","Quẹt thẻ","card"],["📶","Wi-Fi","wifi"],["🚻","Nhà vệ sinh","restroom"],["♿","Lối đi xe lăn","wheelchair"],["★","VIP / gym / bơi","vip"],["🌙","Mở muộn","late"]]},
+ en:{brandSub:"Golf practice across Vietnam",h1:"Find a place to practise golf <em>near you</em>",lead:"{n} driving ranges, golf simulators and academies {in}. Set your location, filter, then call or get directions in one tap.",
+  q:"Search name, street, district, simulator…",bSel:"Search by simulator brand",bFind:"🔍 Filter the list by this brand",bAll:"All brands",bHere:"{n} here",bNat:"{n} nationwide",bUnk:"Brand not confirmed",bElse:"{b} venues are in:",gps:"📍 My location",lm:"Or pick where you are…",radius:"Within",any:"Any",
+  filters:"Filters",vList:"List",vMap:"Map",fDistrict:"Area",allD:"All areas",fRating:"Google rating",fSvc:"Amenities",fMachine:"Simulator brand",fOther:"Other",reset:"Clear filters",apply:"Show results",
+  types:{range:"Outdoor range","3d":"Golf simulator",academy:"Academy",course:"At a golf course",mini:"Mini golf"},
+  svc:{food:"Food",drink:"Café / bar",class:"Lessons",parking:"Free parking",kids:"Kids",card:"Cards",vip:"VIP / gym / pool",late:"Open late",hasfb:"Has Facebook",phone:"Has phone number",hidecheck:"Hide residents-only",vnc:"Surveyed by VN Centre"},
+  unk:"Unknown",sort:"Sort",sDist:"Nearest",sRating:"Top rated",sReviews:"Most reviewed",sName:"Name A–Z",
+  count:"{n} places",none:"Nothing matches. Try a wider radius or fewer filters.",more:"Show {n} more",
+  dir:"Directions",maps:"Google Maps",copy:"Copy",copied:"Copied {p}",web:"Website",call:"Call",
+  hours:"Hours",open24:"Open 24h",todo:"Price · simulator · bays: being updated",residents:"May be residents only",checked:"Checked by Long",reviews:"reviews",
+  whereNone:"No location set. Share your location, pick a place or tap the map to see distances.",whereGps:"Measuring from your GPS location",whereMap:"Measuring from the spot you tapped",whereLm:"Measuring from <b>{p}</b>",
+  gpsFail:"This view can't read your GPS. Pick where you are or tap the map.",gpsWait:"Getting your location…",
+  mapHint:"Tap the map to set your position; tap a dot to see the place. The map zooms to your radius.",
+  foot:"Data from Google Maps and public sources, updated 23 Nov 2026. Prices, simulator brands, bays and parking are being checked on site by VN Centre. Only places currently open are shown.",
+  you:"You",clear:"Remove",details:"View details ›",
+  back:"‹ Back to list",share:"Copy link",linkCopied:"Link copied",book:"Book",soon:"coming soon",
+  nav:{rate:"Ratings",intro:"About",price:"Prices",svc:"Services",equip:"Equipment",photos:"Photos",video:"Videos",news:"Articles",around:"Nearby",booking:"Booking"},
+  pend:"Being updated",introSub:"Compiled from Google Maps data; a full write-up follows VN Centre's on-site visit.",
+  priceSub:"Reference prices will be confirmed with the venue by VN Centre.",colItem:"Item",colWeek:"Weekday",colWkd:"Weekend / holiday",
+  svcSub:"Amenities per Google Maps. Faded items are unconfirmed.",equipSub:"Simulator system, software and size of the practice area.",photosSub:"Photos taken on site by VN Centre — coming soon.",
+  newsSub:"Articles, press and reviews about this place.",newsNone:"No articles collected yet.",gNews:"Search news on Google",gWeb:"Search reviews on Google",fbSearch:"Search on Facebook",brandBtn:"Simulator profile ›",brandsAll:"Golf simulator brands",bTech:"How it measures",bModels:"Models",bFeats:"Highlights",bApps:"Software & apps",bFit:"Best for",bOrigin:"Origin",bdg:{tour:"Tour-grade",plate:"Slope plate",ai:"AI swing analysis",vi:"Vietnamese UI"},grp:{tour:"Tour-grade launch monitors",screen:"All-in-one screen golf systems",home:"Launch monitors for small rooms & home"},grpSub:{home:"Compact and cheaper than tour-grade units; paired with course software such as GSPro or E6 Connect. Common in small studios, academies and homes.",tour:"Highly accurate ball and club data; best for practice, coaching and fitting.",screen:"Complete bays: sensors, moving slope plates, auto tee, course graphics; best for 18-hole play, groups and online events."},unkMachine:"Simulator brand not yet confirmed – VN Centre will update after its site visit.",seeBrands:"Learn about golf simulator brands ›",closeB:"Close",bNote:"Details below are in Vietnamese.",bSrc:"Sources: manufacturer and distributor sites, updated 23 Nov 2026. Figures as published by the makers.",bRooms:"Venues using this brand",tip:"For swing work and club distances → Trackman, Foresight, Golfzon GDR. For playing courses with friends on real slopes → Golfzon, Friends Screen, SG Golf, K-Golf, GTR, MS Golf.",embedNote:"This viewer blocks Facebook frames, so videos open in a new tab. Hosted on vncentre.net, videos and the page play right here.",fbBox:"Facebook page",vidSubE:"Intro videos from the venue's Facebook. Tap ▶ to watch here.",fb:"Facebook",fbChainBtn:"Chain page",fbChainNote:"No confirmed page of its own yet; this links to the chain's shared page, {c}.",vids:"{n} video",vidSub:"Intro videos posted on the venue's Facebook. Tap to watch on Facebook.",vidNone:"No videos found yet. See the Videos tab on its page.",vidItem:"Video {i}",vidOpen:"Watch on Facebook ›",vidTab:"Open the page's Videos tab",fFb:"Facebook",
+  aroundSub:"Ideas around this place, opened in Google Maps.",forMe:"Solo",forFam:"Family",forBiz:"Business",golfNear:"Other golf practice nearby",coursesLink:"Golf courses in Vietnam",coursesShort:"Courses",crsT:"Golf courses nearby",crsSub:"Course details, ratings and photos on courses.vncentre.net.",crsOpen:"View course ›",
+  closedTemp:"Temporarily closed",vncT:"VN Centre survey score",vncSub:"VN Centre visits in person and scores 6 criteria out of 10, separately from player reviews.",vncNone:"Not yet surveyed by VN Centre.",vncOn:"Surveyed {d}",vk:{facility:"Facilities",tech:"Simulator & tech",service:"Service",clean:"Cleanliness",value:"Value for money",family:"Family & kids friendly"},vPros:"Strengths",vCons:"To improve",uT:"Player reviews",uSub:"Reviews from VNC Golf Passport accounts, published immediately. No points are awarded.",uNone:"No reviews yet. Be the first.",uN:"{n} reviews",uWrite:"✍ Write a review",uReply:"Owner's reply",uMore:"See all and report ›",contrib:"Know more about this place?",contribSub:"Sign in with VNC Golf Passport to contribute; approved contributions earn points.",cSuggest:"Suggest an edit",cPhoto:"Send photos",cClaim:"I own this venue – claim it",cNew:"+ Add a new venue",cMine:"My contributions",ownerUpd:"Updated by the owner",photosLive:"Photos from users and VN Centre, reviewed before publishing.",facts:"Quick facts",fType:"Type",fArea:"Area",fAddr:"Address",fPhone:"Phone",fHours:"Hours",fWeb:"Website",fCoord:"Coordinates",fUpd:"Updated",
+  bookTitle:"Booking",bookText:"Online booking is coming. For now, call the venue directly or ask VN Centre to book for you via Zalo/hotline +84 835 701 111.",bookDate:"Date",bookTime:"Time",bookPeople:"Players",bookBtn:"Book · coming soon",zalo:"Message VN Centre on Zalo",
+  machineInfo:{Golfzon:"Golfzon (Korea) — the most widespread golf simulator in Vietnam, with many real courses, practice modes, group play and scoring.",Foresight:"Foresight Sports (USA) — high-speed camera launch monitors measuring ball and club data precisely; popular for technique work and club fitting."},
+  equipRows:{range:[["Tiers / bays",""],["Range length",""],["Mats / bunker & chipping area",""],["Ball tracking (if any)",""]],"3d":[["Simulator brand & software",""],["Rooms / simulators",""],["Sensors (camera, radar)",""],["VIP / group rooms",""]],academy:[["Programmes",""],["Coaches / certifications",""],["Practice area & equipment",""],["Junior / adult classes",""]],course:[["Range bays",""],["Putting / chipping area",""],["Club rental",""],["Walk-in ball purchase",""]],mini:[["Holes",""],["Suitable ages",""],["Café / lounge",""],["Birthdays / events",""]]},
+  priceRows:{range:["Practice balls (per bucket)","Monthly / hour pass","Club rental","Beginner course"],"3d":["Room per hour","9 / 18-hole package","Club & shoe rental","1-on-1 lesson"],academy:["Beginner course","Junior course","1-on-1 lesson","Swing check / fitting"],course:["Range balls","Green fee","Buggy / caddie","Club rental"],mini:["Adult ticket","Child ticket","Drink combo","Events"]},
+  around:{me:[["☕","Cafés to work","cafe"],["🏋","Gyms","gym"],["💆","Spa & massage","spa massage"],["🍜","Places to eat","restaurant"]],fam:[["🎠","Kids' play areas","kids playground"],["🌳","Parks","park"],["🍽","Family restaurants","family restaurant"],["🛍","Shopping malls","shopping mall"]],biz:[["🏨","Hotels","hotel"],["🏢","Meeting rooms","conference room"],["🥂","Business dining","fine dining restaurant"],["🚐","Car & van hire","car rental"]]},
+  svcList:[["🍽","Food","food"],["☕","Café / bar","drink"],["🎓","Lessons","class"],["🅿","Free parking","parking"],["👪","Good for kids","kids"],["💳","Cards accepted","card"],["📶","Wi-Fi","wifi"],["🚻","Restroom","restroom"],["♿","Wheelchair access","wheelchair"],["★","VIP / gym / pool","vip"],["🌙","Open late","late"]]}
+};
+/*BRANDS*/
+const TYPES=["range","3d","academy","course","mini"];
+const TC={range:"--t-range","3d":"--t-3d",academy:"--t-academy",course:"--t-course",mini:"--t-mini"};
+const PAGE=30;
+const EMBED=(()=>{try{const q=new URLSearchParams(location.search).get("embed");if(q==="1")return true;if(q==="0")return false;return /^https?:$/.test(location.protocol)&&!/claudeusercontent|claude\.ai|anthropic/.test(location.hostname)}catch(e){return false}})();
+const fbPlug=(u,w)=>"https://www.facebook.com/plugins/video.php?href="+encodeURIComponent(u)+"&show_text=false&width="+w;
+const QP=(()=>{try{return new URLSearchParams(location.search)}catch(e){return new URLSearchParams()}})();
+let lang="vi",brand="vnc",CITY="hn",DATA,LANDMARKS,me=null,meLabel="",lmIdx="",sel=null,shown=PAGE;
+const st={types:new Set(),district:"",rating:0,machine:"",svc:new Set(),radius:0,sort:"rating",q:""};
+for(const k of String(QP.get("loai")||"").split(","))if(["range","3d","academy","course","mini"].includes(k))st.types.add(k);
+if(QP.get("q"))st.q=QP.get("q").slice(0,80);
+if(["1","3","5","10"].includes(QP.get("r")))st.radius=+QP.get("r");
+const WANT_GPS=QP.get("gan")==="1";
+st.need=["kids","noon","early","after_work","group","foreigners","beginner"].includes(QP.get("nhu"))?QP.get("nhu"):"";
+if(["vi","en","ko","ja","zh"].includes(QP.get("lang")))lang=QP.get("lang");
+/* Ghi bộ lọc vào đường link (giữ nguyên tham số khác và #/<id>) để chia sẻ được */
+function syncUrl(){try{const u=new URL(location.href),q=u.searchParams;
+  q.set("city",CITY);st.types.size?q.set("loai",[...st.types].join(",")):q.delete("loai");
+  st.q?q.set("q",st.q):q.delete("q");st.radius?q.set("r",st.radius):q.delete("r");
+  me&&meLabel==="gps"?q.set("gan","1"):q.delete("gan");
+  st.need?q.set("nhu",st.need):q.delete("nhu");lang!=="vi"?q.set("lang",lang):q.delete("lang");CMP.length?q.set("ss",CMP.join(",")):q.delete("ss");
+  const qs=q.toString().replace(/%2C/gi,",");const n=u.pathname+(qs?"?"+qs:"")+u.hash;if(n!==location.pathname+location.search+location.hash)history.replaceState(history.state,"",n)}catch(e){}}
+try{const s=JSON.parse(localStorage.getItem("gp-pref2")||"{}");if(s.lang)lang=s.lang;if(s.brand)brand=s.brand;if(s.city&&ALL[s.city])CITY=s.city;}catch(e){}
+if(CITIES.includes(QP.get("city"))&&ALL[QP.get("city")])CITY=QP.get("city");
+DATA=ALL[CITY];LANDMARKS=LM[CITY];
+const $=id=>document.getElementById(id);
+const t=k=>{const g=L=>k.split('.').reduce((o,p)=>o&&o[p],T[L]);const v=g(lang);return v===undefined?g("en"):v};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d");
+const km=(a,b)=>{const d=Math.PI/180;return 6371*Math.hypot((b.lng-a.lng)*d*Math.cos((a.lat+b.lat)/2*d),(b.lat-a.lat)*d)};
+function save(){try{localStorage.setItem("gp-pref2",JSON.stringify({lang,brand,city:CITY}))}catch(e){}}
+function toast(m){const el=$("toast");el.textContent=m;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),1800)}
+/*GD2*/
+document.addEventListener("click",e=>{const b=e.target.closest("[data-cmp]");if(b){e.preventDefault();e.stopPropagation();toggleCmp(b.dataset.cmp)}},true);
+function hasSvc(p,s){
+  if(s==="food")return p.svc.includes("food")||p.svc.includes("restaurant");
+  if(s==="drink")return p.svc.includes("cafe")||p.svc.includes("bar");
+  if(s==="parking")return p.parking==="free";
+  if(s==="late")return p.late;
+  if(s==="vip")return p.svc.some(x=>["vip","gym","pool","sauna"].includes(x));
+  if(s==="phone")return !!p.phone;
+  if(s==="hasfb")return !!(p.fb||p.fbChain);
+  if(s==="hidecheck")return !p.residents;
+  if(s==="vnc")return p.vnc!=null;
+  return p.svc.includes(s);
+}
+function mHay(m){if(!m)return "";const B=BRANDS[m];return m+" "+(B?B.models.map(x=>x[0]).join(" ")+" "+B.apps.map(x=>x[0]).join(" ")+(m==="Friends Screen"?" kakao":""):"")}
+function renderBrandSel(){
+  const S=$("brandSel");$("brandLbl").textContent=t("bSel");
+  const here=m=>DATA.filter(p=>m==="unk"?!p.machine:p.machine===m).length;
+  const nat=m=>CITIES.reduce((a,c)=>a+ALL[c].filter(p=>p.machine===m).length,0);
+  const ks=Object.keys(BRANDS).sort((a,b)=>nat(b)-nat(a)||a.localeCompare(b));
+  S.innerHTML=`<option value="">${t("bAll")}</option>`+ks.map(k=>`<option value="${esc(k)}" ${st.machine===k?"selected":""}>${esc(k)} — ${t("bHere").replace("{n}",here(k))} · ${t("bNat").replace("{n}",nat(k))}</option>`).join("")+`<option value="unk" ${st.machine==="unk"?"selected":""}>${t("bUnk")} (${here("unk")})</option>`;
+  S.value=st.machine||"";
+}
+function baseFiltered(skipType){
+  const q=norm(st.q.trim());
+  return DATA.map(p=>({...p,d:me?km(me,p):null})).filter(p=>{
+    if(!skipType&&st.types.size&&!st.types.has(p.type))return false;
+    if(st.district&&p.district!==st.district)return false;
+    if(st.rating&&!(p.rating>=st.rating))return false;
+    if(st.machine==="unk"){if(p.machine)return false}else if(st.machine&&p.machine!==st.machine)return false;
+    for(const s of st.svc)if(!hasSvc(p,s))return false;
+    if(me&&st.radius&&p.d>st.radius)return false;
+    if(q&&!norm(p.name+" "+p.address+" "+p.district+" "+mHay(p.machine)).includes(q))return false;
+    return true});
+}
+function filtered(){
+  const r=baseFiltered(false);const s=st.sort==="dist"&&!me?"rating":st.sort;
+  r.sort((a,b)=>(st.need?needScore(b,st.need)-needScore(a,st.need):0)||(s==="dist"?a.d-b.d:s==="rating"?((b.rating||0)-(a.rating||0))||(b.reviews-a.reviews):s==="reviews"?b.reviews-a.reviews:a.name.localeCompare(b.name,"vi")));
+  return r;
+}
+function chip(label,pressed,fn,cls="pill"){const b=document.createElement("button");b.type="button";b.className=cls;b.setAttribute("aria-pressed",pressed);b.innerHTML=label;b.onclick=fn;return b}
+function fmtPhone(p){if(!p)return"";if(p.startsWith("1900"))return p.replace(/(\d{4})(\d{3})(\d+)/,"$1 $2 $3");if(/^02[48]/.test(p))return p.replace(/(\d{3})(\d{4})(\d+)/,"$1 $2 $3");return p.replace(/(\d{4})(\d{3})(\d+)/,"$1 $2 $3")}
+function fmtH(h){if(!h)return"";if(h==="24h")return t("open24");return h.startsWith("–")?(lang==="vi"?"đến "+h.slice(1):"until "+h.slice(1)):h}
+function mBtn(m,label){return `<button type="button" class="mbtn" data-brand="${esc(m)}">${BRANDS[m]?"ⓘ ":""}${esc(label||m)}</button>`}
+let bmLast=null;
+function openBrand(k){const M=$("bmodal"),C=$("bmc");bmLast=document.activeElement;
+  const badge=b=>`<span>${t("bdg."+b)}</span>`;
+  if(k==="*"||!BRANDS[k]){
+    const g=x=>Object.entries(BRANDS).filter(([,b])=>b.group===x).map(([n,b])=>`<button data-brand="${esc(n)}"><b>${esc(n)}</b><small>${esc(lang==="vi"?b.origin:b.oEn)}</small><small>${b.badges.map(x=>t("bdg."+x)).join(" · ")}</small></button>`).join("");
+    C.innerHTML=`<button class="x" aria-label="${t("closeB")}">✕</button><h2>${t("brandsAll")}</h2><p class="lead">${t("tip")}</p>
+    <h3>${t("grp.tour")}</h3><p class="orig">${t("grpSub.tour")}</p><div class="bgrid">${g("tour")}</div>
+    <h3>${t("grp.screen")}</h3><p class="orig">${t("grpSub.screen")}</p><div class="bgrid">${g("screen")}</div><h3>${t("grp.home")}</h3><p class="orig">${t("grpSub.home")}</p><div class="bgrid">${g("home")}</div><p class="src">${t("bSrc")}</p>`;
+  }else{const b=BRANDS[k];
+    const rooms=Object.values(BYID).filter(p=>p.machine===k);
+    C.innerHTML=`<button class="x" aria-label="${t("closeB")}">✕</button><button class="back" data-brand="*">‹ ${t("brandsAll")}</button><h2>${esc(k)}</h2>
+    <p class="orig">${t("bOrigin")}: ${esc(lang==="vi"?b.origin:b.oEn)} · ${t("grp."+b.group)}</p><div class="bd">${b.badges.map(badge).join("")}</div>
+    <p class="lead">${esc(lang==="vi"?b.sum:b.sumEn)}</p>${lang==="en"?`<p class="orig" style="margin-top:8px">${t("bNote")}</p>`:""}
+    <h3>${t("bTech")}</h3><p>${esc(b.tech)}</p>
+    <h3>${t("bModels")}</h3><dl>${b.models.map(([n,d])=>`<div><dt>${esc(n)}</dt><dd>${esc(d)}</dd></div>`).join("")}</dl>
+    <h3>${t("bFeats")}</h3><ul>${b.feats.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+    ${b.apps.length?`<h3>${t("bApps")}</h3><dl>${b.apps.map(([n,d])=>`<div><dt>${esc(n)}</dt><dd>${esc(d)}</dd></div>`).join("")}</dl>`:""}
+    <h3>${t("bFit")}</h3><p>${esc(b.fit)}</p>
+    ${rooms.length?`<h3>${t("bRooms")} (${rooms.length})</h3><p><button class="btn sm dark" data-findb="${esc(k)}">${t("bFind")}</button></p><div class="rooms">${rooms.map(p=>`<button data-room="${p.id}">${esc(p.name)}</button>`).join("")}</div>`:""}
+    <p class="src">${t("bSrc")}</p>`}
+  M.hidden=false;document.body.style.overflow="hidden";M.scrollTop=0;C.querySelector(".x").focus()}
+function closeBrand(){$("bmodal").hidden=true;document.body.style.overflow="";bmLast?.focus?.()}
+document.addEventListener("click",e=>{const r=e.target.closest("[data-room]");if(r){closeBrand();openDetail(r.dataset.room);return}
+  const b=e.target.closest("button[data-brand],a[data-brand]");if(b&&(b.dataset.brand==="*"||BRANDS[b.dataset.brand])){e.preventDefault();e.stopPropagation();openBrand(b.dataset.brand);return}
+  if(e.target.closest("#bmodal .x")||e.target.id==="bmodal")closeBrand()},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("bmodal").hidden)closeBrand()});
+document.addEventListener("click",e=>{const f=e.target.closest("[data-findb]");if(!f)return;e.stopPropagation();const m=f.dataset.findb;closeBrand();if(location.hash.startsWith("#/"))location.hash="";st.machine=m;if(!DATA.some(p=>p.machine===m)){const c=CITIES.find(c=>ALL[c].some(p=>p.machine===m));if(c){setCity(c);}}update();setTimeout(()=>$("list").scrollIntoView({behavior:"smooth"}),150)},true);
+function fmtD(d){return d<1?Math.round(d*1000)+" m":d.toFixed(d<10?1:0)+" km"}
+
+function renderRegions(){
+  const R=$("regions");R.innerHTML="";
+  for(const c of CITIES)R.append(chip(`${CITYNAME[c][lang]}<span>${ALL[c].length}</span>`,c===CITY,()=>setCity(c),"region"));
+}
+function renderTypes(){
+  const base=baseFiltered(true);const T_=$("types");T_.innerHTML="";
+  T_.append(chip(`${t("any")} <small>${base.length}</small>`,st.types.size===0,()=>{st.types.clear();update()},"tchip"));
+  for(const k of TYPES){const n=base.filter(p=>p.type===k).length;if(!n&&!st.types.has(k))continue;
+    T_.append(chip(`<i style="background:var(${TC[k]})"></i>${t("types."+k)} <small>${n}</small>`,st.types.has(k),()=>{st.types.has(k)?st.types.delete(k):st.types.add(k);update()},"tchip"))}
+}
+function renderFilters(){
+  const ds=[...new Set(DATA.map(p=>p.district))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"vi"));
+  $("fDistrict").innerHTML=`<option value="">${t("allD")}</option>`+ds.map(d=>`<option ${d===st.district?"selected":""}>${esc(d)}</option>`).join("");
+  const fr=$("fRating");fr.innerHTML="";for(const v of [0,4,4.5])fr.append(chip(v?`★ ${v}+`:t("any"),st.rating===v,()=>{st.rating=v;update()}));
+  const fm=$("fMachine");fm.innerHTML="";const ms=[...new Set(DATA.map(p=>p.machine).filter(Boolean))].sort();if(st.machine&&st.machine!=="unk"&&!ms.includes(st.machine))ms.push(st.machine);for(const [v,l] of [["",t("any")],...ms.map(m=>[m,m]),["unk",t("unk")]])fm.append(chip(l,st.machine===v,()=>{st.machine=v;update()}));
+  const tog=(el,keys)=>{el.innerHTML="";for(const k of keys)el.append(chip(t("svc."+k),st.svc.has(k),()=>{st.svc.has(k)?st.svc.delete(k):st.svc.add(k);update()}))};
+  tog($("fSvc"),["food","drink","class","parking","kids","card","vip"]);tog($("fOther"),SB.url?["late","phone","hasfb","vnc","hidecheck"]:["late","phone","hasfb","hidecheck"]);
+  const n=(st.district?1:0)+(st.rating?1:0)+(st.machine?1:0)+st.svc.size;
+  $("fcount").hidden=!n;$("fcount").textContent=n;
+  const A=$("actives");A.innerHTML="";
+  const pill=(label,fn)=>{const b=document.createElement("button");b.textContent=label;b.title=t("clear");b.onclick=fn;A.append(b)};
+  if(st.district)pill(st.district,()=>{st.district="";update()});
+  if(st.rating)pill("★ "+st.rating+"+",()=>{st.rating=0;update()});
+  if(st.machine)pill(st.machine==="unk"?t("fMachine")+": "+t("unk"):st.machine,()=>{st.machine="";update()});
+  for(const s of st.svc)pill(t("svc."+s),()=>{st.svc.delete(s);update()});
+  if(st.q)pill("“"+st.q+"”",()=>{st.q="";$("q").value="";update()});
+}
+function svcTags(p){
+  const o=[];
+  if(p.svc.includes("food")||p.svc.includes("restaurant"))o.push("🍽 "+t("svc.food"));
+  if(p.svc.includes("cafe")||p.svc.includes("bar"))o.push("☕ "+t("svc.drink"));
+  if(p.svc.includes("class"))o.push("🎓 "+t("svc.class"));
+  if(p.parking==="free")o.push("🅿 "+t("svc.parking"));
+  if(p.svc.includes("kids"))o.push("👪 "+t("svc.kids"));
+  if(p.svc.some(x=>["vip","gym","pool","sauna"].includes(x)))o.push("★ "+t("svc.vip"));
+  if(p.svc.includes("card"))o.push("💳 "+t("svc.card"));
+  if(p.svc.includes("wifi"))o.push("Wi-Fi");
+  return o.map(x=>`<span>${esc(x)}</span>`).join("");
+}
+function card(p){
+  const r=p.rating?`<span class="stars">★ ${p.rating.toFixed(1)}</span> <span>(${p.reviews.toLocaleString(lang==="vi"?"vi-VN":"en-US")} ${t("reviews")})</span>`:"";
+  const hrs=p.hours?(p.hours==="24h"?t("open24"):`${t("hours")} ${esc(fmtH(p.hours))}`):"";
+  return `<article class="panel card ${sel===p.name?"sel":""}" data-n="${esc(p.name)}" data-id="${p.id}" tabindex="0">
+   <div class="crow"><span class="badge" style="--c:var(${TC[p.type]})"><i></i>${t("types."+p.type)}</span>${p.d!=null?`<span class="dist">${fmtD(p.d)}</span>`:""}</div>
+   <h3>${esc(p.name)}</h3>
+   <div class="meta">${r}<span>${esc(p.district)}</span>${hrs?`<span>${hrs}</span>`:""}${p.residents?`<span class="warn">${t("residents")}</span>`:""}${p.status==="closed_temp"?`<span class="warn">${t("closedTemp")}</span>`:""}${p.vnc!=null?`<span class="vncb">VNC ${p.vnc.toFixed(1)}</span>`:""}${p.urev?`<span>★ ${p.urate.toFixed(1)} · ${t("uN").replace("{n}",p.urev)}</span>`:""}${p.videos?`<span class="vtag">▶ ${t("vids").replace("{n}",p.videos.length)}</span>`:""}</div>
+   <div class="addr">${esc(p.address)}</div>
+   ${svcTags(p)||p.machine?`<div class="svc">${p.machine?mBtn(p.machine):""}${svcTags(p)}</div>`:""}
+   ${summaryHtml(p)}
+   ${hasDet(p)||priceFrom(p)?"":`<div class="todo">${t("todo")}</div>`}
+   <div class="acts">
+     <a class="btn primary sm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">➜ ${t("dir")}</a>
+     ${p.phone?`<button class="btn sm copy" data-p="${p.phone}" title="${t("copy")}">☎ <span class="phone">${fmtPhone(p.phone)}</span></button>`:""}
+     <button class="btn sm dark det" data-id="${p.id}">${t("details")}</button>
+     ${p.fb?`<a class="btn sm fb" target="_blank" rel="noopener" href="${esc(p.fb)}">f ${t("fb")}</a>`:p.fbChain?`<a class="btn sm fb chain" target="_blank" rel="noopener" href="${esc(p.fbChain)}" title="${esc(p.fbChainName)}">f ${t("fbChainBtn")}</a>`:""}
+     ${p.web?`<a class="btn sm" target="_blank" rel="noopener" href="${esc(p.web)}">${t("web")}</a>`:""}
+   </div></article>`;
+}
+function renderList(rows){
+  $("count").textContent=t("count").replace("{n}",rows.length);
+  const L=$("list");
+  if(!rows.length){const oc=st.machine&&st.machine!=="unk"?CITIES.filter(c=>c!==CITY&&ALL[c].some(p=>p.machine===st.machine)):[];
+    L.innerHTML=`<div class="panel empty">${t("none")}${oc.length?`<p style="margin-top:14px">${esc(t("bElse").replace("{b}",st.machine))}</p><div class="elsewhere">${oc.map(c=>`<button class="btn sm" data-goc="${c}">${CITYNAME[c][lang]} (${ALL[c].filter(p=>p.machine===st.machine).length})</button>`).join("")}</div>`:""}</div>`;
+    L.querySelectorAll("[data-goc]").forEach(b=>b.onclick=()=>setCity(b.dataset.goc));$("more").hidden=true;return}
+  L.innerHTML=rows.slice(0,shown).map(card).join("");
+  const rest=rows.length-shown;$("more").hidden=rest<=0;$("more").textContent=t("more").replace("{n}",Math.min(rest,PAGE));
+  L.querySelectorAll(".copy").forEach(b=>b.onclick=e=>{e.stopPropagation();const v=b.dataset.p;
+    const ok=()=>toast(t("copied").replace("{p}",fmtPhone(v)));
+    (navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(ok).catch(()=>{const r=document.createRange();r.selectNodeContents(b.querySelector(".phone"));const s=getSelection();s.removeAllRanges();s.addRange(r);});});
+  L.querySelectorAll(".card").forEach(c=>{const go=()=>{sel=c.dataset.n;renderMap(rows);L.querySelectorAll(".card").forEach(x=>x.classList.toggle("sel",x.dataset.n===sel))};
+    c.onclick=e=>{if(e.target.closest(".det"))return openDetail(e.target.closest(".det").dataset.id);if(!e.target.closest("a,button"))openDetail(c.dataset.id)};c.onkeydown=e=>{if(e.key==="Enter")openDetail(c.dataset.id)};c.onmouseenter=go});
+}
+// Map projection, refit per render
+/* Bản đồ thật (Leaflet + nền OpenStreetMap) cho trang chạy riêng; bản nhúng / lỗi tải thì dùng bản đồ SVG tối giản */
+let LM_OK=false,LMAP=null,LLAYER=null,LFIT="";
+function loadLeaflet(){if(!SB.url)return;
+  const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";document.head.appendChild(c);
+  const j=document.createElement("script");j.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";j.async=true;
+  j.onload=()=>{if(window.L&&L.map){LM_OK=true;update(false)}};document.head.appendChild(j)}
+const cssv=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim()||"#888";
+function darkTheme(){const t=document.documentElement.dataset.theme;return t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches)}
+let LTILE=null,LTILEDARK=null;
+function renderLeaflet(rows){
+  if(!LMAP){
+    LMAP=L.map("lmap",{zoomControl:true,scrollWheelZoom:false,tap:true});
+    LMAP.on("focus click",()=>LMAP.scrollWheelZoom.enable());
+    LMAP.on("click",e=>{me={lat:e.latlng.lat,lng:e.latlng.lng};meLabel="map";lmIdx="";if(!st.radius)st.radius=5;st.sort="dist";update()});
+    LLAYER=L.layerGroup().addTo(LMAP);
+    const c=DATA.filter(p=>p.lat!=null);LMAP.setView(c.length?[c.reduce((a,p)=>a+p.lat,0)/c.length,c.reduce((a,p)=>a+p.lng,0)/c.length]:[16,106.5],c.length?10:5);
+  }
+  const dk=darkTheme();if(LTILEDARK!==dk){if(LTILE)LMAP.removeLayer(LTILE);LTILEDARK=dk;
+    LTILE=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,className:dk?"tile-dark":"",attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(LMAP)}
+  LLAYER.clearLayers();
+  const ids=new Set(rows.map(r=>r.name)),surf=cssv("--surface"),ink=cssv("--ink");
+  if(me&&st.radius)L.circle([me.lat,me.lng],{radius:st.radius*1000,color:cssv("--accent-2"),weight:1.5,dashArray:"5 4",fillColor:cssv("--accent"),fillOpacity:.1,interactive:false}).addTo(LLAYER);
+  const draw=p=>{const on=ids.has(p.name),is=p.name===sel;
+    const m=L.circleMarker([p.lat,p.lng],{radius:is?11:on?8:5,color:is?ink:surf,weight:is?3:1.5,fillColor:cssv(TC[p.type]),fillOpacity:on?1:.25,bubblingMouseEvents:false}).addTo(LLAYER);
+    m.bindTooltip(esc(p.name),{direction:"top",offset:[0,-8],className:"ptip",permanent:is});
+    m.on("click",()=>{sel=p.name;const r=filtered();const i=r.findIndex(x=>x.name===sel);if(i>=shown)shown=i+1;
+      if(document.body.dataset.view==="map")document.body.dataset.view="list",syncView();
+      update(false);const el=[...document.querySelectorAll(".card")].find(x=>x.dataset.n===sel);el?.scrollIntoView({behavior:"smooth",block:"center"})})};
+  DATA.filter(p=>!ids.has(p.name)&&p.lat!=null).forEach(draw);DATA.filter(p=>ids.has(p.name)&&p.lat!=null).forEach(draw);
+  if(me)L.circleMarker([me.lat,me.lng],{radius:9,color:surf,weight:3,fillColor:cssv("--me"),fillOpacity:1,interactive:false}).addTo(LLAYER).bindTooltip(t("you"),{permanent:true,direction:"right",offset:[10,0],className:"ptip"});
+  const key=[CITY,me?me.lat.toFixed(4)+","+me.lng.toFixed(4):"",st.radius,rows.length,[...st.types].join()].join("|");
+  LMAP.invalidateSize();const sized=LMAP.getSize().x>0;
+  if(key!==LFIT&&sized){LFIT=key;
+    if(me&&st.radius)LMAP.fitBounds(L.latLng(me.lat,me.lng).toBounds(st.radius*2000),{padding:[12,12]});
+    else{const pts=(rows.length?rows:DATA).filter(p=>p.lat!=null).map(p=>[p.lat,p.lng]);if(me)pts.push([me.lat,me.lng]);
+      if(pts.length===1)LMAP.setView(pts[0],15);else if(pts.length)LMAP.fitBounds(pts,{padding:[24,24],maxZoom:15})}}
+  else if(sel){const p=DATA.find(d=>d.name===sel);if(p&&!LMAP.getBounds().contains([p.lat,p.lng]))LMAP.panTo([p.lat,p.lng])}
+}
+const W=600,H=560,PAD=26;let B,kx,S,ox,oy;
+function fit(pts){
+  const la=pts.map(p=>p.lat),ln=pts.map(p=>p.lng);let b={a:Math.min(...la),b:Math.max(...la),c:Math.min(...ln),d:Math.max(...ln)};
+  const pl=Math.max(0.006,(b.b-b.a)*0.06);B={minLat:b.a-pl,maxLat:b.b+pl,minLng:b.c-pl,maxLng:b.d+pl};
+  kx=Math.cos((B.minLat+B.maxLat)/2*Math.PI/180);
+  S=Math.min((W-2*PAD)/((B.maxLng-B.minLng)*kx),(H-2*PAD)/(B.maxLat-B.minLat));
+  ox=(W-(B.maxLng-B.minLng)*kx*S)/2;oy=(H-(B.maxLat-B.minLat)*S)/2;
+}
+const px=l=>ox+(l-B.minLng)*kx*S,py=l=>H-oy-(l-B.minLat)*S,unx=x=>(x-ox)/(kx*S)+B.minLng,uny=y=>(H-oy-y)/S+B.minLat;
+function renderMap(rows){
+  if(LM_OK){$("map").style.display="none";$("lmap").hidden=false;return renderLeaflet(rows)}
+  let pts=DATA;
+  if(me&&st.radius){const dl=st.radius/111,dg=st.radius/(111*Math.cos(me.lat*Math.PI/180));pts=[{lat:me.lat-dl,lng:me.lng-dg},{lat:me.lat+dl,lng:me.lng+dg}]}
+  else if(me)pts=[...DATA,me];
+  fit(pts);
+  const m=$("map");let s="";const kmPx=S/111;
+  for(let i=1;i<6;i++){s+=`<line x1="0" x2="${W}" y1="${i*H/6}" y2="${i*H/6}" stroke="var(--line)" stroke-width=".7"/><line y1="0" y2="${H}" x1="${i*W/6}" x2="${i*W/6}" stroke="var(--line)" stroke-width=".7"/>`}
+  for(const L of LANDMARKS){const x=px(L[3]),y=py(L[2]);if(x<0||x>W||y<0||y>H)continue;const r=x>W-140;
+    s+=`<g opacity=".8"><circle cx="${x}" cy="${y}" r="2.2" fill="var(--muted)"/><text x="${r?x-5:x+5}" y="${y-5}" text-anchor="${r?"end":"start"}" font-size="10.5" fill="var(--muted)" font-family="Be Vietnam Pro,sans-serif">${esc(lang==="vi"?L[0]:L[1])}</text></g>`}
+  if(me&&st.radius)s+=`<circle cx="${px(me.lng)}" cy="${py(me.lat)}" r="${st.radius*kmPx}" fill="var(--accent)" fill-opacity=".12" stroke="var(--accent-2)" stroke-dasharray="5 4"/>`;
+  const sk=[1,2,5,10,20,50,100].find(v=>v*kmPx>60)||100;
+  s+=`<g><line x1="${W-PAD-sk*kmPx}" x2="${W-PAD}" y1="${H-14}" y2="${H-14}" stroke="var(--ink)" stroke-width="2"/><text x="${W-PAD}" y="${H-19}" text-anchor="end" font-size="10" fill="var(--ink)">${sk} km</text></g>`;
+  const ids=new Set(rows.map(r=>r.name));
+  for(const p of DATA){const on=ids.has(p.name),is=p.name===sel;const x=px(p.lng),y=py(p.lat);if(x<-10||x>W+10||y<-10||y>H+10)continue;
+    s+=`<circle class="pt" data-n="${esc(p.name)}" cx="${x}" cy="${y}" r="${is?8:on?5.5:4}" fill="var(${TC[p.type]})" fill-opacity="${on?1:.18}" stroke="${is?"var(--ink)":"var(--surface)"}" stroke-width="${is?2.5:1.3}" style="cursor:pointer"><title>${esc(p.name)}</title></circle>`}
+  if(sel){const p=DATA.find(d=>d.name===sel);if(p){const x=px(p.lng),y=py(p.lat),r=x>W-220;s+=`<text x="${r?x-11:x+11}" y="${y-10}" text-anchor="${r?"end":"start"}" font-size="12.5" font-weight="700" fill="var(--ink)" paint-order="stroke" stroke="var(--surface-2)" stroke-width="4">${esc(p.name.length>36?p.name.slice(0,35)+"…":p.name)}</text>`}}
+  if(me)s+=`<g><circle cx="${px(me.lng)}" cy="${py(me.lat)}" r="8" fill="var(--me)" stroke="var(--surface)" stroke-width="2.5"/><text x="${px(me.lng)+11}" y="${py(me.lat)+4}" font-size="12" font-weight="700" fill="var(--me)" paint-order="stroke" stroke="var(--surface-2)" stroke-width="4">${t("you")}</text></g>`;
+  m.innerHTML=s;m.setAttribute("aria-label",t("mapHint"));
+}
+$("map").addEventListener("click",e=>{
+  const c=e.target.closest(".pt");
+  if(c){sel=c.dataset.n;const r=filtered();const i=r.findIndex(p=>p.name===sel);if(i>=shown)shown=i+1;
+    if(document.body.dataset.view==="map")document.body.dataset.view="list",syncView();
+    update(false);const el=[...document.querySelectorAll(".card")].find(x=>x.dataset.n===sel);el?.scrollIntoView({behavior:"smooth",block:"center"});return}
+  const svg=$("map"),pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+  me={lat:uny(p.y),lng:unx(p.x)};meLabel="map";lmIdx="";if(!st.radius)st.radius=5;st.sort="dist";update();
+});
+function renderWhere(){const w=$("where");
+  if(!me)w.textContent=t("whereNone");else if(meLabel==="gps")w.textContent=t("whereGps");else if(meLabel==="map")w.textContent=t("whereMap");
+  else w.innerHTML=t("whereLm").replace("{p}",esc(lang==="vi"?LANDMARKS[lmIdx][0]:LANDMARKS[lmIdx][1]));}
+function renderRadius(){const R=$("radius");R.innerHTML=`<span class="lbl">${t("radius")}</span>`;
+  for(const n of [1,3,5,10,0])R.append(chip(n?n+" km":t("any"),st.radius===n,()=>{st.radius=n;if(n&&me)st.sort="dist";update()}));}
+function renderStatic(){contribLinks();renderNeeds();renderTray();document.documentElement.lang=lang==="zh"?"zh-Hans":lang;
+  document.documentElement.lang=lang;document.documentElement.dataset.brand=brand;
+  document.title=(lang==="vi"?"Sân tập golf ":"Golf practice ")+CITYNAME[CITY][lang]+" · VN Centre";
+  document.querySelectorAll("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));
+  $("h1").innerHTML=t("h1");
+  $("lead").textContent=t("lead").replace("{n}",DATA.length).replace("{in}",CITYIN[CITY][lang]);
+  $("q").placeholder=t("q");$("gps").textContent=t("gps");
+  $("landmark").innerHTML=`<option value="">${t("lm")}</option>`+LANDMARKS.map((L,i)=>`<option value="${i}" ${String(i)===String(lmIdx)?"selected":""}>${esc(lang==="vi"?L[0]:L[1])}</option>`).join("");
+  $("sort").innerHTML=[["dist","sDist"],["rating","sRating"],["reviews","sReviews"],["name","sName"]].map(([v,k])=>`<option value="${v}" ${st.sort===v?"selected":""}>${t(k)}</option>`).join("");
+  $("legend").innerHTML=TYPES.map(k=>`<span><i style="background:var(${TC[k]})"></i>${t("types."+k)}</span>`).join("");
+  $("langSel").value=lang;
+  $("th-vnc").setAttribute("aria-pressed",brand==="vnc");$("th-gp").setAttribute("aria-pressed",brand==="passport");
+  renderRegions();
+}
+function update(resetPage=true){if(resetPage)shown=PAGE;syncUrl();$("sort").value=st.sort;renderBrandSel();renderTypes();renderFilters();renderRadius();const r=filtered();renderList(r);renderMap(r);renderWhere()}
+function setCity(c){if(c===CITY)return;CITY=c;DATA=ALL[c];LANDMARKS=LM[c];me=null;meLabel="";lmIdx="";sel=null;st.district="";st.radius=0;st.sort="rating";st.types.clear();save();renderStatic();update()}
+function syncView(){const v=document.body.dataset.view||"list";if(LMAP&&v==="map")setTimeout(()=>{LMAP.invalidateSize();renderMap(filtered())},30);$("v-list").setAttribute("aria-pressed",v==="list");$("v-map").setAttribute("aria-pressed",v==="map");
+  for(const b of [$("v-list"),$("v-map")]){const on=b.getAttribute("aria-pressed")==="true";b.style.background=on?"var(--ink)":"transparent";b.style.color=on?"var(--surface)":"var(--ink)"}}
+$("q").oninput=e=>{st.q=e.target.value;update()};
+$("brandSel").onchange=e=>{st.machine=e.target.value;update();const L=$("list")||document.querySelector(".grid");if(L&&st.machine)L.scrollIntoView({behavior:"smooth",block:"start"})};
+$("fDistrict").onchange=e=>{st.district=e.target.value;update()};
+$("sort").onchange=e=>{st.sort=e.target.value;update()};
+const resetAll=()=>{st.types.clear();st.svc.clear();st.district="";st.rating=0;st.machine="";st.q="";$("q").value="";update()};
+$("reset").onclick=resetAll;$("reset2").onclick=resetAll;
+$("more").onclick=()=>{shown+=PAGE;renderList(filtered())};
+$("landmark").onchange=e=>{const i=e.target.value;if(i==="")return;lmIdx=i;const L=LANDMARKS[+i];me={lat:L[2],lng:L[3]};meLabel="lm";if(!st.radius)st.radius=5;st.sort="dist";update()};
+const openF=o=>document.body.classList.toggle("fopen",o);
+$("fopen").onclick=()=>{if(matchMedia("(max-width:820px)").matches)openF(true);else $("filters").scrollIntoView({behavior:"smooth"})};
+$("fclose").onclick=()=>openF(false);$("scrim").onclick=()=>openF(false);$("apply").onclick=()=>{openF(false);document.querySelector(".results").scrollIntoView({behavior:"smooth"})};
+$("v-list").onclick=()=>{document.body.dataset.view="list";syncView()};$("v-map").onclick=()=>{document.body.dataset.view="map";syncView();setTimeout(()=>{const t=document.querySelector(".toolbar"),m=document.querySelector(".mapbox");if(m)scrollTo({top:m.getBoundingClientRect().top+scrollY-(t?t.offsetHeight:0)-8,behavior:"smooth"})},60)};
+$("gps").onclick=()=>{const w=$("where");if(!navigator.geolocation){w.textContent=t("gpsFail");return}w.textContent=t("gpsWait");
+  let done=false;const to=setTimeout(()=>{if(!done){done=true;w.textContent=t("gpsFail")}},8000);
+  try{navigator.geolocation.getCurrentPosition(pos=>{if(done)return;done=true;clearTimeout(to);me={lat:pos.coords.latitude,lng:pos.coords.longitude};meLabel="gps";lmIdx="";
+    let best=null,bd=1e9;for(const c of CITIES){for(const p of ALL[c]){const d=km(me,p);if(d<bd){bd=d;best=c}}}
+    if(best&&best!==CITY&&bd<60){CITY=best;DATA=ALL[best];LANDMARKS=LM[best];renderStatic()}
+    if(!st.radius)st.radius=5;st.sort="dist";update()},()=>{if(done)return;done=true;clearTimeout(to);w.textContent=t("gpsFail")},{enableHighAccuracy:true,timeout:7000})}catch(e){done=true;clearTimeout(to);w.textContent=t("gpsFail")}};
+const setLang=l=>{lang=l;save();renderStatic();update(false);syncUrl();if(cur)showDetail(cur.id)};
+$("langSel").onchange=e=>setLang(e.target.value);
+const setBrand=b=>{brand=b;save();renderStatic()};
+$("th-vnc").onclick=()=>setBrand("vnc");$("th-gp").onclick=()=>setBrand("passport");
+const BYID={};function contribLinks(){const el=document.getElementById("contribLinks");if(el)el.innerHTML=SB.url?`<a class="flink" href="${APP}/venues/new">${t("cNew")}</a> · <a class="flink" href="${APP}/venues/mine">${t("cMine")}</a>`:""}
+function indexAll(){for(const k in BYID)delete BYID[k];for(const c of CITIES)ALL[c].forEach((p,i)=>{p.id=p.id||c+"-"+i;p.city=c;BYID[p.id]=p})}indexAll();
+/* Spec 26: dữ liệu sống từ Supabase (view pv_public_venues, bảng sim_brands); lỗi/thiếu cấu hình → giữ bản nhúng */
+const SB=/*SB*/{url:"",key:""};const APP="https://app.vncentre.net";const PHOTOS={},SURV={},REV={};const purl=p=>SB.url+"/storage/v1/object/public/venue-photos/"+p.split("/").map(encodeURIComponent).join("/");
+async function loadLive(){
+  if(!SB.url||!SB.key)return;
+  const ac=new AbortController();const to=setTimeout(()=>ac.abort(),6000);
+  try{
+    const h={apikey:SB.key,Authorization:"Bearer "+SB.key};
+    const [rv,rb]=await Promise.all([fetch(SB.url+"/rest/v1/pv_public_venues?select=*",{headers:h,signal:ac.signal}),fetch(SB.url+"/rest/v1/sim_brands?select=*&active=eq.true&order=sort",{headers:h,signal:ac.signal})]);
+    if(!rv.ok)return;const vs=await rv.json();if(!Array.isArray(vs)||vs.length<10)return;
+    try{const rp=await fetch(SB.url+"/rest/v1/pv_public_photos?select=venue_id,path,is_cover,sort&order=sort",{headers:h,signal:ac.signal});if(rp.ok){for(const k in PHOTOS)delete PHOTOS[k];for(const x of await rp.json())(PHOTOS[x.venue_id]??=[])[x.is_cover?"unshift":"push"](x.path)}}catch(e){}
+    try{const rs=await fetch(SB.url+"/rest/v1/pv_public_surveys?select=*",{headers:h,signal:ac.signal});if(rs.ok){for(const k in SURV)delete SURV[k];for(const x of await rs.json())SURV[x.venue_id]=x}}catch(e){}
+    if(rb.ok){const bs=await rb.json();if(Array.isArray(bs)&&bs.length){for(const k in BRANDS)delete BRANDS[k];for(const b of bs)BRANDS[b.key]={origin:b.origin_vi||"",oEn:b.origin_en||b.origin_vi||"",group:b.group,badges:b.badges||[],sum:b.sum_vi||"",sumEn:b.sum_en||b.sum_vi||"",tech:b.tech_vi||"",models:b.models||[],feats:b.feats||[],apps:b.apps||[],fit:b.fit_vi||""}}}
+    const nx=id=>+String(id).split("-")[1]||0;const fresh={};for(const c of CITIES)fresh[c]=[];
+    for(const v of vs){if(!fresh[v.region]||v.lat==null||v.lng==null)continue;
+      fresh[v.region].push({id:v.id,name:v.name,lat:+v.lat,lng:+v.lng,rating:v.google_rating==null?null:+v.google_rating,reviews:v.google_reviews,type:v.type,phone:v.phone||"",address:v.address||"",web:v.web||"",district:v.district||"",hours:v.hours||"",late:!!v.late,machine:v.machine&&BRANDS[v.machine]?v.machine:(v.machine||""),svc:v.svc||[],parking:v.parking,residents:!!v.residents_only,fb:v.fb_url||undefined,fbChain:v.fb_chain_url||undefined,fbChainName:v.fb_chain_name||undefined,videos:v.videos&&v.videos.length?v.videos:undefined,status:v.status,ownerUpd:v.owner_updated_at,cover:v.cover_path,claimed:!!v.claimed,prices:v.prices&&v.prices.length?v.prices.map(x=>[x.item_vi+(x.unit?" / "+x.unit:""),x.price||"",x.note||"—"]):undefined,bays:v.bays,upd:v.updated_at,hl:v.highlight_vi||"",hlEn:v.highlight_en||"",sims:v.sim_rates||[],ranges:v.range_rates||[],rental:v.club_rental||{},promos:(v.promos||[]).filter(x=>!x.until||new Date(x.until)>=new Date(new Date().toDateString())),academy:v.academy||{},coaches:v.coaches||[],busy:v.busy||{},kids:v.kids||{},shop:v.shop||{},fac:v.facilities||{},langs:v.languages||[],fit:v.fit_tags||[],vnc:v.vnc_score==null?null:+v.vnc_score,vncAt:v.vnc_scored_at,urate:v.user_rating==null?null:+v.user_rating,urev:v.user_reviews||0})}
+    for(const c of CITIES){fresh[c].sort((a,b)=>nx(a.id)-nx(b.id));ALL[c].length=0;ALL[c].push(...fresh[c])}
+    indexAll();renderStatic();update(false);route();
+  }catch(e){}finally{clearTimeout(to)}
+}
+function rateHtml(p){
+  const sv=SURV[p.id],dt=x=>new Date(x).toLocaleDateString(lang==="vi"?"vi-VN":"en-GB");
+  const vnc=sv&&sv.overall!=null?`<div class="vncbox"><div class="vncbig"><b>${(+sv.overall).toFixed(1)}</b><span>/10</span></div><div class="vncbars">${["facility","tech","service","clean","value","family"].map(k=>{const v=+(sv.scores||{})[k]||0;return `<div><span>${t("vk")[k]}</span><i><em style="width:${v*10}%"></em></i><b>${v||"–"}</b></div>`}).join("")}</div></div>
+    ${sv.pros_vi?`<p class="vnote"><b>${t("vPros")}:</b> ${esc(sv.pros_vi)}</p>`:""}${sv.cons_vi?`<p class="vnote"><b>${t("vCons")}:</b> ${esc(sv.cons_vi)}</p>`:""}
+    <p class="sub">${sv.visit_date?t("vncOn").replace("{d}",dt(sv.visit_date)):""}</p>`:`<span class="pending">● ${t("vncNone")}</span>`;
+  return `<h3 class="rh">${t("vncT")}</h3><p class="sub">${t("vncSub")}</p>${vnc}
+    <h3 class="rh" style="margin-top:18px">${t("uT")}${p.urev?` <span class="urs">★ ${p.urate.toFixed(1)} · ${t("uN").replace("{n}",p.urev)}</span>`:""}</h3><p class="sub">${t("uSub")}</p>
+    <div id="ulist" class="ulist">${revHtml(p)}</div>
+    <p style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px"><a class="btn primary sm" href="${APP}/venues/${p.id}/review">${t("uWrite")}</a>${p.urev?`<a class="btn sm" href="${APP}/venues/${p.id}/review">${t("uMore")}</a>`:""}</p>`;
+}
+function revHtml(p){
+  const L=REV[p.id];if(!L)return "";if(!L.length)return `<span class="pending">● ${t("uNone")}</span>`;
+  const dt=x=>new Date(x).toLocaleDateString(lang==="vi"?"vi-VN":"en-GB");
+  return L.slice(0,5).map(r=>`<article class="urev"><p><span class="stars">${"★".repeat(r.stars)}<span style="opacity:.25">${"★".repeat(5-r.stars)}</span></span> <b>${esc(r.author)}</b> <small>${dt(r.created_at)}</small></p>${r.body?`<p>${esc(r.body)}</p>`:""}${r.owner_reply?`<p class="orep"><b>${t("uReply")}:</b> ${esc(r.owner_reply)}</p>`:""}</article>`).join("");
+}
+async function loadReviews(p){
+  try{const r=await fetch(SB.url+"/rest/v1/pv_public_reviews?select=*&venue_id=eq."+encodeURIComponent(p.id)+"&order=created_at.desc&limit=20",{headers:{apikey:SB.key,Authorization:"Bearer "+SB.key}});
+    if(!r.ok)return;REV[p.id]=await r.json();const u=document.getElementById("ulist");if(u&&cur&&cur.id===p.id)u.innerHTML=revHtml(p)}catch(e){}
+}
+/* Sân golf: danh sách + toạ độ đọc từ trang chủ courses.vncentre.net đã đăng (bảng site_courses, mục _index) */
+let COURSES=null,crsP=null;
+function loadCourses(){if(COURSES)return Promise.resolve();if(crsP)return crsP;
+  crsP=fetch(SB.url+"/rest/v1/site_courses?select=html&course_id=eq._index",{headers:{apikey:SB.key,Authorization:"Bearer "+SB.key}}).then(r=>r.ok?r.json():[]).then(r=>{
+    const h=(r[0]&&r[0].html)||"";COURSES=[];const seen=new Set();
+    for(const m of h.matchAll(/\{"s":[^{}]*\}/g)){try{const o=JSON.parse(m[0]);if(o.s&&o.a!=null&&o.o!=null&&!seen.has(o.s)){seen.add(o.s);COURSES.push({s:o.s,n:o.n||o.s,p:o.p||"",lat:+o.a,lng:+o.o})}}catch(e){}}
+  }).catch(()=>{COURSES=[]});return crsP}
+function crsHtml(p){
+  if(!COURSES)return `<div id="crsbox"></div>`;
+  const L=COURSES.map(c=>({...c,d:km(p,c)})).filter(c=>c.d<80).sort((a,b)=>a.d-b.d).slice(0,5);
+  if(!L.length)return `<div id="crsbox"></div>`;
+  return `<div id="crsbox"><h3 style="font-family:var(--serif);font-size:18px;margin:18px 0 0">${t("crsT")}</h3><p class="sub">${t("crsSub")}</p><div class="crsnear">${L.map(c=>`<a href="https://courses.vncentre.net/san/${encodeURIComponent(c.s)}/"><span><b>${esc(c.n)}</b><br><small>${esc(c.p)} · ${fmtD(c.d)}</small></span><small>${t("crsOpen")}</small></a>`).join("")}</div></div>`;
+}
+let cur=null,aroundTab="me";
+function openDetail(id){if(!cur)listY=window.scrollY;try{if(location.hash!=="#/"+id){location.hash="#/"+id;return}}catch(e){}showDetail(id)}
+let listY=0;
+function closeDetail(){try{if(location.hash)location.hash="";}catch(e){}hideDetail()}
+function hideDetail(){const was=!!cur;cur=null;document.body.classList.remove("detail");$("detail").hidden=true;if(was){document.title=(lang==="vi"?"Sân tập golf ":"Golf practice ")+CITYNAME[CITY][lang]+" · VN Centre";window.scrollTo(0,listY)}}
+function route(){let h="";try{h=location.hash}catch(e){}const m=h.match(/^#\/(.+)$/);if(m&&BYID[m[1]])showDetail(m[1]);else hideDetail()}
+window.addEventListener("hashchange",route);
+const gq=(q,p)=>`https://www.google.com/maps/search/${encodeURIComponent(q)}/@${p.lat},${p.lng},15z`;
+function miniMap(p,near){
+  const W2=340,H2=220,R=Math.max(1.2,...near.slice(0,6).map(n=>n.d))*1.15;const dl=R/111,dg=R/(111*Math.cos(p.lat*Math.PI/180));
+  const X=l=>(l-(p.lng-dg))/(2*dg)*W2,Y=l=>H2-(l-(p.lat-dl))/(2*dl)*H2;let s="";
+  for(const n of near.slice(0,12))s+=`<circle cx="${X(n.lng)}" cy="${Y(n.lat)}" r="5" fill="var(${TC[n.type]})" stroke="var(--surface)" stroke-width="1.2"><title>${esc(n.name)}</title></circle>`;
+  s+=`<circle cx="${X(p.lng)}" cy="${Y(p.lat)}" r="9" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.5"/>`;
+  if(me){const x=X(me.lng),y=Y(me.lat);if(x>0&&x<W2&&y>0&&y<H2)s+=`<circle cx="${x}" cy="${y}" r="6" fill="var(--me)" stroke="var(--surface)" stroke-width="2"/>`}
+  return `<svg viewBox="0 0 ${W2} ${H2}" role="img" aria-label="${esc(p.name)}">${s}</svg>`;
+}
+function showDetail(id){
+  const p=BYID[id];if(!p)return;cur=p;
+  const near=Object.values(BYID).filter(o=>o!==p).map(o=>({...o,d:km(p,o)})).filter(o=>o.d<12).sort((a,b)=>a.d-b.d);
+  const dist=me?km(me,p):null;
+  const svcHas=k=>k==="restroom"||k==="wifi"||k==="wheelchair"?p.svc.includes(k):hasSvc(p,k);
+  const r=p.rating?`<span class="stars">★ ${p.rating.toFixed(1)}</span><span>${p.reviews.toLocaleString(lang==="vi"?"vi-VN":"en-US")} ${t("reviews")}</span>`:"";
+  const tName=t("types."+p.type);const intro=p.intro||(lang==="vi"
+    ?`${esc(p.name)} là ${tName.charAt(0).toLowerCase()+tName.slice(1)} tại ${esc(p.address)} (${esc(p.district)}).${p.rating?` Điểm Google ${p.rating.toFixed(1)}/5 từ ${p.reviews} lượt đánh giá.`:""}${p.hours?` Giờ mở cửa: ${p.hours==="24h"?"24/24":esc(p.hours.replace("–","đến "))}.`:""}${p.machine?` Sử dụng hệ thống ${p.machine}.`:""}`
+    :`${esc(p.name)} is a ${tName.toLowerCase()} at ${esc(p.address)} (${esc(p.district)}).${p.rating?` Rated ${p.rating.toFixed(1)}/5 on Google from ${p.reviews} reviews.`:""}${p.hours?` Hours: ${p.hours==="24h"?"24/7":"until "+esc(p.hours.replace("–",""))}.`:""}${p.machine?` Uses ${p.machine} simulators.`:""}`);
+  const nav=[...(SB.url?["rate"]:[]),"intro","price","more","svc","equip","photos","video","news","around","booking"];
+  const fbU=p.fb||p.fbChain||"";const fbId=(fbU.match(/\/p\/.*-(\d+)\/?$/)||fbU.match(/id=(\d+)/)||[])[1];const vt=fbU?(fbId?"https://www.facebook.com/"+fbId+"/videos":fbU.replace(/\/$/,"")+"/videos"):"";
+  const vids=(p.videos||[]).map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener"><i>▶</i><span>${u.includes("/reel/")?"Reel "+(i+1):t("vidItem").replace("{i}",i+1)}<small>${t("vidOpen")}</small></span></a>`).join("");
+  const prices=(p.prices||t("priceRows")[p.type].map(n=>[n,"",""])).map(([n,a,b])=>`<tr><td>${esc(n)}</td><td class="v">${a||t("pend")}</td><td class="v">${b||t("pend")}</td></tr>`).join("");
+  const equip=t("equipRows")[p.type].map(([k,v],i)=>`<div><small>${esc(k)}</small><b>${i===0&&p.machine?p.machine:(v||t("pend"))}</b></div>`).join("");
+  const B=BRANDS[p.machine];const mInfo=B?`<div class="bbox"><b>${esc(p.machine)} · ${esc(lang==="vi"?B.origin:B.oEn)}</b><p>${esc(lang==="vi"?B.sum:B.sumEn)}</p><div>${mBtn(p.machine,t("brandBtn"))}</div></div>`:p.type==="3d"?`<div class="bbox"><p>${t("unkMachine")}</p><div><button class="mbtn" data-brand="*">${t("seeBrands")}</button></div></div>`:"";
+  const ph=["🏌","🎯","🖥","☕","🅿","🚪"];const phl=lang==="vi"?["Toàn cảnh","Khu phát bóng","Máy / màn hình","Khu nghỉ, cafe","Bãi đỗ xe","Lối vào"]:["Overview","Hitting bays","Simulator / screen","Lounge & café","Parking","Entrance"];
+  const qn=encodeURIComponent('"'+p.name.split(" (")[0]+'"');
+  const arts=(p.articles||[]).map(a=>`<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}<span>${esc(a.source||"")}</span></a>`).join("");
+  const D=$("detail");
+  D.innerHTML=`
+  <div class="dback"><button class="btn sm" id="dclose">${t("back")}</button><span>${esc(CITYNAME[p.city][lang])} › ${esc(p.district)}</span></div>
+  <div class="dhero">
+    <div class="badges"><span class="gold">${tName}</span><span>${esc(p.district)}</span>${p.machine?mBtn(p.machine):""}${p.checked?`<span class="gold">✓ ${t("checked")}</span>`:""}${p.residents?`<span>${t("residents")}</span>`:""}${dist!=null?`<span>${fmtD(dist)}</span>`:""}</div>
+    <h1>${esc(p.name)}</h1>
+    <div class="line">${r}<span>📍 ${esc(p.address)}</span>${p.hours?`<span>🕘 ${esc(fmtH(p.hours))}</span>`:""}</div>
+    <div class="acts">
+      <a class="btn primary" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">➜ ${t("dir")}</a>
+      ${p.phone?`<a class="btn" href="tel:${p.phone}">☎ ${fmtPhone(p.phone)}</a>`:""}
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name)}%20${p.lat},${p.lng}">${t("maps")}</a>
+      ${p.web?`<a class="btn" target="_blank" rel="noopener" href="${esc(p.web)}">${t("web")}</a>`:""}
+      ${p.fb?`<a class="btn fb" target="_blank" rel="noopener" href="${esc(p.fb)}">f ${t("fb")}</a>`:p.fbChain?`<a class="btn fb chain" target="_blank" rel="noopener" href="${esc(p.fbChain)}">f ${esc(p.fbChainName)}</a>`:""}
+      <button class="btn" id="dshare">🔗 ${t("share")}</button>
+      <button class="btn" disabled title="${t("soon")}">📅 ${t("book")} · ${t("soon")}</button>
+    </div>
+  </div>
+  <nav class="dnav">${nav.map(k=>`<a href="#" data-go="s-${k}">${t("nav."+k)}</a>`).join("")}</nav>
+  <div class="dgrid">
+   <div>
+    ${SB.url?`<section class="panel dsec" id="s-rate"><h2>${t("nav.rate")}</h2>${rateHtml(p)}</section>`:""}
+    <section class="panel dsec" id="s-intro"><h2>${t("nav.intro")}</h2><p class="sub">${p.intro?"":t("introSub")}</p><p>${intro}</p></section>
+    <section class="panel dsec" id="s-price"><h2>${t("nav.price")}</h2><p class="sub">${t("priceSub")}</p>${hlOf(p)?`<p class="hl big">“${esc(hlOf(p))}”</p>`:""}${priceDetailHtml(p)||`${p.prices?"":`<span class="pending">● ${t("pend")}</span>`}
+      <table class="price"><thead><tr><th>${t("colItem")}</th><th>${t("colWeek")}</th><th>${t("colWkd")}</th></tr></thead><tbody>${prices}</tbody></table>`}</section>
+    <section class="panel dsec" id="s-more"><h2>${t("moreT")}</h2><p class="sub">${t("moreSub")}</p>${moreHtml(p)}</section>
+    <section class="panel dsec" id="s-svc"><h2>${t("nav.svc")}</h2><p class="sub">${t("svcSub")}</p>
+      <div class="svcgrid">${t("svcList").map(([ic,l,k])=>`<div class="${svcHas(k)?"":"off"}"><b>${ic}</b>${esc(l)}</div>`).join("")}</div></section>
+    <section class="panel dsec" id="s-equip"><h2>${t("nav.equip")}</h2><p class="sub">${t("equipSub")}</p>${mInfo}<div class="spec">${equip}</div></section>
+    <section class="panel dsec" id="s-photos"><h2>${t("nav.photos")}</h2><p class="sub">${t((PHOTOS[p.id]||[]).length?"photosLive":"photosSub")}</p>
+      <div class="gallery">${(PHOTOS[p.id]||[]).length?PHOTOS[p.id].slice(0,9).map(x=>`<a href="${purl(x)}" target="_blank" rel="noopener"><img loading="lazy" src="${purl(x)}" alt="${esc(p.name)}"></a>`).join(""):ph.map((ic,i)=>`<div><span><b>${ic}</b>${phl[i]}</span></div>`).join("")}</div>${SB.url?`<p style="margin-top:10px"><a class="btn sm" href="${APP}/venues/${p.id}/photos">📷 ${t("cPhoto")}</a></p>`:""}</section>
+    <section class="panel dsec" id="s-video"><h2>${t("nav.video")}</h2><p class="sub">${t(EMBED&&p.videos?"vidSubE":"vidSub")}</p>
+      ${p.videos&&EMBED?`<div class="vembed">${p.videos.map(u=>{const r=u.includes("/reel/");return `<figure class="vitem"><div class="vf${r?" reel":""}"><iframe loading="lazy" src="${esc(fbPlug(u,r?320:560))}" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen title="Facebook video"></iframe></div><a class="vlink" href="${esc(u)}" target="_blank" rel="noopener">${r?"Reel":"Video"} · ${t("vidOpen")}</a></figure>`}).join("")}</div>`:vids?`<div class="videos">${vids}</div>`:`<span class="pending">● ${t("vidNone")}</span>`}
+      ${vids&&!EMBED?`<p class="embnote">${t("embedNote")}</p>`:""}
+      ${vt?`<div class="articles" style="margin-top:10px"><a href="${esc(vt)}" target="_blank" rel="noopener">🎬 ${t("vidTab")}<span>Facebook ›</span></a></div>`:""}
+      ${!p.fb&&p.fbChain?`<p class="fbnote">${t("fbChainNote").replace("{c}",esc(p.fbChainName))}</p>`:""}</section>
+    <section class="panel dsec" id="s-news"><h2>${t("nav.news")}</h2><p class="sub">${t("newsSub")}</p>
+      <div class="articles">${arts||`<span class="pending">● ${t("newsNone")}</span>`}
+        <a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=nws&q=${qn}">📰 ${t("gNews")}<span>Google News ›</span></a>
+        <a target="_blank" rel="noopener" href="https://www.google.com/search?q=${qn}+review">⭐ ${t("gWeb")}<span>Google ›</span></a>
+        <a target="_blank" rel="noopener" href="https://www.facebook.com/search/top?q=${qn}">💬 ${t("fbSearch")}<span>Facebook ›</span></a></div></section>
+    <section class="panel dsec" id="s-around"><h2>${t("nav.around")}</h2>${aroundHtml(p)}
+      ${near.length?`<h3 style="font-family:var(--serif);font-size:18px;margin:18px 0 0">${t("golfNear")}</h3><div class="golfnear">${near.slice(0,6).map(n=>`<button data-id="${n.id}"><span><b>${esc(n.name)}</b><br><small>${t("types."+n.type)} · ${esc(n.district)}</small></span><small>${fmtD(n.d)} ›</small></button>`).join("")}</div>`:""}${SB.url?crsHtml(p):""}</section>
+   </div>
+   <aside class="dside">
+    <div class="panel facts"><h3>${t("facts")}</h3>
+      <div class="minimap">${miniMap(p,near)}</div>
+      <dl><dt>${t("fType")}</dt><dd>${tName}</dd><dt>${t("fArea")}</dt><dd>${esc(p.district)}</dd><dt>${t("fAddr")}</dt><dd>${esc(p.address)}</dd>
+      <dt>${t("fPhone")}</dt><dd>${p.phone?`<a href="tel:${p.phone}">${fmtPhone(p.phone)}</a>`:t("pend")}</dd>
+      <dt>${t("fHours")}</dt><dd>${p.hours?esc(fmtH(p.hours)):t("pend")}</dd>
+      ${fbU?`<dt>${t("fFb")}</dt><dd><a href="${esc(fbU)}" target="_blank" rel="noopener">${esc(p.fb?decodeURIComponent(fbU.replace(/^https:\/\/www\.facebook\.com\//,"fb.com/").replace(/\/$/,"")).slice(0,38):p.fbChainName)}</a></dd>`:""}
+      ${p.web?`<dt>${t("fWeb")}</dt><dd><a href="${esc(p.web)}" target="_blank" rel="noopener">${esc(p.web.replace(/^https?:\/\//,"").replace(/\/$/,"").slice(0,40))}</a></dd>`:""}
+      <dt>${t("fCoord")}</dt><dd>${p.lat.toFixed(5)}, ${p.lng.toFixed(5)}</dd><dt>${t("fUpd")}</dt><dd>${p.upd?new Date(p.upd).toLocaleDateString(lang==="vi"?"vi-VN":"en-GB"):"23/11/2026"}${p.ownerUpd?`<br><span class="ownb">${t("ownerUpd")} · ${new Date(p.ownerUpd).toLocaleDateString(lang==="vi"?"vi-VN":"en-GB")}</span>`:""}</dd></dl></div>
+    ${SB.url?`<div class="panel contrib"><h3>${t("contrib")}</h3><p>${t("contribSub")}</p><div class="cb"><a class="pri" href="${APP}/venues/${p.id}/suggest">${t("cSuggest")}</a><a href="${APP}/venues/${p.id}/photos">${t("cPhoto")}</a><a href="${APP}/venues/${p.id}/claim">${t("cClaim")}</a></div></div>`:""}
+    ${fbU&&EMBED?`<div class="panel fbbox"><h3>${t("fbBox")}</h3><div class="fw"><iframe loading="lazy" src="https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(fbU)}&tabs=timeline&width=500&height=520&small_header=true&adapt_container_width=true&hide_cover=false" allow="clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook page"></iframe></div></div>`:""}
+    <div class="panel book" id="s-booking"><h3>📅 ${t("bookTitle")} <span class="pending" style="margin:0 0 0 6px">${t("soon")}</span></h3><p>${t("bookText")}</p>
+      <div class="row"><label><span class="sr">${t("bookDate")}</span><input type="date" disabled></label><label><span class="sr">${t("bookTime")}</span><input type="time" disabled></label></div>
+      <label><span class="sr">${t("bookPeople")}</span><select disabled><option>${t("bookPeople")}: 1–4</option></select></label>
+      <button class="btn" disabled>${t("bookBtn")}</button>
+      <a class="btn primary" href="https://zalo.me/0835701111" target="_blank" rel="noopener">${t("zalo")}</a></div>
+   </aside>
+  </div>`;
+  fillAround(p);
+  $("dclose").onclick=closeDetail;
+  $("dshare").onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast(t("linkCopied"))).catch(()=>toast(u))};
+  D.querySelectorAll(".dnav a").forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.go)?.scrollIntoView({behavior:"smooth",block:"start"})});
+  D.querySelectorAll(".golfnear button").forEach(b=>b.onclick=()=>openDetail(b.dataset.id));
+  if(SB.url)loadReviews(p);
+  if(SB.url)loadCourses().then(()=>{const b=document.getElementById("crsbox");if(b&&cur&&cur.id===p.id)b.outerHTML=crsHtml(p)});
+  document.body.classList.add("detail");D.hidden=false;window.scrollTo(0,0);
+  document.title=p.name+" · VN Centre";
+}
+document.body.dataset.view="list";syncView();loadLeaflet();renderStatic();if(st.q)$("q").value=st.q;update();route();loadLive();if(WANT_GPS)setTimeout(()=>$("gps").click(),0);
+</script>
