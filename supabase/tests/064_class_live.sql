@@ -81,7 +81,7 @@ begin
     raise exception 'FAIL: bảng điểm %', st;
   end if;
   if jsonb_array_length(b -> 'topics') < 1 then raise exception 'FAIL: giáo án %', b -> 'topics'; end if;
-  if b -> 'steps' <> '[5, 10, 20, 30, 40, 50]'::jsonb then raise exception 'FAIL: mức điểm %', b -> 'steps'; end if;
+  if b -> 'steps' <> '[1, 5, 10, 20, 30, 40, 50]'::jsonb then raise exception 'FAIL: mức điểm %', b -> 'steps'; end if;
   if (b -> 'session' ->> 'session_no')::int <> 10 or b -> 'session' ->> 'topic' <> 'Pitching + Luật golf' then raise exception 'FAIL: buổi %', b -> 'session'; end if;
 
   r := public.class_live_history(class_x, s1);
@@ -108,6 +108,36 @@ begin
     jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', 50),
     jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', 5)));
   if (r ->> 'applied')::int <> 4 or r -> 'skipped' -> 0 ->> 'reason' <> 'session_cap' then raise exception 'FAIL: trần CLB %', r; end if;
+
+  -- Trừ điểm (phạt): đúng một mức, lý do 'penalty'; cộng không được gắn lý do trừ; không xuống dưới 0
+  r := public.class_live_sync(jsonb_build_array(
+    jsonb_build_object('op', 'points', 'id', op1 /* đã có */, 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 20, 'tag', 'rules'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -5, 'tag', 'penalty'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', 5, 'tag', 'penalty'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -5, 'tag', 'rules'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -1),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -50, 'tag', 'penalty'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -50, 'tag', 'penalty'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -50, 'tag', 'penalty'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -50, 'tag', 'penalty')));
+  -- s2: 200 → −5 → 195 → −1 → 194 → −50 ×3 → 44 → −50 bị chặn (below_zero)
+  if (r ->> 'applied')::int <> 6 or (select count(*) from jsonb_array_elements(r -> 'skipped') x where x ->> 'reason' = 'invalid_tag') <> 2
+     or (select count(*) from jsonb_array_elements(r -> 'skipped') x where x ->> 'reason' = 'below_zero') <> 1 then
+    raise exception 'FAIL: trừ điểm %', r;
+  end if;
+  select x into st from jsonb_array_elements(public.class_live_board(class_x, d) -> 'students') x where (x ->> 'id')::uuid = s2;
+  if (st ->> 'today')::int <> 44 then raise exception 'FAIL: điểm sau trừ %', st; end if;
+  execute 'reset role';
+  if not exists (select 1 from public.reward_ledger where student_id = s2 and delta = -5 and note = 'Trừ điểm')
+     or not exists (select 1 from public.reward_ledger where student_id = s2 and delta = -1 and note = 'Sửa nhầm') then
+    raise exception 'FAIL: nhãn trừ điểm / sửa nhầm';
+  end if;
+  execute 'set local role authenticated';
+
+  -- Đánh số buổi: buổi hôm nay là Buổi 10 → ngày mai là Buổi 11 (không phải số buổi + 1 = 2)
+  if (public.class_live_board(class_x, d + 1) ->> 'next_session_no')::int <> 11 then
+    raise exception 'FAIL: số buổi tiếp theo %', public.class_live_board(class_x, d + 1) ->> 'next_session_no';
+  end if;
 
   -- Lớp trường công lập (GDTC trường công): có mặt +5, trần 20
   execute 'reset role';
