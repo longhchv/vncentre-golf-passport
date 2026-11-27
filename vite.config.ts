@@ -10,11 +10,20 @@ import pkg from './package.json' with { type: 'json' }
 const commit = (process.env.WORKERS_CI_COMMIT_SHA ?? process.env.CF_PAGES_COMMIT_SHA)?.slice(0, 7)
 const appVersion = commit ? `${pkg.version}+${commit}` : pkg.version
 
+// /version.json: app so với phiên bản đang chạy để tự tải bản mới (src/lib/appUpdate.ts). Không nằm trong bộ nhớ đệm PWA.
+const versionFile = {
+  name: 'version-json',
+  generateBundle(this: { emitFile: (f: { type: 'asset'; fileName: string; source: string }) => void }) {
+    this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ version: appVersion }) })
+  },
+}
+
 export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(appVersion),
   },
   plugins: [
+    versionFile,
     react(),
     tailwindcss(),
     VitePWA({
