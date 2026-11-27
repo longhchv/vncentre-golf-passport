@@ -11,6 +11,34 @@ export function useLocalized() {
   }
 }
 
+/** Ngôn ngữ nội dung đang dùng: 'en' hoặc 'vi'. */
+export function useLang(): 'vi' | 'en' {
+  const { i18n } = useTranslation()
+  return i18n.language === 'en' ? 'en' : 'vi'
+}
+
+/**
+ * Dữ liệu nội dung song ngữ: khi đang ở tiếng Anh, thay các trường `${f}_vi` bằng `${f}_en` (bản dịch trống thì giữ tiếng Việt),
+ * mảng `${f}` bằng `${f}_en`, và nhãn từng phần thẻ (parts[].label_vi) bằng label_en. Dùng ngay khi tải dữ liệu.
+ */
+export function pickLang<T extends object>(row: T, lang: string, fields: string[], lists: string[] = []): T {
+  if (lang !== 'en' || !row) return row
+  const r = { ...(row as Record<string, unknown>) }
+  for (const f of fields) {
+    const en = r[`${f}_en`]
+    if (typeof en === 'string' && en.trim()) r[`${f}_vi`] = en
+  }
+  for (const f of lists) {
+    const en = r[`${f}_en`]
+    if (Array.isArray(en) && en.length > 0) r[f] = en
+  }
+  if (Array.isArray(r.parts)) {
+    r.parts = (r.parts as Record<string, unknown>[]).map((p) =>
+      typeof p.label_en === 'string' && p.label_en.trim() ? { ...p, label_vi: p.label_en } : p)
+  }
+  return r as T
+}
+
 export function formatDateTime(iso: string, lang: string) {
   // Hiển thị theo giờ Việt Nam (01 mục 1)
   return new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'vi-VN', {

@@ -50,8 +50,10 @@ export interface AgeLimit {
   session_max_min: number
   rest_days: number
   sleep_vi: string | null
+  sleep_en?: string | null
   coach_week_max: number | null
   note_vi: string | null
+  note_en?: string | null
   sort_order: number
 }
 

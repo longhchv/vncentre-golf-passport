@@ -16,6 +16,7 @@ import { ComingSoon } from '@/components/ComingSoon'
 import { useAuth } from '@/auth/AuthProvider'
 import { useMyChildren } from '@/features/parent/ParentHomePage'
 import { errorMessage } from '@/lib/db'
+import { pickLang, useLang } from '@/lib/i18nField'
 import { useSetting } from '@/lib/settings'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -90,18 +91,19 @@ function useStudent(studentId: string) {
 }
 
 export function useChallenges() {
+  const lang = useLang()
   return useQuery({
-    queryKey: ['training_challenges'],
+    queryKey: ['training_challenges', lang],
     staleTime: 30 * 60_000,
     queryFn: async () => {
       const { data, error } = await db()
         .from('training_challenges')
-        .select('id, level_number, program_code, code, kind, area, title_vi, title_en, how_vi, parts, verify, points_rank, points_reward, is_provisional, sort_order')
+        .select('id, level_number, program_code, code, kind, area, title_vi, title_en, how_vi, how_en, parts, verify, points_rank, points_reward, is_provisional, sort_order')
         .eq('is_active', true)
         .order('level_number')
         .order('sort_order')
       if (error) throw error
-      return data as Challenge[]
+      return (data as Challenge[]).map((c) => pickLang(c, lang, ['title', 'how']))
     },
   })
 }
@@ -580,17 +582,18 @@ function Library({ back }: { back: string }) {
   const [skill, setSkill] = useState<string>('')
   const [homeOnly, setHomeOnly] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
+  const lang = useLang()
   const q = useQuery({
-    queryKey: ['training_drills'],
+    queryKey: ['training_drills', lang],
     staleTime: 30 * 60_000,
     queryFn: async () => {
       const { data, error } = await db()
         .from('training_drills')
-        .select('id, code, title_vi, skill, form, contexts, minutes, attempts, target, unit_vi, goal_vi, steps, easier_vi, harder_vi, safety_vi, video_url, level_from, level_to')
+        .select('id, code, title_vi, title_en, skill, form, contexts, minutes, attempts, target, unit_vi, unit_en, goal_vi, goal_en, steps, steps_en, easier_vi, easier_en, harder_vi, harder_en, safety_vi, safety_en, video_url, level_from, level_to')
         .eq('is_active', true)
         .order('sort_order')
       if (error) throw error
-      return data as Drill[]
+      return (data as Drill[]).map((d) => pickLang(d, lang, ['title', 'unit', 'goal', 'easier', 'harder', 'safety'], ['steps']))
     },
   })
   const list = (q.data ?? []).filter((d) => (!skill || d.skill === skill) && (!homeOnly || d.contexts.includes('home')))
@@ -720,12 +723,13 @@ function CoachProgress({ classId }: { classId: string }) {
 function CoachPending({ classId }: { classId: string }) {
   const { t } = useTranslation()
   const toast = useToast()
+  const lang = useLang()
   const q = useQuery({
-    queryKey: ['training_coach_pending', classId],
+    queryKey: ['training_coach_pending', classId, lang],
     queryFn: async () => {
       const { data, error } = await db().rpc('training_class_pending', { p_class_id: classId })
       if (error) throw error
-      return data as PendingRow[]
+      return (data as PendingRow[]).map((r) => pickLang(r, lang, ['title']))
     },
   })
   const review = useJrRpc<{ p_result_id: string; p_approve: boolean; p_note: string | null }>('training_review_result')

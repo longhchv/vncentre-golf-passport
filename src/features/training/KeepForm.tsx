@@ -334,7 +334,7 @@ function KeepForm({ studentId, base }: { studentId: string; base: string }) {
             <ul className="space-y-1 text-sm">
               {d.checks.map((c) => (
                 <li key={c.id} className="flex justify-between gap-2">
-                  <span>{c.checked_on.slice(8)}/{c.checked_on.slice(5, 7)}/{c.checked_on.slice(0, 4)} · {c.test_putt + c.test_chip + c.test_long}/15{c.nine_to_par != null ? ` · 9 hố ${c.nine_to_par >= 0 ? '+' : ''}${c.nine_to_par}` : ''}</span>
+                  <span>{c.checked_on.slice(8)}/{c.checked_on.slice(5, 7)}/{c.checked_on.slice(0, 4)} · {c.test_putt + c.test_chip + c.test_long}/15{c.nine_to_par != null ? ` · ${t('training.keep.nineHoles', { n: `${c.nine_to_par >= 0 ? '+' : ''}${c.nine_to_par}` })}` : ''}</span>
                   <Badge tone={c.result === 'up' ? 'good' : c.result === 'down' ? 'bad' : 'neutral'}>{t(`training.keep.result.${c.result}`)}</Badge>
                 </li>
               ))}
@@ -384,7 +384,7 @@ function KeepForm({ studentId, base }: { studentId: string; base: string }) {
         </div>
       </Dialog>
 
-      {limit && <p className="text-xs text-navy/50">{t('training.keep.limitNote', { rest: limit.rest_days, sleep: limit.sleep_vi ?? '' })}</p>}
+      {limit && <p className="text-xs text-navy/50">{t('training.keep.limitNote', { rest: limit.rest_days, sleep: loc(limit, 'sleep') })}</p>}
       <FeedbackButton studentId={studentId} />
     </div>
   )
