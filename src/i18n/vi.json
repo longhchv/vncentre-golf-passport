@@ -4705,5 +4705,126 @@
         "photoType": "Không đọc được ảnh. Dùng JPG, PNG hoặc WebP."
       }
     }
+  },
+  "classLive": {
+    "open": "Vào lớp – chấm điểm",
+    "openHint": "Chấm điểm, điểm danh, nhận xét ngay trong buổi. Mất mạng vẫn chấm được.",
+    "loadFailed": "Chưa tải được lớp. Kiểm tra mạng hoặc quyền HLV của lớp này.",
+    "empty": "Lớp chưa có bạn nào. Tạo hồ sơ cho các bạn ngay trên điện thoại.",
+    "needOnline": "Việc này cần có mạng. Điểm chấm vẫn được lưu trên máy.",
+    "fix": "Trừ 1 điểm (sửa nhầm)",
+    "fixShort": "sửa nhầm",
+    "mode": {
+      "one": "Chấm từng bạn",
+      "team": "Chấm cả đội"
+    },
+    "card": {
+      "today": "điểm hôm nay",
+      "total": "tổng",
+      "available": "đổi quà"
+    },
+    "sync": {
+      "saved": "Đã lưu",
+      "pending": "Chờ gửi {{count}}",
+      "skipped": "Có {{count}} lần chấm không ghi được (ngoài lớp hoặc quá hạn)."
+    },
+    "tag": {
+      "game": "Hoàn thành trò chơi",
+      "rules": "Đúng luật golf",
+      "listen": "Nghe hiệu lệnh",
+      "fair_play": "Fair play – bị trêu không đáp trả",
+      "team_win": "Đội thắng"
+    },
+    "team": {
+      "picked": "Đã chọn {{count}} bạn",
+      "all": "Chọn cả lớp",
+      "none": "Bỏ chọn"
+    },
+    "session": {
+      "no": "Buổi {{no}}",
+      "addTopic": "Chạm để ghi chủ đề bài học",
+      "title": "Buổi học hôm nay",
+      "number": "Buổi số",
+      "topic": "Chủ đề bài học",
+      "topicHint": "Ví dụ: Pitching + Luật golf",
+      "reuse": "Dùng lại chủ đề buổi trước: {{topic}}"
+    },
+    "sheet": {
+      "line": "Hôm nay {{today}} · Tổng {{total}} · Đổi quà {{available}}",
+      "tab": {
+        "comment": "Nhận xét",
+        "profile": "Hồ sơ",
+        "history": "Lịch sử"
+      }
+    },
+    "attendance": {
+      "title": "Chuyên cần",
+      "present": "Có mặt",
+      "late": "Vào muộn",
+      "absent": "Vắng",
+      "leave": "Số lần rời hoạt động",
+      "allPresent": "Điểm danh: {{count}} bạn có mặt"
+    },
+    "comment": {
+      "title": "Nhận xét nhanh",
+      "tag": {
+        "focused": "Tập trung tốt",
+        "needs_reminder": "Cần nhắc nhở",
+        "tech_progress": "Tiến bộ kỹ thuật",
+        "fair_play": "Fair play"
+      },
+      "notePlaceholder": "Ghi chú ngắn (hoặc bấm micro để nói)",
+      "mic": "Nói để ghi chú",
+      "micFailed": "Không nghe được. Thử lại hoặc gõ ghi chú.",
+      "saveNote": "Lưu ghi chú"
+    },
+    "opening": {
+      "title": "Điểm khởi đầu",
+      "hint": "Tổng điểm đã ghi trên giấy từ các buổi trước. Tổng điểm = điểm khởi đầu + các buổi trên app.",
+      "saved": "Đã lưu điểm khởi đầu"
+    },
+    "profile": {
+      "code": "Mã Golf Passport",
+      "edit": "Sửa",
+      "linkTitle": "Liên kết phụ huynh",
+      "linkHint": "Phụ huynh quét mã QR hoặc nhập mã này trong app Golf Passport để xem điểm và nhận xét của con.",
+      "linked": "Phụ huynh đã liên kết hồ sơ."
+    },
+    "history": {
+      "summary": "Điểm khởi đầu {{opening}} · Tổng {{total}} · Đổi quà {{available}}",
+      "empty": "Chưa có buổi nào trên app.",
+      "noReason": "Không ghi lý do",
+      "leave": "Rời hoạt động {{count}} lần"
+    },
+    "add": {
+      "button": "Thêm bạn mới",
+      "title": "Tạo hồ sơ học viên",
+      "editTitle": "Sửa hồ sơ",
+      "name": "Họ và tên",
+      "dob": "Ngày sinh (không bắt buộc)",
+      "photo": "Chọn ảnh",
+      "photoHint": "Ảnh (không bắt buộc). Chạm vào ô tròn để chụp hoặc chọn ảnh.",
+      "removePhoto": "Bỏ ảnh",
+      "codeHint": "Mã Golf Passport tự sinh. Phụ huynh liên kết sau bằng mã hoặc QR trong mục Hồ sơ.",
+      "save": "Tạo hồ sơ",
+      "saveAndNext": "Tạo và thêm bạn tiếp theo",
+      "created": "Đã tạo hồ sơ {{name}} · {{code}}",
+      "updated": "Đã lưu hồ sơ"
+    },
+    "errors": {
+      "name_required": "Nhập họ và tên (ít nhất 2 ký tự).",
+      "duplicate_in_class": "Lớp đã có bạn trùng tên này.",
+      "invalid_dob": "Ngày sinh chưa đúng.",
+      "invalid_photo": "Ảnh không dùng được. Chọn ảnh khác.",
+      "forbidden": "Bạn không có quyền HLV ở lớp này.",
+      "points_out_of_range": "Điểm khởi đầu từ 0 đến 100.000."
+    },
+    "tagShort": {
+      "game": "Trò chơi",
+      "rules": "Luật golf",
+      "listen": "Hiệu lệnh",
+      "fair_play": "Fair play",
+      "team_win": "Đội thắng"
+    }
   }
 }
