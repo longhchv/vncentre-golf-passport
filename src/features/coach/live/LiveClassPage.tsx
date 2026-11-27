@@ -1,0 +1,1023 @@
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { Link, useParams } from 'react-router'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import QRCode from 'qrcode'
+import {
+  ArrowLeft,
+  Camera,
+  Check,
+  CheckCheck,
+  CloudOff,
+  Loader2,
+  Mic,
+  MicOff,
+  Minus,
+  Pencil,
+  Plus,
+  UserPlus,
+  Users,
+  X,
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { formatDate } from '@/lib/i18nField'
+import { compressImage } from '@/lib/compressImage'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Dialog } from '@/components/ui/dialog'
+import { Field, FormError, Input, Textarea } from '@/components/ui/form'
+import { useToast } from '@/components/ui/toast'
+import { callRpc } from '@/features/partners/shared'
+import { buzz, burstAt, playScore } from './effects'
+import {
+  COMMENT_TAGS,
+  POINT_TAGS,
+  applyPending,
+  loadCachedBoard,
+  loadQueue,
+  newId,
+  rollToDate,
+  saveCachedBoard,
+  saveQueue,
+  vnToday,
+  type Attendance,
+  type CommentTag,
+  type LiveBoard,
+  type LiveOp,
+  type LiveStudent,
+  type PointTag,
+} from './queue'
+
+// Lớp học trực tiếp (yêu cầu 27/11/2026, việc 1, 2, 3, 5): HLV dùng một điện thoại, một tay, ngoài sân.
+// Màn hình không hiện logo (dùng được trong trường Vinschool). Mất mạng vẫn chấm được: thao tác nằm trong hàng đợi
+// trên máy và tự gửi khi có mạng lại.
+
+type SyncState = 'idle' | 'syncing' | 'offline' | 'error'
+interface SyncResult {
+  applied: number
+  skipped: { index: number; reason: string }[]
+}
+
+const ERRORS = ['name_required', 'duplicate_in_class', 'invalid_dob', 'invalid_photo', 'forbidden', 'points_out_of_range']
+function errorKey(e: unknown) {
+  const msg = (e as { message?: string } | null)?.message ?? ''
+  return ERRORS.includes(msg) ? `classLive.errors.${msg}` : 'errors.generic'
+}
+
+/** Hàng đợi thao tác: lưu trên máy, gửi ngay khi có mạng, gửi lại khi mạng về hoặc mỗi 10 giây. */
+function useLiveQueue(onSynced: () => Promise<unknown>) {
+  const { t } = useTranslation()
+  const toast = useToast()
+  const [ops, setOps] = useState<LiveOp[]>(loadQueue)
+  const [state, setState] = useState<SyncState>('idle')
+  const opsRef = useRef(ops)
+  const busy = useRef(false)
+  const syncedRef = useRef(onSynced)
+  syncedRef.current = onSynced
+
+  const persist = useCallback((next: LiveOp[]) => {
+    opsRef.current = next
+    saveQueue(next)
+    setOps(next)
+  }, [])
+
+  const flush = useCallback(async () => {
+    if (busy.current || opsRef.current.length === 0) return
+    if (!navigator.onLine) {
+      setState('offline')
+      return
+    }
+    busy.current = true
+    setState('syncing')
+    const batch = opsRef.current.slice(0, 200)
+    let ok = false
+    try {
+      const res = await callRpc<SyncResult>('class_live_sync', { p_ops: batch })
+      // Lấy lại bảng điểm trước khi bỏ các thao tác đã gửi → số trên thẻ không nhảy lùi
+      await syncedRef.current().catch(() => undefined)
+      const sent = new Set(batch.map((o) => o.id))
+      persist(opsRef.current.filter((o) => !sent.has(o.id)))
+      if (res.skipped.length > 0) toast(t('classLive.sync.skipped', { count: res.skipped.length }), 'error')
+      setState('idle')
+      ok = true
+    } catch {
+      setState(navigator.onLine ? 'error' : 'offline')
+    } finally {
+      busy.current = false
+    }
+    if (ok && opsRef.current.length > 0) void flush()
+  }, [persist, t, toast])
+
+  const enqueue = useCallback(
+    (items: LiveOp | LiveOp[]) => {
+      persist([...opsRef.current, ...(Array.isArray(items) ? items : [items])])
+      void flush()
+    },
+    [flush, persist],
+  )
+
+  useEffect(() => {
+    const retry = () => void flush()
+    window.addEventListener('online', retry)
+    document.addEventListener('visibilitychange', retry)
+    const timer = window.setInterval(retry, 10_000)
+    void flush()
+    return () => {
+      window.removeEventListener('online', retry)
+      document.removeEventListener('visibilitychange', retry)
+      window.clearInterval(timer)
+    }
+  }, [flush])
+
+  return { ops, state, enqueue, flush }
+}
+
+const AVATAR_COLORS = ['bg-gold/40', 'bg-sky-200', 'bg-emerald-200', 'bg-rose-200', 'bg-violet-200', 'bg-amber-200']
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/)
+  return (parts.length > 1 ? parts[parts.length - 2][0] + parts[parts.length - 1][0] : parts[0].slice(0, 2)).toUpperCase()
+}
+
+function Avatar({ s, size = 'h-16 w-16 text-xl' }: { s: Pick<LiveStudent, 'id' | 'full_name' | 'avatar_url'>; size?: string }) {
+  if (s.avatar_url) return <img src={s.avatar_url} alt="" className={cn('shrink-0 rounded-full object-cover', size)} />
+  const color = AVATAR_COLORS[[...s.id].reduce((a, c) => a + c.charCodeAt(0), 0) % AVATAR_COLORS.length]
+  return (
+    <span className={cn('flex shrink-0 items-center justify-center rounded-full font-bold text-navy', color, size)}>
+      {initials(s.full_name)}
+    </span>
+  )
+}
+
+/** Tên gọi trên thẻ: tên riêng (chữ cuối), đủ to để các con nhìn thấy. */
+function shortName(full: string) {
+  const parts = full.trim().split(/\s+/)
+  return parts.length > 1 ? parts.slice(-2).join(' ') : full
+}
+
+export function LiveClassPage() {
+  const { classId = '' } = useParams()
+  const { t, i18n } = useTranslation()
+  const qc = useQueryClient()
+  const today = vnToday()
+  const [cached] = useState(() => loadCachedBoard(classId))
+
+  const board = useQuery({
+    queryKey: ['live-board', classId, today],
+    queryFn: () => callRpc<LiveBoard>('class_live_board', { p_class_id: classId, p_date: today }),
+    initialData: cached ? rollToDate(cached, today) : undefined,
+    initialDataUpdatedAt: 0,
+    refetchInterval: 60_000,
+  })
+  useEffect(() => {
+    if (board.data && board.isFetchedAfterMount) saveCachedBoard(board.data)
+  }, [board.data, board.isFetchedAfterMount])
+
+  const refetch = useCallback(() => qc.refetchQueries({ queryKey: ['live-board', classId] }), [qc, classId])
+  const queue = useLiveQueue(refetch)
+  const view = useMemo(() => (board.data ? applyPending(board.data, queue.ops) : undefined), [board.data, queue.ops])
+
+  const [openId, setOpenId] = useState<string | null>(null)
+  const [team, setTeam] = useState(false)
+  const [picked, setPicked] = useState<Set<string>>(new Set())
+  const [tag, setTag] = useState<PointTag | null>(null)
+  const [adding, setAdding] = useState(false)
+  const [editingSession, setEditingSession] = useState(false)
+
+  const score = useCallback(
+    (ids: string[], delta: number) => {
+      if (!view) return
+      const ops: LiveOp[] = ids.map((sid) => ({
+        op: 'points',
+        id: newId(),
+        class_id: classId,
+        date: today,
+        student_id: sid,
+        delta,
+        tag: delta < 0 ? null : tag,
+      }))
+      queue.enqueue(ops)
+      playScore(delta)
+      buzz(delta > 0 ? 30 : 60)
+      ids.forEach((sid, i) => {
+        // Phần tử cuối cùng: thẻ trong bảng chấm, hoặc đầu bảng chấm của bạn đó khi đang mở
+        const els = document.querySelectorAll(`[data-sid="${sid}"]`)
+        window.setTimeout(() => burstAt(els[els.length - 1] ?? null, delta), i * 60)
+      })
+    },
+    [classId, queue, tag, today, view],
+  )
+
+  const mark = useCallback(
+    (sid: string, patch: Omit<Extract<LiveOp, { op: 'mark' }>, 'op' | 'id' | 'class_id' | 'date' | 'student_id'>) =>
+      queue.enqueue({ op: 'mark', id: newId(), class_id: classId, date: today, student_id: sid, ...patch }),
+    [classId, queue, today],
+  )
+
+  if (!view) {
+    if (board.isError) {
+      return (
+        <Shell>
+          <Card className="m-4 space-y-3 p-6 text-center">
+            <p className="font-semibold">{t('classLive.loadFailed')}</p>
+            <Link to="/coach" className="font-semibold text-bronze">
+              {t('coach.myClasses')}
+            </Link>
+          </Card>
+        </Shell>
+      )
+    }
+    return (
+      <Shell>
+        <p className="p-6 text-center text-navy/60">{t('common.loading')}</p>
+      </Shell>
+    )
+  }
+
+  const students = view.students
+  const open = students.find((s) => s.id === openId) ?? null
+  const sessionNo = view.session?.session_no ?? view.next_session_no
+  const unmarked = students.filter((s) => !s.attendance)
+
+  return (
+    <Shell>
+      <header className="sticky top-0 z-20 space-y-2 border-b border-navy/10 bg-cream/95 px-3 pt-2 pb-2 backdrop-blur" style={{ paddingTop: 'calc(0.5rem + env(safe-area-inset-top, 0px))' }}>
+        <div className="flex items-center gap-2">
+          <Link to={`/coach/classes/${classId}`} aria-label={t('common.back')} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-navy/5">
+            <ArrowLeft className="h-5 w-5" />
+          </Link>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-lg leading-tight font-bold">{view.class.name}</p>
+            <p className="text-sm text-navy/60">{formatDate(view.date, i18n.language)}</p>
+          </div>
+          <SyncPill state={queue.state} pending={queue.ops.length} onRetry={() => void queue.flush()} />
+        </div>
+        <button
+          type="button"
+          onClick={() => setEditingSession(true)}
+          className="flex min-h-11 w-full items-center gap-2 rounded-xl bg-white px-3 text-left ring-1 ring-navy/10"
+        >
+          <span className="font-semibold whitespace-nowrap">{t('classLive.session.no', { no: sessionNo })}</span>
+          <span className="min-w-0 flex-1 truncate text-navy/70">{view.session?.topic || t('classLive.session.addTopic')}</span>
+          <Pencil className="h-4 w-4 shrink-0 text-bronze" />
+        </button>
+        <div className="flex gap-2">
+          <button type="button" onClick={() => { setTeam(false); setPicked(new Set()) }} className={segClass(!team)}>
+            {t('classLive.mode.one')}
+          </button>
+          <button type="button" onClick={() => setTeam(true)} className={segClass(team)}>
+            <Users className="h-4 w-4" /> {t('classLive.mode.team')}
+          </button>
+        </div>
+      </header>
+
+      <main className={cn('px-3 pt-3', team ? 'pb-64' : 'pb-28')}>
+        {students.length === 0 ? (
+          <Card className="space-y-3 p-6 text-center">
+            <p>{t('classLive.empty')}</p>
+            <Button onClick={() => setAdding(true)}>
+              <UserPlus className="h-5 w-5" /> {t('classLive.add.button')}
+            </Button>
+          </Card>
+        ) : (
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {students.map((s) => (
+              <li key={s.id}>
+                <StudentCard
+                  s={s}
+                  selected={team && picked.has(s.id)}
+                  team={team}
+                  onTap={() => {
+                    if (!team) return setOpenId(s.id)
+                    setPicked((prev) => {
+                      const next = new Set(prev)
+                      if (next.has(s.id)) next.delete(s.id)
+                      else next.add(s.id)
+                      return next
+                    })
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button variant="outline" size="sm" onClick={() => setAdding(true)}>
+            <UserPlus className="h-4 w-4" /> {t('classLive.add.button')}
+          </Button>
+          {unmarked.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => unmarked.forEach((s) => mark(s.id, { attendance: 'present' }))}
+            >
+              <CheckCheck className="h-4 w-4" /> {t('classLive.attendance.allPresent', { count: unmarked.length })}
+            </Button>
+          )}
+        </div>
+      </main>
+
+      {team && (
+        <TeamBar
+          count={picked.size}
+          total={students.length}
+          tag={tag}
+          onTag={setTag}
+          onAll={() => setPicked(picked.size === students.length ? new Set() : new Set(students.map((s) => s.id)))}
+          onScore={(d) => picked.size > 0 && score([...picked], d)}
+        />
+      )}
+
+      {open && (
+        <StudentSheet
+          key={open.id}
+          s={open}
+          classId={classId}
+          tag={tag}
+          onTag={setTag}
+          onScore={(d) => score([open.id], d)}
+          onMark={(patch) => mark(open.id, patch)}
+          onClose={() => setOpenId(null)}
+          onChanged={refetch}
+        />
+      )}
+
+      <AddStudentDialog open={adding} classId={classId} onClose={() => setAdding(false)} onCreated={refetch} />
+      <SessionDialog
+        open={editingSession}
+        no={sessionNo}
+        topic={view.session?.topic ?? ''}
+        lastTopic={view.last_topic}
+        onClose={() => setEditingSession(false)}
+        onSave={(no, topic) => {
+          queue.enqueue({ op: 'topic', id: newId(), class_id: classId, date: today, session_no: no, topic })
+          setEditingSession(false)
+        }}
+      />
+    </Shell>
+  )
+}
+
+/** Khung toàn màn hình, không có thanh menu và logo của app. */
+function Shell({ children }: { children: ReactNode }) {
+  return <div className="min-h-dvh bg-cream text-navy select-none">{children}</div>
+}
+
+const segClass = (on: boolean) =>
+  cn(
+    'flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl text-sm font-semibold',
+    on ? 'bg-navy text-white' : 'bg-white text-navy/70 ring-1 ring-navy/15',
+  )
+
+function SyncPill({ state, pending, onRetry }: { state: SyncState; pending: number; onRetry: () => void }) {
+  const { t } = useTranslation()
+  if (pending === 0 && state !== 'offline') {
+    return (
+      <span className="flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800">
+        <Check className="h-3.5 w-3.5" /> {t('classLive.sync.saved')}
+      </span>
+    )
+  }
+  return (
+    <button
+      type="button"
+      onClick={onRetry}
+      className={cn(
+        'flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold',
+        state === 'syncing' ? 'bg-sky-100 text-sky-800' : 'bg-amber-100 text-amber-900',
+      )}
+    >
+      {state === 'syncing' ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CloudOff className="h-3.5 w-3.5" />}
+      {t('classLive.sync.pending', { count: pending })}
+    </button>
+  )
+}
+
+function StudentCard({ s, selected, team, onTap }: { s: LiveStudent; selected: boolean; team: boolean; onTap: () => void }) {
+  const { t } = useTranslation()
+  return (
+    <button
+      type="button"
+      data-sid={s.id}
+      onClick={onTap}
+      className={cn(
+        'relative flex w-full flex-col items-center gap-1 rounded-2xl border-2 bg-white px-2 pt-3 pb-2 text-center shadow-sm active:scale-[.98]',
+        selected ? 'border-bronze ring-4 ring-gold/40' : 'border-transparent',
+        s.attendance === 'absent' && 'opacity-55',
+      )}
+    >
+      {team && (
+        <span className={cn('absolute top-2 left-2 flex h-7 w-7 items-center justify-center rounded-full border-2', selected ? 'border-bronze bg-bronze text-white' : 'border-navy/25 bg-white')}>
+          {selected && <Check className="h-4 w-4" />}
+        </span>
+      )}
+      {s.attendance && s.attendance !== 'present' && (
+        <span className={cn('absolute top-2 right-2 rounded-full px-2 py-0.5 text-xs font-semibold', s.attendance === 'late' ? 'bg-amber-100 text-amber-900' : 'bg-navy/10 text-navy/70')}>
+          {t(`classLive.attendance.${s.attendance}`)}
+        </span>
+      )}
+      <Avatar s={s} />
+      <p className="line-clamp-1 w-full text-base font-bold">{shortName(s.full_name)}</p>
+      <p className="text-4xl leading-none font-extrabold text-bronze tabular-nums">{s.today}</p>
+      <p className="text-xs text-navy/50">{t('classLive.card.today')}</p>
+      <div className="mt-1 grid w-full grid-cols-2 gap-1 text-xs">
+        <span className="rounded-lg bg-navy/5 py-1">
+          <span className="block font-bold text-navy tabular-nums">{s.total}</span>
+          {t('classLive.card.total')}
+        </span>
+        <span className="rounded-lg bg-gold/20 py-1">
+          <span className="block font-bold text-navy tabular-nums">{s.available}</span>
+          {t('classLive.card.available')}
+        </span>
+      </div>
+    </button>
+  )
+}
+
+function TagChips({ tag, onTag }: { tag: PointTag | null; onTag: (t: PointTag | null) => void }) {
+  const { t } = useTranslation()
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {POINT_TAGS.map((k) => (
+        <button
+          key={k}
+          type="button"
+          onClick={() => onTag(tag === k ? null : k)}
+          className={cn(
+            'min-h-10 rounded-full px-3 text-sm font-semibold whitespace-nowrap',
+            tag === k ? 'bg-navy text-white' : 'bg-white text-navy ring-1 ring-navy/15',
+          )}
+        >
+          {t(`classLive.tagShort.${k}`)}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function ScoreButtons({ onScore, disabled }: { onScore: (d: number) => void; disabled?: boolean }) {
+  const { t } = useTranslation()
+  return (
+    <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2">
+      {[1, 2, 3].map((d) => (
+        <button
+          key={d}
+          type="button"
+          disabled={disabled}
+          onClick={() => onScore(d)}
+          className="h-20 rounded-2xl bg-linear-to-b from-gold to-bronze text-3xl font-extrabold text-navy shadow active:scale-95 disabled:opacity-40"
+        >
+          +{d}
+        </button>
+      ))}
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => onScore(-1)}
+        aria-label={t('classLive.fix')}
+        className="flex h-20 w-16 flex-col items-center justify-center rounded-2xl bg-white text-lg font-bold text-red-700 ring-1 ring-red-200 active:scale-95 disabled:opacity-40"
+      >
+        −1
+        <span className="text-[10px] font-semibold">{t('classLive.fixShort')}</span>
+      </button>
+    </div>
+  )
+}
+
+function TeamBar({
+  count,
+  total,
+  tag,
+  onTag,
+  onAll,
+  onScore,
+}: {
+  count: number
+  total: number
+  tag: PointTag | null
+  onTag: (t: PointTag | null) => void
+  onAll: () => void
+  onScore: (d: number) => void
+}) {
+  const { t } = useTranslation()
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-30 space-y-2 border-t border-navy/10 bg-white px-3 pt-3 shadow-[0_-8px_24px_rgba(0,0,0,.08)]" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}>
+      <div className="flex items-center justify-between gap-2">
+        <p className="font-semibold">{t('classLive.team.picked', { count })}</p>
+        <button type="button" onClick={onAll} className="min-h-10 rounded-full px-3 text-sm font-semibold text-bronze">
+          {count === total ? t('classLive.team.none') : t('classLive.team.all')}
+        </button>
+      </div>
+      <TagChips tag={tag} onTag={onTag} />
+      <ScoreButtons onScore={onScore} disabled={count === 0} />
+    </div>
+  )
+}
+
+type MarkPatch = Omit<Extract<LiveOp, { op: 'mark' }>, 'op' | 'id' | 'class_id' | 'date' | 'student_id'>
+
+function StudentSheet({
+  s,
+  classId,
+  tag,
+  onTag,
+  onScore,
+  onMark,
+  onClose,
+  onChanged,
+}: {
+  s: LiveStudent
+  classId: string
+  tag: PointTag | null
+  onTag: (t: PointTag | null) => void
+  onScore: (d: number) => void
+  onMark: (patch: MarkPatch) => void
+  onClose: () => void
+  onChanged: () => Promise<unknown>
+}) {
+  const { t } = useTranslation()
+  const [tab, setTab] = useState<'comment' | 'profile' | 'history'>('comment')
+  return (
+    <div className="fixed inset-0 z-40 flex flex-col justify-end bg-navy/40" onClick={onClose}>
+      <div
+        className="flex max-h-[92dvh] flex-col rounded-t-3xl bg-cream shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-label={s.full_name}
+      >
+        <div className="flex items-center gap-3 px-4 pt-4 pb-2" data-sid={s.id}>
+          <Avatar s={s} size="h-14 w-14 text-lg" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-lg font-bold">{s.full_name}</p>
+            <p className="text-sm text-navy/70">
+              {t('classLive.sheet.line', { today: s.today, total: s.total, available: s.available })}
+            </p>
+          </div>
+          <button type="button" onClick={onClose} aria-label={t('common.close')} className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-navy/5">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="flex gap-2 px-4 pb-2">
+          {(['comment', 'profile', 'history'] as const).map((k) => (
+            <button key={k} type="button" onClick={() => setTab(k)} className={segClass(tab === k)}>
+              {t(`classLive.sheet.tab.${k}`)}
+            </button>
+          ))}
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-3">
+          {tab === 'comment' && <CommentPanel s={s} onMark={onMark} />}
+          {tab === 'profile' && <ProfilePanel s={s} classId={classId} onChanged={onChanged} />}
+          {tab === 'history' && <HistoryPanel s={s} classId={classId} />}
+        </div>
+        {/* Vùng chấm điểm ở dưới cùng: ngón cái với tới khi cầm máy một tay */}
+        <div className="space-y-2 border-t border-navy/10 bg-white px-4 pt-3" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}>
+          <TagChips tag={tag} onTag={onTag} />
+          <ScoreButtons onScore={onScore} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+type SpeechRec = {
+  lang: string
+  interimResults: boolean
+  continuous: boolean
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null
+  onend: (() => void) | null
+  onerror: (() => void) | null
+  start: () => void
+  stop: () => void
+}
+function speechCtor(): (new () => SpeechRec) | undefined {
+  const w = window as unknown as { SpeechRecognition?: new () => SpeechRec; webkitSpeechRecognition?: new () => SpeechRec }
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition
+}
+
+function CommentPanel({ s, onMark }: { s: LiveStudent; onMark: (patch: MarkPatch) => void }) {
+  const { t } = useTranslation()
+  const toast = useToast()
+  const [note, setNote] = useState(s.note ?? '')
+  const [listening, setListening] = useState(false)
+  const rec = useRef<SpeechRec | null>(null)
+  const Speech = speechCtor()
+  const dirty = note.trim() !== (s.note ?? '').trim()
+
+  useEffect(() => () => rec.current?.stop(), [])
+
+  const toggleMic = () => {
+    if (!Speech) return
+    if (listening) {
+      rec.current?.stop()
+      return
+    }
+    const r = new Speech()
+    r.lang = 'vi-VN'
+    r.interimResults = false
+    r.continuous = false
+    r.onresult = (e) => {
+      const text = Array.from(e.results).map((x) => x[0].transcript).join(' ').trim()
+      if (text) setNote((prev) => (prev ? `${prev.trim()} ${text}` : text))
+    }
+    r.onend = () => setListening(false)
+    r.onerror = () => {
+      setListening(false)
+      toast(t('classLive.comment.micFailed'), 'error')
+    }
+    rec.current = r
+    setListening(true)
+    r.start()
+  }
+
+  const toggleTag = (k: CommentTag) =>
+    onMark({ comment_tags: s.comment_tags.includes(k) ? s.comment_tags.filter((x) => x !== k) : [...s.comment_tags, k] })
+
+  return (
+    <div className="space-y-4 pt-1">
+      <section className="space-y-2">
+        <h3 className="text-sm font-semibold text-navy/70">{t('classLive.attendance.title')}</h3>
+        <div className="flex gap-2">
+          {(['present', 'late', 'absent'] as Attendance[]).map((a) => (
+            <button key={a} type="button" onClick={() => onMark({ attendance: s.attendance === a ? null : a })} className={segClass(s.attendance === a)}>
+              {t(`classLive.attendance.${a}`)}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2 ring-1 ring-navy/10">
+          <span className="text-sm">{t('classLive.attendance.leave')}</span>
+          <div className="flex items-center gap-3">
+            <button type="button" aria-label="−" onClick={() => s.leave_count > 0 && onMark({ leave_count: s.leave_count - 1 })} className="flex h-10 w-10 items-center justify-center rounded-full bg-navy/5">
+              <Minus className="h-4 w-4" />
+            </button>
+            <span className="w-6 text-center text-lg font-bold tabular-nums">{s.leave_count}</span>
+            <button type="button" aria-label="+" onClick={() => onMark({ leave_count: s.leave_count + 1 })} className="flex h-10 w-10 items-center justify-center rounded-full bg-navy/5">
+              <Plus className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+      <section className="space-y-2">
+        <h3 className="text-sm font-semibold text-navy/70">{t('classLive.comment.title')}</h3>
+        <div className="grid grid-cols-2 gap-2">
+          {COMMENT_TAGS.map((k) => (
+            <button
+              key={k}
+              type="button"
+              onClick={() => toggleTag(k)}
+              className={cn(
+                'flex min-h-12 items-center justify-center gap-1 rounded-xl px-2 text-sm font-semibold',
+                s.comment_tags.includes(k) ? 'bg-emerald-600 text-white' : 'bg-white text-navy ring-1 ring-navy/15',
+              )}
+            >
+              {s.comment_tags.includes(k) && <Check className="h-4 w-4" />}
+              {t(`classLive.comment.tag.${k}`)}
+            </button>
+          ))}
+        </div>
+        <div className="relative">
+          <Textarea
+            value={note}
+            maxLength={1000}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder={t('classLive.comment.notePlaceholder')}
+            className="min-h-20 pr-14 select-text"
+          />
+          {Speech && (
+            <button
+              type="button"
+              onClick={toggleMic}
+              aria-label={t('classLive.comment.mic')}
+              className={cn('absolute top-2 right-2 flex h-10 w-10 items-center justify-center rounded-full', listening ? 'animate-pulse bg-red-600 text-white' : 'bg-navy/5 text-navy')}
+            >
+              {listening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+            </button>
+          )}
+        </div>
+        {dirty && (
+          <Button size="full" onClick={() => onMark({ note: note.trim() || null })}>
+            {t('classLive.comment.saveNote')}
+          </Button>
+        )}
+      </section>
+    </div>
+  )
+}
+
+function ProfilePanel({ s, classId, onChanged }: { s: LiveStudent; classId: string; onChanged: () => Promise<unknown> }) {
+  const { t, i18n } = useTranslation()
+  const toast = useToast()
+  const [opening, setOpening] = useState(String(s.opening))
+  const [busy, setBusy] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const claimUrl = s.claim_code ? `${window.location.origin}/c/${s.claim_code}` : null
+  const qr = useQuery({
+    queryKey: ['live-claim-qr', claimUrl],
+    enabled: Boolean(claimUrl),
+    staleTime: Infinity,
+    queryFn: () => QRCode.toDataURL(claimUrl!, { margin: 1, width: 360 }),
+  })
+
+  const saveOpening = async () => {
+    const n = Number(opening.replace(/\D/g, '') || '0')
+    setBusy(true)
+    try {
+      await callRpc('class_live_set_opening', { p_class_id: classId, p_student_id: s.id, p_points: n })
+      await onChanged()
+      toast(t('classLive.opening.saved'))
+    } catch (e) {
+      toast(navigator.onLine ? t(errorKey(e)) : t('classLive.needOnline'), 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="space-y-4 pt-1">
+      <section className="space-y-2 rounded-2xl bg-white p-3 ring-1 ring-navy/10">
+        <h3 className="font-semibold">{t('classLive.opening.title')}</h3>
+        <p className="text-sm text-navy/65">{t('classLive.opening.hint')}</p>
+        <div className="flex gap-2">
+          <Input inputMode="numeric" value={opening} onChange={(e) => setOpening(e.target.value.replace(/\D/g, ''))} className="text-xl font-bold select-text" />
+          <Button onClick={saveOpening} disabled={busy || Number(opening || 0) === s.opening}>
+            {t('common.save')}
+          </Button>
+        </div>
+      </section>
+
+      <section className="space-y-1 rounded-2xl bg-white p-3 ring-1 ring-navy/10">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="text-sm text-navy/60">{t('classLive.profile.code')}</p>
+            <p className="text-lg font-bold tracking-wide select-text">{s.student_code}</p>
+            {s.date_of_birth && <p className="text-sm text-navy/60">{t('fields.dateOfBirth')}: {formatDate(s.date_of_birth, i18n.language)}</p>}
+          </div>
+          <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
+            <Pencil className="h-4 w-4" /> {t('classLive.profile.edit')}
+          </Button>
+        </div>
+      </section>
+
+      <section className="space-y-2 rounded-2xl bg-white p-3 text-center ring-1 ring-navy/10">
+        <h3 className="font-semibold">{t('classLive.profile.linkTitle')}</h3>
+        {s.claimed ? (
+          <p className="text-sm text-emerald-700">{t('classLive.profile.linked')}</p>
+        ) : s.claim_code ? (
+          <>
+            <p className="text-sm text-navy/65">{t('classLive.profile.linkHint')}</p>
+            {qr.data && <img src={qr.data} alt="" className="mx-auto h-48 w-48" />}
+            <p className="text-2xl font-bold tracking-widest select-text">{s.claim_code}</p>
+          </>
+        ) : (
+          <p className="text-sm text-navy/65">—</p>
+        )}
+      </section>
+
+      <AddStudentDialog open={editing} classId={classId} student={s} onClose={() => setEditing(false)} onCreated={onChanged} />
+    </div>
+  )
+}
+
+interface HistoryRow {
+  session_date: string
+  session_no: number | null
+  topic: string | null
+  points: number
+  by_reason: Record<string, number>
+  attendance: Attendance | null
+  leave_count: number
+  comment_tags: CommentTag[]
+  note: string | null
+}
+
+function HistoryPanel({ s, classId }: { s: LiveStudent; classId: string }) {
+  const { t, i18n } = useTranslation()
+  const hist = useQuery({
+    queryKey: ['live-history', classId, s.id],
+    queryFn: () =>
+      callRpc<{ opening: number; total: number; available: number; sessions: HistoryRow[] }>('class_live_history', {
+        p_class_id: classId,
+        p_student_id: s.id,
+      }),
+  })
+  if (hist.isPending) return <p className="py-4 text-navy/60">{t('common.loading')}</p>
+  if (hist.isError) return <p className="py-4 text-red-700">{navigator.onLine ? t('errors.loadFailed') : t('classLive.needOnline')}</p>
+  return (
+    <div className="space-y-3 pt-1">
+      <p className="text-sm text-navy/70">{t('classLive.history.summary', { opening: hist.data.opening, total: hist.data.total, available: hist.data.available })}</p>
+      {hist.data.sessions.length === 0 && <p className="text-navy/60">{t('classLive.history.empty')}</p>}
+      {hist.data.sessions.map((h) => (
+        <div key={h.session_date} className="space-y-1 rounded-2xl bg-white p-3 ring-1 ring-navy/10">
+          <div className="flex items-baseline justify-between gap-2">
+            <p className="font-semibold">
+              {h.session_no ? `${t('classLive.session.no', { no: h.session_no })} · ` : ''}
+              {formatDate(h.session_date, i18n.language)}
+            </p>
+            <p className="text-lg font-extrabold text-bronze">+{h.points}</p>
+          </div>
+          {h.topic && <p className="text-sm">{h.topic}</p>}
+          {Object.keys(h.by_reason).length > 0 && (
+            <p className="text-xs text-navy/60">
+              {Object.entries(h.by_reason)
+                .map(([k, v]) => `${k || t('classLive.history.noReason')} ${v > 0 ? '+' : ''}${v}`)
+                .join(' · ')}
+            </p>
+          )}
+          <p className="text-xs text-navy/60">
+            {[
+              h.attendance && t(`classLive.attendance.${h.attendance}`),
+              h.leave_count > 0 && t('classLive.history.leave', { count: h.leave_count }),
+              ...h.comment_tags.map((c) => t(`classLive.comment.tag.${c}`)),
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </p>
+          {h.note && <p className="text-sm text-navy/80 italic">“{h.note}”</p>}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function fileToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader()
+    r.onload = () => resolve(String(r.result))
+    r.onerror = () => reject(new Error('invalid_photo'))
+    r.readAsDataURL(blob)
+  })
+}
+
+/** Tạo nhanh (hoặc sửa) hồ sơ: họ tên bắt buộc; ngày sinh, ảnh không bắt buộc. Mã Golf Passport tự sinh. */
+function AddStudentDialog({
+  open,
+  classId,
+  student,
+  onClose,
+  onCreated,
+}: {
+  open: boolean
+  classId: string
+  student?: LiveStudent
+  onClose: () => void
+  onCreated: () => Promise<unknown>
+}) {
+  const { t } = useTranslation()
+  const toast = useToast()
+  const [name, setName] = useState('')
+  const [dob, setDob] = useState('')
+  const [photo, setPhoto] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [done, setDone] = useState<string | null>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    setName(student?.full_name ?? '')
+    setDob(student?.date_of_birth ?? '')
+    setPhoto(student?.avatar_url ?? null)
+    setError(null)
+    setDone(null)
+  }, [open, student])
+
+  const pickPhoto = async (file: File | undefined) => {
+    if (!file) return
+    try {
+      setPhoto(await fileToDataUrl(await compressImage(file, 60_000, 360)))
+    } catch {
+      setError(t('classLive.errors.invalid_photo'))
+    }
+  }
+
+  const submit = async (again: boolean) => {
+    setError(null)
+    if (name.trim().length < 2) return setError(t('classLive.errors.name_required'))
+    setBusy(true)
+    try {
+      if (student) {
+        await callRpc('class_live_update_student', {
+          p_class_id: classId,
+          p_student_id: student.id,
+          p_full_name: name,
+          p_date_of_birth: dob || null,
+          // Ảnh không đổi → không gửi lại; bỏ ảnh → ''
+          p_avatar: photo === student.avatar_url ? null : (photo ?? ''),
+        })
+        await onCreated()
+        toast(t('classLive.add.updated'))
+        onClose()
+      } else {
+        const res = await callRpc<{ student_code: string }>('class_live_create_student', {
+          p_class_id: classId,
+          p_full_name: name,
+          p_date_of_birth: dob || null,
+          p_avatar: photo,
+          p_id: newId(),
+        })
+        await onCreated()
+        toast(t('classLive.add.created', { name: name.trim(), code: res.student_code }))
+        if (again) {
+          setDone(t('classLive.add.created', { name: name.trim(), code: res.student_code }))
+          setName('')
+          setDob('')
+          setPhoto(null)
+        } else onClose()
+      }
+    } catch (e) {
+      setError(navigator.onLine ? t(errorKey(e)) : t('classLive.needOnline'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <Dialog open={open} onClose={onClose} title={student ? t('classLive.add.editTitle') : t('classLive.add.title')}>
+      <div className="space-y-4">
+        {done && <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-800">{done}</p>}
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-navy/5 ring-1 ring-navy/15"
+            aria-label={t('classLive.add.photo')}
+          >
+            {photo ? <img src={photo} alt="" className="h-full w-full object-cover" /> : <Camera className="h-7 w-7 text-navy/50" />}
+          </button>
+          <div className="text-sm text-navy/65">
+            <p>{t('classLive.add.photoHint')}</p>
+            {photo && (
+              <button type="button" className="mt-1 font-semibold text-red-700" onClick={() => setPhoto(null)}>
+                {t('classLive.add.removePhoto')}
+              </button>
+            )}
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => void pickPhoto(e.target.files?.[0])} />
+        </div>
+        <Field label={t('classLive.add.name')}>
+          <Input value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" autoFocus className="select-text" />
+        </Field>
+        <Field label={t('classLive.add.dob')}>
+          <Input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
+        </Field>
+        {!student && <p className="text-sm text-navy/65">{t('classLive.add.codeHint')}</p>}
+        <FormError message={error} />
+        <div className="grid gap-2">
+          <Button size="full" disabled={busy} onClick={() => void submit(false)}>
+            {student ? t('common.save') : t('classLive.add.save')}
+          </Button>
+          {!student && (
+            <Button variant="outline" size="full" disabled={busy} onClick={() => void submit(true)}>
+              {t('classLive.add.saveAndNext')}
+            </Button>
+          )}
+        </div>
+      </div>
+    </Dialog>
+  )
+}
+
+function SessionDialog({
+  open,
+  no,
+  topic,
+  lastTopic,
+  onClose,
+  onSave,
+}: {
+  open: boolean
+  no: number
+  topic: string
+  lastTopic: string | null
+  onClose: () => void
+  onSave: (no: number | null, topic: string | null) => void
+}) {
+  const { t } = useTranslation()
+  const [n, setN] = useState(String(no))
+  const [text, setText] = useState(topic)
+  useEffect(() => {
+    if (open) {
+      setN(String(no))
+      setText(topic)
+    }
+  }, [open, no, topic])
+  return (
+    <Dialog open={open} onClose={onClose} title={t('classLive.session.title')}>
+      <div className="space-y-4">
+        <Field label={t('classLive.session.number')}>
+          <Input inputMode="numeric" value={n} onChange={(e) => setN(e.target.value.replace(/\D/g, '').slice(0, 3))} />
+        </Field>
+        <Field label={t('classLive.session.topic')} hint={t('classLive.session.topicHint')}>
+          <Input value={text} maxLength={200} onChange={(e) => setText(e.target.value)} className="select-text" />
+        </Field>
+        {lastTopic && !text && (
+          <button type="button" onClick={() => setText(lastTopic)} className="text-sm font-semibold text-bronze">
+            {t('classLive.session.reuse', { topic: lastTopic })}
+          </button>
+        )}
+        <Button size="full" onClick={() => onSave(n ? Number(n) : null, text.trim() || null)}>
+          {t('common.save')}
+        </Button>
+      </div>
+    </Dialog>
+  )
+}

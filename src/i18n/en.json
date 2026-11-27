@@ -4704,5 +4704,126 @@
         "photoType": "Could not read the image. Use JPG, PNG or WebP."
       }
     }
+  },
+  "classLive": {
+    "open": "Start class – live scoring",
+    "openHint": "Score, take attendance and add comments during the session. Works offline.",
+    "loadFailed": "Could not load the class. Check the connection or your coach access.",
+    "empty": "No students in this class yet. Create profiles right on your phone.",
+    "needOnline": "This needs a connection. Scores are still saved on this phone.",
+    "fix": "Minus 1 point (correction)",
+    "fixShort": "undo",
+    "mode": {
+      "one": "One student",
+      "team": "Team scoring"
+    },
+    "card": {
+      "today": "today",
+      "total": "total",
+      "available": "to spend"
+    },
+    "sync": {
+      "saved": "Saved",
+      "pending": "{{count}} waiting",
+      "skipped": "{{count}} scores could not be saved (not in class or too old)."
+    },
+    "tag": {
+      "game": "Finished the game",
+      "rules": "Followed golf rules",
+      "listen": "Listened to signals",
+      "fair_play": "Fair play – stayed calm when teased",
+      "team_win": "Team won"
+    },
+    "team": {
+      "picked": "{{count}} selected",
+      "all": "Select all",
+      "none": "Clear"
+    },
+    "session": {
+      "no": "Session {{no}}",
+      "addTopic": "Tap to add the lesson topic",
+      "title": "Today's session",
+      "number": "Session number",
+      "topic": "Lesson topic",
+      "topicHint": "e.g. Pitching + Golf rules",
+      "reuse": "Reuse last topic: {{topic}}"
+    },
+    "sheet": {
+      "line": "Today {{today}} · Total {{total}} · To spend {{available}}",
+      "tab": {
+        "comment": "Comments",
+        "profile": "Profile",
+        "history": "History"
+      }
+    },
+    "attendance": {
+      "title": "Attendance",
+      "present": "Present",
+      "late": "Late",
+      "absent": "Absent",
+      "leave": "Times left the activity",
+      "allPresent": "Mark {{count}} present"
+    },
+    "comment": {
+      "title": "Quick comments",
+      "tag": {
+        "focused": "Well focused",
+        "needs_reminder": "Needs reminders",
+        "tech_progress": "Technical progress",
+        "fair_play": "Fair play"
+      },
+      "notePlaceholder": "Short note (or tap the mic to speak)",
+      "mic": "Speak a note",
+      "micFailed": "Could not hear you. Try again or type the note.",
+      "saveNote": "Save note"
+    },
+    "opening": {
+      "title": "Starting points",
+      "hint": "Total points recorded on paper in earlier sessions. Total = starting points + sessions in the app.",
+      "saved": "Starting points saved"
+    },
+    "profile": {
+      "code": "Golf Passport code",
+      "edit": "Edit",
+      "linkTitle": "Parent link",
+      "linkHint": "Parents scan this QR or enter the code in the Golf Passport app to see their child's points and comments.",
+      "linked": "A parent has linked this profile."
+    },
+    "history": {
+      "summary": "Starting {{opening}} · Total {{total}} · To spend {{available}}",
+      "empty": "No sessions in the app yet.",
+      "noReason": "No reason",
+      "leave": "Left the activity {{count}} times"
+    },
+    "add": {
+      "button": "Add a student",
+      "title": "Create student profile",
+      "editTitle": "Edit profile",
+      "name": "Full name",
+      "dob": "Date of birth (optional)",
+      "photo": "Choose photo",
+      "photoHint": "Photo (optional). Tap the circle to take or choose a photo.",
+      "removePhoto": "Remove photo",
+      "codeHint": "The Golf Passport code is generated automatically. Parents link later with the code or QR in Profile.",
+      "save": "Create profile",
+      "saveAndNext": "Create and add another",
+      "created": "Created {{name}} · {{code}}",
+      "updated": "Profile saved"
+    },
+    "errors": {
+      "name_required": "Enter the full name (at least 2 characters).",
+      "duplicate_in_class": "This class already has a student with this name.",
+      "invalid_dob": "Invalid date of birth.",
+      "invalid_photo": "This photo cannot be used. Choose another one.",
+      "forbidden": "You are not a coach of this class.",
+      "points_out_of_range": "Starting points must be 0 to 100,000."
+    },
+    "tagShort": {
+      "game": "Game",
+      "rules": "Golf rules",
+      "listen": "Signals",
+      "fair_play": "Fair play",
+      "team_win": "Team won"
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ChevronRight, QrCode, Users } from 'lucide-react'
+import { ArrowLeft, ChevronRight, Play, QrCode, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
 import { useTable } from '@/lib/db'
@@ -136,6 +136,16 @@ export function CoachClassPage() {
           <p className="text-navy/70">{t('coach.rosterSummary', { count: roster.data.length, activated })}</p>
         )}
       </div>
+      {(myRole === 'coach' || myRole === 'head_coach') && (
+        <div className="space-y-1">
+          <Button asChild size="full" className="min-h-16 text-lg">
+            <Link to={`/coach/live/${cls.id}`}>
+              <Play className="h-5 w-5" /> {t('classLive.open')}
+            </Link>
+          </Button>
+          <p className="text-sm text-navy/60">{t('classLive.openHint')}</p>
+        </div>
+      )}
       <Link to={`/coach/classes/${cls.id}/training`} className="inline-flex items-center gap-2 font-semibold text-bronze">
         {t('training.coach.openClass')}
       </Link>

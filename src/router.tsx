@@ -1,4 +1,4 @@
-import { createBrowserRouter, type RouteObject } from 'react-router'
+import { Outlet, createBrowserRouter, type RouteObject } from 'react-router'
 import { PublicLayout } from '@/layouts/PublicLayout'
 import { WorkspaceLayout, type NavItem } from '@/layouts/WorkspaceLayout'
 import { RequireWorkspace, FullPageSpinner } from '@/auth/RequireWorkspace'
@@ -223,6 +223,17 @@ export const router = createBrowserRouter([
     { path: 'training/boost', lazy: page(() => import('@/features/training/BoostForm'), (m) => m.StudentBoostPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
+  // Lớp học trực tiếp: toàn màn hình, không menu, không logo (dùng được trong trường Vinschool)
+  {
+    path: '/coach/live/:classId',
+    element: (
+      <RequireWorkspace workspace="coach">
+        <Outlet />
+      </RequireWorkspace>
+    ),
+    hydrateFallbackElement: <FullPageSpinner />,
+    children: [{ index: true, lazy: page(() => import('@/features/coach/live/LiveClassPage'), (m) => m.LiveClassPage) }],
+  },
   workspaceRoute('coach', '/coach', COACH_NAV, [
     { index: true, lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachHomePage) },
     { path: 'classes/:classId', lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachClassPage) },
