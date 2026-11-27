@@ -194,6 +194,7 @@ export const router = createBrowserRouter([
     { path: 'training/library', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.ParentLibraryPage) },
     { path: 'training/kid/:studentId/path', lazy: page(() => import('@/features/training/JuniorPath'), (m) => m.ParentKidPathPage) },
     { path: 'training/kid/:studentId/keep', lazy: page(() => import('@/features/training/KeepForm'), (m) => m.ParentKidKeepPage) },
+    { path: 'training/kid/:studentId/boost', lazy: page(() => import('@/features/training/BoostForm'), (m) => m.ParentKidBoostPage) },
     { path: '*', element: <ComingSoon /> },
   ]),
   workspaceRoute('event', '/event', EVENT_NAV, [
@@ -219,6 +220,7 @@ export const router = createBrowserRouter([
     { path: 'training/library', lazy: page(() => import('@/features/training/JuniorTraining'), (m) => m.StudentLibraryPage) },
     { path: 'training/path', lazy: page(() => import('@/features/training/JuniorPath'), (m) => m.StudentPathPage) },
     { path: 'training/keep', lazy: page(() => import('@/features/training/KeepForm'), (m) => m.StudentKeepPage) },
+    { path: 'training/boost', lazy: page(() => import('@/features/training/BoostForm'), (m) => m.StudentBoostPage) },
     { path: '*', element: <NotFoundPage /> },
   ]),
   workspaceRoute('coach', '/coach', COACH_NAV, [
