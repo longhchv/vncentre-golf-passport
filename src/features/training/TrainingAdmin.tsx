@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import type { PlanBlock, PlanLine } from './planner'
 import type { Benchmark } from './stats'
 import { FeedbackAdmin } from './Feedback'
+import { formatRange, type CostItem, type FinancePlan, type Need, type PathStep } from './path'
 
 const db = () => supabase!
 const AREAS = ['fir', 'gir', 'scr', 'chip', 'putt'] as const
@@ -44,12 +45,12 @@ function adminError(err: unknown, t: (k: string) => string) {
 /** Admin · Tập luyện: tổng quan, chương trình, giáo án từng buổi, chuẩn thống kê (spec 23 bước 4). */
 export function TrainingAdminPage() {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz' | 'feedback'>('overview')
+  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz' | 'path' | 'feedback'>('overview')
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t('training.title')}</h1>
       <div className="flex flex-wrap gap-2">
-        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz', 'feedback'] as const).map((k) => (
+        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz', 'path', 'feedback'] as const).map((k) => (
           <Button key={k} size="sm" variant={tab === k ? 'primary' : 'outline'} onClick={() => setTab(k)}>
             {t(`training.admin.tab.${k}`)}
           </Button>
@@ -62,6 +63,7 @@ export function TrainingAdminPage() {
       {tab === 'challenges' && <Challenges />}
       {tab === 'drills' && <Drills />}
       {tab === 'quiz' && <Quiz />}
+      {tab === 'path' && <PathAdmin />}
       {tab === 'feedback' && <FeedbackAdmin />}
     </div>
   )
@@ -640,6 +642,112 @@ function Quiz() {
           { name: 'options', labelKey: 'training.admin.quizOptions', type: 'json', required: true, hintKey: 'training.admin.quizOptionsHint' },
           { name: 'correct_index', labelKey: 'training.admin.quizCorrect', type: 'number', required: true, hintKey: 'training.admin.quizCorrectHint' },
           { name: 'explain_vi', labelKey: 'training.admin.quizExplain', type: 'textarea' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------- Đợt 2b: lộ trình và chi phí các bạn nhỏ
+
+const COST_GROUPS = ['class', 'practice', 'tournament', 'equipment', 'home'] as const
+const PHASES = ['snag', 'iron9', 'iron18'] as const
+
+function PathAdmin() {
+  const { t, i18n } = useTranslation()
+  const inv = ['training_path']
+  return (
+    <div className="space-y-6">
+      <p className="text-sm text-navy/70">{t('training.admin.pathHint')}</p>
+      <CrudTable<CostItem>
+        table="training_cost_items"
+        titleKey="training.admin.costTitle"
+        order="sort_order"
+        invalidate={inv}
+        newDefaults={{ grp: 'class', unit_vi: 'buổi', unit_en: 'session', min_vnd: 0, max_vnd: 0, is_active: true }}
+        columns={[
+          { key: 'name_vi', labelKey: 'fields.nameVi', render: (c) => <div><div className="font-semibold">{c.name_vi}</div><code className="text-xs text-navy/50">{c.code}</code></div> },
+          { key: 'price', labelKey: 'training.admin.costPrice', render: (c) => `${formatRange({ min: Number(c.min_vnd), max: Number(c.max_vnd) }, i18n.language)} / ${c.unit_vi}` },
+          { key: 'grp', labelKey: 'training.admin.costGroup', render: (c) => t(`training.admin.costGrp.${c.grp}`) },
+        ]}
+        fields={[
+          { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true, hintKey: 'training.admin.costCodeHint' },
+          { name: 'grp', labelKey: 'training.admin.costGroup', type: 'select', options: opts(COST_GROUPS, t, 'training.admin.costGrp') },
+          { name: 'name_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'name_en', labelKey: 'fields.nameEn' },
+          { name: 'unit_vi', labelKey: 'training.admin.costUnit', required: true },
+          { name: 'unit_en', labelKey: 'training.admin.costUnitEn' },
+          { name: 'min_vnd', labelKey: 'training.admin.costMin', type: 'number', required: true },
+          { name: 'max_vnd', labelKey: 'training.admin.costMax', type: 'number', required: true },
+          { name: 'note_vi', labelKey: 'training.admin.costNote', type: 'textarea' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+      <CrudTable<PathStep>
+        table="training_path_steps"
+        titleKey="training.admin.stepsTitle"
+        order="sort_order"
+        invalidate={inv}
+        newDefaults={{ phase: 'snag', level_from: 1, level_to: 1, months: { saving: 12, balanced: 9, fast: 6 }, is_active: true }}
+        columns={[
+          { key: 'title_vi', labelKey: 'training.admin.chTitle', render: (s) => <div><div className="font-semibold">{s.title_vi}</div><code className="text-xs text-navy/50">{s.code}</code></div> },
+          { key: 'levels', labelKey: 'training.coach.level', render: (s) => `${s.level_from}–${s.level_to}` },
+          { key: 'months', labelKey: 'training.admin.stepMonths', render: (s) => `${s.months?.saving ?? '–'} / ${s.months?.balanced ?? '–'} / ${s.months?.fast ?? '–'}` },
+        ]}
+        fields={[
+          { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
+          { name: 'phase', labelKey: 'training.admin.stepPhase', type: 'select', options: opts(PHASES, t, 'training.admin.phase'), hintKey: 'training.admin.stepPhaseHint' },
+          { name: 'level_from', labelKey: 'training.admin.stepFrom', type: 'number', required: true },
+          { name: 'level_to', labelKey: 'training.admin.stepTo', type: 'number', required: true },
+          { name: 'title_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'title_en', labelKey: 'fields.nameEn' },
+          { name: 'hcp_note_vi', labelKey: 'training.admin.stepHcp' },
+          { name: 'opportunity_vi', labelKey: 'training.path.opens', type: 'textarea' },
+          { name: 'focus_vi', labelKey: 'training.path.focus', type: 'textarea' },
+          { name: 'months', labelKey: 'training.admin.stepMonths', type: 'json', required: true, hintKey: 'training.admin.stepMonthsHint' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+      <CrudTable<FinancePlan>
+        table="training_finance_plans"
+        titleKey="training.admin.plansTitle"
+        order="sort_order"
+        canCreate={false}
+        invalidate={inv}
+        columns={[
+          { key: 'name_vi', labelKey: 'fields.nameVi', render: (p) => <span className="font-semibold">{p.name_vi}</span> },
+          { key: 'items', labelKey: 'training.admin.planItems', render: (p) => t('training.admin.planItemsN', { n: p.items.length }) },
+        ]}
+        fields={[
+          { name: 'name_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'name_en', labelKey: 'fields.nameEn' },
+          { name: 'summary_vi', labelKey: 'training.admin.planSummary', type: 'textarea' },
+          { name: 'tradeoff_vi', labelKey: 'training.path.tradeoff', type: 'textarea' },
+          { name: 'items', labelKey: 'training.admin.planItems', type: 'json', required: true, hintKey: 'training.admin.planItemsHint' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+      <CrudTable<Need>
+        table="training_needs"
+        titleKey="training.admin.needsTitle"
+        order="sort_order"
+        invalidate={inv}
+        newDefaults={{ is_active: true, goal_step: 's2' }}
+        columns={[
+          { key: 'title_vi', labelKey: 'fields.nameVi', render: (n) => <span className="font-semibold">{n.title_vi}</span> },
+          { key: 'goal_step', labelKey: 'training.admin.needGoal', render: (n) => n.goal_step ?? '–' },
+        ]}
+        fields={[
+          { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
+          { name: 'title_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'title_en', labelKey: 'fields.nameEn' },
+          { name: 'advice_vi', labelKey: 'training.admin.needAdvice', type: 'textarea' },
+          { name: 'goal_step', labelKey: 'training.admin.needGoal', hintKey: 'training.admin.needGoalHint' },
           { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
           { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
         ]}

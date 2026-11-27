@@ -2990,7 +2990,8 @@
         "challenges": "Challenge cards",
         "drills": "Drill library",
         "quiz": "Rules questions",
-        "feedback": "Feedback"
+        "feedback": "Feedback",
+        "path": "Pathway & costs"
       },
       "ov": {
         "profiles_self_created": "Self-created profiles",
@@ -3156,7 +3157,46 @@
         "clone": "Clone program",
         "cloned": "Cloned; the copy is inactive",
         "cloneHint": "For big changes, clone, edit the copy, then activate it in Programs. Golfers on the old plan are not affected."
-      }
+      },
+      "pathHint": "Phase 2b: cost estimates, pathway steps, 3 cost options and family goals. Parents see changes as soon as you save.",
+      "costTitle": "Cost estimates",
+      "costPrice": "Price",
+      "costGroup": "Group",
+      "costGrp": {
+        "class": "Classes",
+        "practice": "Range, simulator",
+        "tournament": "Tournaments",
+        "equipment": "Equipment",
+        "home": "Home practice"
+      },
+      "costCodeHint": "Lowercase code used in option formulas (e.g. pga_group)",
+      "costUnit": "Unit (VI)",
+      "costUnitEn": "Unit (EN)",
+      "costMin": "Lowest (VND)",
+      "costMax": "Highest (VND)",
+      "costNote": "Note",
+      "stepsTitle": "Pathway steps",
+      "stepMonths": "Months (affordable / balanced / fastest)",
+      "stepMonthsHint": "e.g. {\"saving\":12,\"balanced\":9,\"fast\":6}",
+      "stepPhase": "Cost phase",
+      "stepPhaseHint": "The step uses this phase's formula in each option",
+      "phase": {
+        "snag": "SNAG (levels 1–9)",
+        "iron9": "Full clubs, 6–9 hole events",
+        "iron18": "18-hole events and up"
+      },
+      "stepFrom": "From level",
+      "stepTo": "To level",
+      "stepHcp": "Handicap note",
+      "plansTitle": "3 cost options",
+      "planItems": "Formula",
+      "planItemsN": "{{n}} items",
+      "planSummary": "Summary",
+      "planItemsHint": "Each item: {\"item\":\"cost code\",\"qty\":number,\"per\":\"month\" | \"year\" | \"once\",\"phase\":\"snag\" | \"iron9\" | \"iron18\" | \"all\"}",
+      "needsTitle": "Family goals",
+      "needAdvice": "Advice",
+      "needGoal": "Target step",
+      "needGoalHint": "Step code (e.g. s4)"
     },
     "jr": {
       "switcher": "Choose golfer",
@@ -3353,6 +3393,43 @@
       },
       "note": "Admin note",
       "none": "No feedback."
+    },
+    "path": {
+      "title": "Pathway, scholarships and costs",
+      "entry": "Advice for your family's goals, small steps and 3 cost options",
+      "for": "{{name}} · level {{level}}",
+      "estimateNote": "All amounts and durations here are estimates and may change in practice. VN Centre updates them regularly.",
+      "needsTitle": "What does your family hope golf brings?",
+      "needsHint": "Pick one or more. The app suggests which step to aim for and a fitting budget.",
+      "checklist": "Open your child's scholarship checklist",
+      "goalLine": "Suggested target: step {{step}} · {{title}}",
+      "stepsTitle": "Step-by-step pathway",
+      "stepsHint": "Each step has a clear level goal and opens new opportunities. You don't need to go all the way; stop where it suits your family.",
+      "stepN": "Step {{n}}",
+      "here": "Here now",
+      "goal": "Target",
+      "done": "Done",
+      "level1": "Level {{n}}",
+      "levels": "Levels {{a}}–{{b}}",
+      "opens": "Opens:",
+      "focus": "Focus:",
+      "stepTime": "About {{time}} with the {{plan}} option",
+      "plansTitle": "3 cost options",
+      "plansHint": "From the current step to the end of step {{step}}. Choose an option to see the time for each step.",
+      "chosen": "Chosen",
+      "choose": "Choose",
+      "tradeoff": "Trade-off:",
+      "perMonth": "Per month (current step)",
+      "toGoal": "To the end of step {{step}}",
+      "total": "About {{cost}} in total",
+      "details": "See cost details",
+      "per": {
+        "month": "{{n}} {{unit}}/month",
+        "year": "{{n}} {{unit}}/year",
+        "once": "buy {{n}} {{unit}}"
+      },
+      "save": "Save our choices",
+      "disclaimer": "The app only suggests; it does not promise competition, admission or scholarship results. Rules change every year; check with schools and coaches before big decisions."
     }
   },
   "rewards": {

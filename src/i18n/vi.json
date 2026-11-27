@@ -2990,7 +2990,8 @@
         "challenges": "Thẻ thử thách",
         "drills": "Thư viện bài tập",
         "quiz": "Câu hỏi luật",
-        "feedback": "Góp ý"
+        "feedback": "Góp ý",
+        "path": "Lộ trình & chi phí"
       },
       "ov": {
         "profiles_self_created": "Hồ sơ tự tạo",
@@ -3156,7 +3157,46 @@
         "clone": "Nhân bản chương trình",
         "cloned": "Đã nhân bản, bản mới đang tắt",
         "cloneHint": "Sửa lớn thì nhân bản, sửa bản sao, rồi bật lên ở mục Chương trình. Người đang tập bản cũ không bị ảnh hưởng."
-      }
+      },
+      "pathHint": "Đợt 2b: chi phí ước tính, các bước lộ trình, 3 phương án tài chính và nhu cầu gia đình. Phụ huynh thấy ngay khi lưu.",
+      "costTitle": "Chi phí ước tính",
+      "costPrice": "Giá",
+      "costGroup": "Nhóm",
+      "costGrp": {
+        "class": "Lớp học",
+        "practice": "Tự tập ở sân, phòng 3D",
+        "tournament": "Giải đấu",
+        "equipment": "Dụng cụ",
+        "home": "Tập ở nhà"
+      },
+      "costCodeHint": "Mã viết thường, không dấu, dùng trong công thức phương án (vd. pga_group)",
+      "costUnit": "Đơn vị",
+      "costUnitEn": "Đơn vị (EN)",
+      "costMin": "Thấp nhất (đồng)",
+      "costMax": "Cao nhất (đồng)",
+      "costNote": "Ghi chú",
+      "stepsTitle": "Các bước lộ trình",
+      "stepMonths": "Số tháng (tiết kiệm / vừa phải / nhanh)",
+      "stepMonthsHint": "Ví dụ {\"saving\":12,\"balanced\":9,\"fast\":6}",
+      "stepPhase": "Giai đoạn chi phí",
+      "stepPhaseHint": "Bước dùng công thức chi phí của giai đoạn này trong từng phương án",
+      "phase": {
+        "snag": "SNAG (level 1–9)",
+        "iron9": "Gậy sắt, giải 6–9 hố",
+        "iron18": "Giải 18 hố trở lên"
+      },
+      "stepFrom": "Từ level",
+      "stepTo": "Đến level",
+      "stepHcp": "Ghi chú handicap",
+      "plansTitle": "3 phương án tài chính",
+      "planItems": "Công thức",
+      "planItemsN": "{{n}} khoản",
+      "planSummary": "Tóm tắt",
+      "planItemsHint": "Mỗi khoản: {\"item\":\"mã chi phí\",\"qty\":số lượng,\"per\":\"month\" | \"year\" | \"once\",\"phase\":\"snag\" | \"iron9\" | \"iron18\" | \"all\"}",
+      "needsTitle": "Nhu cầu gia đình",
+      "needAdvice": "Lời tư vấn",
+      "needGoal": "Bước hướng tới",
+      "needGoalHint": "Mã bước (vd. s4)"
     },
     "jr": {
       "switcher": "Chọn người tập",
@@ -3353,6 +3393,43 @@
       },
       "note": "Ghi chú xử lý",
       "none": "Không có góp ý."
+    },
+    "path": {
+      "title": "Lộ trình, học bổng và chi phí",
+      "entry": "Tư vấn theo nhu cầu của gia đình, các bước nhỏ và 3 phương án chi phí",
+      "for": "{{name}} · đang học level {{level}}",
+      "estimateNote": "Mọi số tiền và thời gian ở đây là ước tính, có thể thay đổi theo thực tế. VN Centre cập nhật định kỳ.",
+      "needsTitle": "Gia đình mong các con nhận được gì từ golf?",
+      "needsHint": "Chọn một hoặc nhiều. App gợi ý bước nên hướng tới và chi phí phù hợp.",
+      "checklist": "Mở checklist hồ sơ học bổng của con",
+      "goalLine": "Bước nên hướng tới: bước {{step}} · {{title}}",
+      "stepsTitle": "Lộ trình từng bước",
+      "stepsHint": "Mỗi bước có mục tiêu level rõ ràng và mở ra cơ hội mới. Không cần đi hết mọi bước; dừng ở bước hợp với gia đình.",
+      "stepN": "Bước {{n}}",
+      "here": "Con đang ở đây",
+      "goal": "Mục tiêu",
+      "done": "Đã qua",
+      "level1": "Level {{n}}",
+      "levels": "Level {{a}}–{{b}}",
+      "opens": "Mở ra:",
+      "focus": "Cần làm:",
+      "stepTime": "Khoảng {{time}} theo phương án {{plan}}",
+      "plansTitle": "3 phương án tài chính",
+      "plansHint": "Tính từ bước hiện tại đến hết bước {{step}}. Chọn phương án để xem thời gian từng bước.",
+      "chosen": "Đang chọn",
+      "choose": "Chọn",
+      "tradeoff": "Đánh đổi:",
+      "perMonth": "Mỗi tháng (bước hiện tại)",
+      "toGoal": "Đến hết bước {{step}}",
+      "total": "Tổng khoảng {{cost}}",
+      "details": "Xem chi tiết các khoản",
+      "per": {
+        "month": "{{n}} {{unit}}/tháng",
+        "year": "{{n}} {{unit}}/năm",
+        "once": "mua {{n}} {{unit}}"
+      },
+      "save": "Lưu lựa chọn của gia đình",
+      "disclaimer": "App chỉ gợi ý, không cam kết kết quả thi đấu, tuyển sinh hay học bổng. Quy định thay đổi theo từng năm; kiểm tra lại với trường và HLV trước mỗi quyết định lớn."
     }
   },
   "rewards": {
