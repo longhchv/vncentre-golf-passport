@@ -1,7 +1,8 @@
 import { Outlet, createBrowserRouter, type RouteObject } from 'react-router'
 import { PublicLayout } from '@/layouts/PublicLayout'
 import { WorkspaceLayout, type NavItem } from '@/layouts/WorkspaceLayout'
-import { RequireWorkspace, FullPageSpinner } from '@/auth/RequireWorkspace'
+import { RequireWorkspace, FullPageSpinner, UpdatingPage } from '@/auth/RequireWorkspace'
+import { recoverFromStaleBundle } from '@/lib/appUpdate'
 import type { Workspace } from '@/auth/AuthProvider'
 import { LandingPage } from '@/pages/LandingPage'
 import { LegalPage } from '@/pages/LegalPage'
@@ -21,7 +22,17 @@ import { ClaimPage, InvitePage } from '@/features/activation/ClaimInvitePages'
 
 // Trang của từng không gian tải khi cần (lazy) → trang phụ huynh nhẹ hơn trên 4G (02 mục 6).
 type Loader = () => Promise<{ Component: React.ComponentType }>
-const page = <M,>(load: () => Promise<M>, pick: (m: M) => React.ComponentType): Loader => async () => ({ Component: pick(await load()) })
+// Vừa phát hành bản mới mà trình duyệt còn giữ bản cũ: phần code của trang không còn trên máy chủ → hiện "Đang tải bản mới…"
+// và tự tải lại, thay cho màn hình lỗi.
+const page = <M,>(load: () => Promise<M>, pick: (m: M) => React.ComponentType): Loader => async () => {
+  try {
+    const m = await load()
+    const Component = m ? pick(m) : undefined
+    if (Component) return { Component }
+  } catch { /* xử lý bên dưới */ }
+  recoverFromStaleBundle()
+  return { Component: UpdatingPage }
+}
 
 // Menu admin theo 02 mục 3.6. Mục chưa làm hiện thẻ "Sắp ra mắt".
 const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [

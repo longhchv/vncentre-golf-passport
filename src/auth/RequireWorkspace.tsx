@@ -5,14 +5,19 @@ import { useAuth, type Workspace } from '@/auth/AuthProvider'
 import { Mascot } from '@/components/Mascot'
 import { Button } from '@/components/ui/button'
 
-export function FullPageSpinner() {
+export function FullPageSpinner({ updating = false }: { updating?: boolean }) {
   const { t } = useTranslation()
   return (
     <div className="flex min-h-[60dvh] flex-col items-center justify-center gap-3 text-navy/70">
       <Mascot className="h-16 w-16 animate-pulse" />
-      {t('common.loading')}
+      {t(updating ? 'common.updating' : 'common.loading')}
     </div>
   )
+}
+
+/** Hiện khi trình duyệt còn giữ bản cũ và không tải được trang vừa mở: app đang tự tải bản mới. */
+export function UpdatingPage() {
+  return <FullPageSpinner updating />
 }
 
 /** Chặn truy cập không gian khi chưa đăng nhập hoặc không có vai trò tương ứng. */
