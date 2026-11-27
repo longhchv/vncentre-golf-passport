@@ -48,6 +48,8 @@ export interface LiveBoard {
   /** Các mức điểm HLV bấm (cài đặt class_live.point_steps) */
   steps?: number[]
   /** Điểm có mặt và trần điểm mỗi buổi của loại lớp (CLB / trường công lập) */
+  /** Giáo án: phần tử thứ N là chủ đề Buổi N */
+  topics?: string[]
   rules?: { kind: 'club' | 'public_school'; attendance_points: number; session_cap: number }
   session: { id: string; session_no: number | null; topic: string | null } | null
   next_session_no: number

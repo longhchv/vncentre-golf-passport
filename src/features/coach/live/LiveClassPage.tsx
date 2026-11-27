@@ -293,7 +293,10 @@ export function LiveClassPage() {
           className="flex min-h-11 w-full items-center gap-2 rounded-xl bg-white px-3 text-left ring-1 ring-navy/10"
         >
           <span className="font-semibold whitespace-nowrap">{t('classLive.session.no', { no: sessionNo })}</span>
-          <span className="min-w-0 flex-1 truncate text-navy/70">{view.session?.topic || t('classLive.session.addTopic')}</span>
+          <span className="min-w-0 flex-1 truncate text-navy/70">
+            {view.session?.topic ||
+              (view.topics?.[sessionNo - 1] ? t('classLive.session.suggest', { topic: view.topics[sessionNo - 1] }) : t('classLive.session.addTopic'))}
+          </span>
           {view.rules && (
             <span className="shrink-0 rounded-full bg-gold/20 px-2 py-0.5 text-xs font-semibold text-navy/80">
               {t('classLive.cap.short', { cap: view.rules.session_cap })}
@@ -401,6 +404,7 @@ export function LiveClassPage() {
         no={sessionNo}
         topic={view.session?.topic ?? ''}
         lastTopic={view.last_topic}
+        topics={view.topics ?? []}
         onClose={() => setEditingSession(false)}
         onSave={(no, topic) => {
           queue.enqueue({ op: 'topic', id: newId(), class_id: classId, date: today, session_no: no, topic })
@@ -1081,6 +1085,7 @@ function SessionDialog({
   no,
   topic,
   lastTopic,
+  topics,
   onClose,
   onSave,
 }: {
@@ -1088,6 +1093,8 @@ function SessionDialog({
   no: number
   topic: string
   lastTopic: string | null
+  /** Giáo án: phần tử thứ N là chủ đề Buổi N (cài đặt class_live.topics) */
+  topics: string[]
   onClose: () => void
   onSave: (no: number | null, topic: string | null) => void
 }) {
@@ -1097,9 +1104,10 @@ function SessionDialog({
   useEffect(() => {
     if (open) {
       setN(String(no))
-      setText(topic)
+      // Chưa có chủ đề → điền sẵn theo giáo án của buổi này
+      setText(topic || topics[no - 1] || '')
     }
-  }, [open, no, topic])
+  }, [open, no, topic, topics])
   return (
     <Dialog open={open} onClose={onClose} title={t('classLive.session.title')}>
       <div className="space-y-4">
@@ -1117,6 +1125,34 @@ function SessionDialog({
         <Button size="full" onClick={() => onSave(n ? Number(n) : null, text.trim() || null)}>
           {t('common.save')}
         </Button>
+        {topics.length > 0 && (
+          <section className="space-y-2">
+            <h3 className="text-sm font-semibold text-navy/70">{t('classLive.session.pickFromPlan')}</h3>
+            <ul className="space-y-1.5">
+              {topics.map((tp, i) => {
+                const on = Number(n) === i + 1 && text.trim() === tp
+                return (
+                  <li key={i}>
+                    {/* Một chạm: chọn số buổi + chủ đề và lưu luôn */}
+                    <button
+                      type="button"
+                      onClick={() => onSave(i + 1, tp)}
+                      className={cn(
+                        'flex min-h-12 w-full items-center gap-2 rounded-xl px-3 py-2 text-left',
+                        on ? 'bg-navy text-white' : 'bg-white ring-1 ring-navy/10',
+                      )}
+                    >
+                      <span className="w-5 shrink-0">{on && <Check className="h-4 w-4" />}</span>
+                      <span>
+                        <span className="font-semibold">{t('classLive.session.no', { no: i + 1 })}</span> · {tp}
+                      </span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        )}
       </div>
     </Dialog>
   )

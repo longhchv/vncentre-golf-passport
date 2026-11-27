@@ -36,6 +36,7 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 - `supabase/migrations/20261127000030_class_live.sql`: chỉ thêm bảng, hàm và giá trị `reason` / `code` mới.
 - `supabase/migrations/20261127000040_class_live_steps.sql`: mức điểm 5–50 (cài đặt mới, thay thân `class_live_board`, `class_live_sync`).
 - `supabase/migrations/20261127000050_class_live_attendance.sql`: điểm danh có điểm, trần mỗi buổi theo loại lớp; cộng điểm danh cho các buổi đã điểm danh trước đó.
+- `supabase/migrations/20261127000060_class_live_topics.sql`: giáo án 14 buổi (cài đặt `class_live.topics`); HLV chọn "Buổi N · chủ đề" một chạm, ô chủ đề tự điền theo số buổi.
 - `supabase/tests/064_class_live.sql`: đạt trên PostgreSQL 16 dựng từ toàn bộ migration của repo (27/11/2026). Chưa chạy trên staging.
 
 ## Chưa làm
