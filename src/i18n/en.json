@@ -2991,7 +2991,8 @@
         "drills": "Drill library",
         "quiz": "Rules questions",
         "feedback": "Feedback",
-        "path": "Pathway & costs"
+        "path": "Pathway & costs",
+        "keep": "Keep form"
       },
       "ov": {
         "profiles_self_created": "Self-created profiles",
@@ -3199,7 +3200,25 @@
       "needGoalHint": "Step code (e.g. s4)",
       "costPending": "Price not set yet",
       "costGain": "What your child gets for this cost",
-      "stepBenefit": "What the child gains"
+      "stepBenefit": "What the child gains",
+      "keepHint": "Keep form: age limits are suggestions only (the app warns, never blocks); shares should add up to 100%.",
+      "ageTitle": "Suggested limits by age",
+      "ageRange": "Age",
+      "ageFrom": "From age",
+      "ageTo": "To age",
+      "ageWeek": "Max golf hours/week",
+      "ageWeekHint": "Empty = equal to age",
+      "ageEqual": "equal to age",
+      "ageSession": "Max minutes/session",
+      "ageRest": "Rest days/week",
+      "ageSleep": "Sleep",
+      "ageCoach": "Coach may approve up to (h/week)",
+      "ageCoachHint": "Empty if coaches cannot approve more for this age group",
+      "splitTitle": "Keep form shares",
+      "splitPct": "Share (%)",
+      "splitPctHint": "Active parts should add up to 100",
+      "splitSkills": "Drill library skills",
+      "splitPlaces": "Can practise at"
     },
     "jr": {
       "switcher": "Choose golfer",
@@ -3458,6 +3477,94 @@
       "aboutTime": "about {{time}}",
       "once": "One-time purchase:",
       "pricePending": "price to be updated"
+    },
+    "keep": {
+      "title": "Keep form",
+      "entry": "A weekly plan for the school term: little time, still keep form and handicap",
+      "for": "{{name}} · level {{level}}",
+      "age": "age {{n}}",
+      "intro": "Choose your free time and where you can practise; the app builds a weekly plan by share: putting, short game, full swing, on course, fitness. Little time still keeps form if every session has targets and pressure.",
+      "setupTitle": "Setup",
+      "timeTitle": "Practice time",
+      "option": {
+        "daily": "1 hour a day (Mon–Fri)",
+        "weekend": "2 weekend days × 3 hours",
+        "custom": "Custom"
+      },
+      "daysTitle": "Days",
+      "minutesPerDay": "Minutes per day",
+      "placesTitle": "Where you can practise",
+      "place": {
+        "home": "Home",
+        "range": "Driving range",
+        "sim3d": "Simulator",
+        "course": "Golf course"
+      },
+      "lightUntil": "Exam weeks: lighter load until",
+      "lightHint": "Until this date each training day is 15 minutes of putting at home.",
+      "weekTotal": "{{hours}} hours/week · suggested max for age: {{limit}} hours",
+      "warn": {
+        "week": "Above the suggestion: {{hours}} hours/week, suggested max {{limit}}. Consider less, or ask the coach.",
+        "session": "A {{minutes}}-minute session is longer than the {{limit}} minutes suggested for this age.",
+        "rest": "Only {{rest}} rest days a week; at least {{need}} suggested."
+      },
+      "under9": "Under 9s should mostly practise through games and level cards, 3–4 short sessions a week.",
+      "save": "Save and build plan",
+      "change": "Change",
+      "min": "min",
+      "weekTitle": "This week",
+      "progress": "Done {{done}}/{{total}} min",
+      "lightOn": "Exam-week light load until {{date}}: 15 minutes of putting a day.",
+      "overloadOn": "This week's load was halved because of signs of overtraining.",
+      "cardOfWeek": "Card to try this week:",
+      "dow": {
+        "0": "Sunday",
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday"
+      },
+      "markDone": "Done",
+      "scoreRule": "Every session should have at least one scored drill; change club and target every few balls, no more than 10 of the same shot in a row.",
+      "checkTitle": "Check every 4 weeks",
+      "checkDue": "Check due",
+      "checkNext": "Last check {{date}}",
+      "checkHint": "The 3-part test (5 balls each) and a 9-hole round if possible. The app compares with last time: up, same or down.",
+      "nineToPar": "9 holes: strokes over par (optional)",
+      "saveCheck": "Save check",
+      "result": {
+        "first": "First",
+        "up": "Up",
+        "same": "Same",
+        "down": "Down"
+      },
+      "resultLine": {
+        "first": "First check saved; next time the app will compare.",
+        "up": "Form is going up. Keep this rhythm.",
+        "same": "Form is holding.",
+        "down": "Form is dropping. If it drops again, the app suggests a new focus and tells the coach."
+      },
+      "coachTitle": "Coach approves hours",
+      "coachHint": "From age 15 the coach can approve up to {{max}} hours/week. Leave empty to remove.",
+      "coachHours": "Hours/week",
+      "approve": "Approve",
+      "overCoachMax": "Above what a coach can approve for this age.",
+      "flagButton": "Signs of overtraining",
+      "flagTitle": "Signs of overtraining",
+      "flagIntro": "Tick any sign you see. The app halves this week's load and tells the coach.",
+      "sign": {
+        "tired": "Tired after practice",
+        "no_fun": "Lost interest",
+        "want_quit": "Wants to quit",
+        "pain": "Lasting pain"
+      },
+      "flagNote": "Note (optional)",
+      "painNote": "Lasting pain: see a doctor before training again.",
+      "flagSend": "Send",
+      "flagged": "Noted; this week's load is halved.",
+      "limitNote": "Suggested for this age: at least {{rest}} rest days a week, {{sleep}} of sleep a night, 2–3 months off golf a year."
     }
   },
   "rewards": {
