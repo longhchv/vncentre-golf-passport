@@ -47,6 +47,8 @@ export interface LiveBoard {
   date: string
   /** Các mức điểm HLV bấm (cài đặt class_live.point_steps) */
   steps?: number[]
+  /** Điểm có mặt và trần điểm mỗi buổi của loại lớp (CLB / trường công lập) */
+  rules?: { kind: 'club' | 'public_school'; attendance_points: number; session_cap: number }
   session: { id: string; session_no: number | null; topic: string | null } | null
   next_session_no: number
   last_topic: string | null
@@ -59,12 +61,24 @@ export function vnToday(now = new Date()): string {
 }
 
 /** Cộng các thao tác chưa gửi (của đúng lớp, đúng ngày) vào bảng điểm lấy từ máy chủ. */
+const attending = (a: Attendance | null) => a === 'present' || a === 'late'
+
+/** Số điểm còn được cộng trong buổi cho một bạn (trần tính cả điểm danh). */
+export function remainingToday(board: Pick<LiveBoard, 'rules'>, s: Pick<LiveStudent, 'today'>): number {
+  return board.rules ? Math.max(0, board.rules.session_cap - s.today) : Infinity
+}
+
 export function applyPending(board: LiveBoard, ops: LiveOp[]): LiveBoard {
   const mine = ops.filter((o) => o.class_id === board.class.id && o.date === board.date)
   if (mine.length === 0) return board
   const students = board.students.map((s) => ({ ...s }))
   const byId = new Map(students.map((s) => [s.id, s]))
   let session = board.session
+  const add = (s: LiveStudent, d: number) => {
+    s.today += d
+    s.total += d
+    s.available += d
+  }
   for (const o of mine) {
     if (o.op === 'topic') {
       session = {
@@ -77,13 +91,17 @@ export function applyPending(board: LiveBoard, ops: LiveOp[]): LiveBoard {
     const s = byId.get(o.student_id)
     if (!s) continue
     if (o.op === 'points') {
-      // Giống máy chủ: sửa nhầm không kéo điểm hôm nay xuống dưới 0
+      // Giống máy chủ: hoàn tác không xuống dưới 0, cộng không vượt trần của buổi
       if (o.delta < 0 && s.today + o.delta < 0) continue
-      s.today += o.delta
-      s.total += o.delta
-      s.available += o.delta
+      if (o.delta > 0 && o.delta > remainingToday(board, s)) continue
+      add(s, o.delta)
     } else {
-      if (o.attendance !== undefined) s.attendance = o.attendance
+      if (o.attendance !== undefined) {
+        // Có mặt / vào muộn được cộng điểm danh; đổi sang vắng thì trừ lại
+        const pts = board.rules?.attendance_points ?? 0
+        if (attending(o.attendance) !== attending(s.attendance)) add(s, attending(o.attendance) ? pts : -pts)
+        s.attendance = o.attendance
+      }
       if (o.leave_count !== undefined) s.leave_count = o.leave_count
       if (o.comment_tags !== undefined) s.comment_tags = o.comment_tags
       if (o.note !== undefined) s.note = o.note

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { applyPending, rollToDate, vnToday, type LiveBoard, type LiveOp } from './queue'
+import { applyPending, remainingToday, rollToDate, vnToday, type LiveBoard, type LiveOp } from './queue'
 
 const board: LiveBoard = {
   class: { id: 'c1', name: 'CLB Golf', school: null },
@@ -50,6 +50,25 @@ describe('applyPending', () => {
     ])
     expect(v.students[1]).toMatchObject({ attendance: 'late', leave_count: 1, comment_tags: ['fair_play'], note: 'x' })
     expect(v.session).toMatchObject({ session_no: 10, topic: 'Pitching + Luật golf' })
+  })
+})
+
+describe('điểm danh và trần mỗi buổi', () => {
+  const ruled: LiveBoard = { ...board, rules: { kind: 'club', attendance_points: 10, session_cap: 200 } }
+  it('có mặt / vào muộn cộng điểm danh, đổi sang vắng trừ lại', () => {
+    const m = (attendance: 'present' | 'late' | 'absent', id: string): LiveOp =>
+      ({ op: 'mark', id, class_id: 'c1', date: '2026-11-27', student_id: 's1', attendance }) as LiveOp
+    expect(applyPending(ruled, [m('present', 'a')]).students[0].today).toBe(12)
+    expect(applyPending(ruled, [m('present', 'a'), m('late', 'b')]).students[0].today).toBe(12)
+    expect(applyPending(ruled, [m('present', 'a'), m('absent', 'b')]).students[0].today).toBe(2)
+    // s2 đang có mặt (chưa có điểm danh trong today của bảng thử): vắng → trừ
+    expect(applyPending(ruled, [{ op: 'mark', id: 'c', class_id: 'c1', date: '2026-11-27', student_id: 's2', attendance: 'absent' }]).students[1].today).toBe(-10)
+  })
+  it('không cộng vượt trần của buổi', () => {
+    const v = applyPending(ruled, [pts('a', 's1', 50), pts('b', 's1', 50), pts('c', 's1', 50), pts('d', 's1', 50), pts('e', 's1', 5)])
+    // 2 + 50 + 50 + 50 = 152; +50 nữa vượt 200 → bỏ; +5 → 157
+    expect(v.students[0].today).toBe(157)
+    expect(remainingToday(ruled, v.students[0])).toBe(43)
   })
 })
 

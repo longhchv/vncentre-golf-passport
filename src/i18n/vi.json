@@ -4826,6 +4826,12 @@
       "team_win": "Đội thắng"
     },
     "undo": "Hoàn tác",
-    "undoNone": "chưa chấm"
+    "undoNone": "chưa chấm",
+    "cap": {
+      "reached": "{{count}} bạn đã đủ tối đa {{cap}} điểm của buổi, không cộng thêm.",
+      "full": "Đã đủ tối đa {{cap}} điểm của buổi",
+      "short": "tối đa {{cap}}",
+      "attendance": "Có mặt +{{points}} điểm"
+    }
   }
 }
