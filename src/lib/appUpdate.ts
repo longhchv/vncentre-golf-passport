@@ -39,13 +39,18 @@ export async function checkForNewVersion(force = false) {
   } catch { /* mất mạng: bỏ qua */ }
 }
 
+/** Không tải được phần code của một trang (thường do vừa phát hành bản mới): cập nhật rồi tải lại một lần cho mỗi phiên bản. */
+export function recoverFromStaleBundle() {
+  reloadOnce(`chunk-${__APP_VERSION__}`)
+}
+
 export function startAppUpdates(router: { subscribe: (fn: (s: { navigation: { state: string }; location: { pathname: string } }) => void) => unknown }) {
   // PWA: có bản mới thì kích hoạt và tải lại trang ngay khi mở app
   registerSW({ immediate: true, onRegisteredSW: (_url, r) => { registration = r } })
   // Không tải được một phần code (thường do vừa phát hành bản mới)
   window.addEventListener('vite:preloadError', (e) => {
     e.preventDefault()
-    reloadOnce('chunk')
+    recoverFromStaleBundle()
   })
   let path = window.location.pathname
   router.subscribe((s) => {
