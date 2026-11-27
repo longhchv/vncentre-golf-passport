@@ -3218,7 +3218,10 @@
       "splitPct": "Share (%)",
       "splitPctHint": "Active parts should add up to 100",
       "splitSkills": "Drill library skills",
-      "splitPlaces": "Can practise at"
+      "splitPlaces": "Can practise at",
+      "boostTitle": "Pre-event boost packages",
+      "boostPhases": "Days per phase",
+      "boostPhasesHint": "e.g. {\"test\":2,\"weak\":5,\"sim\":4,\"taper\":3}; fun week: {\"fun\":7}"
     },
     "jr": {
       "switcher": "Choose golfer",
@@ -3356,7 +3359,8 @@
         "progress": "Progress",
         "pending": "To review",
         "mark": "Mark in class",
-        "homework": "Homework"
+        "homework": "Homework",
+        "form": "Form"
       },
       "pointsNote": "Students get the assignment points in their wallet when the coach confirms (in-class tasks: when the coach marks them). Each assignment counts once."
     },
@@ -3565,6 +3569,82 @@
       "flagSend": "Send",
       "flagged": "Noted; this week's load is halved.",
       "limitNote": "Suggested for this age: at least {{rest}} rest days a week, {{sleep}} of sleep a night, 2–3 months off golf a year."
+    },
+    "boost": {
+      "title": "Pre-event boost",
+      "entry": "Intensive prep before an important event: test, weak areas, simulation, taper",
+      "intro": "Enter the event and date; the app suggests a package by age and days left, then plans each day through 4 phases: test → weak areas → simulation → taper. After the event, a recovery week, then back to Keep form.",
+      "setupTitle": "Upcoming event",
+      "eventName": "Event name",
+      "eventPh": "e.g. SNAG Golf League stage 12",
+      "eventDate": "Event date",
+      "course": "Course (optional)",
+      "holes": "Holes",
+      "holesShort": "holes",
+      "package": "Package ({{n}} days left)",
+      "suggested": "suggested",
+      "lateStart": "This package is {{n}} days longer than the time left: the first days count as past; the app starts from the matching phase.",
+      "funOnly": "Under 9s get a \"fun week before a SNAG event\": putting and chipping games, movement, up to 1 hour a day.",
+      "weakTitle": "2 weakest areas",
+      "weakHint": "Not sure? Keep putting and short game; you or the coach can change them after the test phase.",
+      "save": "Save and build plan",
+      "start": "Plan for the next event",
+      "cancel": "Cancel plan",
+      "cancelled": "Boost plan cancelled",
+      "daysLeft": "{{n}} days to the event",
+      "eventToday": "Event day today. Play well!",
+      "after": "Event done: about a week of recovery, then back to",
+      "phasesLabel": "Package phases",
+      "today": "Today",
+      "restToday": "Rest day. Sleep well, move lightly.",
+      "notStarted": "The package starts on {{date}}. Until then, follow",
+      "next": "Coming days",
+      "eve": "Event eve",
+      "kind": {
+        "rest": "Rest",
+        "event": "Event",
+        "after": "Recovery",
+        "before": "—"
+      },
+      "phase": {
+        "fun": "Fun week",
+        "test": "Test",
+        "weak": "Weak areas",
+        "sim": "Simulation",
+        "taper": "Taper"
+      },
+      "phaseHint": {
+        "fun": "Putting and chipping games, movement. Fun first, no pressure.",
+        "test": "Do the 3-part test and log 9-hole stats to find the 2 areas losing the most strokes.",
+        "weak": "About 60% of the time on the 2 weak areas; every drill has a target; change club and target often.",
+        "sim": "Practice round at the event course (or a similar course, simulator); write hole notes; rehearse the pre-shot routine.",
+        "taper": "About half the time, same number of sessions and difficulty; no new technique; sleep well."
+      },
+      "eveHint": "Event eve: light warm-up and putting only, pack the bag, sleep early.",
+      "area": {
+        "test": "3-part test",
+        "game": "9-hole simulation game (one ball, one target, full routine)",
+        "warmup": "Light warm-up"
+      },
+      "notesTitle": "Course notes",
+      "notesHint": "After the practice round, note the plan for each hole: tee club, safe side, green slope. Saved when you leave the box.",
+      "hole": "Hole {{n}}",
+      "err": {
+        "package_not_for_age": "This package is not for your child's age.",
+        "event_in_past": "The event date must be after today.",
+        "invalid_area": "Invalid weak area.",
+        "invalid_package": "Package no longer available."
+      },
+      "notesShow": "Open ({{n}} holes noted)",
+      "notesHide": "Hide"
+    },
+    "classForm": {
+      "hint": "Current mode, minutes done in the last 7 days, last check and overtraining signs this week.",
+      "overload": "Overtraining",
+      "boost": "Boost: {{name}} ({{date}})",
+      "keep": "Keep form: {{days}} days × {{minutes}} min",
+      "none": "No mode chosen",
+      "done7": "{{n}} min done in the last 7 days"
     }
   },
   "rewards": {

@@ -77,7 +77,7 @@ export function activeSplit(split: KeepSplit[], places: Place[]): { s: KeepSplit
   return sum ? ok.map((s) => ({ s, share: s.pct / sum })) : []
 }
 
-function pickDrill(drills: KeepDrill[], s: KeepSplit, places: Place[], level: number, seed: number): KeepDrill | null {
+export function pickDrill(drills: KeepDrill[], s: KeepSplit, places: Place[], level: number, seed: number): KeepDrill | null {
   const ctx = new Set(places.flatMap((p) => PLACE_CONTEXTS[p]))
   const list = drills
     .filter((d) => s.skills.includes(d.skill) && d.contexts.some((c) => ctx.has(c))

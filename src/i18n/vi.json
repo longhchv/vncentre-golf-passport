@@ -3218,7 +3218,10 @@
       "splitPct": "Tỉ lệ (%)",
       "splitPctHint": "Các phần đang bật nên cộng đủ 100",
       "splitSkills": "Kỹ năng trong kho bài tập",
-      "splitPlaces": "Tập được ở"
+      "splitPlaces": "Tập được ở",
+      "boostTitle": "Gói Tăng tốc trước giải",
+      "boostPhases": "Số ngày từng chặng",
+      "boostPhasesHint": "Ví dụ {\"test\":2,\"weak\":5,\"sim\":4,\"taper\":3}; tuần vui: {\"fun\":7}"
     },
     "jr": {
       "switcher": "Chọn người tập",
@@ -3356,7 +3359,8 @@
         "progress": "Tiến độ",
         "pending": "Chờ xác nhận",
         "mark": "Chấm tại lớp",
-        "homework": "Bài về nhà"
+        "homework": "Bài về nhà",
+        "form": "Phong độ"
       },
       "pointsNote": "Các bạn được cộng điểm của bài vào ví khi HLV xác nhận (bài tại lớp: khi HLV đánh dấu). Mỗi bài cộng một lần."
     },
@@ -3565,6 +3569,82 @@
       "flagSend": "Gửi",
       "flagged": "Đã ghi nhận, tuần này giảm một nửa khối lượng.",
       "limitNote": "Gợi ý theo tuổi: nghỉ ít nhất {{rest}} ngày/tuần, ngủ {{sleep}} mỗi đêm, nghỉ golf tổng cộng 2–3 tháng mỗi năm."
+    },
+    "boost": {
+      "title": "Tăng tốc trước giải",
+      "entry": "Tập dồn trước giải quan trọng: đo trình độ, tập phần yếu, mô phỏng thi đấu, giảm tải",
+      "intro": "Nhập giải và ngày thi; app gợi ý gói theo tuổi và số ngày còn lại, rồi xếp việc từng ngày qua 4 chặng: đo trình độ → tập phần yếu → mô phỏng thi đấu → giảm tải. Sau giải, các con nghỉ hồi sức 1 tuần rồi quay về Giữ phong độ.",
+      "setupTitle": "Giải sắp tới",
+      "eventName": "Tên giải",
+      "eventPh": "Ví dụ: SNAG Golf League chặng 12",
+      "eventDate": "Ngày thi",
+      "course": "Sân (không bắt buộc)",
+      "holes": "Số hố",
+      "holesShort": "hố",
+      "package": "Gói tập (còn {{n}} ngày)",
+      "suggested": "gợi ý",
+      "lateStart": "Gói này dài hơn số ngày còn lại {{n}} ngày: các ngày đầu coi như đã qua, app bắt đầu từ chặng tương ứng.",
+      "funOnly": "Các bạn dưới 9 tuổi có \"tuần vui trước giải SNAG\": trò chơi putting, chip, vận động, tối đa 1 giờ/ngày.",
+      "weakTitle": "2 phần yếu cần tập nhiều nhất",
+      "weakHint": "Chưa rõ thì giữ putting và short game; sau chặng đo trình độ bố mẹ hoặc HLV có thể đổi.",
+      "save": "Lưu và xếp lịch",
+      "start": "Lập kế hoạch cho giải sắp tới",
+      "cancel": "Huỷ kế hoạch",
+      "cancelled": "Đã huỷ kế hoạch Tăng tốc",
+      "daysLeft": "Còn {{n}} ngày đến giải",
+      "eventToday": "Hôm nay thi đấu. Chúc các con chơi tốt!",
+      "after": "Đã thi xong: nghỉ hồi sức khoảng 1 tuần, rồi quay về",
+      "phasesLabel": "Các chặng của gói",
+      "today": "Hôm nay",
+      "restToday": "Hôm nay là ngày nghỉ. Ngủ đủ, vận động nhẹ.",
+      "notStarted": "Gói bắt đầu từ {{date}}. Trước đó các con tập theo",
+      "next": "Các ngày tới",
+      "eve": "Trước giải",
+      "kind": {
+        "rest": "Nghỉ",
+        "event": "Thi đấu",
+        "after": "Hồi sức",
+        "before": "—"
+      },
+      "phase": {
+        "fun": "Tuần vui",
+        "test": "Đo trình độ",
+        "weak": "Tập phần yếu",
+        "sim": "Mô phỏng thi đấu",
+        "taper": "Giảm tải"
+      },
+      "phaseHint": {
+        "fun": "Chơi trò chơi putting, chip, vận động. Vui là chính, không ép.",
+        "test": "Làm bài test 3 phần và ghi thống kê vòng 9 hố để tìm 2 phần mất nhiều gậy nhất.",
+        "weak": "Khoảng 60% thời gian cho 2 phần yếu; mỗi bài có chỉ tiêu, đổi gậy và mục tiêu thường xuyên.",
+        "sim": "Vòng tập ở sân giải (hoặc sân giống, phòng 3D), ghi sổ từng hố, luyện thói quen trước cú đánh.",
+        "taper": "Giảm khoảng một nửa thời gian, giữ số buổi và độ khó; không sửa kỹ thuật mới; ngủ đủ."
+      },
+      "eveHint": "Ngày trước giải: chỉ khởi động nhẹ và putt, chuẩn bị đồ, ngủ sớm.",
+      "area": {
+        "test": "Bài test 3 phần",
+        "game": "Game mô phỏng 9 hố (mỗi cú một gậy, một mục tiêu, đủ thói quen)",
+        "warmup": "Khởi động nhẹ"
+      },
+      "notesTitle": "Sổ sân giải",
+      "notesHint": "Sau vòng tập, ghi chiến thuật từng hố: gậy phát bóng, vùng an toàn, hướng green dốc. Tự lưu khi rời ô.",
+      "hole": "Hố {{n}}",
+      "err": {
+        "package_not_for_age": "Gói này không dành cho tuổi của các con.",
+        "event_in_past": "Ngày thi phải sau hôm nay.",
+        "invalid_area": "Phần yếu không hợp lệ.",
+        "invalid_package": "Gói không còn dùng."
+      },
+      "notesShow": "Mở sổ ({{n}} hố đã ghi)",
+      "notesHide": "Thu gọn"
+    },
+    "classForm": {
+      "hint": "Chế độ đang dùng, số phút đã làm 7 ngày qua, lần kiểm tra gần nhất và dấu hiệu quá sức tuần này.",
+      "overload": "Quá sức",
+      "boost": "Tăng tốc: {{name}} ({{date}})",
+      "keep": "Giữ phong độ: {{days}} ngày × {{minutes}} phút",
+      "none": "Chưa chọn chế độ",
+      "done7": "{{n}} phút đã làm 7 ngày qua"
     }
   },
   "rewards": {

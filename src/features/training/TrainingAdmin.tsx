@@ -15,6 +15,7 @@ import type { PlanBlock, PlanLine } from './planner'
 import type { Benchmark } from './stats'
 import { FeedbackAdmin } from './Feedback'
 import type { AgeLimit, KeepSplit } from './keep'
+import type { BoostPackage } from './boost'
 import { formatRange, type CostItem, type FinancePlan, type Need, type PathStep } from './path'
 
 const db = () => supabase!
@@ -792,6 +793,28 @@ function KeepAdmin() {
           { name: 'coach_week_max', labelKey: 'training.admin.ageCoach', type: 'number', hintKey: 'training.admin.ageCoachHint' },
           { name: 'note_vi', labelKey: 'training.admin.costNote', type: 'textarea' },
           { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+        ]}
+      />
+      <CrudTable<BoostPackage>
+        table="training_boost_packages"
+        titleKey="training.admin.boostTitle"
+        order="sort_order"
+        invalidate={['training_boost']}
+        newDefaults={{ phases: { test: 1, weak: 3, sim: 2, taper: 1 }, min_age: 9, max_age: 25, is_active: true }}
+        columns={[
+          { key: 'name_vi', labelKey: 'fields.nameVi', render: (r) => <div><div className="font-semibold">{r.name_vi}</div><code className="text-xs text-navy/50">{r.code}</code></div> },
+          { key: 'phases', labelKey: 'training.admin.boostPhases', render: (r) => Object.entries(r.phases).map(([k, v]) => `${t(`training.boost.phase.${k}`)} ${v}`).join(' · ') },
+          { key: 'ages', labelKey: 'training.admin.ageRange', render: (r) => `${r.min_age}–${r.max_age}` },
+        ]}
+        fields={[
+          { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
+          { name: 'name_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'name_en', labelKey: 'fields.nameEn' },
+          { name: 'phases', labelKey: 'training.admin.boostPhases', type: 'json', required: true, hintKey: 'training.admin.boostPhasesHint' },
+          { name: 'min_age', labelKey: 'training.admin.ageFrom', type: 'number', required: true },
+          { name: 'max_age', labelKey: 'training.admin.ageTo', type: 'number', required: true },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
         ]}
       />
       <CrudTable<KeepSplit>

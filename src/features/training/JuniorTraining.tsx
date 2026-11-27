@@ -7,7 +7,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, CalendarCheck, Check, ChevronLeft, Clock, ExternalLink, Minus, Plus, Route, Video } from 'lucide-react'
+import { BookOpen, CalendarCheck, Check, ChevronLeft, Trophy, Clock, ExternalLink, Minus, Plus, Route, Video } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Checkbox, Field, FormError, Input, Select, Textarea } from '@/components/ui/form'
@@ -20,6 +20,7 @@ import { useSetting } from '@/lib/settings'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { useMe, useTrainingEnabled } from './api'
+import { CoachClassForm } from './ClassForm'
 import { FeedbackButton } from './Feedback'
 import { cardState, partsMet, type CardState, type Challenge, type Part, type Result } from './junior'
 
@@ -387,6 +388,15 @@ function JuniorHome({ studentId, base, libraryTo, guardian }: { studentId: strin
         ))}
       </section>
 
+      <Link to={`${base}/boost`} className="block">
+        <Card className="flex items-center gap-3 p-4 hover:bg-navy/5">
+          <Trophy className="h-6 w-6 shrink-0 text-bronze" />
+          <div>
+            <p className="font-semibold">{t('training.boost.title')}</p>
+            <p className="text-sm text-navy/60">{t('training.boost.entry')}</p>
+          </div>
+        </Card>
+      </Link>
       <Link to={`${base}/keep`} className="block">
         <Card className="flex items-center gap-3 p-4 hover:bg-navy/5">
           <CalendarCheck className="h-6 w-6 shrink-0 text-bronze" />
@@ -648,7 +658,7 @@ export function CoachClassTrainingPage() {
       return data as { id: string; name: string } | null
     },
   })
-  const [tab, setTab] = useState<'progress' | 'pending' | 'mark' | 'homework'>('progress')
+  const [tab, setTab] = useState<'progress' | 'form' | 'pending' | 'mark' | 'homework'>('progress')
   if (cls.isPending) return <Loading />
   if (!cls.data) return <p className="text-navy/60">{t('coach.noAccessClass')}</p>
   return (
@@ -656,11 +666,12 @@ export function CoachClassTrainingPage() {
       <Back to={`/coach/classes/${classId}`} label={cls.data.name} />
       <h1 className="text-2xl font-bold">{t('training.title')} · {cls.data.name}</h1>
       <div className="flex flex-wrap gap-2">
-        {(['progress', 'pending', 'mark', 'homework'] as const).map((k) => (
+        {(['progress', 'form', 'pending', 'mark', 'homework'] as const).map((k) => (
           <Button key={k} size="sm" variant={tab === k ? 'primary' : 'outline'} onClick={() => setTab(k)}>{t(`training.coach.tab.${k}`)}</Button>
         ))}
       </div>
       {tab === 'progress' && <CoachProgress classId={classId} />}
+      {tab === 'form' && <CoachClassForm classId={classId} />}
       {tab === 'pending' && <CoachPending classId={classId} />}
       {tab === 'mark' && <CoachMark classId={classId} />}
       {tab === 'homework' && <CoachHomework classId={classId} />}
