@@ -738,7 +738,7 @@
   },
   "parent": {
     "hello": "Hello,",
-    "addEmailPrompt": "Add an email to receive notifications and download your child's PDF certificates.",
+    "addEmailPrompt": "Link an email or Google account to sign in more easily and keep access if you change your phone number.",
     "noChildren": "You have not activated a Golf Passport for your child yet.",
     "addChild": "Add child",
     "childProfiles": "Your child's golf profile",
@@ -4846,6 +4846,73 @@
       "reason": "Reason when adding (tap to pick, tap again to clear)",
       "line": "Total {{total}} · To spend {{available}}",
       "hint": "Gold adds, red deducts. Tap a name for attendance and comments."
+    }
+  },
+  "signin": {
+    "with": {
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "facebook": "Continue with Facebook",
+      "azure": "Continue with Microsoft"
+    },
+    "withEmailCode": "Get a sign-in code by email",
+    "emailHint": "An account is created automatically if you do not have one. Yahoo users can use this.",
+    "emailInvalid": "Invalid email.",
+    "sendCode": "Send code",
+    "codeSent": "A 6-digit code was sent to {{email}}.",
+    "checkSpam": "No email? Check Spam / Promotions.",
+    "code": "6-digit code",
+    "codeWrong": "Wrong or expired code.",
+    "resend": "Resend code",
+    "changeEmail": "Change email",
+    "sendFailed": "Could not send the code. Try again in a few minutes.",
+    "tooMany": "Too many codes requested. Wait a few minutes.",
+    "providerFailed": "Could not sign in this way. Try another method.",
+    "orPassword": "or sign in with password"
+  },
+  "welcome": {
+    "title": "Welcome to VN Centre Golf Passport",
+    "intro": "Tell us a few details to create your profile and VNC code.",
+    "name": "Full name",
+    "birthYear": "Year of birth",
+    "kind": "You are",
+    "kinds": {
+      "student": "Student",
+      "adult": "Parent / adult"
+    },
+    "kindsHint": {
+      "student": "I learn golf myself and use my own profile",
+      "adult": "Parent, coach, staff, adult golfer"
+    },
+    "kindRequired": "Choose student or parent / adult.",
+    "submit": "Create profile",
+    "doneTitle": "Profile created",
+    "yourCode": "Your VNC code",
+    "codeHint": "Use this code for lookups, QR scans and scoring. Each child gets their own VNC code when added.",
+    "continue": "Open the app",
+    "errors": {
+      "name_required": "Enter your full name (at least 2 characters).",
+      "birth_year_invalid": "Invalid year of birth.",
+      "kind_invalid": "Choose an account type."
+    }
+  },
+  "loginMethods": {
+    "title": "Sign-in methods",
+    "unlink": "Remove",
+    "onlyOne": "You have one sign-in method. Link another so you do not lose access.",
+    "linkWith": "Link {{method}}",
+    "confirmUnlink": "Remove {{method}} sign-in?",
+    "linkFailed": "Could not link. Try again later.",
+    "linkingDisabled": "Linking extra sign-in methods is not enabled yet. Contact an admin.",
+    "unlinkFailed": "Could not remove. At least one other method must remain.",
+    "addEmailBelow": "Add an email in the Email card below to sign in with an email code.",
+    "provider": {
+      "email": "Email",
+      "phone": "Phone",
+      "google": "Google",
+      "apple": "Apple",
+      "facebook": "Facebook",
+      "azure": "Microsoft"
     }
   }
 }

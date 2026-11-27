@@ -738,7 +738,7 @@
   },
   "parent": {
     "hello": "Xin chào,",
-    "addEmailPrompt": "Thêm email để nhận thông báo và tải chứng nhận PDF của con.",
+    "addEmailPrompt": "Liên kết thêm email hoặc Google để đăng nhập dễ hơn và không mất tài khoản khi đổi số điện thoại.",
     "noChildren": "Bạn chưa kích hoạt Golf Passport cho con.",
     "addChild": "Thêm con",
     "childProfiles": "Hồ sơ golf của con",
@@ -4846,6 +4846,73 @@
       "reason": "Lý do khi cộng (chạm để chọn, chạm lại để bỏ)",
       "line": "Tổng {{total}} · Đổi quà {{available}}",
       "hint": "Nút vàng cộng, nút đỏ trừ điểm. Chạm tên để điểm danh, nhận xét."
+    }
+  },
+  "signin": {
+    "with": {
+      "google": "Tiếp tục với Google",
+      "apple": "Tiếp tục với Apple",
+      "facebook": "Tiếp tục với Facebook",
+      "azure": "Tiếp tục với Microsoft"
+    },
+    "withEmailCode": "Nhận mã đăng nhập qua email",
+    "emailHint": "Chưa có tài khoản thì hệ thống tự tạo. Người dùng Yahoo dùng cách này.",
+    "emailInvalid": "Email chưa đúng.",
+    "sendCode": "Gửi mã",
+    "codeSent": "Đã gửi mã 6 số tới {{email}}.",
+    "checkSpam": "Không thấy thư? Kiểm tra mục Thư rác / Quảng cáo.",
+    "code": "Mã 6 số",
+    "codeWrong": "Mã sai hoặc đã hết hạn.",
+    "resend": "Gửi lại mã",
+    "changeEmail": "Đổi email",
+    "sendFailed": "Chưa gửi được mã. Thử lại sau ít phút.",
+    "tooMany": "Gửi mã quá nhiều lần. Đợi ít phút rồi thử lại.",
+    "providerFailed": "Chưa đăng nhập được bằng cách này. Thử cách khác.",
+    "orPassword": "hoặc đăng nhập bằng mật khẩu"
+  },
+  "welcome": {
+    "title": "Chào mừng bạn đến VN Centre Golf Passport",
+    "intro": "Cho chúng tôi biết vài thông tin để tạo hồ sơ và mã VNC của bạn.",
+    "name": "Họ và tên",
+    "birthYear": "Năm sinh",
+    "kind": "Bạn là",
+    "kinds": {
+      "student": "Học viên",
+      "adult": "Phụ huynh / người lớn"
+    },
+    "kindsHint": {
+      "student": "Tôi tự học golf, dùng hồ sơ của chính mình",
+      "adult": "Phụ huynh của các con, HLV, nhân sự, golfer người lớn"
+    },
+    "kindRequired": "Chọn bạn là học viên hay phụ huynh / người lớn.",
+    "submit": "Tạo hồ sơ",
+    "doneTitle": "Đã tạo hồ sơ",
+    "yourCode": "Mã VNC của bạn",
+    "codeHint": "Mã này dùng để tra cứu, quét QR và nhập điểm. Mỗi con có mã VNC riêng khi được thêm vào tài khoản.",
+    "continue": "Vào app",
+    "errors": {
+      "name_required": "Nhập họ và tên (ít nhất 2 ký tự).",
+      "birth_year_invalid": "Năm sinh chưa đúng.",
+      "kind_invalid": "Chọn loại tài khoản."
+    }
+  },
+  "loginMethods": {
+    "title": "Cách đăng nhập",
+    "unlink": "Gỡ",
+    "onlyOne": "Bạn đang có một cách đăng nhập. Liên kết thêm một cách để không bị mất tài khoản.",
+    "linkWith": "Liên kết {{method}}",
+    "confirmUnlink": "Gỡ cách đăng nhập {{method}}?",
+    "linkFailed": "Chưa liên kết được. Thử lại sau.",
+    "linkingDisabled": "Liên kết thêm cách đăng nhập chưa được bật. Báo admin.",
+    "unlinkFailed": "Chưa gỡ được. Cần còn ít nhất một cách đăng nhập khác.",
+    "addEmailBelow": "Thêm email ở thẻ Email bên dưới để đăng nhập bằng mã qua email.",
+    "provider": {
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "google": "Google",
+      "apple": "Apple",
+      "facebook": "Facebook",
+      "azure": "Microsoft"
     }
   }
 }

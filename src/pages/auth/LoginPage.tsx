@@ -9,6 +9,8 @@ import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { parseIdentifier } from '@/features/auth/phone'
 import { cn } from '@/lib/utils'
 import { formatDateTime } from '@/lib/i18nField'
+import { QuickSignIn } from '@/features/auth/QuickSignIn'
+import { useMyIdentity } from '@/features/auth/providers'
 
 type Tab = 'parent' | 'staff' | 'student'
 
@@ -17,9 +19,12 @@ export function LoginPage() {
   const { session, loading, workspaces } = useAuth()
   const [params] = useSearchParams()
   const [tab, setTab] = useState<Tab>((params.get('tab') as Tab) || 'parent')
+  const identity = useMyIdentity(session?.user.id)
 
-  if (loading) return <FullPageSpinner />
+  if (loading || (session && identity.isPending)) return <FullPageSpinner />
   if (session) {
+    // Tài khoản mới (đăng nhập Google / email lần đầu…): hỏi họ tên, năm sinh, loại tài khoản và sinh mã VNC
+    if (identity.data?.needs_onboarding) return <Navigate to="/welcome" replace />
     const next = params.get('next')
     if (next) return <Navigate to={next} replace />
     if (workspaces.length === 1) return <Navigate to={WORKSPACE_PATH[workspaces[0]]} replace />
@@ -44,6 +49,7 @@ export function LoginPage() {
           </button>
         ))}
       </div>
+      {tab !== 'student' && <QuickSignIn />}
       {tab === 'parent' && <PasswordLogin mode="parent" />}
       {tab === 'staff' && <PasswordLogin mode="staff" />}
       {tab === 'student' && <StudentLogin />}

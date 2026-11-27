@@ -12,6 +12,7 @@ import { SignupPage } from '@/pages/auth/SignupPage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 import { ChooseWorkspacePage } from '@/pages/auth/ChooseWorkspacePage'
+import { WelcomePage } from '@/pages/auth/WelcomePage'
 import { AccountPage } from '@/pages/account/AccountPage'
 import { ComingSoon } from '@/components/ComingSoon'
 import { ReconsentGate } from '@/features/consents/Consents'
@@ -148,6 +149,8 @@ export const router = createBrowserRouter([
       { path: '/forgot-password', element: <ForgotPasswordPage /> },
       { path: '/reset-password', element: <ResetPasswordPage /> },
       { path: '/choose', element: <ChooseWorkspacePage /> },
+      // Spec 12 mục 7b: sau lần đăng nhập đầu — họ tên, năm sinh, loại tài khoản, sinh mã VNC
+      { path: '/welcome', element: <WelcomePage /> },
       { path: '/account', element: <AccountPage /> },
       // Hồ sơ nhân sự (11-module-ho-so-nhan-su): mọi tài khoản đăng nhập, không phụ thuộc không gian
       { path: '/staff', lazy: page(() => import('@/features/staff/StaffProfilePage'), (m) => m.StaffProfilePage) },

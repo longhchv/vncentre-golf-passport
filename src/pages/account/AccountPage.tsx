@@ -15,6 +15,7 @@ import { MyOrders } from '@/features/orders/OrderPage'
 import { PhoneField } from '@/features/auth/PhoneField'
 import { OtpStep } from '@/features/auth/OtpStep'
 import { callOtp, otpErrorText, type OtpSent } from '@/features/auth/otp'
+import { LoginMethodsCard } from '@/features/auth/LoginMethodsCard'
 import { isVietnamese, toE164 } from '@/features/auth/phone'
 
 /**
@@ -33,6 +34,7 @@ export function AccountPage() {
     <div className="mx-auto max-w-lg space-y-5">
       <h1 className="text-2xl font-bold">{t('account.title')}</h1>
       <NameCard initial={profile?.full_name ?? ''} userId={user.id} />
+      <LoginMethodsCard />
       {(profile?.cv_type || roles.length > 0) && (
         <Link to="/staff">
           <Card className="flex items-center justify-between gap-2 p-4 hover:bg-navy/5">
