@@ -27,14 +27,15 @@ begin
   values (s, g, 'mother', true, true, 'admin', 'active', now());
 
   -- 1. Dữ liệu mẫu đủ và khớp nhau
-  if (select count(*) from public.training_cost_items) < 16 then raise exception 'FAIL thiếu khoản chi phí'; end if;
+  if exists (select 1 from public.training_cost_items where price_pending) then raise exception 'FAIL còn khoản chờ giá'; end if;
+  if (select count(*) from public.training_cost_items) < 15 then raise exception 'FAIL thiếu khoản chi phí'; end if;
   if exists (select 1 from public.training_cost_items where code = 'clubs_premium') then raise exception 'FAIL còn bộ gậy cao cấp'; end if;
   if (select count(*) from public.training_path_steps) <> 6 then raise exception 'FAIL số bước'; end if;
   if (select count(*) from public.training_finance_plans) <> 4 then raise exception 'FAIL số phương án'; end if;
   -- Mọi phương án dùng bộ gậy cơ bản
   if exists (select 1 from public.training_finance_plans p, jsonb_array_elements(p.items) i
              join public.training_cost_items c on c.code = i ->> 'item'
-             where c.grp = 'equipment' and c.code not in ('clubs_basic', 'net_cage', 'mat', 'club_single')) then
+             where c.grp = 'equipment' and c.code not in ('clubs_basic', 'net_cage', 'mat')) then
     raise exception 'FAIL phương án dùng gậy khác bộ cơ bản';
   end if;
   select string_agg(distinct i ->> 'item', ',') into bad from public.training_finance_plans p, jsonb_array_elements(p.items) i

@@ -4,7 +4,7 @@ import { applyPlace, formatMonths, formatRange, formatVnd, goalIndex, monthlyCos
 const item = (code: string, min: number, max = min): CostItem => ({
   id: code, code, grp: 'class', name_vi: code, name_en: code, unit_vi: 'buổi', unit_en: 'session', min_vnd: min, max_vnd: max, price_pending: false, gain_vi: null, gain_en: null, note_vi: null, sort_order: 0,
 })
-const items = [item('snag_group', 200_000), item('snag_school_public', 0), item('snag_school_private', 0), item('range', 100_000, 200_000), item('fee_snag', 150_000), item('pga_group', 500_000), item('clubs_basic', 2_500_000, 3_000_000), item('home', 0)]
+const items = [item('snag_group', 200_000), item('snag_school_public', 0), item('snag_school_private', 100_000, 250_000), item('range', 100_000, 200_000), item('fee_snag', 150_000), item('pga_group', 500_000), item('clubs_basic', 2_500_000, 3_000_000), item('home', 0)]
 
 const step = (code: string, phase: PathStep['phase'], from: number, to: number, months: number): PathStep => ({
   id: code, code, phase, level_from: from, level_to: to, title_vi: code, title_en: code, benefit_vi: null, hcp_note_vi: null, opportunity_vi: null, focus_vi: null,
@@ -58,6 +58,11 @@ describe('lộ trình các bạn nhỏ', () => {
   it('học SNAG ở trường công thì lớp SNAG 0 đồng', () => {
     expect(monthlyCost(applyPlace(plan, 'public_school'), items, 'snag')).toEqual({ min: 75_000, max: 75_000 })
     expect(monthlyCost(applyPlace(plan, 'outside'), items, 'snag')).toEqual({ min: 875_000, max: 875_000 })
+    // Trường tư: 4 buổi nhóm/tháng, 100–250 nghìn/buổi
+    expect(monthlyCost(applyPlace(plan, 'private_school'), items, 'snag')).toEqual({ min: 475_000, max: 1_075_000 })
+    // Phương án không có lớp nhóm (1 kèm 1) vẫn được tính lớp ở trường
+    const fast: FinancePlan = { ...plan, items: [{ item: 'home', qty: 8, per: 'month', phase: 'all' }] }
+    expect(monthlyCost(applyPlace(fast, 'private_school'), items, 'snag')).toEqual({ min: 400_000, max: 1_000_000 })
     // Giai đoạn gậy sắt không đổi
     expect(monthlyCost(applyPlace(plan, 'public_school'), items, 'iron9')).toEqual(monthlyCost(plan, items, 'iron9'))
   })

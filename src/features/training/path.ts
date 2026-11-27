@@ -106,9 +106,14 @@ const inPhase = (it: PlanItem, phase: Phase) => it.phase === 'all' || it.phase =
 
 const PLACE_ITEM: Record<SnagPlace, string> = { public_school: 'snag_school_public', private_school: 'snag_school_private', outside: 'snag_group' }
 
-/** Thay lớp SNAG nhóm theo nơi các con học SNAG (trường công miễn phí, trường tư / quốc tế do trường thu, ngoài trường). */
+/**
+ * Nơi các con học SNAG. Ngoài trường: giữ công thức của phương án. Ở trường (công miễn phí, tư / quốc tế do trường thu):
+ * bỏ lớp SNAG nhóm ngoài trường, mọi phương án tính 4 buổi nhóm/tháng ở trường (1 buổi/tuần, anh Long chốt 27/11/2026).
+ */
 export function applyPlace(plan: FinancePlan, place: SnagPlace): FinancePlan {
-  return { ...plan, items: plan.items.map((it) => (it.item === 'snag_group' && it.phase === 'snag' ? { ...it, item: PLACE_ITEM[place] } : it)) }
+  if (place === 'outside') return plan
+  const school: PlanItem = { item: PLACE_ITEM[place], qty: 4, per: 'month', phase: 'snag' }
+  return { ...plan, items: [school, ...plan.items.filter((it) => !(it.item === 'snag_group' && it.phase === 'snag'))] }
 }
 
 /** Chi phí mỗi tháng của phương án trong một giai đoạn (khoản theo năm chia 12). */

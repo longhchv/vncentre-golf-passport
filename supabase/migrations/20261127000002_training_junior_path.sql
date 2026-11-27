@@ -5,10 +5,10 @@
 --   · Gậy: mọi phương án dùng bộ cơ bản; chọn gậy vừa với từng bạn, gậy đắt không làm các con tiến bộ nhanh hơn.
 --   · Nơi học SNAG: trường công miễn phí; trường tư / quốc tế có phí do trường thu (admin nhập); ngoài trường theo giá lớp SNAG.
 --     App chọn sẵn theo trường hiện tại của các con, phụ huynh sửa được.
---   · Phương án "siêu tiết kiệm": mua một lần lồng lưới, thảm, 1–2 cây gậy; tự tập ở nhà theo app, thỉnh thoảng đi kiểm tra / đánh giải.
+--   · Phương án "siêu tiết kiệm": mua một lần lồng lưới, thảm, một bộ gậy trẻ em (2,8–3 triệu); tự tập ở nhà theo app, thỉnh thoảng đi kiểm tra / đánh giải.
 --   · Chỉ số theo giai đoạn, không theo tuổi: SNAG → SNAG Handicap; gậy sắt → Junior Handicap (app Handicap tính, ở đây chỉ đọc);
 --     giải 18 hố, tee đỏ → Handicap Index WHS.
--- Mọi con số là CHI PHÍ ƯỚC TÍNH, admin sửa được. Giá từng khoản: anh Long đưa (24 và 27/11/2026). Số buổi, số tháng: Minh đề xuất, chờ anh chỉnh.
+-- Mọi con số là CHI PHÍ ƯỚC TÍNH, admin sửa được. Giá từng khoản: anh Long đưa (24 và 27/11/2026). Học SNAG ở trường: tính 4 buổi nhóm/tháng (1 buổi/tuần). Số buổi, số tháng: Minh đề xuất, chờ anh chỉnh.
 -- Chỉ thêm bảng, hàm, dữ liệu mẫu.
 
 -------------------------------------------------------------------------------
@@ -191,8 +191,8 @@ insert into public.training_cost_items (code, grp, name_vi, name_en, unit_vi, un
    'Bài tập, thử thách và AI xem cú đánh ngay trên điện thoại; tự giác mỗi ngày là tiến bộ.', 'Quan trọng nhất là cách tập và sự tự giác, không phải tiền.', 10),
   ('snag_school_public',  'class',      'Lớp SNAG tại trường công',              'SNAG class at public school',        'buổi', 'session',        0,        0, false,
    'Học với HLV ngay ở trường, cùng các bạn trong lớp; miễn phí.', 'Các con học miễn phí tại trường', 20),
-  ('snag_school_private', 'class',      'Lớp SNAG tại trường tư, quốc tế',       'SNAG class at private / international school', 'buổi', 'session', 0, 0, true,
-   'Học với HLV ngay ở trường, cùng các bạn trong lớp.', 'Phí do trường thu; admin nhập theo từng trường khi có', 21),
+  ('snag_school_private', 'class',      'Lớp SNAG tại trường tư, quốc tế',       'SNAG class at private / international school', 'buổi', 'session', 100000, 250000, false,
+   'Học nhóm với HLV ngay ở trường, cùng các bạn trong lớp.', 'Học nhóm, mỗi tuần 1 buổi; phí do trường thu, tuỳ trường', 21),
   ('snag_group',          'class',      'Lớp SNAG nhóm (ngoài trường)',          'SNAG group class (outside school)',  'buổi', 'session',   200000,   200000, false,
    'Học kỹ thuật và luật với HLV, chơi cùng các bạn.', 'Mỗi bạn mỗi buổi', 22),
   ('snag_1on1',           'class',      'Lớp SNAG 1 kèm 1',                      'SNAG 1-on-1',                        'buổi', 'session',   350000,   350000, false,
@@ -215,10 +215,8 @@ insert into public.training_cost_items (code, grp, name_vi, name_en, unit_vi, un
    'Đánh bóng thật ngay ở nhà, mỗi ngày đều tập được.', 'Lồng tam giác cơ bản khoảng 1,5 triệu; loại tốt khoảng 2,8 triệu', 110),
   ('mat',                 'equipment',  'Thảm tập',                              'Hitting mat',                        'tấm',  'unit',     1000000,  5000000, false,
    'Tập an toàn ở nhà, không hỏng sàn.', 'Thường khoảng 1 triệu là dùng được', 120),
-  ('club_single',         'equipment',  '1–2 cây gậy tập',                       '1–2 practice clubs',                 'bộ',   'set',            0,        0, true,
-   'Đủ để tập swing và đánh bóng ở nhà.', 'Chờ anh Long cho giá', 130),
-  ('clubs_basic',         'equipment',  'Bộ gậy trẻ em cơ bản',                  'Junior club set (basic)',            'bộ',   'set',      2500000,  3000000, false,
-   'Đủ gậy cho giải 9 và 18 hố.', 'Chọn gậy vừa với từng bạn; gậy đắt không làm các con tiến bộ nhanh hơn. Lớn lên chỉ cần đổi cán.', 140)
+  ('clubs_basic',         'equipment',  'Bộ gậy trẻ em',                         'Junior club set',                    'bộ',   'set',      2800000,  3000000, false,
+   'Một bộ dùng được cả khi tự tập ở nhà lẫn khi đi đánh giải.', 'Chọn gậy vừa với từng bạn; gậy đắt không làm các con tiến bộ nhanh hơn. Lớn lên chỉ cần đổi cán.', 140)
 on conflict (code) do nothing;
 
 insert into public.training_path_steps (code, phase, level_from, level_to, title_vi, title_en, benefit_vi, hcp_note_vi, opportunity_vi, focus_vi, months, sort_order) values
@@ -256,13 +254,13 @@ on conflict (code) do nothing;
 
 insert into public.training_finance_plans (code, name_vi, name_en, summary_vi, tradeoff_vi, items, sort_order) values
   ('super_saving', 'Siêu tiết kiệm', 'Lowest cost',
-   'Mua một lần lồng lưới, thảm và 1–2 cây gậy; các con tự tập ở nhà theo bài tập, thử thách trong app, có AI hỗ trợ xem cú đánh. Thỉnh thoảng đi kiểm tra với HLV hoặc đánh giải để có kết quả được xác nhận.',
+   'Mua một lần lồng lưới, thảm và một bộ gậy trẻ em; các con tự tập ở nhà theo bài tập, thử thách trong app, có AI hỗ trợ xem cú đánh. Thỉnh thoảng đi kiểm tra với HLV hoặc đánh giải để có kết quả được xác nhận.',
    'Gần như không tốn tiền hằng tháng. Đổi lại các con phải rất tự giác, bố mẹ đồng hành nhiều; ít được HLV sửa trực tiếp nên thời gian lâu hơn.',
-   '[{"item":"net_cage","qty":1,"per":"once","phase":"snag"},{"item":"mat","qty":1,"per":"once","phase":"snag"},{"item":"club_single","qty":1,"per":"once","phase":"snag"},
+   '[{"item":"net_cage","qty":1,"per":"once","phase":"snag"},{"item":"mat","qty":1,"per":"once","phase":"snag"},{"item":"clubs_basic","qty":1,"per":"once","phase":"snag"},
      {"item":"home","qty":20,"per":"month","phase":"all"},
      {"item":"snag_group","qty":4,"per":"year","phase":"snag"},{"item":"fee_snag","qty":2,"per":"year","phase":"snag"},
-     {"item":"club_single","qty":1,"per":"once","phase":"iron9"},{"item":"pga_group","qty":4,"per":"year","phase":"iron9"},{"item":"range","qty":1,"per":"month","phase":"iron9"},{"item":"fee_9","qty":2,"per":"year","phase":"iron9"},
-     {"item":"clubs_basic","qty":1,"per":"once","phase":"iron18"},{"item":"pga_group","qty":4,"per":"year","phase":"iron18"},{"item":"range","qty":2,"per":"month","phase":"iron18"},{"item":"fee_18","qty":2,"per":"year","phase":"iron18"}]', 5),
+     {"item":"pga_group","qty":4,"per":"year","phase":"iron9"},{"item":"range","qty":1,"per":"month","phase":"iron9"},{"item":"fee_9","qty":2,"per":"year","phase":"iron9"},
+     {"item":"pga_group","qty":4,"per":"year","phase":"iron18"},{"item":"range","qty":2,"per":"month","phase":"iron18"},{"item":"fee_18","qty":2,"per":"year","phase":"iron18"}]', 5),
   ('saving', 'Tiết kiệm', 'Affordable',
    'Lớp nhóm, tự tập ở nhà theo app mỗi ngày, ít giải.',
    'Chi phí thấp. Các con cần tự giác tập ở nhà nhiều, bố mẹ đồng hành; thời gian lâu hơn.',
