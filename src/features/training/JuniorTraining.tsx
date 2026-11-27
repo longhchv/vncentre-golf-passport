@@ -7,7 +7,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, Check, ChevronLeft, Clock, ExternalLink, Minus, Plus, Video } from 'lucide-react'
+import { BookOpen, Check, ChevronLeft, Clock, ExternalLink, Minus, Plus, Route, Video } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Checkbox, Field, FormError, Input, Select, Textarea } from '@/components/ui/form'
@@ -387,6 +387,15 @@ function JuniorHome({ studentId, base, libraryTo, guardian }: { studentId: strin
         ))}
       </section>
 
+      <Link to={`${base}/path`} className="block">
+        <Card className="flex items-center gap-3 p-4 hover:bg-navy/5">
+          <Route className="h-6 w-6 shrink-0 text-bronze" />
+          <div>
+            <p className="font-semibold">{t('training.path.title')}</p>
+            <p className="text-sm text-navy/60">{t('training.path.entry')}</p>
+          </div>
+        </Card>
+      </Link>
       <Link to={libraryTo} className="flex items-center gap-2 font-semibold text-bronze">
         <BookOpen className="h-4 w-4" /> {t('training.jr.library')}
       </Link>
