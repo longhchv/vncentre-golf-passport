@@ -191,6 +191,20 @@ table.price td.v{color:var(--muted);white-space:nowrap}
 .articles{display:grid;gap:8px}
 .articles a{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px}
 .articles a span{color:var(--muted);font-weight:500;font-size:12px}
+.artbox{border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px;background:var(--surface)}
+.artkick{margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-2)}
+.artcover{display:block;width:100%;aspect-ratio:1.91/1;object-fit:cover;border-radius:10px;margin:0 0 12px;background:var(--surface-2)}
+.artbox h3{font-family:var(--serif);font-size:21px;line-height:1.25;margin:0 0 6px}
+.artsapo{font-weight:600;margin:0 0 10px}
+.artbody{font-size:15px;line-height:1.65}
+.artbody h2{font-family:var(--serif);font-size:18px;margin:16px 0 6px}.artbody h3{font-size:15px;margin:12px 0 4px}
+.artbody p{margin:0 0 10px}.artbody ul,.artbody ol{margin:0 0 10px;padding-left:20px}.artbody li{margin:3px 0}
+.artbody a{color:var(--accent-2);font-weight:600}
+.artbody.clamp{max-height:300px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+.artsrc{margin:14px 0 0;padding:12px 0 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.artsrc ul{margin:4px 0 6px;padding-left:18px}.artsrc p{margin:4px 0}.artsrc a{color:inherit;font-weight:600}.artneeds{color:#8a5a12}
+.artshare{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.artpage{margin:10px 0 0;font-size:14px}.artpage a{font-weight:600;color:var(--accent-2)}
 .tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .near{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .near a{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:12px;border:1px solid var(--line);text-decoration:none;background:var(--surface)}
@@ -471,6 +485,8 @@ const km=(a,b)=>{const d=Math.PI/180;return 6371*Math.hypot((b.lng-a.lng)*d*Math
 function save(){try{localStorage.setItem("gp-pref2",JSON.stringify({lang,brand,city:CITY}))}catch(e){}}
 function toast(m){const el=$("toast");el.textContent=m;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),1800)}
 /*GD2*/
+/*ARTCORE*/
+/*ARTAPP*/
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cmp]");if(b){e.preventDefault();e.stopPropagation();toggleCmp(b.dataset.cmp)}},true);
 function hasSvc(p,s){
   if(s==="food")return p.svc.includes("food")||p.svc.includes("restaurant");
@@ -859,6 +875,7 @@ function showDetail(id){
       ${vt?`<div class="articles" style="margin-top:10px"><a href="${esc(vt)}" target="_blank" rel="noopener">🎬 ${t("vidTab")}<span>Facebook ›</span></a></div>`:""}
       ${!p.fb&&p.fbChain?`<p class="fbnote">${t("fbChainNote").replace("{c}",esc(p.fbChainName))}</p>`:""}</section>
     <section class="panel dsec" id="s-news"><h2>${t("nav.news")}</h2><p class="sub">${t("newsSub")}</p>
+      <div id="artbox"></div>
       <div class="articles">${arts||`<span class="pending">● ${t("newsNone")}</span>`}
         <a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=nws&q=${qn}">📰 ${t("gNews")}<span>Google News ›</span></a>
         <a target="_blank" rel="noopener" href="https://www.google.com/search?q=${qn}+review">⭐ ${t("gWeb")}<span>Google ›</span></a>
@@ -885,6 +902,7 @@ function showDetail(id){
    </aside>
   </div>`;
   fillAround(p);
+  if(SB.url)loadArticle(p);
   $("dclose").onclick=closeDetail;
   $("dshare").onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast(t("linkCopied"))).catch(()=>toast(u))};
   D.querySelectorAll(".dnav a").forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.go)?.scrollIntoView({behavior:"smooth",block:"start"})});

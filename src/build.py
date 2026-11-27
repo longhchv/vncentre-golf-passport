@@ -9,6 +9,8 @@ sb = {"url": os.environ.get('SB_URL', ''), "key": os.environ.get('SB_KEY', '')}
 out = (T.replace('/*BRANDS*/', open('brands.js').read()).replace('/*LM*/', open('lm.js').read())
         .replace('/*DATA*/{}', json.dumps(d, ensure_ascii=False)).replace('/*SB*/{url:"",key:""}', json.dumps(sb)))
 out = out.replace('/*GD2*/', open('gd2.js').read().replace('/*CJK*/', open('i18n_cjk.js').read()), 1)
+# Spec 30: bài viết tổng quan (lõi dùng chung với trang /bai/<slug>/ + phần gắn vào trang chi tiết)
+out = out.replace('/*ARTCORE*/', open('artcore.js').read().replace('if(typeof module!=="undefined")module.exports=ART;', ''), 1).replace('/*ARTAPP*/', open('art_app.js').read(), 1)
 if sb['url']:
     # Trang chạy riêng (tapgolf.vncentre.net): cần đủ khung tài liệu — thiếu viewport thì điện thoại hiển thị như máy tính, chữ rất nhỏ
     head_end = out.index('</style>') + len('</style>')

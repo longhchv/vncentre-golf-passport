@@ -197,6 +197,20 @@ table.price td.v{color:var(--muted);white-space:nowrap}
 .articles{display:grid;gap:8px}
 .articles a{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px}
 .articles a span{color:var(--muted);font-weight:500;font-size:12px}
+.artbox{border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px;background:var(--surface)}
+.artkick{margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-2)}
+.artcover{display:block;width:100%;aspect-ratio:1.91/1;object-fit:cover;border-radius:10px;margin:0 0 12px;background:var(--surface-2)}
+.artbox h3{font-family:var(--serif);font-size:21px;line-height:1.25;margin:0 0 6px}
+.artsapo{font-weight:600;margin:0 0 10px}
+.artbody{font-size:15px;line-height:1.65}
+.artbody h2{font-family:var(--serif);font-size:18px;margin:16px 0 6px}.artbody h3{font-size:15px;margin:12px 0 4px}
+.artbody p{margin:0 0 10px}.artbody ul,.artbody ol{margin:0 0 10px;padding-left:20px}.artbody li{margin:3px 0}
+.artbody a{color:var(--accent-2);font-weight:600}
+.artbody.clamp{max-height:300px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+.artsrc{margin:14px 0 0;padding:12px 0 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.artsrc ul{margin:4px 0 6px;padding-left:18px}.artsrc p{margin:4px 0}.artsrc a{color:inherit;font-weight:600}.artneeds{color:#8a5a12}
+.artshare{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.artpage{margin:10px 0 0;font-size:14px}.artpage a{font-weight:600;color:var(--accent-2)}
 .tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .near{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .near a{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:12px;border:1px solid var(--line);text-decoration:none;background:var(--surface)}
@@ -1066,6 +1080,104 @@ function fillAround(p){
   loadAround(p).then(draw).catch(()=>draw(null));
 }
 
+/* ===== Spec 30: lõi bài viết tổng quan — dùng chung cho app tapgolf (index.html) và trang /bai/<slug>/ =====
+   Markdown rút gọn, cùng quy tắc với app quản trị (src/features/venues/articles/md.tsx):
+   ## mục · ### mục nhỏ · - gạch đầu dòng · 1. đánh số · **đậm** · [chữ](https://…) · dòng trống = đoạn mới.
+   Mọi chữ được escape trước rồi mới áp quy tắc, nên nội dung bài không chèn được HTML hay script. */
+const ART=(()=>{
+  const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+  const inline=s=>esc(s)
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,(m,txt,u)=>`<a href="${u}" target="_blank" rel="noopener noreferrer nofollow">${txt}</a>`);
+  function blocks(src){
+    const out=[];let para=[];const flush=()=>{if(para.length){out.push({t:"p",text:para.join(" ")});para=[]}};
+    for(const raw of String(src||"").replace(/\r\n?/g,"\n").split("\n")){
+      const line=raw.trim();let m;
+      if(!line){flush();continue}
+      if((m=line.match(/^(#{2,3})\s+(.+)$/))){flush();out.push({t:m[1].length===2?"h2":"h3",text:m[2]});continue}
+      if((m=line.match(/^[-*]\s+(.+)$/))||(m=line.match(/^\d+[.)]\s+(.+)$/))){flush();const t=/^\d/.test(line)?"ol":"ul";const last=out[out.length-1];
+        if(last&&last.t===t)last.items.push(m[1]);else out.push({t,items:[m[1]]});continue}
+      para.push(line);
+    }
+    flush();return out;
+  }
+  const md=src=>blocks(src).map(b=>b.items?`<${b.t}>${b.items.map(x=>`<li>${inline(x)}</li>`).join("")}</${b.t}>`:`<${b.t}>${inline(b.text)}</${b.t}>`).join("\n");
+  const plain=(src,n)=>{const s=blocks(src).map(b=>b.items?b.items.join(" "):b.text).join(" ").replace(/\*\*|\[|\]\([^)]*\)/g,"").replace(/\s+/g," ").trim();return n&&s.length>n?s.slice(0,n-1).replace(/\s\S*$/,"")+"…":s};
+  const fmtDate=(d,lang)=>{if(!d)return "";const x=new Date(d.length===10?d+"T00:00:00":d);return isNaN(x)?"":x.toLocaleDateString(lang==="vi"||!lang?"vi-VN":lang,{day:"2-digit",month:"2-digit",year:"numeric"})};
+  const cover=(a,sbUrl)=>a.cover_path&&sbUrl?sbUrl+"/storage/v1/object/public/venue-photos/"+a.cover_path.split("/").map(encodeURIComponent).join("/"):(a.cover_url||"");
+  const SITE="https://tapgolf.vncentre.net";
+  const url=a=>SITE+"/bai/"+a.slug+"/";
+  const L={
+    vi:{src:"Nguồn thông tin",asOf:"Thông tin cập nhật đến {d}",needs:"Một số thông tin chưa được địa điểm công bố, VN Centre sẽ bổ sung sau khi khảo sát tại chỗ.",
+        fb:"Chia sẻ Facebook",share:"Chia sẻ",copy:"Chép link",copied:"Đã chép link bài viết",seen:"xem ngày {d}"},
+    en:{src:"Sources",asOf:"Information as of {d}",needs:"Some details have not been published by the venue yet; VN Centre will add them after a site visit.",
+        fb:"Share on Facebook",share:"Share",copy:"Copy link",copied:"Article link copied",seen:"checked {d}"}
+  };
+  const tr=(lang,k)=>(L[lang]||L.en)[k];
+  function sourcesHtml(a,lang){
+    const li=(a.sources||[]).map(s=>`<li>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(s.label)}</a>`:esc(s.label)}${s.at?` <span>(${esc(tr(lang,"seen").replace("{d}",fmtDate(s.at,lang)))})</span>`:""}</li>`).join("");
+    const d=a.info_date||(a.updated_at||"").slice(0,10);
+    return `<div class="artsrc"><b>${tr(lang,"src")}</b>${li?`<ul>${li}</ul>`:""}${d?`<p>${esc(tr(lang,"asOf").replace("{d}",fmtDate(d,lang)))}</p>`:""}${a.needs_survey?`<p class="artneeds">${esc(tr(lang,"needs"))}</p>`:""}</div>`;
+  }
+  function shareHtml(a,lang){
+    const u=url(a);
+    return `<div class="artshare" data-url="${esc(u)}" data-title="${esc(a.title)}">
+      <a class="btn sm" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(u)}" target="_blank" rel="noopener">f ${tr(lang,"fb")}</a>
+      <button type="button" class="btn sm" data-art="share">↗ ${tr(lang,"share")}</button>
+      <button type="button" class="btn sm" data-art="copy">🔗 ${tr(lang,"copy")}</button></div>`;
+  }
+  /* Nút chia sẻ: điện thoại mở bảng chia sẻ của máy (Zalo, Messenger…); máy tính chép link. */
+  function bindShare(root,lang,toast){
+    root.querySelectorAll(".artshare [data-art]").forEach(b=>b.onclick=async()=>{
+      const box=b.closest(".artshare");const u=box.dataset.url,ti=box.dataset.title;
+      if(b.dataset.art==="share"&&navigator.share){try{await navigator.share({title:ti,url:u});return}catch(e){if(e&&e.name==="AbortError")return}}
+      try{await navigator.clipboard.writeText(u);toast(tr(lang,"copied"))}catch(e){toast(u)}
+    });
+  }
+  return {esc,inline,blocks,md,plain,fmtDate,cover,url,sourcesHtml,shareHtml,bindShare,tr,SITE};
+})();
+
+
+/* ===== Spec 30: bài tổng quan trong trang chi tiết địa điểm (đọc view pv_public_articles) ===== */
+const ART_UI={
+  vi:{artT:"Bài tổng quan",artMore:"Đọc toàn bài",artLess:"Thu gọn",artPage:"Trang bài viết ›",artViOnly:"Bài viết bằng tiếng Việt."},
+  en:{artT:"Overview article",artMore:"Read the full article",artLess:"Show less",artPage:"Article page ›",artViOnly:"This article is in Vietnamese."}
+};
+for(const L in ART_UI)T[L]=Object.assign(T[L]||{},ART_UI[L]);
+const ARTS={};let ART_FOCUS=false;
+/* Link chia sẻ /bai/<slug>/ khi trang tĩnh chưa được dựng (bài vừa duyệt): Cloudflare trả index.html → chuyển về địa điểm, cuộn tới bài */
+(()=>{try{const m=location.pathname.match(/^\/bai\/([a-z0-9-]+)\/?$/);if(!m)return;const id=(m[1].match(/^((?:hn|hcm|dn|north|central|south)-\d+)/)||[])[1];
+  if(id){ART_FOCUS=true;history.replaceState(null,"","/#/"+id)}}catch(e){}})();
+function artPick(p){const L=ARTS[p.id]||[];return L.find(a=>a.lang===lang)||L.find(a=>a.lang==="vi")||L[0]||null}
+function artHtml(p){
+  const a=artPick(p);if(!a)return "";
+  const al=a.lang==="vi"?"vi":"en";const cv=ART.cover(a,SB.url);
+  return `<article class="artbox">
+    <p class="artkick">${t("artT")}${a.lang!==lang&&lang!=="vi"&&a.lang==="vi"?` · ${t("artViOnly")}`:""}</p>
+    ${cv?`<img class="artcover" src="${esc(cv)}" alt="" loading="lazy">`:""}
+    <h3>${esc(a.title)}</h3>${a.sapo?`<p class="artsapo">${esc(a.sapo)}</p>`:""}
+    <div class="artbody clamp" id="artbody">${ART.md(a.body)}</div>
+    <button type="button" class="btn sm" id="artmore">${t("artMore")}</button>
+    ${ART.sourcesHtml(a,al)}
+    ${ART.shareHtml(a,al)}
+    <p class="artpage"><a href="${esc(ART.url(a))}">${t("artPage")}</a></p></article>`;
+}
+function fillArticle(p){
+  const box=document.getElementById("artbox");if(!box||!cur||cur.id!==p.id)return;
+  box.innerHTML=artHtml(p);if(!box.innerHTML)return;
+  document.querySelector("#s-news .articles > .pending")?.remove();
+  const b=document.getElementById("artbody"),m=document.getElementById("artmore");
+  if(b&&m){if(b.scrollHeight<=b.clientHeight+40){b.classList.remove("clamp");m.remove()}
+    else m.onclick=()=>{const o=b.classList.toggle("clamp");m.textContent=t(o?"artMore":"artLess")}}
+  ART.bindShare(box,lang,toast);
+  if(ART_FOCUS){ART_FOCUS=false;setTimeout(()=>document.getElementById("s-news")?.scrollIntoView({behavior:"smooth",block:"start"}),200)}
+}
+async function loadArticle(p){
+  if(ARTS[p.id]){fillArticle(p);return}
+  try{const r=await fetch(SB.url+"/rest/v1/pv_public_articles?select=*&kind=eq.overview&venue_id=eq."+encodeURIComponent(p.id),{headers:{apikey:SB.key,Authorization:"Bearer "+SB.key}});
+    ARTS[p.id]=r.ok?await r.json():[];fillArticle(p)}catch(e){ARTS[p.id]=[]}
+}
+
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cmp]");if(b){e.preventDefault();e.stopPropagation();toggleCmp(b.dataset.cmp)}},true);
 function hasSvc(p,s){
   if(s==="food")return p.svc.includes("food")||p.svc.includes("restaurant");
@@ -1454,6 +1566,7 @@ function showDetail(id){
       ${vt?`<div class="articles" style="margin-top:10px"><a href="${esc(vt)}" target="_blank" rel="noopener">🎬 ${t("vidTab")}<span>Facebook ›</span></a></div>`:""}
       ${!p.fb&&p.fbChain?`<p class="fbnote">${t("fbChainNote").replace("{c}",esc(p.fbChainName))}</p>`:""}</section>
     <section class="panel dsec" id="s-news"><h2>${t("nav.news")}</h2><p class="sub">${t("newsSub")}</p>
+      <div id="artbox"></div>
       <div class="articles">${arts||`<span class="pending">● ${t("newsNone")}</span>`}
         <a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=nws&q=${qn}">📰 ${t("gNews")}<span>Google News ›</span></a>
         <a target="_blank" rel="noopener" href="https://www.google.com/search?q=${qn}+review">⭐ ${t("gWeb")}<span>Google ›</span></a>
@@ -1480,6 +1593,7 @@ function showDetail(id){
    </aside>
   </div>`;
   fillAround(p);
+  if(SB.url)loadArticle(p);
   $("dclose").onclick=closeDetail;
   $("dshare").onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast(t("linkCopied"))).catch(()=>toast(u))};
   D.querySelectorAll(".dnav a").forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.go)?.scrollIntoView({behavior:"smooth",block:"start"})});
