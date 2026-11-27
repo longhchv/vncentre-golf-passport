@@ -111,7 +111,7 @@
     const L = G3.d.mine; if (!L.length) return '';
     return `<div class="card"><h2>Các vòng 3D của tôi</h2><div class="list">${L.map(r => {
       const st = ST[r.status] || [r.status, ''], res = one(r.res), crs = r.course || {};
-      return `<div class="svitem"><div><b>${dmy(r.played_on)} · ${esc(r.venue ? r.venue.name : r.venue_id)} · ${esc(r.brand)}</b><span>${esc(crs.name || '')} · ${esc(crs.tee_name || '')} · ${HOLES[r.holes]} · ${r.gross.join(' ')}${res && res.diff != null ? ' · điểm vi sai ' + fx(+res.diff) + ' · chỉ số sau ' + fx(res.idx_after == null ? null : +res.idx_after) : ''}${r.decision_note ? ' · ' + esc(r.decision_note) : ''}</span><span style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${(r.flags || []).map(f => badge(FLAG[f] || f, 'w')).join('')}</span></div>
+      return `<div class="svitem"><div><b>${dmy(r.played_on)} · ${esc(r.venue ? r.venue.name : r.venue_id)} · ${esc(r.brand)}</b><span>${esc(crs.name || '')} · ${esc(crs.tee_name || '')} · ${HOLES[r.holes]} · ${r.gross.join(' ')}${res && res.diff != null ? ' · điểm vòng ' + fx(+res.diff) + ' · chỉ số sau ' + fx(res.idx_after == null ? null : +res.idx_after) : ''}${r.decision_note ? ' · ' + esc(r.decision_note) : ''}</span><span style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${(r.flags || []).map(f => badge(FLAG[f] || f, 'w')).join('')}</span></div>
         <div class="svia">${badge(st[0], st[1])}${r.status === 'pending' ? `<button class="btn ghost sm" data-a="g3withdraw" data-v="${r.id}">Rút lại</button>` : ''}</div></div>`;
     }).join('')}</div></div>`;
   }
@@ -161,6 +161,10 @@
       if (!G3.loading) { G3.loading = true; load().catch(e => { SV().err = e.message; }).finally(() => { G3.loading = false; window.srvPaint && window.srvPaint(); }); }
       return '<div class="card"><p class="note">Đang tải…</p></div>';
     }
+    const v = SV().view;   // giao diện mới: mỗi trang chỉ lấy phần cần
+    if (v === 'post') return submitCard();
+    if (v === 'mine') return myCard() + mineCard();
+    if (v === 'admin') return queueCard() + adminCard();
     return introCard() + myCard() + submitCard() + queueCard() + mineCard() + adminCard();
   };
   window.srvSimBind = function () {

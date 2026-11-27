@@ -2,8 +2,8 @@
 // - Lưu sẵn khung app để mở nhanh và mở được khi mạng chập chờn (luôn ưu tiên bản mới trên mạng).
 // - Không chạm vào yêu cầu tới máy chủ dữ liệu (Supabase) hay font: chỉ file cùng tên miền.
 // - Nhận thông báo đẩy (Web Push) và mở app khi bấm vào thông báo.
-const CACHE = 'hdcp-v1';
-const SHELL = ['./', 'index.html', 'golf3d.js', 'i18n-more.js', 'plus-i18n.js', 'plus.js', 'manifest.webmanifest', 'icons/icon-192.png'];
+const CACHE = 'hdcp-v2';
+const SHELL = ['./', 'index.html', 'golf3d.js', 'i18n-more.js', 'plus-i18n.js', 'plus.js', 'app2-i18n.js', 'app2.js', 'manifest.webmanifest', 'icons/icon-192.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).catch(() => {}).then(() => self.skipWaiting()));
@@ -25,7 +25,7 @@ self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (x) { d = { title: 'Handicap', body: e.data ? e.data.text() : '' }; }
   e.waitUntil(self.registration.showNotification(d.title || 'Handicap', {
-    body: d.body || '', tag: d.tag, icon: 'icons/icon-192.png', badge: 'icons/badge-72.png', data: { url: d.url || './#srv' },
+    body: d.body || '', tag: d.tag, icon: 'icons/icon-192.png', badge: 'icons/badge-72.png', data: { url: d.url || './#toi/att' },
   }));
 });
 self.addEventListener('notificationclick', e => {
