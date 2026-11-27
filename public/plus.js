@@ -83,17 +83,19 @@
   // =====================================================================
   const NK = {
     attest_request: 'nhờ xác nhận điểm', peer_request: 'nhờ xác nhận điểm',
-    round_attested: 'Vòng đã được xác nhận', round_disputed: 'Marker không đồng ý điểm', round_rejected: 'Vòng bị từ chối', round_void: 'Vòng bị huỷ',
+    round_attested: 'Vòng đã được xác nhận', round_disputed: 'Người ghi điểm không đồng ý điểm', round_rejected: 'Vòng bị từ chối', round_void: 'Vòng bị huỷ',
     youth_confirmed: 'Vòng đã được xác nhận', youth_rejected: 'Vòng bị từ chối', sim_confirmed: 'Vòng đã được xác nhận', sim_rejected: 'Vòng bị từ chối', sim_void: 'Vòng bị huỷ',
     peer_disputed: 'Bạn chơi không đồng ý điểm', index_first: 'Đã có chỉ số', index_change: 'Chỉ số thay đổi',
   };
   const TYPE = { whs: 'Sân thật', junior: 'Junior', snag: 'SNAG', youth: 'Junior / SNAG', sim: 'Golf 3D' };
+  // Tên chỉ số bằng lời thường (bảng thuật ngữ đã duyệt 27/11/2026)
+  const idxLabel = d => { const k = String(d.key || ''); return k === 'whs' ? 'Chỉ số sân thật' : k === 'junior' ? 'Chỉ số Junior' : k === 'snag' ? 'Chỉ số SNAG' : k.indexOf('sim') === 0 ? 'Chỉ số Golf 3D' + (d.brand ? ' · ' + d.brand : '') : (d.label || ''); };
   function noteHtml(n) {
     const d = n.data || {}, k = n.kind;
     let main;
     if (k === 'attest_request' || k === 'peer_request') main = `<b>${esc(d.golfer || '')}</b> <span>${NK[k]}</span>`;
-    else if (k === 'index_first') main = `<b>${esc(d.label || '')}</b> <span>${NK[k]}</span> <b class="n">${fx(+d.new)}</b>`;
-    else if (k === 'index_change') main = `<b>${esc(d.label || '')}</b> <span>${NK[k]}</span> <b class="n">${fx(+d.old)} → ${fx(+d.new)}</b>`;
+    else if (k === 'index_first') main = `<b>${esc(idxLabel(d))}</b> <span>đầu tiên:</span> <b class="n">${fx(+d.new)}</b>`;
+    else if (k === 'index_change') main = `<b>${esc(idxLabel(d))}</b> <span>${+d.new < +d.old ? 'giảm từ' : 'tăng từ'}</span> <b class="n">${fx(+d.old)}</b> <span>${+d.new < +d.old ? 'xuống' : 'lên'}</span> <b class="n">${fx(+d.new)}</b>`;
     else main = `<span>${NK[k] || esc(n.title)}</span>`;
     const sub = [d.kind ? TYPE[d.kind] : d.type ? TYPE[d.type] : '', d.course || d.brand || '', d.date ? dmy(d.date) : ''].filter(Boolean).map(x => `<span>${esc(x)}</span><span> · </span>`);
     const who = k.startsWith('index') ? '' : (n.body && k !== 'attest_request' ? `<em>${esc(n.body)}</em>` : '');
@@ -162,7 +164,7 @@
         const sc = Array.isArray(q.scores) ? q.scores : [], par = Array.isArray(q.par) ? q.par : [];
         const tot = sc.reduce((a, x) => a + (typeof x === 'number' ? x : 0), 0);
         return `<div class="svitem"><div><b>${esc(q.golfer)} · ${dmy(q.played_on)}</b><span>${esc(TYPE[q.kind === 'sim' ? 'sim' : q.sub] || '')} · ${esc(q.ref_name || '')}</span>
-          <div class="pl-sc" role="table">${sc.map((x, i) => `<span role="cell"><small>${i + 1}</small><i>${par[i] != null ? 'P' + par[i] : ''}</i><b>${x == null ? '–' : esc(x)}</b></span>`).join('')}<span role="cell" class="t"><small>Σ</small><i></i><b>${tot}</b></span></div></div>
+          <div class="pl-sc" role="table">${sc.map((x, i) => `<span role="cell"><small>${i + 1}</small><i>${par[i] != null ? 'Par ' + par[i] : ''}</i><b>${x == null ? '–' : esc(x)}</b></span>`).join('')}<span role="cell" class="t"><small>Tổng</small><i></i><b>${tot}</b></span></div></div>
           <div class="svia"><button class="btn sm" data-pl="pok" data-v="${q.kind}|${q.round_id}">Đúng điểm</button><button class="btn ghost sm" data-pl="pno" data-v="${q.kind}|${q.round_id}">Không đúng</button></div>
           <div class="f pl-why hide" id="plWhy-${q.round_id}"><label for="plWhyI-${q.round_id}">Lý do không đồng ý</label><input id="plWhyI-${q.round_id}" placeholder="Ví dụ: hố 5 bạn đánh 6 gậy"><div class="acts"><button class="btn sm" data-pl="pno2" data-v="${q.kind}|${q.round_id}">Gửi cho admin</button></div></div></div>`;
       }).join('')}</div></div>`;
@@ -173,7 +175,7 @@
     const peer = kind === 'whs' ? '' : `<div class="f pl-peer"><label for="plPeer-${kind}">Bạn chơi xác nhận (mã VNC) <span class="note">– không bắt buộc</span></label>
       <div class="svia"><input id="plPeer-${kind}" data-plk="${kind}" placeholder="VNC-000123" value="${esc(pv.code || '')}" autocomplete="off" autocapitalize="characters"><span class="note" id="plPeerN-${kind}">${pv.name ? '✓ ' + esc(pv.name) : pv.err ? esc(pv.err) : ''}</span></div>
       <p class="note">Có bạn chơi xác nhận thì điểm được tính ngay, không phải chờ admin.</p></div>`;
-    return `<div class="pl-x" data-plx="${kind}">${peer}<label class="chk pl-adv"><input type="checkbox" data-pladv="${kind}"${adv ? ' checked' : ''}> <span>Nâng cao: ghi thêm driver, số gậy on, GIR, putt, phạt, OB, bunker từng hố</span></label></div>`;
+    return `<div class="pl-x" data-plx="${kind}">${peer}<label class="chk pl-adv"><input type="checkbox" data-pladv="${kind}"${adv ? ' checked' : ''}> <span>Nâng cao: ghi thêm phát bóng, số gậy lên green, putt, phạt, OB, bunker từng hố</span></label></div>`;
   }
   async function resolvePeer(kind) {
     const pv = P.peer[kind] || (P.peer[kind] = {});
@@ -213,6 +215,8 @@
     W.__plus = true;
   }
   wrap(); P.wrap = wrap; P.install = install; P.openStats = openStats;
+  // Cho giao diện mới (app2.js) dùng lại
+  Object.assign(P, { bellPanel: () => bellPanel(), queueCard: () => queueCard(), loadNotes: s => loadNotes(s), loadQueue: () => loadQueue(), markRead: () => markRead() });
 
   // =====================================================================
   // 4. Nâng cao: thống kê từng hố
@@ -254,8 +258,8 @@
       const fw = p === 3 ? '<span class="note">Par 3</span>' : FW.map(([v, l]) => chip(i, 'fw', v, `<span>${l}</span>`, r.fw === v)).join('');
       return `<div class="pl-sr"><div class="pl-hn"><b>${i + 1}</b><small>${p != null ? 'Par ' + p : ''}</small></div>
         <div class="pl-g"><small>Phát bóng</small><div>${fw}</div></div>
-        <div class="pl-g"><small>Số gậy on</small><div>${[1, 2, 3, 4, 5, 6].map(n => chip(i, 'on', n, n === 6 ? '6+' : n, r.on === n || (n === 6 && r.on >= 6))).join('')}</div></div>
-        <div class="pl-g"><small>GIR</small><div>${chip(i, 'gir', 'true', '<span>Có</span>', r.gir === true)}${chip(i, 'gir', 'false', '<span>Không</span>', r.gir === false)}</div></div>
+        <div class="pl-g"><small>Số gậy lên green</small><div>${[1, 2, 3, 4, 5, 6].map(n => chip(i, 'on', n, n === 6 ? '6+' : n, r.on === n || (n === 6 && r.on >= 6))).join('')}</div></div>
+        <div class="pl-g"><small>Lên green đúng chuẩn</small><div>${chip(i, 'gir', 'true', '<span>Có</span>', r.gir === true)}${chip(i, 'gir', 'false', '<span>Không</span>', r.gir === false)}</div></div>
         <div class="pl-g"><small>Putt</small><div>${[0, 1, 2, 3, 4].map(n => chip(i, 'putts', n, n === 4 ? '4+' : n, r.putts === n || (n === 4 && r.putts >= 4))).join('')}</div></div>
         <div class="pl-g"><small>Phạt</small><div class="pl-step">${chip(i, 'pen', '-', '−', false)}<b>${r.pen || 0}</b>${chip(i, 'pen', '+', '+', false)}</div></div>
         <div class="pl-g"><small>OB</small><div class="pl-step">${chip(i, 'ob', '-', '−', false)}<b>${r.ob || 0}</b>${chip(i, 'ob', '+', '+', false)}</div></div>
@@ -335,19 +339,19 @@
     }
     const p = P.prog.p || {};
     const series = [];
-    if ((p.whs || []).length) series.push({ label: 'Handicap Index', pts: p.whs });
-    if ((p.junior || []).length) series.push({ label: 'Junior Handicap', pts: p.junior });
-    if ((p.snag || []).length) series.push({ label: 'SNAG Handicap', pts: p.snag });
+    if ((p.whs || []).length) series.push({ label: 'Sân thật', pts: p.whs });
+    if ((p.junior || []).length) series.push({ label: 'Junior', pts: p.junior });
+    if ((p.snag || []).length) series.push({ label: 'SNAG', pts: p.snag });
     Object.entries(p.sim || {}).forEach(([b, pts]) => pts.length && series.push({ label: 'Golf 3D · ' + b, pts }));
     const S = p.stats || [];
     const sum = S.reduce((a, x) => { Object.keys(x).forEach(k => { if (k !== 'month') a[k] = (a[k] || 0) + (+x[k] || 0); }); return a; }, {});
     const tiles = S.length ? `<div class="pl-tiles">
-        <div><small>Fairway trúng</small><b class="n">${pct(sum.fw_hit, sum.fw_att)}</b><span><span>trái</span> ${sum.fw_left || 0} · <span>phải</span> ${sum.fw_right || 0} · <span>ngắn</span> ${sum.fw_short || 0}</span></div>
-        <div><small>GIR</small><b class="n">${pct(sum.gir, sum.gir_att)}</b><span>${sum.gir || 0}/${sum.gir_att || 0} <span>hố</span></span></div>
+        <div><small>Phát bóng vào fairway</small><b class="n">${pct(sum.fw_hit, sum.fw_att)}</b><span><span>trái</span> ${sum.fw_left || 0} · <span>phải</span> ${sum.fw_right || 0} · <span>ngắn</span> ${sum.fw_short || 0}</span></div>
+        <div><small>Lên green đúng chuẩn</small><b class="n">${pct(sum.gir, sum.gir_att)}</b><span>${sum.gir || 0}/${sum.gir_att || 0} <span>hố</span></span></div>
         <div><small>Putt mỗi hố</small><b class="n">${sum.putt_holes ? (sum.putts / sum.putt_holes).toFixed(2) : '–'}</b><span>${sum.putts || 0} <span>putt</span></span></div>
-        <div><small>Số gậy on TB</small><b class="n">${sum.on_holes ? (sum.on_sum / sum.on_holes).toFixed(1) : '–'}</b><span>${sum.on_holes || 0} <span>hố</span></span></div>
+        <div><small>Số gậy lên green TB</small><b class="n">${sum.on_holes ? (sum.on_sum / sum.on_holes).toFixed(1) : '–'}</b><span>${sum.on_holes || 0} <span>hố</span></span></div>
         <div><small>Phạt · OB · Bunker</small><b class="n">${sum.pen || 0} · ${sum.ob || 0} · ${sum.bunker || 0}</b><span>${sum.rounds || 0} <span>vòng có thống kê</span></span></div></div>
-      <div class="pl-tw"><table class="tb pl-mt"><thead><tr><th>Tháng</th><th>Vòng</th><th>Fairway</th><th>Trái / phải / ngắn</th><th>GIR</th><th>Gậy on TB</th><th>Putt/hố</th><th>Phạt</th><th>OB</th><th>Bunker</th></tr></thead><tbody>
+      <div class="pl-tw"><table class="tb pl-mt"><thead><tr><th>Tháng</th><th>Vòng</th><th>Vào fairway</th><th>Trái / phải / ngắn</th><th>Lên green đúng chuẩn</th><th>Gậy lên green TB</th><th>Putt/hố</th><th>Phạt</th><th>OB</th><th>Bunker</th></tr></thead><tbody>
         ${S.slice().reverse().map(x => `<tr><td>${esc(x.month.slice(5) + '/' + x.month.slice(0, 4))}</td><td class="n">${x.rounds}</td><td class="n">${pct(x.fw_hit, x.fw_att)}</td><td class="n">${x.fw_left}/${x.fw_right}/${x.fw_short}</td><td class="n">${pct(x.gir, x.gir_att)}</td><td class="n">${x.on_holes ? (x.on_sum / x.on_holes).toFixed(1) : '–'}</td><td class="n">${x.putt_holes ? (x.putts / x.putt_holes).toFixed(2) : '–'}</td><td class="n">${x.pen}</td><td class="n">${x.ob}</td><td class="n">${x.bunker || 0}</td></tr>`).join('')}
       </tbody></table></div>` : '<div class="empty">Chưa có vòng nào ghi thống kê nâng cao. Bấm "Nâng cao" ở một vòng bên dưới để ghi.</div>';
     const rec = P.prog.rec.length ? `<div class="pl-list">${P.prog.rec.map(r => `<div class="svitem"><div><b>${esc(TYPE[r.kind])} · ${dmy(r.d)}</b><span>${esc(r.name)}</span></div><div class="svia">${r.has ? '<span class="bd">Có thống kê</span>' : ''}<button class="btn ghost sm" data-pl="stopen" data-v="${r.kind}|${r.id}">Nâng cao</button></div></div>`).join('')}</div>` : '<div class="empty">Chưa có vòng nào.</div>';
@@ -369,9 +373,9 @@
     const R = P.lk.res;
     const res = R == null ? '' : !R.length ? '<div class="empty">Không tìm thấy golfer nào. Trẻ em chỉ tra được bằng đúng mã VNC.</div>'
       : `<div class="pl-list">${R.map(x => {
-        const idx = [['Handicap Index', x.hi], ['Junior', x.junior], ['SNAG', x.snag]].filter(i => i[1] != null)
+        const idx = [['Sân thật', x.hi], ['Junior', x.junior], ['SNAG', x.snag]].filter(i => i[1] != null)
           .concat((x.sims || []).map(s => ['Golf 3D · ' + s.brand, s.idx])).map(([l, v]) => `<div><small>${esc(l)}</small><b class="n">${fx(+v)}</b></div>`).join('');
-        const rec = (x.recent || []).map(r => `<li>${dmy(r.date)} · ${esc(r.course || '')} · <span>differential</span> <b class="n">${fx(+r.diff)}</b></li>`).join('');
+        const rec = (x.recent || []).map(r => `<li>${dmy(r.date)} · ${esc(r.course || '')} · <span>điểm vòng</span> <b class="n">${fx(+r.diff)}</b></li>`).join('');
         return `<div class="svitem pl-lk"><div><b>${esc(x.full_name)}</b><span>${esc(x.vnc_code)}${x.club ? ' · ' + esc(x.club) : ''}${x.is_minor ? ' · <span>Trẻ em</span>' : ''}</span>
           <div class="pl-tiles sm">${idx || '<span class="note">Chưa có chỉ số.</span>'}</div>${rec ? `<ol class="pl-rec">${rec}</ol>` : ''}</div></div>`;
       }).join('')}</div>`;
@@ -474,7 +478,9 @@
     ['plBell', 'plQueue'].forEach(id => { const x = $s(id); if (x) x.remove(); });
     if (anchor) {
       const tab = SV().tab;
-      const html = (P.bell ? bellPanel() : '') + (tab !== 'com' && tab !== 'imp' ? queueCard() : '');
+      // Giao diện mới: thông báo có trang riêng; hàng chờ chấm chéo chỉ hiện ở trang Xác nhận
+      const vw = SV().view;
+      const html = (P.bell && !vw ? bellPanel() : '') + (tab !== 'com' && tab !== 'imp' && (!vw || vw === 'att') ? queueCard() : '');
       if (html) anchor.insertAdjacentHTML('afterend', html);
     }
     // Ô bổ sung trong các form gửi điểm

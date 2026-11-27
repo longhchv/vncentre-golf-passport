@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Handicap">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Handicap WHS – Demo</title>
+<title>Handicap · VN Centre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Noto+Sans+Lao:wght@400;600&family=Noto+Sans+Khmer:wght@400;600&family=Noto+Sans+Myanmar:wght@400;600&display=swap">
 <style>
@@ -1880,9 +1880,9 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
   const ago = s => { const m = Math.round((Date.now() - new Date(s)) / 60000); return m < 60 ? m + ' phút' : Math.floor(m / 60) + ' giờ ' + (m % 60) + ' phút'; };
   const toast = t => { const e = $s('toast'); if (!e) return; e.textContent = t; e.classList.add('on'); clearTimeout(e._t); e._t = setTimeout(() => e.classList.remove('on'), 2600); };
   const one = x => Array.isArray(x) ? x[0] : x;
-  const ST = { registered: ['Đang đánh', ''], submitted: ['Chờ marker xác nhận', 'w'], attested: ['Đã xác nhận', ''], disputed: ['Marker không xác nhận', 'x'], rejected: ['Bị từ chối', 'x'], void: ['Đã huỷ', 'x'], expired: ['Hết hạn', 'x'], cancelled: ['Đã huỷ đăng ký', 'm'] };
-  const FLAG = { far_from_course: 'Đăng ký xa sân', no_location: 'Không có vị trí khi đăng ký', too_fast: 'Nộp điểm quá nhanh', late_submit: 'Nộp muộn', not_preregistered: 'Không đăng ký trước', attest_overdue: 'Marker chậm xác nhận', committee_edit: 'Hội đồng đã sửa điểm', late_cancel: 'Huỷ muộn', auto_expired: 'Đăng ký mà không nộp' };
-  const ACT = { register: 'Đăng ký vòng', submit: 'Nộp điểm', submit_unregistered: 'Nộp điểm (không đăng ký trước)', attest: 'Marker xác nhận', dispute: 'Marker không xác nhận', cancel: 'Huỷ đăng ký', expire: 'Hết hạn', attest_overdue: 'Quá hạn xác nhận', committee_accept: 'Hội đồng chấp nhận', committee_reject: 'Hội đồng từ chối', committee_void: 'Hội đồng huỷ vòng', committee_edit: 'Hội đồng sửa điểm', competition_entry: 'Ban tổ chức nhập điểm', seed: 'Dữ liệu mẫu' };
+  const ST = { registered: ['Đang đánh', ''], submitted: ['Chờ người ghi điểm xác nhận', 'w'], attested: ['Đã xác nhận', ''], disputed: ['Người ghi điểm không xác nhận', 'x'], rejected: ['Bị từ chối', 'x'], void: ['Đã huỷ', 'x'], expired: ['Hết hạn', 'x'], cancelled: ['Đã huỷ đăng ký', 'm'] };
+  const FLAG = { far_from_course: 'Đăng ký xa sân', no_location: 'Không có vị trí khi đăng ký', too_fast: 'Nộp điểm quá nhanh', late_submit: 'Nộp muộn', not_preregistered: 'Không đăng ký trước', attest_overdue: 'Người ghi điểm chậm xác nhận', committee_edit: 'Hội đồng đã sửa điểm', late_cancel: 'Huỷ muộn', auto_expired: 'Đăng ký mà không nộp' };
+  const ACT = { register: 'Đăng ký vòng', submit: 'Nộp điểm', submit_unregistered: 'Nộp điểm (không đăng ký trước)', attest: 'Người ghi điểm xác nhận', dispute: 'Người ghi điểm không xác nhận', cancel: 'Huỷ đăng ký', expire: 'Hết hạn', attest_overdue: 'Quá hạn xác nhận', committee_accept: 'Hội đồng chấp nhận', committee_reject: 'Hội đồng từ chối', committee_void: 'Hội đồng huỷ vòng', committee_edit: 'Hội đồng sửa điểm', competition_entry: 'Ban tổ chức nhập điểm', seed: 'Dữ liệu mẫu' };
   const holesOf = h => h === '18' ? [...Array(18).keys()] : h === 'F' ? [...Array(9).keys()] : [...Array(9).keys()].map(i => i + 9);
   const holeTxt = h => h === '18' ? '18 hố' : h === 'F' ? '9 hố đầu' : '9 hố sau';
   const badge = (t, k) => `<span class="bd ${k || ''}">${esc(t)}</span>`;
@@ -1999,9 +1999,9 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     xt.forEach(t => tabs.push([t.key, t.label(SV.ctx)]));
     const onX = xt.some(t => t.key === SV.tab);
     const showTabs = (m && m.status === 'active') || isStaff() || roomAdmin || xt.length > 0;
-    if (!showTabs) SV.tab = 'me';
-    if (!onX && SV.tab !== 'com' && SV.tab !== 'kid' && SV.tab !== 'sim' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
-    if (!onX && SV.tab !== 'sim' && !(m && m.status === 'active') && !isStaff() && roomAdmin) SV.tab = 'sim';
+    if (!showTabs && !SV.view) SV.tab = 'me';
+    if (!SV.view && !onX && SV.tab !== 'com' && SV.tab !== 'kid' && SV.tab !== 'sim' && !(m && m.status === 'active') && isStaff()) SV.tab = 'com';
+    if (!SV.view && !onX && SV.tab !== 'sim' && !(m && m.status === 'active') && !isStaff() && roomAdmin) SV.tab = 'sim';
     const gf = SV.ctx.golfer, G = SV.ctx.golfers;
     const pick = G.length > 1 ? `<div class="f svwho"><label for="svWho">Golfer</label><select id="svWho">${G.map(g => `<option value="${g.student_id}"${g.student_id === SV.cur ? ' selected' : ''}>${g.is_self ? 'Tôi: ' : ''}${esc(g.full_name)} · ${esc(g.student_code)}</option>`).join('')}</select></div>` : '';
     return `<div class="svhead"><div><b>${esc(m ? m.full_name : gf ? gf.full_name : (u.email || u.phone))}</b><span>${gf ? 'Mã VNC ' + esc(gf.student_code) + ' · ' : ''}${m ? esc((m.fed && m.fed.short) || m.federation_id) + (m.club ? ' · ' + esc(m.club.name) : '') : 'Chưa là hội viên'}</span></div>
@@ -2027,7 +2027,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const g = SV.ctx.golfer;
     if (!g) return `<div class="card"><h2>Chưa có hồ sơ golfer</h2><p class="sub">Handicap gắn với hồ sơ golfer và mã VNC trong Golf Passport. Anh/chị tạo hồ sơ (hoặc liên kết hồ sơ của con) trong app Golf Passport tại app.vncentre.net, rồi quay lại đây.</p><button class="btn ghost" data-a="reload">Kiểm tra lại</button></div>`;
     const needG = g.gender !== 'male' && g.gender !== 'female';
-    return `<div class="card"><h2>Gia nhập CLB để có Handicap Index</h2><p class="sub"><span>Handicap Index gắn với hồ sơ golfer</span> <b>${esc(g.full_name)}</b> (<span>mã VNC</span> ${esc(g.student_code)}${g.birth_year ? '<span>, sinh năm</span> ' + g.birth_year : ''}). <span>CLB sẽ duyệt hồ sơ trước khi nộp điểm.</span></p>
+    return `<div class="card"><h2>Gia nhập CLB để có chỉ số sân thật</h2><p class="sub"><span>Chỉ số gắn với hồ sơ golfer</span> <b>${esc(g.full_name)}</b> (<span>mã VNC</span> ${esc(g.student_code)}${g.birth_year ? '<span>, sinh năm</span> ' + g.birth_year : ''}). <span>CLB sẽ duyệt hồ sơ trước khi nộp điểm.</span></p>
       <div class="fields"><div class="f"><label for="svFed">Liên đoàn</label><select id="svFed">${SV.ctx.feds.map(f => `<option value="${f.id}">${esc(f.name)}</option>`).join('')}</select></div>
       <div class="f"><label for="svClub">CLB chủ quản</label><select id="svClub"></select></div>
       ${needG ? `<div class="f"><label>Giới tính (theo tee)</label><div class="seg" id="svG"><button data-a="g" data-v="M" class="on">Nam</button><button data-a="g" data-v="F">Nữ</button></div></div>` : ''}</div>
@@ -2045,21 +2045,21 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const h = SV.ctx.hi[0], rs = SV.ctx.rounds;
     let desc = 'Máy chủ tính lại handicap vào cuối mỗi ngày, sau khi có PCC.';
     const ix = SV.ctx.idx;
-    if (!h) desc = 'Chưa có Handicap Index.' + (ix && ix.min_holes_required ? ` Cần ${ix.min_holes_required} hố đã được xác nhận (đã có ${ix.holes_posted}).` : '');
+    if (!h) desc = 'Chưa có chỉ số sân thật.' + (ix && ix.min_holes_required ? ` Cần ${ix.min_holes_required} hố đã được xác nhận (đã có ${ix.holes_posted}).` : '');
     else if (ix && ix.handicap_index == null && !h.withdrawn) desc = `Chưa đủ mức tối thiểu để cấp chỉ số: ${ix.holes_posted}/${ix.min_holes_required} hố đã xác nhận.`;
-    else if (h.withdrawn) desc = 'Handicap Index đang bị Hội đồng thu hồi.';
-    else if (h.frozen) desc = 'Hội đồng đang đóng băng Handicap Index.';
+    else if (h.withdrawn) desc = 'Chỉ số đang bị Hội đồng thu hồi.';
+    else if (h.frozen) desc = 'Hội đồng đang giữ nguyên (đóng băng) chỉ số.';
     else desc = `Cập nhật ${dmy(h.as_of)} · ${h.n_diff || '–'} điểm trong hồ sơ. ` + desc;
     const pts = SV.ctx.hi.slice().reverse();
-    return `<div class="top2"><div class="hero"><div><div class="l">Handicap Index</div><div class="v n">${h ? (h.withdrawn ? 'Thu hồi' : SV.ctx.idx && SV.ctx.idx.handicap_index == null ? '–' : f1s(h.hi)) : '–'}</div><div class="d">${esc(desc)}</div></div><div class="t">WHS™ · ${esc((SV.ctx.me.fed && SV.ctx.me.fed.name) || '')}</div></div>
-      <div class="card"><h2>Diễn biến</h2>${spark(pts)}<div class="kv" style="margin-top:12px"><div>Low HI<b>${h ? f1s(h.low_hi) : '–'}</b></div><div>Vòng đã xác nhận<b>${rs.filter(r => r.status === 'attested').length}</b></div><div>Chờ xác nhận<b>${rs.filter(r => r.status === 'submitted').length}</b></div></div></div></div>
+    return `<div class="top2"><div class="hero"><div><div class="l">Chỉ số sân thật</div><div class="v n">${h ? (h.withdrawn ? 'Thu hồi' : SV.ctx.idx && SV.ctx.idx.handicap_index == null ? '–' : f1s(h.hi)) : '–'}</div><div class="d">${esc(desc)}</div></div><div class="t">WHS™ · ${esc((SV.ctx.me.fed && SV.ctx.me.fed.name) || '')}</div></div>
+      <div class="card"><h2>Diễn biến</h2>${spark(pts)}<div class="kv" style="margin-top:12px"><div>Tốt nhất 12 tháng<b>${h ? f1s(h.low_hi) : '–'}</b></div><div>Vòng đã xác nhận<b>${rs.filter(r => r.status === 'attested').length}</b></div><div>Chờ xác nhận<b>${rs.filter(r => r.status === 'submitted').length}</b></div></div></div></div>
       <div class="card"><h2>Vòng của tôi</h2>${rs.length ? (SV.all ? rs : rs.slice(0, 10)).map(roundRow).join('') + (!SV.all && rs.length > 10 ? `<button class="more" data-a="all">Xem thêm ${rs.length - 10} vòng</button>` : '') : '<div class="empty">Chưa có vòng nào. Vào <b>Đánh vòng</b> để đăng ký vòng đầu tiên.</div>'}</div>`;
   }
   function spark(p) {
     if (p.length < 2) return '<p class="note">Biểu đồ hiện khi có từ 2 lần tính.</p>';
     const W0 = 320, H0 = 80, v = p.map(x => +x.hi), mn = Math.min(...v) - .5, mx = Math.max(...v) + .5;
     const pts = v.map((y, i) => [i / (v.length - 1) * (W0 - 10) + 5, 6 + (mx - y) / (mx - mn) * (H0 - 12)]);
-    return `<svg class="spark" viewBox="0 0 ${W0} ${H0}" role="img" aria-label="Diễn biến Handicap Index"><polyline points="${pts.map(q => q.join(',')).join(' ')}" fill="none" stroke="var(--bronze)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${pts.at(-1)[0]}" cy="${pts.at(-1)[1]}" r="4" fill="var(--bronze)"/></svg>`;
+    return `<svg class="spark" viewBox="0 0 ${W0} ${H0}" role="img" aria-label="Diễn biến chỉ số"><polyline points="${pts.map(q => q.join(',')).join(' ')}" fill="none" stroke="var(--bronze)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${pts.at(-1)[0]}" cy="${pts.at(-1)[1]}" r="4" fill="var(--bronze)"/></svg>`;
   }
   function roundRow(r) {
     const res = one(r.res), st = ST[r.status] || [r.status, ''];
@@ -2068,8 +2068,8 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
     const op = SV.open === r.id;
     return `<div class="row${op ? ' open' : ''}"><button class="rh" data-a="open" data-v="${r.id}" aria-expanded="${op}"><div class="c1"><b>${dmy(r.played_on)}</b><span>${esc(r.course ? r.course.name : r.course_id)}${tee ? ' · Tee ' + esc(tee.name) : ''} · ${holeTxt(r.holes)}${tot ? ' · ' + tot + ' gậy' : ''}</span>
       <div class="badges">${badge(st[0], st[1])}${res && res.ok === false && r.status === 'attested' ? badge('Không tính', 'x') : ''}${flagsHtml(r.flags)}</div></div>
-      <div class="c2 n">Differential<b>${res && res.ok && res.diff != null ? Number(res.diff).toFixed(1) : '–'}</b></div></button>
-      ${op ? `<div class="rd">${res && res.status_text && !res.ok ? `<p class="why">${esc(res.status_text)}</p>` : ''}${scoreTable(r)}${r.attest_note ? `<p class="note">Ghi chú của marker: ${esc(r.attest_note)}</p>` : ''}<div id="log-${r.id}" class="svlog"></div></div>` : ''}</div>`;
+      <div class="c2 n">Điểm vòng<b>${res && res.ok && res.diff != null ? Number(res.diff).toFixed(1) : '–'}</b></div></button>
+      ${op ? `<div class="rd">${res && res.status_text && !res.ok ? `<p class="why">${esc(res.status_text)}</p>` : ''}${scoreTable(r)}${r.attest_note ? `<p class="note">Ghi chú của người ghi điểm: ${esc(r.attest_note)}</p>` : ''}<div id="log-${r.id}" class="svlog"></div></div>` : ''}</div>`;
   }
   function scoreTable(r) {
     const d = r.course && r.course.data; if (!d || !r.gross) return '';
@@ -2088,7 +2088,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
         <p class="svsum" id="svSum"></p>
         <label class="chk hide" id="svWhyBox"><input type="checkbox" id="svWhy"> Không hoàn thành vì lý do hợp lệ (mưa, tối trời, bệnh…)</label></div>
         ${markerCard()}
-        <div class="acts"><button class="btn" data-a="submit">Nộp điểm cho marker xác nhận</button><button class="btn ghost" data-a="cancel">Huỷ đăng ký</button></div>`;
+        <div class="acts"><button class="btn" data-a="submit">Nộp điểm để người ghi điểm xác nhận</button><button class="btn ghost" data-a="cancel">Huỷ đăng ký</button></div>`;
     }
     const reg = SV.mode === 'reg';
     return `<div class="seg svmode"><button data-a="mode" data-v="reg" class="${reg ? 'on' : ''}">Đăng ký trước khi đánh</button><button data-a="mode" data-v="post" class="${reg ? '' : 'on'}">Nộp vòng đã chơi</button></div>
@@ -2120,7 +2120,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
   }
   function markerCard() {
     const m = SV.mk;
-    return `<div class="card"><h2>Marker (bạn chơi cùng)</h2><p class="sub">Marker sẽ nhận yêu cầu xác nhận điểm trong app.</p>
+    return `<div class="card"><h2>Người ghi điểm (bạn chơi cùng)</h2><p class="sub">Người ghi điểm sẽ nhận yêu cầu xác nhận trong app.</p>
       ${m ? `<div class="svmk"><b>${esc(m.full_name)}</b><span>${esc(m.club || '')}${m.hi != null ? ' · HI ' + f1s(m.hi) : ''}</span><button class="btn ghost sm" data-a="unmk">Đổi</button></div>`
         : `<div class="f"><label for="svMq">Tìm theo tên hoặc mã VNC</label><input id="svMq" type="search" autocomplete="off" placeholder="Ví dụ: Trần Thị Bình hoặc VNC-000123"><ul id="svMl" class="svcl"></ul></div>`}</div>`;
   }
@@ -2135,7 +2135,7 @@ fillAllow();render();$('cH').value=R.H===null?'':R.H;calc();buildHoles();tests()
         const r = (code ? await W.rpc('whs_find_marker', { p_fed: SV.ctx.me.federation_id, p_code: q.trim() }) : await W.rpc('whs_lookup', { p_q: q, p_fed: SV.ctx.me.federation_id }))
           .filter(x => x.member_id !== SV.ctx.me.id);
         SV._mk = r;
-        ul.innerHTML = r.length ? r.map((x, i) => `<li><button data-a="mk" data-v="${i}">${esc(x.full_name)}<small>${esc(x.club || '')}${x.hi != null ? ' · HI ' + f1s(x.hi) : ''}</small></button></li>`).join('') : '<li class="note">Không tìm thấy. Marker cần là hội viên đang hoạt động; trẻ em và người tắt tra cứu chỉ tìm được bằng mã VNC.</li>';
+        ul.innerHTML = r.length ? r.map((x, i) => `<li><button data-a="mk" data-v="${i}">${esc(x.full_name)}<small>${esc(x.club || '')}${x.hi != null ? ' · HI ' + f1s(x.hi) : ''}</small></button></li>`).join('') : '<li class="note">Không tìm thấy. Người ghi điểm cần là hội viên đang hoạt động; trẻ em và người tắt tra cứu chỉ tìm được bằng mã VNC.</li>';
         ul.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', onAct));
       } catch (e) { err(e); }
     }, 250);
@@ -2296,14 +2296,14 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
       const g = readHoles();
       if (!g.some(x => x != null)) throw new Error('Chưa nhập điểm.');
       if (g.some(x => x != null && (x < 1 || x > 20))) throw new Error('Số gậy mỗi hố phải từ 1 đến 20.');
-      if (!SV.mk) throw new Error('Chọn marker.');
+      if (!SV.mk) throw new Error('Chọn người ghi điểm.');
       const why = $s('svWhy') ? $s('svWhy').checked : false;
       if (a === 'submit') await W.rpc('whs_submit_round', { p_round: SV.ctx.openRound.id, p_gross: g, p_marker: SV.mk.member_id, p_valid_reason: why });
       else {
         if (!SV.pick || !$s('svTee').value) throw new Error('Chọn sân và tee.');
         await W.rpc('whs_post_unregistered', { p_course: SV.pick, p_tee: $s('svTee').value, p_played_on: $s('svDate').value, p_holes: document.querySelector('#svH .on').dataset.v, p_gross: g, p_marker: SV.mk.member_id, p_type: $s('svType').value, p_valid_reason: why, p_member: SV.ctx.me.id });
       }
-      SV.mk = null; await loadMine(); SV.tab = 'me'; toast('Đã nộp điểm. Đang chờ marker xác nhận.');
+      SV.mk = null; await loadMine(); SV.tab = 'me'; toast('Đã nộp điểm. Đang chờ người ghi điểm xác nhận.');
     });
     if (a === 'attest' || a === 'dispute') return act(async () => {
       const note = $s('an-' + v).value.trim();
@@ -2349,6 +2349,23 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
     paint();
     if (W.user() && !SV.ctx) { try { await loadCtx(); } catch (e) { if (e.status === 401) W.signOut(); SV.err = e.message; } paint(); }
   };
+  // Giao diện mới (app2.js): chuyển mục, đổi golfer, đăng xuất từ bên ngoài
+  window.srvGo = async function (tab, view) {
+    SV.view = view || null; SV.tab = tab; SV.open = null; SV.err = '';
+    if (!W.user()) return paint();
+    if (!SV.ctx) { try { await loadCtx(); } catch (e) { if (e.status === 401) W.signOut(); SV.err = e.message; } }
+    if (tab === 'play') await loadCourses().catch(err);
+    paint();
+    try {
+      if (tab === 'kid' && window.srvYouthLoad) await window.srvYouthLoad();
+      if (tab === 'sim' && window.srvSimLoad) await window.srvSimLoad();
+      const xt = (window.srvExtraTabs || []).find(t => t.key === tab); if (xt && xt.load) await xt.load();
+    } catch (e) { SV.err = e.message; }
+    paint();
+  };
+  window.srvSetGolfer = id => { SV.cur = id; SV.mk = null; return act(loadCtx); };
+  window.srvReload = () => act(loadCtx);
+  window.srvLogout = () => { W.signOut(); SV.ctx = null; SV.tab = 'me'; SV.view = null; paint(); };
   window.srvSettingsCard = () => '';   // máy chủ cấu hình sẵn, không còn ô nhập địa chỉ / khoá
 })();
 
@@ -2403,8 +2420,8 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
     const c = SV().ctx; if (!(c.me && c.me.status === 'active')) return '';
     const g = k => YS.d.idx.find(x => x.kind === k);
     const tile = (k, label, unit) => { const x = g(k); return `<div>${label}<b>${x && x.idx != null ? fx(+x.idx) : '–'}</b><span class="note">${x ? (x.idx == null ? 'cần thêm ' + x.need + ' ' + unit : x.n_rounds + ' vòng · cập nhật ' + dmy(x.as_of)) : 'chưa có điểm'}</span></div>`; };
-    return `<div class="card"><h2>Handicap trẻ em của tôi</h2><p class="sub">Chỉ số nội bộ VN Centre theo nguyên lý WHS – không phải WHS Handicap Index. Máy chủ tính lại sau khi admin xác nhận điểm.</p>
-      <div class="kv">${tile('snag', 'SNAG Handicap', 'hố')}${tile('junior', 'Junior Handicap', 'vòng')}</div></div>`;
+    return `<div class="card"><h2>Chỉ số trẻ em</h2><p class="sub">Chỉ số nội bộ VN Centre theo nguyên lý WHS – không phải chỉ số WHS chính thức. Máy chủ tính lại sau khi admin xác nhận điểm.</p>
+      <div class="kv">${tile('snag', 'Chỉ số SNAG', 'hố')}${tile('junior', 'Chỉ số Junior', 'vòng')}</div></div>`;
   }
   function submitCard() {
     const c = SV().ctx, active = c.me && c.me.status === 'active';
@@ -2414,7 +2431,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
     YS.cur = cur;
     const who = isStaff() ? `<div class="f"><label for="ysWho">Golfer</label><select id="ysWho">${active ? '<option value="">Tôi (' + esc(c.me.full_name) + ')</option>' : ''}${YS.d.members.filter(m => !c.me || m.id !== c.me.id).map(m => `<option value="${m.id}">${esc(m.full_name)}${m.birth_year ? ' · ' + m.birth_year : ''}</option>`).join('')}</select></div>` : '';
     return `<div class="card"><h2>Gửi điểm</h2><p class="sub">${k === 'snag' ? 'SNAG: một vòng từ 3 hố, nhập đủ mọi hố; ghi X nếu nhặt bóng.' : 'Junior: để trống hố không chơi, cần ít nhất 6 hố; ghi X nếu không hoàn thành hố.'} Có thể chỉ gửi ảnh thẻ điểm – admin sẽ nhập điểm khi xác nhận. Nhân sự nhập hộ thì điểm được xác nhận luôn.</p>
-      <div class="seg" style="max-width:360px;margin-bottom:12px"><button data-a="ykind" data-v="snag" class="${k === 'snag' ? 'on' : ''}">SNAG</button><button data-a="ykind" data-v="junior" class="${k === 'junior' ? 'on' : ''}">Junior</button></div>
+      ${SV().view === 'post' ? '' : `<div class="seg" style="max-width:360px;margin-bottom:12px"><button data-a="ykind" data-v="snag" class="${k === 'snag' ? 'on' : ''}">SNAG</button><button data-a="ykind" data-v="junior" class="${k === 'junior' ? 'on' : ''}">Junior</button></div>`}
       ${list.length ? `<div class="fields">${who}
         <div class="f"><label for="ysRef">${k === 'snag' ? 'Layout' : 'Tee'}</label><select id="ysRef">${list.map(x => `<option value="${x.id}"${x.id === cur ? ' selected' : ''}>${esc(x.name)}${k === 'junior' ? ' · ' + x.age_group : ''}</option>`).join('')}</select></div>
         <div class="f"><label for="ysDate">Ngày</label><input type="date" id="ysDate" value="${today()}" max="${today()}"></div>
@@ -2428,7 +2445,7 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
     const L = YS.d.mine; if (!L.length) return '';
     return `<div class="card"><h2>Điểm của tôi</h2><div class="list">${L.map(r => {
       const st = STY[r.status] || [r.status, ''], res = Array.isArray(r.res) ? r.res[0] : r.res;
-      return `<div class="svitem"><div><b>${r.kind === 'snag' ? 'SNAG' : 'Junior'} · ${dmy(r.played_on)} · ${esc(refName(r))}</b><span>${scoresTxt(r.scores)}${res && res.ok ? ' · differential ' + fx(+res.diff) + ' · handicap sau ' + fx(res.idx_after == null ? null : +res.idx_after) : ''}${res && !res.ok && res.status_text ? ' · ' + esc(res.status_text) : ''}${r.decision_note ? ' · ' + esc(r.decision_note) : ''}</span></div>
+      return `<div class="svitem"><div><b>${r.kind === 'snag' ? 'SNAG' : 'Junior'} · ${dmy(r.played_on)} · ${esc(refName(r))}</b><span>${scoresTxt(r.scores)}${res && res.ok ? ' · điểm vòng ' + fx(+res.diff) + ' · chỉ số sau ' + fx(res.idx_after == null ? null : +res.idx_after) : ''}${res && !res.ok && res.status_text ? ' · ' + esc(res.status_text) : ''}${r.decision_note ? ' · ' + esc(r.decision_note) : ''}</span></div>
         <div class="svia">${badge(st[0], st[1])}${r.status === 'pending' ? `<button class="btn ghost sm" data-a="ywithdraw" data-v="${r.id}">Rút lại</button>` : ''}</div></div>`;
     }).join('')}</div></div>`;
   }
@@ -2467,6 +2484,10 @@ Hole order 1..18 even if the card has OUT/IN subtotal columns (ignore subtotals,
   }
   window.srvYouthTab = function () {
     if (!YS.d) return '<div class="card"><p class="note">Đang tải…</p></div>';
+    const v = SV().view;   // giao diện mới: mỗi trang chỉ lấy phần cần
+    if (v === 'post') return submitCard();
+    if (v === 'mine') return myCard() + mineCard();
+    if (v === 'admin') return pendCard() + ratingCard() + setupCard();
     return myCard() + submitCard() + pendCard() + mineCard() + ratingCard() + setupCard();
   };
   window.srvYouthBind = function () {
@@ -2950,5 +2971,7 @@ function __whsEngineRefs() { return { r1, hiTable, applyCap, calcPCC, get PARAMS
 <script src="i18n-more.js"></script>
 <script src="plus-i18n.js"></script>
 <script src="plus.js"></script>
+<script src="app2-i18n.js"></script>
+<script src="app2.js"></script>
 </body>
 </html>
