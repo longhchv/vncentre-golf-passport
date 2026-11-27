@@ -15,6 +15,14 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 - Tổng tích luỹ = điểm khởi đầu + mọi điểm khác trong ví, **không trừ** phần đã đổi quà.
 - Điểm đổi quà = số dư khả dụng của ví (`reward_available`), giảm khi đổi quà.
 - Mức điểm (27/11/2026, anh Long): 5, 10, 20, 30, 40, 50. Máy chủ chỉ nhận các mức trong cài đặt.
+- Điểm danh và trần mỗi buổi (27/11/2026, anh Long), cài đặt `class_live.class_rules`:
+
+  | Loại lớp | Có mặt | Tối đa mỗi buổi |
+  |---|---|---|
+  | CLB (mọi lớp không thuộc dòng dưới) | +10 | 200 |
+  | Trường công lập: trường loại `public` hoặc loại lớp `pe_core` (GDTC trường công) | +5 | 20 |
+
+  Vào muộn vẫn tính có mặt; vắng không cộng; đổi có mặt → vắng thì trừ lại. Trần tính cả điểm danh. Điểm danh ghi vào ví với `reason = 'attendance'`, `source_type = 'class_session'`.
 - Hoàn tác không làm điểm hôm nay xuống dưới 0. Sổ không sửa, không xoá: hoàn tác là một dòng âm bằng đúng mức đã bấm.
 
 **Mạng yếu:** mỗi lần bấm có id sinh trên máy, nằm trong hàng đợi (localStorage) và gửi qua `class_live_sync`. Gửi lại nhiều lần thì máy chủ vẫn chỉ ghi một lần. Tải lại trang khi mất mạng không mất điểm. Tạo hồ sơ, sửa điểm khởi đầu và xem lịch sử cần có mạng. Muốn dùng được khi mất mạng, HLV cần mở màn lớp học một lần lúc có mạng để app lưu trang lại.
@@ -27,6 +35,7 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 
 - `supabase/migrations/20261127000030_class_live.sql`: chỉ thêm bảng, hàm và giá trị `reason` / `code` mới.
 - `supabase/migrations/20261127000040_class_live_steps.sql`: mức điểm 5–50 (cài đặt mới, thay thân `class_live_board`, `class_live_sync`).
+- `supabase/migrations/20261127000050_class_live_attendance.sql`: điểm danh có điểm, trần mỗi buổi theo loại lớp; cộng điểm danh cho các buổi đã điểm danh trước đó.
 - `supabase/tests/064_class_live.sql`: đạt trên PostgreSQL 16 dựng từ toàn bộ migration của repo (27/11/2026). Chưa chạy trên staging.
 
 ## Chưa làm
@@ -39,7 +48,7 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 
 | Mã | Việc | Người chốt |
 |---|---|---|
-| L1 | Có mặt có tự cộng 10 điểm `attendance` (phụ lục C1) không, hay chỉ ghi chuyên cần | Anh Long |
-| L2 | Có trần điểm trên lớp mỗi buổi không | Anh Long |
+| L1 | Có mặt có tự cộng điểm không | **Đã chốt 27/11/2026:** CLB +10, trường công lập +5 |
+| L2 | Có trần điểm mỗi buổi không | **Đã chốt 27/11/2026:** CLB 200, trường công lập 20 |
 | L3 | Ảnh học viên đang lưu thẳng trong hồ sơ (ảnh nhỏ ≤ 80 KB). Sau này chuyển sang kho ảnh | Kỹ thuật |
 | L4 | Hồ sơ HLV tạo có thể trùng với hồ sơ đã có (nhập từ trường, từ giải). Admin gộp bằng công cụ gộp hồ sơ; điểm trong ví đi theo khi gộp. Chuyên cần và nhận xét chưa đi theo khi gộp | Kỹ thuật |

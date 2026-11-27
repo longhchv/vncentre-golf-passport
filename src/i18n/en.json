@@ -4826,6 +4826,12 @@
       "team_win": "Team won"
     },
     "undo": "Undo",
-    "undoNone": "nothing yet"
+    "undoNone": "nothing yet",
+    "cap": {
+      "reached": "{{count}} reached the {{cap}}-point session limit and were skipped.",
+      "full": "Reached the {{cap}}-point session limit",
+      "short": "max {{cap}}",
+      "attendance": "Present +{{points}} points"
+    }
   }
 }

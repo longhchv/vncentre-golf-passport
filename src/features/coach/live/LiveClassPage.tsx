@@ -36,6 +36,7 @@ import {
   loadCachedBoard,
   loadQueue,
   newId,
+  remainingToday,
   rollToDate,
   saveCachedBoard,
   saveQueue,
@@ -158,6 +159,7 @@ function shortName(full: string) {
 export function LiveClassPage() {
   const { classId = '' } = useParams()
   const { t, i18n } = useTranslation()
+  const toast = useToast()
   const qc = useQueryClient()
   const today = vnToday()
   const [cached] = useState(() => loadCachedBoard(classId))
@@ -188,8 +190,15 @@ export function LiveClassPage() {
   const [, setHistoryTick] = useState(0)
 
   const score = useCallback(
-    (ids: string[], delta: number) => {
+    (all: string[], delta: number) => {
       if (!view) return
+      // Bỏ các bạn đã chạm trần điểm của buổi (máy chủ cũng chặn)
+      const ids = delta > 0 ? all.filter((sid) => {
+        const s = view.students.find((x) => x.id === sid)
+        return s ? delta <= remainingToday(view, s) : false
+      }) : all
+      if (ids.length < all.length) toast(t('classLive.cap.reached', { count: all.length - ids.length, cap: view.rules?.session_cap }), 'error')
+      if (ids.length === 0) return
       const ops: LiveOp[] = ids.map((sid) => ({
         op: 'points',
         id: newId(),
@@ -212,7 +221,7 @@ export function LiveClassPage() {
         window.setTimeout(() => burstAt(els[els.length - 1] ?? null, delta), i * 60)
       })
     },
-    [classId, queue, tag, today, view],
+    [classId, queue, tag, today, view, t, toast],
   )
 
   /** Lần chấm gần nhất còn hoàn tác được của một bạn (null nếu không có). */
@@ -285,6 +294,11 @@ export function LiveClassPage() {
         >
           <span className="font-semibold whitespace-nowrap">{t('classLive.session.no', { no: sessionNo })}</span>
           <span className="min-w-0 flex-1 truncate text-navy/70">{view.session?.topic || t('classLive.session.addTopic')}</span>
+          {view.rules && (
+            <span className="shrink-0 rounded-full bg-gold/20 px-2 py-0.5 text-xs font-semibold text-navy/80">
+              {t('classLive.cap.short', { cap: view.rules.session_cap })}
+            </span>
+          )}
           <Pencil className="h-4 w-4 shrink-0 text-bronze" />
         </button>
         <div className="flex gap-2">
@@ -351,6 +365,7 @@ export function LiveClassPage() {
           onTag={setTag}
           onAll={() => setPicked(picked.size === students.length ? new Set() : new Set(students.map((s) => s.id)))}
           steps={steps}
+          remaining={Math.max(0, ...students.filter((s) => picked.has(s.id)).map((s) => remainingToday(view, s)))}
           onScore={(d) => picked.size > 0 && score([...picked], d)}
           undo={history.current.at(-1)?.delta ?? null}
           onUndo={undoTeam}
@@ -365,6 +380,9 @@ export function LiveClassPage() {
           tag={tag}
           onTag={setTag}
           steps={steps}
+          remaining={remainingToday(view, open)}
+          cap={view.rules?.session_cap ?? null}
+          attendancePoints={view.rules?.attendance_points ?? 0}
           onScore={(d) => score([open.id], d)}
           undo={(() => {
             const i = lastFor(open.id)
@@ -495,12 +513,15 @@ const DEFAULT_STEPS = [5, 10, 20, 30, 40, 50]
 /** Các mức điểm (cài đặt class_live.point_steps) và nút hoàn tác lần chấm gần nhất. */
 function ScoreButtons({
   steps,
+  remaining,
   onScore,
   undo,
   onUndo,
   disabled,
 }: {
   steps: number[]
+  /** Điểm còn được cộng trong buổi: nút vượt quá thì mờ đi */
+  remaining: number
   onScore: (d: number) => void
   undo: number | null
   onUndo: () => void
@@ -513,7 +534,7 @@ function ScoreButtons({
         <button
           key={d}
           type="button"
-          disabled={disabled}
+          disabled={disabled || d > remaining}
           onClick={() => onScore(d)}
           className="h-16 rounded-2xl bg-linear-to-b from-gold to-bronze text-2xl font-extrabold text-navy shadow active:scale-95 disabled:opacity-40"
         >
@@ -544,6 +565,7 @@ function TeamBar({
   onTag,
   onAll,
   steps,
+  remaining,
   onScore,
   undo,
   onUndo,
@@ -554,6 +576,7 @@ function TeamBar({
   onTag: (t: PointTag | null) => void
   onAll: () => void
   steps: number[]
+  remaining: number
   onScore: (d: number) => void
   undo: number | null
   onUndo: () => void
@@ -568,7 +591,7 @@ function TeamBar({
         </button>
       </div>
       <TagChips tag={tag} onTag={onTag} />
-      <ScoreButtons steps={steps} onScore={onScore} disabled={count === 0} undo={undo} onUndo={onUndo} />
+      <ScoreButtons steps={steps} remaining={remaining} onScore={onScore} disabled={count === 0} undo={undo} onUndo={onUndo} />
     </div>
   )
 }
@@ -581,6 +604,9 @@ function StudentSheet({
   tag,
   onTag,
   steps,
+  remaining,
+  cap,
+  attendancePoints,
   onScore,
   undo,
   onUndo,
@@ -593,6 +619,9 @@ function StudentSheet({
   tag: PointTag | null
   onTag: (t: PointTag | null) => void
   steps: number[]
+  remaining: number
+  cap: number | null
+  attendancePoints: number
   onScore: (d: number) => void
   undo: number | null
   onUndo: () => void
@@ -630,14 +659,17 @@ function StudentSheet({
           ))}
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-3">
-          {tab === 'comment' && <CommentPanel s={s} onMark={onMark} />}
+          {tab === 'comment' && <CommentPanel s={s} onMark={onMark} attendancePoints={attendancePoints} />}
           {tab === 'profile' && <ProfilePanel s={s} classId={classId} onChanged={onChanged} />}
           {tab === 'history' && <HistoryPanel s={s} classId={classId} />}
         </div>
         {/* Vùng chấm điểm ở dưới cùng: ngón cái với tới khi cầm máy một tay */}
         <div className="space-y-2 border-t border-navy/10 bg-white px-4 pt-3" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}>
           <TagChips tag={tag} onTag={onTag} />
-          <ScoreButtons steps={steps} onScore={onScore} undo={undo} onUndo={onUndo} />
+          {cap !== null && remaining === 0 && (
+            <p className="text-center text-sm font-semibold text-emerald-700">{t('classLive.cap.full', { cap })}</p>
+          )}
+          <ScoreButtons steps={steps} remaining={remaining} onScore={onScore} undo={undo} onUndo={onUndo} />
         </div>
       </div>
     </div>
@@ -659,7 +691,7 @@ function speechCtor(): (new () => SpeechRec) | undefined {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition
 }
 
-function CommentPanel({ s, onMark }: { s: LiveStudent; onMark: (patch: MarkPatch) => void }) {
+function CommentPanel({ s, onMark, attendancePoints }: { s: LiveStudent; onMark: (patch: MarkPatch) => void; attendancePoints: number }) {
   const { t } = useTranslation()
   const toast = useToast()
   const [note, setNote] = useState(s.note ?? '')
@@ -700,7 +732,10 @@ function CommentPanel({ s, onMark }: { s: LiveStudent; onMark: (patch: MarkPatch
   return (
     <div className="space-y-4 pt-1">
       <section className="space-y-2">
-        <h3 className="text-sm font-semibold text-navy/70">{t('classLive.attendance.title')}</h3>
+        <h3 className="text-sm font-semibold text-navy/70">
+          {t('classLive.attendance.title')}
+          {attendancePoints > 0 && <span className="ml-2 font-normal text-emerald-700">{t('classLive.cap.attendance', { points: attendancePoints })}</span>}
+        </h3>
         <div className="flex gap-2">
           {(['present', 'late', 'absent'] as Attendance[]).map((a) => (
             <button key={a} type="button" onClick={() => onMark({ attendance: s.attendance === a ? null : a })} className={segClass(s.attendance === a)}>
