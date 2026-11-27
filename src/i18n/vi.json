@@ -3176,8 +3176,8 @@
       "costMax": "Cao nhất (đồng)",
       "costNote": "Ghi chú",
       "stepsTitle": "Các bước lộ trình",
-      "stepMonths": "Số tháng (tiết kiệm / vừa phải / nhanh)",
-      "stepMonthsHint": "Ví dụ {\"saving\":12,\"balanced\":9,\"fast\":6}",
+      "stepMonths": "Số tháng (siêu tiết kiệm / tiết kiệm / vừa phải / nhanh)",
+      "stepMonthsHint": "Ví dụ {\"super_saving\":15,\"saving\":12,\"balanced\":9,\"fast\":6}",
       "stepPhase": "Giai đoạn chi phí",
       "stepPhaseHint": "Bước dùng công thức chi phí của giai đoạn này trong từng phương án",
       "phase": {
@@ -3188,7 +3188,7 @@
       "stepFrom": "Từ level",
       "stepTo": "Đến level",
       "stepHcp": "Ghi chú handicap",
-      "plansTitle": "3 phương án tài chính",
+      "plansTitle": "Phương án tài chính",
       "planItems": "Công thức",
       "planItemsN": "{{n}} khoản",
       "planSummary": "Tóm tắt",
@@ -3196,7 +3196,10 @@
       "needsTitle": "Nhu cầu gia đình",
       "needAdvice": "Lời tư vấn",
       "needGoal": "Bước hướng tới",
-      "needGoalHint": "Mã bước (vd. s4)"
+      "needGoalHint": "Mã bước (vd. s4)",
+      "costPending": "Chưa có giá",
+      "costGain": "Các con được gì (bỏ khoản này thì có gì)",
+      "stepBenefit": "Các con được gì"
     },
     "jr": {
       "switcher": "Chọn người tập",
@@ -3404,7 +3407,7 @@
       "checklist": "Mở checklist hồ sơ học bổng của con",
       "goalLine": "Bước nên hướng tới: bước {{step}} · {{title}}",
       "stepsTitle": "Lộ trình từng bước",
-      "stepsHint": "Mỗi bước có mục tiêu level rõ ràng và mở ra cơ hội mới. Không cần đi hết mọi bước; dừng ở bước hợp với gia đình.",
+      "stepsHint": "Mỗi bước nói trước các con được gì, rồi tới cơ hội mở ra và việc cần làm. Không cần đi hết mọi bước; dừng ở bước hợp với gia đình.",
       "stepN": "Bước {{n}}",
       "here": "Con đang ở đây",
       "goal": "Mục tiêu",
@@ -3414,14 +3417,13 @@
       "opens": "Mở ra:",
       "focus": "Cần làm:",
       "stepTime": "Khoảng {{time}} theo phương án {{plan}}",
-      "plansTitle": "3 phương án tài chính",
-      "plansHint": "Tính từ bước hiện tại đến hết bước {{step}}. Chọn phương án để xem thời gian từng bước.",
+      "plansTitle": "{{n}} phương án tài chính",
+      "plansHint": "Chi phí tính theo tháng ở bước các con đang học. Chọn phương án để xem thời gian từng bước.",
       "chosen": "Đang chọn",
       "choose": "Chọn",
       "tradeoff": "Đánh đổi:",
       "perMonth": "Mỗi tháng (bước hiện tại)",
       "toGoal": "Đến hết bước {{step}}",
-      "total": "Tổng khoảng {{cost}}",
       "details": "Xem chi tiết các khoản",
       "per": {
         "month": "{{n}} {{unit}}/tháng",
@@ -3429,7 +3431,33 @@
         "once": "mua {{n}} {{unit}}"
       },
       "save": "Lưu lựa chọn của gia đình",
-      "disclaimer": "App chỉ gợi ý, không cam kết kết quả thi đấu, tuyển sinh hay học bổng. Quy định thay đổi theo từng năm; kiểm tra lại với trường và HLV trước mỗi quyết định lớn."
+      "disclaimer": "App chỉ gợi ý, không cam kết kết quả thi đấu, tuyển sinh hay học bổng. Quy định thay đổi theo từng năm; kiểm tra lại với trường và HLV trước mỗi quyết định lớn.",
+      "index": {
+        "snag": "SNAG Handicap",
+        "junior": "Junior Handicap",
+        "whs": "Handicap Index (WHS)",
+        "note": "Chỉ số theo giai đoạn các con đang học, xem chi tiết ở app Handicap.",
+        "none": "Chưa có chỉ số (đã có {{holes}} hố). Gửi điểm trên app Handicap."
+      },
+      "benefit": "Các con được:",
+      "placeTitle": "Các con học SNAG ở đâu?",
+      "place": {
+        "public_school": "Trường công",
+        "private_school": "Trường tư, quốc tế",
+        "outside": "Ngoài trường"
+      },
+      "placeNote": {
+        "public_school": "Các con được học SNAG miễn phí tại trường.",
+        "private_school": "Phí do nhà trường thu; VN Centre cập nhật theo từng trường.",
+        "outside": "Tính theo giá lớp SNAG nhóm của VN Centre."
+      },
+      "placeAuto": "App đã chọn sẵn theo trường hiện tại của các con; bố mẹ sửa được.",
+      "gets": "Các con được:",
+      "about": "khoảng {{cost}}",
+      "plusPending": "chưa gồm khoản chờ cập nhật giá",
+      "aboutTime": "khoảng {{time}}",
+      "once": "Mua một lần:",
+      "pricePending": "chờ cập nhật giá"
     }
   },
   "rewards": {

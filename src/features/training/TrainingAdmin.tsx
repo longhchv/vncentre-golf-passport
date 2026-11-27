@@ -669,7 +669,7 @@ function PathAdmin() {
         newDefaults={{ grp: 'class', unit_vi: 'buổi', unit_en: 'session', min_vnd: 0, max_vnd: 0, is_active: true }}
         columns={[
           { key: 'name_vi', labelKey: 'fields.nameVi', render: (c) => <div><div className="font-semibold">{c.name_vi}</div><code className="text-xs text-navy/50">{c.code}</code></div> },
-          { key: 'price', labelKey: 'training.admin.costPrice', render: (c) => `${formatRange({ min: Number(c.min_vnd), max: Number(c.max_vnd) }, i18n.language)} / ${c.unit_vi}` },
+          { key: 'price', labelKey: 'training.admin.costPrice', render: (c) => (c.price_pending ? t('training.admin.costPending') : `${formatRange({ min: Number(c.min_vnd), max: Number(c.max_vnd) }, i18n.language)} / ${c.unit_vi}`) },
           { key: 'grp', labelKey: 'training.admin.costGroup', render: (c) => t(`training.admin.costGrp.${c.grp}`) },
         ]}
         fields={[
@@ -681,6 +681,8 @@ function PathAdmin() {
           { name: 'unit_en', labelKey: 'training.admin.costUnitEn' },
           { name: 'min_vnd', labelKey: 'training.admin.costMin', type: 'number', required: true },
           { name: 'max_vnd', labelKey: 'training.admin.costMax', type: 'number', required: true },
+          { name: 'price_pending', labelKey: 'training.admin.costPending', type: 'checkbox' },
+          { name: 'gain_vi', labelKey: 'training.admin.costGain', type: 'textarea' },
           { name: 'note_vi', labelKey: 'training.admin.costNote', type: 'textarea' },
           { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
           { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
@@ -691,11 +693,11 @@ function PathAdmin() {
         titleKey="training.admin.stepsTitle"
         order="sort_order"
         invalidate={inv}
-        newDefaults={{ phase: 'snag', level_from: 1, level_to: 1, months: { saving: 12, balanced: 9, fast: 6 }, is_active: true }}
+        newDefaults={{ phase: 'snag', level_from: 1, level_to: 1, months: { super_saving: 15, saving: 12, balanced: 9, fast: 6 }, is_active: true }}
         columns={[
           { key: 'title_vi', labelKey: 'training.admin.chTitle', render: (s) => <div><div className="font-semibold">{s.title_vi}</div><code className="text-xs text-navy/50">{s.code}</code></div> },
           { key: 'levels', labelKey: 'training.coach.level', render: (s) => `${s.level_from}–${s.level_to}` },
-          { key: 'months', labelKey: 'training.admin.stepMonths', render: (s) => `${s.months?.saving ?? '–'} / ${s.months?.balanced ?? '–'} / ${s.months?.fast ?? '–'}` },
+          { key: 'months', labelKey: 'training.admin.stepMonths', render: (s) => `${s.months?.super_saving ?? '–'} / ${s.months?.saving ?? '–'} / ${s.months?.balanced ?? '–'} / ${s.months?.fast ?? '–'}` },
         ]}
         fields={[
           { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
@@ -704,6 +706,7 @@ function PathAdmin() {
           { name: 'level_to', labelKey: 'training.admin.stepTo', type: 'number', required: true },
           { name: 'title_vi', labelKey: 'fields.nameVi', required: true },
           { name: 'title_en', labelKey: 'fields.nameEn' },
+          { name: 'benefit_vi', labelKey: 'training.admin.stepBenefit', type: 'textarea' },
           { name: 'hcp_note_vi', labelKey: 'training.admin.stepHcp' },
           { name: 'opportunity_vi', labelKey: 'training.path.opens', type: 'textarea' },
           { name: 'focus_vi', labelKey: 'training.path.focus', type: 'textarea' },

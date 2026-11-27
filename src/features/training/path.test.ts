@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { formatMonths, formatRange, formatVnd, goalIndex, monthlyCost, oneTimeCost, pathEstimate, stepIndexForLevel, type CostItem, type FinancePlan, type Need, type PathStep } from './path'
+import { applyPlace, formatMonths, formatRange, formatVnd, goalIndex, monthlyCost, oneTimeCost, pathMonths, stepIndexForLevel, type CostItem, type FinancePlan, type Need, type PathStep } from './path'
 
 const item = (code: string, min: number, max = min): CostItem => ({
-  id: code, code, grp: 'class', name_vi: code, name_en: code, unit_vi: 'buổi', unit_en: 'session', min_vnd: min, max_vnd: max, note_vi: null, sort_order: 0,
+  id: code, code, grp: 'class', name_vi: code, name_en: code, unit_vi: 'buổi', unit_en: 'session', min_vnd: min, max_vnd: max, price_pending: false, gain_vi: null, gain_en: null, note_vi: null, sort_order: 0,
 })
-const items = [item('snag_group', 200_000), item('range', 100_000, 200_000), item('fee_snag', 150_000), item('pga_group', 500_000), item('clubs_basic', 2_500_000, 3_000_000), item('home', 0)]
+const items = [item('snag_group', 200_000), item('snag_school_public', 0), item('snag_school_private', 0), item('range', 100_000, 200_000), item('fee_snag', 150_000), item('pga_group', 500_000), item('clubs_basic', 2_500_000, 3_000_000), item('home', 0)]
 
 const step = (code: string, phase: PathStep['phase'], from: number, to: number, months: number): PathStep => ({
-  id: code, code, phase, level_from: from, level_to: to, title_vi: code, title_en: code, hcp_note_vi: null, opportunity_vi: null, focus_vi: null,
-  months: { saving: months, balanced: months, fast: months }, sort_order: 0,
+  id: code, code, phase, level_from: from, level_to: to, title_vi: code, title_en: code, benefit_vi: null, hcp_note_vi: null, opportunity_vi: null, focus_vi: null,
+  months: { super_saving: months + 3, saving: months, balanced: months, fast: months }, sort_order: 0,
 })
 const steps = [step('s1', 'snag', 1, 3, 12), step('s2', 'snag', 4, 9, 24), step('s3', 'iron9', 10, 11, 12)]
 
@@ -49,13 +49,17 @@ describe('lộ trình các bạn nhỏ', () => {
     expect(oneTimeCost(plan, items, 'snag')).toEqual({ min: 0, max: 0 })
   })
 
-  it('ước tính cả chặng, mua gậy khi bắt đầu giai đoạn gậy sắt', () => {
-    const e = pathEstimate(plan, steps, items, 1, 2)
-    expect(e.months).toBe(36)
-    expect(e.cost.min).toBe(24 * 875_000 + 12 * 2_400_000 + 2_500_000)
-    expect(e.cost.max).toBe(24 * 875_000 + 12 * 2_800_000 + 3_000_000)
-    // Đang ở giữa giai đoạn gậy sắt thì coi như đã có gậy... trừ khi đó là bước đầu của giai đoạn
-    expect(pathEstimate(plan, steps, items, 2, 2).cost.min).toBe(12 * 2_400_000 + 2_500_000)
+  it('thời gian đến mục tiêu theo phương án, không tính tổng tiền', () => {
+    expect(pathMonths(plan, steps, 1, 2)).toBe(36)
+    expect(pathMonths({ ...plan, code: 'super_saving' }, steps, 0, 2)).toBe(57)
+    expect(pathMonths(plan, steps, -1, 2)).toBe(0)
+  })
+
+  it('học SNAG ở trường công thì lớp SNAG 0 đồng', () => {
+    expect(monthlyCost(applyPlace(plan, 'public_school'), items, 'snag')).toEqual({ min: 75_000, max: 75_000 })
+    expect(monthlyCost(applyPlace(plan, 'outside'), items, 'snag')).toEqual({ min: 875_000, max: 875_000 })
+    // Giai đoạn gậy sắt không đổi
+    expect(monthlyCost(applyPlace(plan, 'public_school'), items, 'iron9')).toEqual(monthlyCost(plan, items, 'iron9'))
   })
 
   it('định dạng tiền và thời gian', () => {

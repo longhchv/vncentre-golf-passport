@@ -3176,8 +3176,8 @@
       "costMax": "Highest (VND)",
       "costNote": "Note",
       "stepsTitle": "Pathway steps",
-      "stepMonths": "Months (affordable / balanced / fastest)",
-      "stepMonthsHint": "e.g. {\"saving\":12,\"balanced\":9,\"fast\":6}",
+      "stepMonths": "Months (lowest / affordable / balanced / fastest)",
+      "stepMonthsHint": "e.g. {\"super_saving\":15,\"saving\":12,\"balanced\":9,\"fast\":6}",
       "stepPhase": "Cost phase",
       "stepPhaseHint": "The step uses this phase's formula in each option",
       "phase": {
@@ -3188,7 +3188,7 @@
       "stepFrom": "From level",
       "stepTo": "To level",
       "stepHcp": "Handicap note",
-      "plansTitle": "3 cost options",
+      "plansTitle": "Cost options",
       "planItems": "Formula",
       "planItemsN": "{{n}} items",
       "planSummary": "Summary",
@@ -3196,7 +3196,10 @@
       "needsTitle": "Family goals",
       "needAdvice": "Advice",
       "needGoal": "Target step",
-      "needGoalHint": "Step code (e.g. s4)"
+      "needGoalHint": "Step code (e.g. s4)",
+      "costPending": "Price not set yet",
+      "costGain": "What your child gets for this cost",
+      "stepBenefit": "What the child gains"
     },
     "jr": {
       "switcher": "Choose golfer",
@@ -3404,7 +3407,7 @@
       "checklist": "Open your child's scholarship checklist",
       "goalLine": "Suggested target: step {{step}} · {{title}}",
       "stepsTitle": "Step-by-step pathway",
-      "stepsHint": "Each step has a clear level goal and opens new opportunities. You don't need to go all the way; stop where it suits your family.",
+      "stepsHint": "Each step starts with what your child gains, then the opportunities and what to do. You don't need to go all the way; stop where it suits your family.",
       "stepN": "Step {{n}}",
       "here": "Here now",
       "goal": "Target",
@@ -3414,14 +3417,13 @@
       "opens": "Opens:",
       "focus": "Focus:",
       "stepTime": "About {{time}} with the {{plan}} option",
-      "plansTitle": "3 cost options",
-      "plansHint": "From the current step to the end of step {{step}}. Choose an option to see the time for each step.",
+      "plansTitle": "{{n}} cost options",
+      "plansHint": "Costs are per month at your child's current step. Choose an option to see the time for each step.",
       "chosen": "Chosen",
       "choose": "Choose",
       "tradeoff": "Trade-off:",
       "perMonth": "Per month (current step)",
       "toGoal": "To the end of step {{step}}",
-      "total": "About {{cost}} in total",
       "details": "See cost details",
       "per": {
         "month": "{{n}} {{unit}}/month",
@@ -3429,7 +3431,33 @@
         "once": "buy {{n}} {{unit}}"
       },
       "save": "Save our choices",
-      "disclaimer": "The app only suggests; it does not promise competition, admission or scholarship results. Rules change every year; check with schools and coaches before big decisions."
+      "disclaimer": "The app only suggests; it does not promise competition, admission or scholarship results. Rules change every year; check with schools and coaches before big decisions.",
+      "index": {
+        "snag": "SNAG Handicap",
+        "junior": "Junior Handicap",
+        "whs": "Handicap Index (WHS)",
+        "note": "The index for your child's current stage; see details in the Handicap app.",
+        "none": "No index yet ({{holes}} holes so far). Post scores in the Handicap app."
+      },
+      "benefit": "Your child gains:",
+      "placeTitle": "Where does your child learn SNAG?",
+      "place": {
+        "public_school": "Public school",
+        "private_school": "Private / international school",
+        "outside": "Outside school"
+      },
+      "placeNote": {
+        "public_school": "SNAG classes are free at school.",
+        "private_school": "Fees are charged by the school; VN Centre updates them per school.",
+        "outside": "Priced at VN Centre's SNAG group class rate."
+      },
+      "placeAuto": "Pre-selected from your child's current school; you can change it.",
+      "gets": "Your child gets:",
+      "about": "about {{cost}}",
+      "plusPending": "not counting items awaiting a price",
+      "aboutTime": "about {{time}}",
+      "once": "One-time purchase:",
+      "pricePending": "price to be updated"
     }
   },
   "rewards": {

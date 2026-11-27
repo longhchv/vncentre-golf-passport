@@ -1,8 +1,12 @@
 /** Spec 24 · đợt 2b: tính lộ trình và chi phí ước tính cho các bạn nhỏ. Không gọi máy chủ, để kiểm thử được. */
 
 export type Phase = 'snag' | 'iron9' | 'iron18'
-export type PlanCode = 'saving' | 'balanced' | 'fast'
-export const PLAN_CODES: PlanCode[] = ['saving', 'balanced', 'fast']
+export type PlanCode = 'super_saving' | 'saving' | 'balanced' | 'fast'
+export const PLAN_CODES: PlanCode[] = ['super_saving', 'saving', 'balanced', 'fast']
+export type SnagPlace = 'public_school' | 'private_school' | 'outside'
+export const SNAG_PLACES: SnagPlace[] = ['public_school', 'private_school', 'outside']
+/** Chỉ số hiện cho các con theo giai đoạn (không theo tuổi) */
+export const PHASE_INDEX: Record<Phase, 'snag' | 'junior' | 'whs'> = { snag: 'snag', iron9: 'junior', iron18: 'whs' }
 
 export interface CostItem {
   id: string
@@ -14,6 +18,9 @@ export interface CostItem {
   unit_en: string
   min_vnd: number
   max_vnd: number
+  price_pending: boolean
+  gain_vi: string | null
+  gain_en: string | null
   note_vi: string | null
   sort_order: number
 }
@@ -26,6 +33,7 @@ export interface PathStep {
   level_to: number
   title_vi: string
   title_en: string
+  benefit_vi: string | null
   hcp_note_vi: string | null
   opportunity_vi: string | null
   focus_vi: string | null
@@ -96,6 +104,13 @@ function price(items: CostItem[], code: string): Money {
 
 const inPhase = (it: PlanItem, phase: Phase) => it.phase === 'all' || it.phase === phase
 
+const PLACE_ITEM: Record<SnagPlace, string> = { public_school: 'snag_school_public', private_school: 'snag_school_private', outside: 'snag_group' }
+
+/** Thay lớp SNAG nhóm theo nơi các con học SNAG (trường công miễn phí, trường tư / quốc tế do trường thu, ngoài trường). */
+export function applyPlace(plan: FinancePlan, place: SnagPlace): FinancePlan {
+  return { ...plan, items: plan.items.map((it) => (it.item === 'snag_group' && it.phase === 'snag' ? { ...it, item: PLACE_ITEM[place] } : it)) }
+}
+
 /** Chi phí mỗi tháng của phương án trong một giai đoạn (khoản theo năm chia 12). */
 export function monthlyCost(plan: FinancePlan, items: CostItem[], phase: Phase): Money {
   return plan.items
@@ -121,25 +136,16 @@ export function planLines(plan: FinancePlan, items: CostItem[], phase: Phase) {
     .filter((l) => l.cost)
 }
 
-/**
- * Ước tính từ bước hiện tại (tính cả bước này) đến hết bước mục tiêu: số tháng và tổng chi phí.
- * Khoản mua một lần tính khi bước đầu một giai đoạn nằm trong khoảng; riêng giai đoạn đang học
- * chỉ tính nếu bước hiện tại là bước đầu của giai đoạn đó (nếu đã qua thì coi như đã có).
- */
-export function pathEstimate(plan: FinancePlan, steps: PathStep[], items: CostItem[], from: number, to: number): { months: number; cost: Money } {
+/** Thời gian ước tính từ bước hiện tại (tính cả bước này) đến hết bước mục tiêu. Không cộng tổng tiền (anh Long chốt 27/11/2026). */
+export function pathMonths(plan: FinancePlan, steps: PathStep[], from: number, to: number): number {
   let months = 0
-  let cost = ZERO
-  if (from < 0) return { months, cost }
-  for (let i = from; i <= to && i < steps.length; i++) {
-    const s = steps[i]
-    const m = Number(s.months?.[plan.code] ?? 0)
-    months += m
-    cost = add(cost, times(monthlyCost(plan, items, s.phase), m))
-    const firstOfPhase = i === 0 || steps[i - 1].phase !== s.phase
-    if (firstOfPhase) cost = add(cost, oneTimeCost(plan, items, s.phase))
-  }
-  return { months, cost }
+  if (from < 0) return 0
+  for (let i = from; i <= to && i < steps.length; i++) months += Number(steps[i].months?.[plan.code] ?? 0)
+  return months
 }
+
+/** Khoản chưa có giá trong danh sách (để hiện "chờ cập nhật giá"). */
+export const hasPending = (lines: { cost?: CostItem }[]) => lines.some((l) => l.cost?.price_pending)
 
 /** "200 nghìn", "1,5 triệu" / "200k", "1.5M". */
 export function formatVnd(n: number, lang: string): string {
