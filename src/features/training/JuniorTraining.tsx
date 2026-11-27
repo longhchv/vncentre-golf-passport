@@ -7,7 +7,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, Check, ChevronLeft, Clock, ExternalLink, Minus, Plus, Route, Video } from 'lucide-react'
+import { BookOpen, CalendarCheck, Check, ChevronLeft, Clock, ExternalLink, Minus, Plus, Route, Video } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge, Card, TableWrap, td, th } from '@/components/ui/card'
 import { Checkbox, Field, FormError, Input, Select, Textarea } from '@/components/ui/form'
@@ -387,6 +387,15 @@ function JuniorHome({ studentId, base, libraryTo, guardian }: { studentId: strin
         ))}
       </section>
 
+      <Link to={`${base}/keep`} className="block">
+        <Card className="flex items-center gap-3 p-4 hover:bg-navy/5">
+          <CalendarCheck className="h-6 w-6 shrink-0 text-bronze" />
+          <div>
+            <p className="font-semibold">{t('training.keep.title')}</p>
+            <p className="text-sm text-navy/60">{t('training.keep.entry')}</p>
+          </div>
+        </Card>
+      </Link>
       <Link to={`${base}/path`} className="block">
         <Card className="flex items-center gap-3 p-4 hover:bg-navy/5">
           <Route className="h-6 w-6 shrink-0 text-bronze" />
@@ -426,7 +435,7 @@ export function StudentChallengePage() {
   return <ChallengeEntry studentId={studentId ?? ''} challengeId={challengeId} back="/me/training" />
 }
 
-function Stepper({ value, max, onChange, label }: { value: number; max: number; onChange: (n: number) => void; label: string }) {
+export function Stepper({ value, max, onChange, label }: { value: number; max: number; onChange: (n: number) => void; label: string }) {
   return (
     <div className="flex items-center gap-2" role="group" aria-label={label}>
       <Button type="button" size="sm" variant="outline" aria-label="-" disabled={value <= 0} onClick={() => onChange(value - 1)}><Minus className="h-4 w-4" /></Button>

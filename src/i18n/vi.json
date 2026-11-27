@@ -2991,7 +2991,8 @@
         "drills": "Thư viện bài tập",
         "quiz": "Câu hỏi luật",
         "feedback": "Góp ý",
-        "path": "Lộ trình & chi phí"
+        "path": "Lộ trình & chi phí",
+        "keep": "Giữ phong độ"
       },
       "ov": {
         "profiles_self_created": "Hồ sơ tự tạo",
@@ -3199,7 +3200,25 @@
       "needGoalHint": "Mã bước (vd. s4)",
       "costPending": "Chưa có giá",
       "costGain": "Các con được gì (bỏ khoản này thì có gì)",
-      "stepBenefit": "Các con được gì"
+      "stepBenefit": "Các con được gì",
+      "keepHint": "Giữ phong độ: giới hạn theo tuổi chỉ là gợi ý (app cảnh báo, không chặn); tỉ lệ phân bổ nên cộng đủ 100%.",
+      "ageTitle": "Giới hạn gợi ý theo tuổi",
+      "ageRange": "Tuổi",
+      "ageFrom": "Từ tuổi",
+      "ageTo": "Đến tuổi",
+      "ageWeek": "Giờ golf tối đa/tuần",
+      "ageWeekHint": "Để trống = bằng số tuổi",
+      "ageEqual": "bằng số tuổi",
+      "ageSession": "Phút tối đa/buổi",
+      "ageRest": "Ngày nghỉ/tuần",
+      "ageSleep": "Giờ ngủ",
+      "ageCoach": "HLV duyệt tối đa (giờ/tuần)",
+      "ageCoachHint": "Để trống nếu HLV không được duyệt mức cao cho nhóm tuổi này",
+      "splitTitle": "Tỉ lệ phân bổ Giữ phong độ",
+      "splitPct": "Tỉ lệ (%)",
+      "splitPctHint": "Các phần đang bật nên cộng đủ 100",
+      "splitSkills": "Kỹ năng trong kho bài tập",
+      "splitPlaces": "Tập được ở"
     },
     "jr": {
       "switcher": "Chọn người tập",
@@ -3458,6 +3477,94 @@
       "aboutTime": "khoảng {{time}}",
       "once": "Mua một lần:",
       "pricePending": "chờ cập nhật giá"
+    },
+    "keep": {
+      "title": "Giữ phong độ",
+      "entry": "Lịch tập hằng tuần cho mùa đi học: ít giờ vẫn giữ phong độ và handicap",
+      "for": "{{name}} · level {{level}}",
+      "age": "{{n}} tuổi",
+      "intro": "Bố mẹ chọn thời gian rảnh và nơi tập có sẵn, app xếp lịch tuần theo tỉ lệ: putting, short game, cú đánh chính, lên sân, thể lực. Ít giờ vẫn giữ được phong độ nếu mỗi buổi có chỉ tiêu và áp lực.",
+      "setupTitle": "Thiết lập",
+      "timeTitle": "Thời gian tập",
+      "option": {
+        "daily": "1 tiếng/ngày (thứ Hai–thứ Sáu)",
+        "weekend": "2 ngày cuối tuần × 3 tiếng",
+        "custom": "Tự nhập"
+      },
+      "daysTitle": "Ngày tập",
+      "minutesPerDay": "Số phút mỗi ngày",
+      "placesTitle": "Nơi tập có sẵn",
+      "place": {
+        "home": "Ở nhà",
+        "range": "Sân tập",
+        "sim3d": "Phòng 3D",
+        "course": "Sân golf"
+      },
+      "lightUntil": "Tuần thi học kỳ: giảm tải đến ngày",
+      "lightHint": "Đến hết ngày này mỗi ngày tập chỉ còn 15 phút putting ở nhà.",
+      "weekTotal": "Tổng {{hours}} giờ/tuần · gợi ý theo tuổi: tối đa {{limit}} giờ",
+      "warn": {
+        "week": "Vượt mức gợi ý: {{hours}} giờ/tuần, gợi ý tối đa {{limit}} giờ. Bố mẹ cân nhắc giảm hoặc hỏi HLV.",
+        "session": "Buổi {{minutes}} phút dài hơn mức gợi ý {{limit}} phút cho tuổi này.",
+        "rest": "Chỉ còn {{rest}} ngày nghỉ/tuần, gợi ý ít nhất {{need}} ngày."
+      },
+      "under9": "Các bạn dưới 9 tuổi nên tập chủ yếu bằng trò chơi và thẻ level, 3–4 buổi ngắn mỗi tuần.",
+      "save": "Lưu và xếp lịch",
+      "change": "Đổi",
+      "min": "phút",
+      "weekTitle": "Lịch tuần này",
+      "progress": "Đã làm {{done}}/{{total}} phút",
+      "lightOn": "Đang giảm tải tuần thi đến hết {{date}}: mỗi ngày tập 15 phút putting.",
+      "overloadOn": "Tuần này đã giảm một nửa khối lượng vì có dấu hiệu quá sức.",
+      "cardOfWeek": "Thẻ nên làm tuần này:",
+      "dow": {
+        "0": "Chủ nhật",
+        "1": "Thứ Hai",
+        "2": "Thứ Ba",
+        "3": "Thứ Tư",
+        "4": "Thứ Năm",
+        "5": "Thứ Sáu",
+        "6": "Thứ Bảy"
+      },
+      "markDone": "Đã làm",
+      "scoreRule": "Mỗi buổi nên có ít nhất một bài chấm điểm (đạt bao nhiêu trên bao nhiêu); đổi gậy, đổi mục tiêu sau vài quả, không đánh một cú lặp lại quá 10 quả.",
+      "checkTitle": "Kiểm tra 4 tuần một lần",
+      "checkDue": "Đến hạn kiểm tra",
+      "checkNext": "Lần gần nhất {{date}}",
+      "checkHint": "Bài test 3 phần (mỗi phần 5 bóng) và một vòng 9 hố nếu có. App so với lần trước và báo tăng, giữ hay tụt.",
+      "nineToPar": "9 hố: số gậy hơn par (không bắt buộc)",
+      "saveCheck": "Lưu kết quả kiểm tra",
+      "result": {
+        "first": "Lần đầu",
+        "up": "Tăng",
+        "same": "Giữ",
+        "down": "Tụt"
+      },
+      "resultLine": {
+        "first": "Đã lưu lần kiểm tra đầu tiên; lần sau app sẽ so sánh.",
+        "up": "Phong độ đang tăng. Giữ nhịp tập này.",
+        "same": "Phong độ đang được giữ.",
+        "down": "Phong độ đang tụt. Nếu lần sau vẫn tụt, app gợi ý đổi phần tập trọng tâm và báo HLV."
+      },
+      "coachTitle": "HLV duyệt giờ tập",
+      "coachHint": "Các bạn từ 15 tuổi: HLV duyệt được tới {{max}} giờ/tuần. Để trống để bỏ duyệt.",
+      "coachHours": "Giờ/tuần",
+      "approve": "Duyệt",
+      "overCoachMax": "Vượt mức HLV được duyệt cho tuổi này.",
+      "flagButton": "Dấu hiệu quá sức",
+      "flagTitle": "Dấu hiệu quá sức",
+      "flagIntro": "Đánh dấu khi thấy các con có một trong các dấu hiệu dưới đây. App giảm một nửa khối lượng tuần này và báo HLV.",
+      "sign": {
+        "tired": "Mệt sau buổi tập",
+        "no_fun": "Hết hứng thú",
+        "want_quit": "Muốn bỏ tập",
+        "pain": "Đau kéo dài"
+      },
+      "flagNote": "Ghi chú (không bắt buộc)",
+      "painNote": "Đau kéo dài: nên cho các con đi khám trước khi tập tiếp.",
+      "flagSend": "Gửi",
+      "flagged": "Đã ghi nhận, tuần này giảm một nửa khối lượng.",
+      "limitNote": "Gợi ý theo tuổi: nghỉ ít nhất {{rest}} ngày/tuần, ngủ {{sleep}} mỗi đêm, nghỉ golf tổng cộng 2–3 tháng mỗi năm."
     }
   },
   "rewards": {

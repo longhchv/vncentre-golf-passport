@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import type { PlanBlock, PlanLine } from './planner'
 import type { Benchmark } from './stats'
 import { FeedbackAdmin } from './Feedback'
+import type { AgeLimit, KeepSplit } from './keep'
 import { formatRange, type CostItem, type FinancePlan, type Need, type PathStep } from './path'
 
 const db = () => supabase!
@@ -45,12 +46,12 @@ function adminError(err: unknown, t: (k: string) => string) {
 /** Admin · Tập luyện: tổng quan, chương trình, giáo án từng buổi, chuẩn thống kê (spec 23 bước 4). */
 export function TrainingAdminPage() {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz' | 'path' | 'feedback'>('overview')
+  const [tab, setTab] = useState<'overview' | 'programs' | 'plans' | 'benchmarks' | 'challenges' | 'drills' | 'quiz' | 'path' | 'keep' | 'feedback'>('overview')
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{t('training.title')}</h1>
       <div className="flex flex-wrap gap-2">
-        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz', 'path', 'feedback'] as const).map((k) => (
+        {(['overview', 'programs', 'plans', 'benchmarks', 'challenges', 'drills', 'quiz', 'path', 'keep', 'feedback'] as const).map((k) => (
           <Button key={k} size="sm" variant={tab === k ? 'primary' : 'outline'} onClick={() => setTab(k)}>
             {t(`training.admin.tab.${k}`)}
           </Button>
@@ -64,6 +65,7 @@ export function TrainingAdminPage() {
       {tab === 'drills' && <Drills />}
       {tab === 'quiz' && <Quiz />}
       {tab === 'path' && <PathAdmin />}
+      {tab === 'keep' && <KeepAdmin />}
       {tab === 'feedback' && <FeedbackAdmin />}
     </div>
   )
@@ -751,6 +753,65 @@ function PathAdmin() {
           { name: 'title_en', labelKey: 'fields.nameEn' },
           { name: 'advice_vi', labelKey: 'training.admin.needAdvice', type: 'textarea' },
           { name: 'goal_step', labelKey: 'training.admin.needGoal', hintKey: 'training.admin.needGoalHint' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+          { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
+        ]}
+      />
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------- Giữ phong độ: giới hạn theo tuổi, tỉ lệ phân bổ
+
+function KeepAdmin() {
+  const { t } = useTranslation()
+  const inv = ['training_keep']
+  return (
+    <div className="space-y-6">
+      <p className="text-sm text-navy/70">{t('training.admin.keepHint')}</p>
+      <CrudTable<AgeLimit>
+        table="training_age_limits"
+        titleKey="training.admin.ageTitle"
+        order="sort_order"
+        invalidate={inv}
+        newDefaults={{ age_from: 0, age_to: 0, session_max_min: 60, rest_days: 1 }}
+        columns={[
+          { key: 'ages', labelKey: 'training.admin.ageRange', render: (r) => `${r.age_from}–${r.age_to}` },
+          { key: 'week', labelKey: 'training.admin.ageWeek', render: (r) => (r.week_hours != null ? String(r.week_hours) : t('training.admin.ageEqual')) },
+          { key: 'session', labelKey: 'training.admin.ageSession', render: (r) => `${r.session_max_min}` },
+          { key: 'rest', labelKey: 'training.admin.ageRest', render: (r) => `${r.rest_days}` },
+          { key: 'coach', labelKey: 'training.admin.ageCoach', render: (r) => (r.coach_week_max != null ? String(r.coach_week_max) : '–') },
+        ]}
+        fields={[
+          { name: 'age_from', labelKey: 'training.admin.ageFrom', type: 'number', required: true },
+          { name: 'age_to', labelKey: 'training.admin.ageTo', type: 'number', required: true },
+          { name: 'week_hours', labelKey: 'training.admin.ageWeek', type: 'number', hintKey: 'training.admin.ageWeekHint' },
+          { name: 'session_max_min', labelKey: 'training.admin.ageSession', type: 'number', required: true },
+          { name: 'rest_days', labelKey: 'training.admin.ageRest', type: 'number', required: true },
+          { name: 'sleep_vi', labelKey: 'training.admin.ageSleep' },
+          { name: 'coach_week_max', labelKey: 'training.admin.ageCoach', type: 'number', hintKey: 'training.admin.ageCoachHint' },
+          { name: 'note_vi', labelKey: 'training.admin.costNote', type: 'textarea' },
+          { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
+        ]}
+      />
+      <CrudTable<KeepSplit>
+        table="training_keep_split"
+        titleKey="training.admin.splitTitle"
+        order="sort_order"
+        invalidate={inv}
+        newDefaults={{ pct: 0, skills: [], places: ['home'], is_active: true }}
+        columns={[
+          { key: 'name_vi', labelKey: 'fields.nameVi', render: (r) => <div><div className="font-semibold">{r.name_vi}</div><code className="text-xs text-navy/50">{r.code}</code></div> },
+          { key: 'pct', labelKey: 'training.admin.splitPct', render: (r) => `${r.pct}%` },
+          { key: 'places', labelKey: 'training.admin.splitPlaces', render: (r) => r.places.map((p) => t(`training.keep.place.${p}`)).join(', ') },
+        ]}
+        fields={[
+          { name: 'code', labelKey: 'fields.code', required: true, readOnlyOnEdit: true },
+          { name: 'name_vi', labelKey: 'fields.nameVi', required: true },
+          { name: 'name_en', labelKey: 'fields.nameEn' },
+          { name: 'pct', labelKey: 'training.admin.splitPct', type: 'number', required: true, hintKey: 'training.admin.splitPctHint' },
+          { name: 'skills', labelKey: 'training.admin.splitSkills', type: 'multicheck', options: opts(DRILL_SKILLS, t, 'training.jr.skill') },
+          { name: 'places', labelKey: 'training.admin.splitPlaces', type: 'multicheck', options: (['home', 'range', 'sim3d', 'course'] as const).map((p) => ({ value: p, label: t(`training.keep.place.${p}`) })) },
           { name: 'sort_order', labelKey: 'training.admin.sortOrder', type: 'number' },
           { name: 'is_active', labelKey: 'fields.isActive', type: 'checkbox' },
         ]}
