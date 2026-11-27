@@ -4746,7 +4746,9 @@
       "number": "Buổi số",
       "topic": "Chủ đề bài học",
       "topicHint": "Ví dụ: Pitching + Luật golf",
-      "reuse": "Dùng lại chủ đề buổi trước: {{topic}}"
+      "reuse": "Dùng lại chủ đề buổi trước: {{topic}}",
+      "suggest": "Gợi ý: {{topic}}",
+      "pickFromPlan": "Chọn theo giáo án (chạm là lưu)"
     },
     "sheet": {
       "line": "Hôm nay {{today}} · Tổng {{total}} · Đổi quà {{available}}",

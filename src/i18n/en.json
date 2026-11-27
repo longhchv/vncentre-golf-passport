@@ -4746,7 +4746,9 @@
       "number": "Session number",
       "topic": "Lesson topic",
       "topicHint": "e.g. Pitching + Golf rules",
-      "reuse": "Reuse last topic: {{topic}}"
+      "reuse": "Reuse last topic: {{topic}}",
+      "suggest": "Suggested: {{topic}}",
+      "pickFromPlan": "Pick from the curriculum (tap to save)"
     },
     "sheet": {
       "line": "Today {{today}} · Total {{total}} · To spend {{available}}",

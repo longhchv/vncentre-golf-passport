@@ -80,6 +80,7 @@ begin
      or st ->> 'note' <> 'Nghe hiệu lệnh tốt' then
     raise exception 'FAIL: bảng điểm %', st;
   end if;
+  if jsonb_array_length(b -> 'topics') < 1 then raise exception 'FAIL: giáo án %', b -> 'topics'; end if;
   if b -> 'steps' <> '[5, 10, 20, 30, 40, 50]'::jsonb then raise exception 'FAIL: mức điểm %', b -> 'steps'; end if;
   if (b -> 'session' ->> 'session_no')::int <> 10 or b -> 'session' ->> 'topic' <> 'Pitching + Luật golf' then raise exception 'FAIL: buổi %', b -> 'session'; end if;
 
