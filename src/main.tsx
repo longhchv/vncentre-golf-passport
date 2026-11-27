@@ -14,10 +14,10 @@ import { router } from './router'
 import { AuthProvider } from '@/auth/AuthProvider'
 import { ReferralClaimMount } from '@/features/partners/ReferralClaimMount'
 import { ToastProvider } from '@/components/ui/toast'
-import { registerSW } from 'virtual:pwa-register'
+import { startAppUpdates } from '@/lib/appUpdate'
 
-// PWA: có bản mới thì kích hoạt và tải lại trang ngay khi mở app, không phải tải lại lần hai mới thấy
-registerSW({ immediate: true })
+// PWA + tự tải bản mới sau mỗi lần phát hành (src/lib/appUpdate.ts)
+startAppUpdates(router)
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },

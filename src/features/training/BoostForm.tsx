@@ -110,6 +110,8 @@ function BoostForm({ studentId, base }: { studentId: string; base: string }) {
     if (!d) return
     const p = d.plan
     if (p) setF({ name: p.event_name, date: p.event_date, course: p.course_name ?? '', holes: p.holes, days: p.days, minutes: p.minutes_per_day, places: p.places, weak: p.weak_areas, pkg: p.package_code })
+    // Dưới 9 tuổi: mặc định 5 ngày × 45 phút ở nhà (anh Long chốt 27/11/2026)
+    else if (d.age != null && d.age < 9) setF((x) => ({ ...x, days: [1, 2, 3, 4, 5], minutes: 45, places: ['home'] }))
     setEditing(!p)
   }, [d])
 
