@@ -17,6 +17,8 @@ function artGen(v,B,opts){
   const hoursTxt=(()=>{const h=(v.hours||"").trim();if(!h)return "";if(/^24h$/i.test(h))return "mở cửa 24/24";
     const m=h.match(/^(\d{1,2}[:.]\d{2})?\s*[–-]\s*(\d{1,2}[:.]\d{2})$/);if(m){const c=m[2].replace(".",":");return m[1]?`mở cửa ${m[1]}–${c}`:(/^(0|00|24):00$/.test(c)?"mở cửa đến nửa đêm":/^[0-4]:\d\d$/.test(c)?`mở cửa đến ${c} sáng hôm sau`:`mở cửa đến ${c}`)}return "giờ mở cửa: "+h})();
   const late=/24\/24|nửa đêm|sáng hôm sau|đến 2[3-4]:/.test(hoursTxt);
+  /* Nguồn chính thức đã nêu giờ mở (vd L7 Lotte 9:00–24:00) thì không dùng giờ Google để tránh mâu thuẫn */
+  const offHrs=[["highlight_vi",v.highlight_vi],["facilities",(v.facilities||{}).note]].some(([k,t])=>t&&src[k]&&!/toplist/i.test(src[k].src||"")&&/\d{1,2}:\d{2}\s*[–-]\s*\d{1,2}:\d{2}|nửa đêm/.test(t));
   const svc=new Set(v.svc||[]);
   const B0=B&&v.machine?B[v.machine]:null;
   const hasKnow=!!(B0&&B0.metrics&&B0.metrics.length&&B0.sources&&B0.sources.length);
@@ -38,7 +40,7 @@ function artGen(v,B,opts){
   if(rating)pts.push(`được người chơi chấm **${rating.replace(" (","** (")}`.replace("****","**"));
   if(v.machine)pts.push(`dùng hệ thống **${v.machine}**${v.bays?` với ${v.bays} ${v.type==="3d"?"phòng":"làn"}`:""}`);
   else if(v.bays)pts.push(`có ${v.bays} ${v.type==="3d"?"phòng":"làn"} tập`);
-  if(hoursTxt)pts.push(hoursTxt+(late?", tiện cho người tập sau giờ làm":""));
+  if(hoursTxt&&!offHrs)pts.push(hoursTxt+(late?", tiện cho người tập sau giờ làm":""));
   if(svc.has("class"))pts.push("có lớp học golf");
   if(svc.has("food")||svc.has("restaurant")||svc.has("cafe")||svc.has("bar"))pts.push("có đồ ăn, đồ uống"+(svc.has("cafe")?" và chỗ ngồi cà phê":""));
   if(svc.has("kids")||svc.has("family"))pts.push("được ghi là phù hợp cho trẻ em, gia đình");
@@ -92,7 +94,7 @@ function artGen(v,B,opts){
     P(`\n**Nên đi lúc nào:** theo biểu đồ mức độ đông khách trên Google Maps, ${q.length?"vắng nhất vào "+q.join(", "):""}${q.length&&b.length?"; ":""}${b.length?"đông nhất vào "+b.join(", "):""}.`);addSrc(srcOf(src.busy))}
   const fit=[];const FT={noon:"người tranh thủ tập giờ nghỉ trưa",early:"người thích tập sáng sớm cho vắng",after_work:"người tập sau giờ làm",kids_mall:"gia đình: các con tập, bố mẹ dạo trung tâm thương mại",group:"nhóm bạn, tiếp khách",foreigners:"khách nước ngoài"};
   (ok("fit_tags",v.fit_tags)?v.fit_tags:[]).forEach(t=>FT[t]&&fit.push(FT[t]));
-  if(late&&!fit.includes(FT.after_work))fit.push(FT.after_work);
+  if(late&&!offHrs&&!fit.includes(FT.after_work))fit.push(FT.after_work);
   if(svc.has("class")||(ok("academy",v.academy)&&v.academy.has))fit.push("người mới muốn học bài bản");
   if((svc.has("kids")||svc.has("family")||(k&&(k.junior_class||k.junior_clubs)))&&!fit.some(x=>x.startsWith("gia đình")))fit.push("gia đình có các bạn nhỏ");
   if(fit.length){P("\n**Phù hợp với:**");[...new Set(fit)].forEach(x=>P("- "+x+";"));L[L.length-1]=L[L.length-1].replace(/;$/,".")}
@@ -110,7 +112,7 @@ function artGen(v,B,opts){
   const sp=[];
   sp.push(`${tName.charAt(0).toUpperCase()+tName.slice(1)}${v.district?" ở "+v.district:""}${v.machine?`, dùng hệ thống ${v.machine}`:""}`);
   if(rating)sp.push(`người chơi chấm ${rating} trên Google Maps`);
-  if(hoursTxt)sp.push(hoursTxt);
+  if(hoursTxt&&!offHrs)sp.push(hoursTxt);
   let sapo=sp.join("; ")+".";
   if(hasKnow)sapo+=` Bài viết giải thích các số liệu ${v.machine} đo được và cách tận dụng khi tập.`;
   else if(pr.length)sapo+=" Có bảng giá và thông tin thực tế để bạn chọn giờ đi phù hợp.";
