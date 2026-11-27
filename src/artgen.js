@@ -53,7 +53,8 @@ function artGen(v,B,opts){
   const eq=[];
   if(v.type==="3d"||v.type==="academy"||v.machine){
     if(hasKnow){
-      eq.push(`Phòng dùng hệ thống **${v.machine}**${v.machine_detail&&v.machine_detail.model?` (dòng ${v.machine_detail.model})`:""}. Mỗi cú đánh cho ra số liệu ngay trên màn hình. Những con số người chơi phong trào nên nhìn trước:`);
+      eq.push(`Phòng dùng hệ thống **${v.machine}**${v.machine_detail&&v.machine_detail.model?` (dòng ${v.machine_detail.model})`:""}.${src.machine?` Thông tin về máy: ${src.machine.src.replace(/\.?$/,".")}`:""} Mỗi cú đánh cho ra số liệu ngay trên màn hình. Những con số người chơi phong trào nên nhìn trước:`);
+      if(src.machine)addSrc(srcOf(src.machine));
       B0.metrics.slice(0,5).forEach(m=>eq.push(`- **${m[0]}**: ${m[1]}`));
       if(v.machine!=="Trackman")eq.push(`\nThông số cụ thể có thể khác nhau tùy dòng máy ${v.machine} mà phòng đang dùng.`);
       B0.sources.forEach((u,i)=>addSrc({label:`${v.machine} – trang chính hãng${B0.sources.length>1?" ("+(i+1)+")":""}`,url:u,at:B0.knowledge_checked_at||AT}));
