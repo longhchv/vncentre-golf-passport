@@ -3538,6 +3538,7 @@
       "checkHint": "The 3-part test (5 balls each) and a 9-hole round if possible. The app compares with last time: up, same or down.",
       "nineToPar": "9 holes: strokes over par (optional)",
       "saveCheck": "Save check",
+      "nineHoles": "9 holes {{n}}",
       "result": {
         "first": "First",
         "up": "Up",
@@ -4509,7 +4510,7 @@
       },
       "highlightVi": "Top strength (Vietnamese)",
       "highlightEn": "Top strength (English)",
-      "highlightPh": "e.g. Duy nhất có Trackman ở Tây Hồ",
+      "highlightPh": "e.g. The only Trackman in Tây Hồ",
       "brand": "Brand",
       "otherBrand": "Other brand (add in note)",
       "bays": "Rooms / bays",

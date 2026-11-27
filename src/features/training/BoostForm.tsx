@@ -358,7 +358,7 @@ function BoostForm({ studentId, base }: { studentId: string; base: string }) {
         </>
       )}
       {!editing && !plan && d.canEdit && <Button onClick={() => setEditing(true)}>{t('training.boost.start')}</Button>}
-      {limit && <p className="text-xs text-navy/50">{t('training.keep.limitNote', { rest: limit.rest_days, sleep: limit.sleep_vi ?? '' })}</p>}
+      {limit && <p className="text-xs text-navy/50">{t('training.keep.limitNote', { rest: limit.rest_days, sleep: loc(limit, 'sleep') })}</p>}
       <FeedbackButton studentId={studentId} />
     </div>
   )

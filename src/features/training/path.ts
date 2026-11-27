@@ -22,6 +22,7 @@ export interface CostItem {
   gain_vi: string | null
   gain_en: string | null
   note_vi: string | null
+  note_en?: string | null
   sort_order: number
 }
 
@@ -37,6 +38,10 @@ export interface PathStep {
   hcp_note_vi: string | null
   opportunity_vi: string | null
   focus_vi: string | null
+  benefit_en?: string | null
+  hcp_note_en?: string | null
+  opportunity_en?: string | null
+  focus_en?: string | null
   months: Partial<Record<PlanCode, number>>
   sort_order: number
 }
@@ -55,6 +60,8 @@ export interface FinancePlan {
   name_en: string
   summary_vi: string | null
   tradeoff_vi: string | null
+  summary_en?: string | null
+  tradeoff_en?: string | null
   items: PlanItem[]
   sort_order: number
 }
@@ -65,6 +72,7 @@ export interface Need {
   title_vi: string
   title_en: string
   advice_vi: string | null
+  advice_en?: string | null
   goal_step: string | null
   sort_order: number
 }

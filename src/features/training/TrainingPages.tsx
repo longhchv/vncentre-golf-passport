@@ -10,7 +10,7 @@ import { useToast } from '@/components/ui/toast'
 import { ComingSoon } from '@/components/ComingSoon'
 import { Mascot } from '@/components/Mascot'
 import { errorMessage } from '@/lib/db'
-import { useLocalized } from '@/lib/i18nField'
+import { pickLang, useLang, useLocalized } from '@/lib/i18nField'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import {
@@ -638,7 +638,7 @@ function ChunkCard({ chunk, weak, done, setDone, result, setResult }: {
           }
           if (l.t === 'h') return <li key={i} className="pt-2 font-semibold">{text}</li>
           if (l.t === 'o') return <li key={i} className="text-sm text-navy/65">◦ {text}</li>
-          return <li key={i} className={cn('text-sm', /^(Hướng dẫn|Bài \d)/.test(text) ? 'text-navy/60' : 'text-navy/75')}>{text}</li>
+          return <li key={i} className={cn('text-sm', /^(Hướng dẫn|Bài \d|Instructions|Drill \d)/.test(text) ? 'text-navy/60' : 'text-navy/75')}>{text}</li>
         })}
       </ul>
       <Checkbox label={t('training.session.doneBlock')} checked={done} onChange={(e) => setDone(e.target.checked)} />
@@ -1132,12 +1132,13 @@ function RulesQuiz({ me }: { me: Me }) {
   const { t } = useTranslation()
   const { code = 'hcp54' } = useParams()
   const qc = useQueryClient()
+  const lang = useLang()
   const questions = useQuery({
-    queryKey: ['training_quiz', code],
+    queryKey: ['training_quiz', code, lang],
     queryFn: async () => {
       const { data, error } = await supabase!.rpc('training_quiz_questions', { p_program_code: code })
       if (error) throw error
-      return data as QuizQuestion[]
+      return (data as QuizQuestion[]).map((q) => pickLang(q, lang, ['question'], ['options']))
     },
   })
   const [answers, setAnswers] = useState<Record<string, number>>({})
@@ -1147,7 +1148,8 @@ function RulesQuiz({ me }: { me: Me }) {
     mutationFn: async () => {
       const { data, error } = await supabase!.rpc('training_submit_quiz', { p_student_id: me.id, p_program_code: code, p_answers: answers })
       if (error) throw error
-      return data as QuizResult
+      const r = data as QuizResult
+      return { ...r, detail: r.detail.map((d) => pickLang(d, lang, ['explain'])) }
     },
     onSuccess: (r) => { setResult(r); qc.invalidateQueries({ queryKey: ['training_quiz_attempts'] }); window.scrollTo({ top: 0 }) },
     onError: (e) => setErr(trainingError(e, t)),

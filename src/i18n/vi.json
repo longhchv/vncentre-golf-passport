@@ -3538,6 +3538,7 @@
       "checkHint": "Bài test 3 phần (mỗi phần 5 bóng) và một vòng 9 hố nếu có. App so với lần trước và báo tăng, giữ hay tụt.",
       "nineToPar": "9 hố: số gậy hơn par (không bắt buộc)",
       "saveCheck": "Lưu kết quả kiểm tra",
+      "nineHoles": "9 hố {{n}}",
       "result": {
         "first": "Lần đầu",
         "up": "Tăng",

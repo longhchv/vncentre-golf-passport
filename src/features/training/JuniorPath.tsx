@@ -190,7 +190,7 @@ function JuniorPath({ studentId, back, guardian }: { studentId: string; back: st
         {d.needs.filter((n) => needs.includes(n.code)).map((n) => (
           <div key={n.code} className="rounded-lg bg-navy/5 p-3 text-sm">
             <p className="font-semibold">{loc(n, 'title')}</p>
-            <p className="text-navy/80">{n.advice_vi}</p>
+            <p className="text-navy/80">{loc(n, 'advice')}</p>
           </div>
         ))}
         {needs.includes('scholarship') && guardian && (
@@ -222,11 +222,11 @@ function JuniorPath({ studentId, back, guardian }: { studentId: string; back: st
                   </div>
                   <p className="text-xs text-navy/60">
                     {s.level_from === s.level_to ? t('training.path.level1', { n: s.level_from }) : t('training.path.levels', { a: s.level_from, b: s.level_to })}
-                    {s.hcp_note_vi ? ` · ${s.hcp_note_vi}` : ''}
+                    {s.hcp_note_vi ? ` · ${loc(s, 'hcp_note')}` : ''}
                   </p>
-                  {s.benefit_vi && <p className="text-sm"><span className="font-semibold">{t('training.path.benefit')}</span> {s.benefit_vi}</p>}
-                  {s.opportunity_vi && <p className="text-sm"><span className="font-semibold">{t('training.path.opens')}</span> {s.opportunity_vi}</p>}
-                  {s.focus_vi && <p className="text-sm"><span className="font-semibold">{t('training.path.focus')}</span> {s.focus_vi}</p>}
+                  {s.benefit_vi && <p className="text-sm"><span className="font-semibold">{t('training.path.benefit')}</span> {loc(s, 'benefit')}</p>}
+                  {s.opportunity_vi && <p className="text-sm"><span className="font-semibold">{t('training.path.opens')}</span> {loc(s, 'opportunity')}</p>}
+                  {s.focus_vi && <p className="text-sm"><span className="font-semibold">{t('training.path.focus')}</span> {loc(s, 'focus')}</p>}
                   {!past && selectedPlan && (
                     <p className="text-xs text-navy/60">
                       {t('training.path.stepTime', { time: formatMonths(Number(s.months?.[selectedPlan.code] ?? 0), lang), plan: loc(selectedPlan, 'name') })}
@@ -264,7 +264,7 @@ function JuniorPath({ studentId, back, guardian }: { studentId: string; back: st
                 {on ? <Badge tone="good">{t('training.path.chosen')}</Badge>
                   : canEdit && <Button size="sm" variant="outline" onClick={() => setPlan(p.code)}>{t('training.path.choose')}</Button>}
               </div>
-              {p.summary_vi && <p className="text-sm">{p.summary_vi}</p>}
+              {p.summary_vi && <p className="text-sm">{loc(p, 'summary')}</p>}
               <div className="rounded-lg bg-navy/5 p-3 text-sm">
                 <p className="font-semibold">{t('training.path.gets')}</p>
                 <ul className="mt-1 list-disc space-y-0.5 pl-5">
@@ -290,7 +290,7 @@ function JuniorPath({ studentId, back, guardian }: { studentId: string; back: st
                   {once.map((l) => `${loc(l.cost!, 'name')} (${price(l)})`).join(', ')}
                 </p>
               )}
-              {p.tradeoff_vi && <p className="text-sm text-navy/70"><span className="font-semibold">{t('training.path.tradeoff')}</span> {p.tradeoff_vi}</p>}
+              {p.tradeoff_vi && <p className="text-sm text-navy/70"><span className="font-semibold">{t('training.path.tradeoff')}</span> {loc(p, 'tradeoff')}</p>}
               <button type="button" className="flex items-center gap-1 text-sm font-semibold text-bronze" onClick={() => setOpen(open === p.code ? null : p.code)}>
                 {open === p.code ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />} {t('training.path.details')}
               </button>
@@ -305,7 +305,7 @@ function JuniorPath({ studentId, back, guardian }: { studentId: string; back: st
                         </span>
                         <span className="shrink-0 tabular-nums">{price(l)}</span>
                       </div>
-                      {l.cost?.note_vi && <p className="text-xs text-navy/55">{l.cost.note_vi}</p>}
+                      {l.cost?.note_vi && <p className="text-xs text-navy/55">{loc(l.cost, 'note')}</p>}
                     </li>
                   ))}
                 </ul>
