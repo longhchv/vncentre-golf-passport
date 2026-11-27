@@ -3824,7 +3824,8 @@
       "prices": "Giá",
       "status": "Trạng thái",
       "history": "Lịch sử",
-      "details": "Chi tiết"
+      "details": "Chi tiết",
+      "articles": "Bài viết"
     },
     "region": {
       "hn": "Hà Nội",
@@ -4447,6 +4448,73 @@
         "surface": "Mặt đánh",
         "languages": "Ngôn ngữ",
         "fit_tags": "Phù hợp với"
+      }
+    },
+    "art": {
+      "overview": "Bài tổng quan",
+      "overviewHint": "Mỗi địa điểm 1 bài, chỉ dùng thông tin chính thức",
+      "updated": "sửa {{d}}",
+      "needsSurvey": "Cần khảo sát",
+      "edit": "Sửa bài",
+      "none": "Địa điểm này chưa có bài tổng quan.",
+      "create": "Soạn bài tổng quan",
+      "reviews": "Bài review",
+      "reviewsSoon": "Bài review trải nghiệm (của anh Long hoặc người chơi) sẽ mở ở giai đoạn sau.",
+      "status": {
+        "draft": "Nháp",
+        "approved": "Đang hiện trên web",
+        "archived": "Đã gỡ"
+      },
+      "open": "Mở trang bài",
+      "copy": "Chép link",
+      "copied": "Đã chép link bài viết",
+      "back": "Về danh sách bài",
+      "leave": "Bài có thay đổi chưa lưu. Vẫn rời đi?",
+      "content": "Nội dung",
+      "preview": "Xem trước",
+      "sourcesTitle": "Nguồn thông tin",
+      "sourcesHint": "Chỉ nguồn do địa điểm công bố hoặc đã xác thực",
+      "infoAsOf": "Thông tin cập nhật đến {{d}}",
+      "f": {
+        "title": "Tiêu đề",
+        "sapo": "Sapo (đoạn mở đầu, hiện khi chia sẻ)",
+        "body": "Nội dung bài",
+        "coverUrl": "Hoặc dán link ảnh",
+        "srcLabel": "Tên nguồn, vd: Fanpage chính thức",
+        "srcAt": "Ngày xem nguồn",
+        "infoDate": "Thông tin cập nhật đến ngày",
+        "needsSurvey": "Bài còn thiếu thông tin, cần khảo sát"
+      },
+      "h": {
+        "title": "{{n}}/160 ký tự",
+        "sapo": "{{n}}/400 ký tự",
+        "body": "## Tiêu đề mục · - gạch đầu dòng · **đậm** · [chữ](https://link) · dòng trống để sang đoạn mới",
+        "coverUrl": "Ảnh do chính địa điểm công bố, link bắt đầu bằng https://"
+      },
+      "cover": "Ảnh bìa",
+      "coverHint": "Ảnh ngang tỉ lệ 1,91:1 hiển thị đẹp nhất khi chia sẻ",
+      "upload": "Tải ảnh lên",
+      "uploading": "Đang tải…",
+      "addSource": "Thêm nguồn",
+      "saveDraft": "Lưu nháp",
+      "saveLive": "Lưu thay đổi",
+      "approve": "Duyệt và đăng lên web",
+      "unpublish": "Gỡ khỏi web",
+      "delete": "Xoá bài",
+      "deleteTitle": "Xoá bài viết?",
+      "deleteBody": "Bài nháp này sẽ bị xoá hẳn, không khôi phục được.",
+      "saved": "Đã lưu nháp",
+      "published": "Đã duyệt, bài hiện trên tapgolf",
+      "unpublished": "Đã gỡ bài khỏi web",
+      "shareNote": "Bài đã duyệt hiện ngay trong trang địa điểm trên tapgolf. Ảnh và tiêu đề xem trước khi chia sẻ Facebook, Zalo được cập nhật ở lần đưa tapgolf lên tiếp theo.",
+      "err": {
+        "title": "Tiêu đề cần 5–160 ký tự.",
+        "sapo": "Sapo tối đa 400 ký tự.",
+        "badCover": "Link ảnh bìa phải bắt đầu bằng https://",
+        "badSources": "Mỗi nguồn cần có tên; link (nếu có) phải bắt đầu bằng http(s)://",
+        "approveNeeds": "Muốn duyệt, bài cần có nội dung và ít nhất 1 nguồn.",
+        "duplicate": "Địa điểm này đã có bài tổng quan cho ngôn ngữ này.",
+        "photoType": "Không đọc được ảnh. Dùng JPG, PNG hoặc WebP."
       }
     }
   }

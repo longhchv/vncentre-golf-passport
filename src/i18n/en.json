@@ -3824,7 +3824,8 @@
       "prices": "Prices",
       "status": "Status",
       "history": "History",
-      "details": "Details"
+      "details": "Details",
+      "articles": "Articles"
     },
     "region": {
       "hn": "Hanoi",
@@ -4447,6 +4448,73 @@
         "surface": "Hitting surface",
         "languages": "Languages",
         "fit_tags": "Good for"
+      }
+    },
+    "art": {
+      "overview": "Overview article",
+      "overviewHint": "One per venue, official information only",
+      "updated": "edited {{d}}",
+      "needsSurvey": "Needs survey",
+      "edit": "Edit",
+      "none": "This venue has no overview article yet.",
+      "create": "Write overview",
+      "reviews": "Reviews",
+      "reviewsSoon": "Personal reviews (by Long or players) will open in a later phase.",
+      "status": {
+        "draft": "Draft",
+        "approved": "Live on web",
+        "archived": "Unpublished"
+      },
+      "open": "Open article page",
+      "copy": "Copy link",
+      "copied": "Article link copied",
+      "back": "Back to articles",
+      "leave": "You have unsaved changes. Leave anyway?",
+      "content": "Content",
+      "preview": "Preview",
+      "sourcesTitle": "Sources",
+      "sourcesHint": "Only sources published by the venue or verified",
+      "infoAsOf": "Information as of {{d}}",
+      "f": {
+        "title": "Title",
+        "sapo": "Lead (shown when shared)",
+        "body": "Body",
+        "coverUrl": "Or paste an image link",
+        "srcLabel": "Source name, e.g. official fanpage",
+        "srcAt": "Date checked",
+        "infoDate": "Information as of",
+        "needsSurvey": "Missing information, needs survey"
+      },
+      "h": {
+        "title": "{{n}}/160 characters",
+        "sapo": "{{n}}/400 characters",
+        "body": "## Section · - bullet · **bold** · [text](https://link) · blank line for new paragraph",
+        "coverUrl": "An image published by the venue, link starting with https://"
+      },
+      "cover": "Cover image",
+      "coverHint": "Landscape 1.91:1 looks best when shared",
+      "upload": "Upload image",
+      "uploading": "Uploading…",
+      "addSource": "Add source",
+      "saveDraft": "Save draft",
+      "saveLive": "Save changes",
+      "approve": "Approve and publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete",
+      "deleteTitle": "Delete article?",
+      "deleteBody": "This draft will be permanently deleted.",
+      "saved": "Draft saved",
+      "published": "Approved, now live on tapgolf",
+      "unpublished": "Article unpublished",
+      "shareNote": "Approved articles show right away on the venue page on tapgolf. The Facebook/Zalo share preview updates on the next tapgolf deploy.",
+      "err": {
+        "title": "Title must be 5–160 characters.",
+        "sapo": "Lead is at most 400 characters.",
+        "badCover": "Cover link must start with https://",
+        "badSources": "Each source needs a name; links must start with http(s)://",
+        "approveNeeds": "To approve, the article needs a body and at least one source.",
+        "duplicate": "This venue already has an overview in this language.",
+        "photoType": "Could not read the image. Use JPG, PNG or WebP."
       }
     }
   }
