@@ -1,4 +1,4 @@
-// Spec 26 · A3 Sửa địa điểm (và Thêm địa điểm) · 6 mục: Thông tin · Máy & dịch vụ · Giá · Chi tiết (spec 29) · Trạng thái · Lịch sử
+// Spec 26 · A3 Sửa địa điểm (và Thêm địa điểm) · 7 mục: Thông tin · Máy & dịch vụ · Giá · Chi tiết (spec 29) · Bài viết (spec 30) · Trạng thái · Lịch sử
 import { useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { Link, useNavigate, useParams } from 'react-router'
@@ -17,10 +17,11 @@ import {
   type HistoryRow, type PriceRow, type Venue,
 } from './api'
 import { StatusPill } from './parts'
+import { ArticlesTab } from './articles/ArticlesTab'
 import { DetailsEditor, cleanDetails, detailsError, detailsOf, type VenueDetails, type VenueInternal } from './details'
 
-type Tab = 'info' | 'machine' | 'prices' | 'details' | 'status' | 'history'
-const TABS: Tab[] = ['info', 'machine', 'prices', 'details', 'status', 'history']
+type Tab = 'info' | 'machine' | 'prices' | 'details' | 'articles' | 'status' | 'history'
+const TABS: Tab[] = ['info', 'machine', 'prices', 'details', 'articles', 'status', 'history']
 
 interface Draft {
   region: string; name: string; type: string; district: string; address: string; maps: string
@@ -139,7 +140,7 @@ function EditForm({ venue }: { venue: Venue | null }) {
       </div>
 
       <div role="tablist" aria-label={t('venues.tabsLabel')} className="flex gap-1.5 overflow-x-auto pb-1">
-        {TABS.filter((k) => venue || k !== 'history').map((k) => (
+        {TABS.filter((k) => venue || (k !== 'history' && k !== 'articles')).map((k) => (
           <Chip key={k} role="tab" aria-selected={tab === k} on={tab === k} onClick={() => setTab(k)} className="shrink-0">{t(`venues.tab.${k}`)}</Chip>
         ))}
       </div>
@@ -270,9 +271,11 @@ function EditForm({ venue }: { venue: Venue | null }) {
         </Section>
       )}
 
+      {tab === 'articles' && venue && <ArticlesTab venue={venue} />}
+
       {tab === 'history' && venue && <HistoryTab venueId={venue.id} lang={i18n.language} />}
 
-      {tab !== 'history' && (
+      {tab !== 'history' && tab !== 'articles' && (
         <StickyActions>
           <Button size="full" onClick={submit} disabled={busy || (!!venue && !dirty)}>
             {save.isPending ? t('venues.saving') : venue ? t('venues.save') : t('venues.create')}
