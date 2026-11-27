@@ -45,6 +45,8 @@ export interface LiveStudent {
 export interface LiveBoard {
   class: { id: string; name: string; school: string | null }
   date: string
+  /** Các mức điểm HLV bấm (cài đặt class_live.point_steps) */
+  steps?: number[]
   session: { id: string; session_no: number | null; topic: string | null } | null
   next_session_no: number
   last_topic: string | null
