@@ -15,9 +15,11 @@ import {
   Minus,
   Pencil,
   Plus,
+  Undo2,
   UserPlus,
   Users,
   X,
+  Zap,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/i18nField'
@@ -46,6 +48,7 @@ import {
   type LiveBoard,
   type LiveOp,
   type LiveStudent,
+  type MinusTag,
   type PointTag,
 } from './queue'
 
@@ -54,6 +57,7 @@ import {
 // trên máy và tự gửi khi có mạng lại.
 
 type SyncState = 'idle' | 'syncing' | 'offline' | 'error'
+type Mode = 'quick' | 'one' | 'team'
 interface SyncResult {
   applied: number
   skipped: { index: number; reason: string }[]
@@ -98,7 +102,13 @@ function useLiveQueue(onSynced: () => Promise<unknown>) {
       await syncedRef.current().catch(() => undefined)
       const sent = new Set(batch.map((o) => o.id))
       persist(opsRef.current.filter((o) => !sent.has(o.id)))
-      if (res.skipped.length > 0) toast(t('classLive.sync.skipped', { count: res.skipped.length }), 'error')
+      if (res.skipped.length > 0) {
+        const n = (r: string) => res.skipped.filter((x) => x.reason === r).length
+        const other = res.skipped.length - n('below_zero') - n('session_cap')
+        if (n('below_zero')) toast(t('classLive.sync.belowZero', { count: n('below_zero') }), 'error')
+        if (n('session_cap')) toast(t('classLive.sync.cap', { count: n('session_cap') }), 'error')
+        if (other) toast(t('classLive.sync.skipped', { count: other }), 'error')
+      }
       setState('idle')
       ok = true
     } catch {
@@ -180,7 +190,25 @@ export function LiveClassPage() {
   const view = useMemo(() => (board.data ? applyPending(board.data, queue.ops) : undefined), [board.data, queue.ops])
 
   const [openId, setOpenId] = useState<string | null>(null)
-  const [team, setTeam] = useState(false)
+  // Cách chấm: từng bạn (mở thẻ), cả đội (chọn nhiều bạn), chấm nhanh (nút ngay trên hàng của từng bạn). Nhớ theo lớp.
+  const modeKey = `vnc-live-mode:${classId}`
+  const [savedMode, setSavedMode] = useState<Mode | null>(() => {
+    try {
+      const v = localStorage.getItem(modeKey)
+      return v === 'one' || v === 'team' || v === 'quick' ? v : null
+    } catch {
+      return null
+    }
+  })
+  const chooseMode = (m: Mode) => {
+    setSavedMode(m)
+    setPicked(new Set())
+    try {
+      localStorage.setItem(modeKey, m)
+    } catch {
+      // bộ nhớ trình duyệt bị chặn: chỉ không nhớ được lựa chọn
+    }
+  }
   const [picked, setPicked] = useState<Set<string>>(new Set())
   const [tag, setTag] = useState<PointTag | null>(null)
   const [adding, setAdding] = useState(false)
@@ -190,14 +218,22 @@ export function LiveClassPage() {
   const [, setHistoryTick] = useState(0)
 
   const score = useCallback(
-    (all: string[], delta: number) => {
+    (all: string[], delta: number, minusTag: MinusTag = 'fix') => {
       if (!view) return
-      // Bỏ các bạn đã chạm trần điểm của buổi (máy chủ cũng chặn)
-      const ids = delta > 0 ? all.filter((sid) => {
+      // Cộng: bỏ các bạn đã chạm trần của buổi. Trừ: bỏ các bạn không đủ điểm buổi (máy chủ cũng chặn).
+      const ids = all.filter((sid) => {
         const s = view.students.find((x) => x.id === sid)
-        return s ? delta <= remainingToday(view, s) : false
-      }) : all
-      if (ids.length < all.length) toast(t('classLive.cap.reached', { count: all.length - ids.length, cap: view.rules?.session_cap }), 'error')
+        if (!s) return false
+        return delta > 0 ? delta <= remainingToday(view, s) : s.today + delta >= 0
+      })
+      if (ids.length < all.length) {
+        toast(
+          delta > 0
+            ? t('classLive.cap.reached', { count: all.length - ids.length, cap: view.rules?.session_cap })
+            : t('classLive.sync.belowZero', { count: all.length - ids.length }),
+          'error',
+        )
+      }
       if (ids.length === 0) return
       const ops: LiveOp[] = ids.map((sid) => ({
         op: 'points',
@@ -206,7 +242,7 @@ export function LiveClassPage() {
         date: today,
         student_id: sid,
         delta,
-        tag: delta < 0 ? null : tag,
+        tag: delta < 0 ? minusTag : tag,
       }))
       queue.enqueue(ops)
       if (delta > 0) {
@@ -270,6 +306,9 @@ export function LiveClassPage() {
 
   const steps = view.steps?.length ? view.steps : DEFAULT_STEPS
   const students = view.students
+  // Chưa chọn: lớp ít học viên (≤ 10) mở thẳng màn chấm nhanh
+  const mode: Mode = savedMode ?? (students.length <= 10 ? 'quick' : 'one')
+  const team = mode === 'team'
   const open = students.find((s) => s.id === openId) ?? null
   const sessionNo = view.session?.session_no ?? view.next_session_no
   const unmarked = students.filter((s) => !s.attendance)
@@ -305,16 +344,19 @@ export function LiveClassPage() {
           <Pencil className="h-4 w-4 shrink-0 text-bronze" />
         </button>
         <div className="flex gap-2">
-          <button type="button" onClick={() => { setTeam(false); setPicked(new Set()) }} className={segClass(!team)}>
+          <button type="button" onClick={() => chooseMode('quick')} className={segClass(mode === 'quick')}>
+            <Zap className="h-4 w-4" /> {t('classLive.mode.quick')}
+          </button>
+          <button type="button" onClick={() => chooseMode('one')} className={segClass(mode === 'one')}>
             {t('classLive.mode.one')}
           </button>
-          <button type="button" onClick={() => setTeam(true)} className={segClass(team)}>
+          <button type="button" onClick={() => chooseMode('team')} className={segClass(team)}>
             <Users className="h-4 w-4" /> {t('classLive.mode.team')}
           </button>
         </div>
       </header>
 
-      <main className={cn('px-3 pt-3', team ? 'pb-80' : 'pb-28')}>
+      <main className={cn('px-3 pt-3', team ? 'pb-96' : mode === 'quick' ? 'pb-24' : 'pb-28')}>
         {students.length === 0 ? (
           <Card className="space-y-3 p-6 text-center">
             <p>{t('classLive.empty')}</p>
@@ -322,6 +364,16 @@ export function LiveClassPage() {
               <UserPlus className="h-5 w-5" /> {t('classLive.add.button')}
             </Button>
           </Card>
+        ) : mode === 'quick' ? (
+          <QuickBoard
+            students={students}
+            steps={steps}
+            tag={tag}
+            onTag={setTag}
+            remaining={(s) => remainingToday(view, s)}
+            onScore={(sid, d) => (d > 0 ? score([sid], d) : score([sid], d, 'penalty'))}
+            onOpen={setOpenId}
+          />
         ) : (
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {students.map((s) => (
@@ -360,6 +412,21 @@ export function LiveClassPage() {
         </div>
       </main>
 
+      {mode === 'quick' && students.length > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-30 flex items-center gap-2 border-t border-navy/10 bg-white px-3 pt-2" style={{ paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom, 0px))' }}>
+          <p className="min-w-0 flex-1 text-sm text-navy/65">{t('classLive.quick.hint')}</p>
+          <button
+            type="button"
+            disabled={!history.current.length}
+            onClick={undoTeam}
+            className="flex min-h-12 shrink-0 items-center gap-1 rounded-xl px-4 font-bold text-red-700 ring-1 ring-red-200 disabled:opacity-40"
+          >
+            <Undo2 className="h-4 w-4" />
+            {history.current.length ? `${t('classLive.undo')} −${history.current.at(-1)!.delta}` : t('classLive.undo')}
+          </button>
+        </div>
+      )}
+
       {team && (
         <TeamBar
           count={picked.size}
@@ -369,7 +436,8 @@ export function LiveClassPage() {
           onAll={() => setPicked(picked.size === students.length ? new Set() : new Set(students.map((s) => s.id)))}
           steps={steps}
           remaining={Math.max(0, ...students.filter((s) => picked.has(s.id)).map((s) => remainingToday(view, s)))}
-          onScore={(d) => picked.size > 0 && score([...picked], d)}
+          minusMax={Math.max(0, ...students.filter((s) => picked.has(s.id)).map((s) => s.today))}
+          onScore={(d) => picked.size > 0 && (d > 0 ? score([...picked], d) : score([...picked], d, 'penalty'))}
           undo={history.current.at(-1)?.delta ?? null}
           onUndo={undoTeam}
         />
@@ -384,9 +452,10 @@ export function LiveClassPage() {
           onTag={setTag}
           steps={steps}
           remaining={remainingToday(view, open)}
+          minusMax={open.today}
           cap={view.rules?.session_cap ?? null}
           attendancePoints={view.rules?.attendance_points ?? 0}
-          onScore={(d) => score([open.id], d)}
+          onScore={(d) => (d > 0 ? score([open.id], d) : score([open.id], d, 'penalty'))}
           undo={(() => {
             const i = lastFor(open.id)
             return i === null ? null : history.current[i].delta
@@ -512,12 +581,13 @@ function TagChips({ tag, onTag }: { tag: PointTag | null; onTag: (t: PointTag | 
   )
 }
 
-const DEFAULT_STEPS = [5, 10, 20, 30, 40, 50]
+const DEFAULT_STEPS = [1, 5, 10, 20, 30, 40, 50]
 
 /** Các mức điểm (cài đặt class_live.point_steps) và nút hoàn tác lần chấm gần nhất. */
 function ScoreButtons({
   steps,
   remaining,
+  minusMax,
   onScore,
   undo,
   onUndo,
@@ -526,38 +596,142 @@ function ScoreButtons({
   steps: number[]
   /** Điểm còn được cộng trong buổi: nút vượt quá thì mờ đi */
   remaining: number
+  /** Điểm buổi hiện có: trừ quá số này thì mờ đi (điểm buổi không xuống dưới 0) */
+  minusMax: number
+  /** d > 0: cộng; d < 0: trừ điểm (phạt) */
   onScore: (d: number) => void
   undo: number | null
   onUndo: () => void
   disabled?: boolean
 }) {
   const { t } = useTranslation()
+  const [minus, setMinus] = useState(false)
   return (
-    <div className="grid grid-cols-4 gap-2">
-      {steps.map((d) => (
-        <button
-          key={d}
-          type="button"
-          disabled={disabled || d > remaining}
-          onClick={() => onScore(d)}
-          className="h-16 rounded-2xl bg-linear-to-b from-gold to-bronze text-2xl font-extrabold text-navy shadow active:scale-95 disabled:opacity-40"
-        >
-          +{d}
+    <div className="space-y-2">
+      <div className="flex gap-2">
+        <button type="button" onClick={() => setMinus(false)} className={cn(segClass(!minus), 'min-h-9')}>
+          <Plus className="h-4 w-4" /> {t('classLive.sign.plus')}
         </button>
-      ))}
-      <button
-        type="button"
-        disabled={undo === null}
-        onClick={onUndo}
-        aria-label={t('classLive.fix')}
-        className={cn(
-          'flex h-16 flex-col items-center justify-center rounded-2xl bg-white font-bold text-red-700 ring-1 ring-red-200 active:scale-95 disabled:opacity-40',
-          steps.length % 4 === 2 ? 'col-span-2' : steps.length % 4 === 0 ? 'col-span-4' : '',
-        )}
-      >
-        <span className="text-lg">{undo === null ? t('classLive.undo') : `−${undo}`}</span>
-        <span className="text-[11px] font-semibold">{undo === null ? t('classLive.undoNone') : t('classLive.undo')}</span>
-      </button>
+        <button
+          type="button"
+          onClick={() => setMinus(true)}
+          className={cn(segClass(false), 'min-h-9', minus && 'bg-red-700 text-white ring-red-700')}
+        >
+          <Minus className="h-4 w-4" /> {t('classLive.sign.minus')}
+        </button>
+      </div>
+      <div className="grid grid-cols-4 gap-2">
+        {steps.map((d) => (
+          <button
+            key={d}
+            type="button"
+            disabled={disabled || (minus ? d > minusMax : d > remaining)}
+            onClick={() => onScore(minus ? -d : d)}
+            className={cn(
+              'h-16 rounded-2xl text-2xl font-extrabold shadow active:scale-95 disabled:opacity-40',
+              minus ? 'bg-white text-red-700 ring-2 ring-red-300' : 'bg-linear-to-b from-gold to-bronze text-navy',
+            )}
+          >
+            {minus ? '−' : '+'}
+            {d}
+          </button>
+        ))}
+        <button
+          type="button"
+          disabled={undo === null}
+          onClick={onUndo}
+          aria-label={t('classLive.fix')}
+          className={cn(
+            'flex h-16 flex-col items-center justify-center rounded-2xl bg-white font-bold text-red-700 ring-1 ring-red-200 active:scale-95 disabled:opacity-40',
+            steps.length % 4 === 2 ? 'col-span-2' : steps.length % 4 === 0 ? 'col-span-4' : '',
+          )}
+        >
+          <span className="text-lg">{undo === null ? t('classLive.undo') : `−${undo}`}</span>
+          <span className="text-[11px] font-semibold">{undo === null ? t('classLive.undoNone') : t('classLive.undo')}</span>
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Chấm nhanh cả lớp trên một màn (lớp ít học viên): mỗi bạn một hàng có sẵn nút cộng và nút trừ điểm theo
+ * các mức trong cài đặt. Bấm là gửi ngay. Chạm tên để mở thẻ của bạn đó (điểm danh, nhận xét, hồ sơ).
+ */
+function QuickBoard({
+  students,
+  steps,
+  tag,
+  onTag,
+  remaining,
+  onScore,
+  onOpen,
+}: {
+  students: LiveStudent[]
+  steps: number[]
+  tag: PointTag | null
+  onTag: (t: PointTag | null) => void
+  remaining: (s: LiveStudent) => number
+  onScore: (sid: string, d: number) => void
+  onOpen: (sid: string) => void
+}) {
+  const { t } = useTranslation()
+  const cols = { gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))` }
+  return (
+    <div className="space-y-3">
+      <div className="space-y-1">
+        <p className="text-xs font-semibold text-navy/60">{t('classLive.quick.reason')}</p>
+        <TagChips tag={tag} onTag={onTag} />
+      </div>
+      <ul className="space-y-3">
+        {students.map((s) => {
+          const left = remaining(s)
+          return (
+            <li key={s.id} data-sid={s.id} className={cn('space-y-2 rounded-2xl bg-white p-2.5 shadow-sm', s.attendance === 'absent' && 'opacity-55')}>
+              <button type="button" onClick={() => onOpen(s.id)} className="flex w-full items-center gap-3 text-left">
+                <Avatar s={s} size="h-11 w-11 text-base" />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-bold">{shortName(s.full_name)}</span>
+                  <span className="block text-xs text-navy/55">
+                    {t('classLive.quick.line', { total: s.total, available: s.available })}
+                    {s.attendance && s.attendance !== 'present' ? ` · ${t(`classLive.attendance.${s.attendance}`)}` : ''}
+                  </span>
+                </span>
+                <span className="shrink-0 text-right">
+                  <span className="block text-3xl leading-none font-extrabold text-bronze tabular-nums">{s.today}</span>
+                  <span className="text-[11px] text-navy/50">{t('classLive.card.today')}</span>
+                </span>
+              </button>
+              <div className="grid gap-1" style={cols}>
+                {steps.map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    disabled={d > left}
+                    onClick={() => onScore(s.id, d)}
+                    className="h-11 rounded-lg bg-linear-to-b from-gold to-bronze text-sm font-extrabold text-navy active:scale-95 disabled:opacity-35"
+                  >
+                    +{d}
+                  </button>
+                ))}
+              </div>
+              <div className="grid gap-1" style={cols}>
+                {steps.map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    disabled={d > s.today}
+                    onClick={() => onScore(s.id, -d)}
+                    className="h-10 rounded-lg bg-white text-sm font-bold text-red-700 ring-1 ring-red-200 active:scale-95 disabled:opacity-35"
+                  >
+                    −{d}
+                  </button>
+                ))}
+              </div>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
@@ -570,6 +744,7 @@ function TeamBar({
   onAll,
   steps,
   remaining,
+  minusMax,
   onScore,
   undo,
   onUndo,
@@ -581,6 +756,7 @@ function TeamBar({
   onAll: () => void
   steps: number[]
   remaining: number
+  minusMax: number
   onScore: (d: number) => void
   undo: number | null
   onUndo: () => void
@@ -595,7 +771,7 @@ function TeamBar({
         </button>
       </div>
       <TagChips tag={tag} onTag={onTag} />
-      <ScoreButtons steps={steps} remaining={remaining} onScore={onScore} disabled={count === 0} undo={undo} onUndo={onUndo} />
+      <ScoreButtons steps={steps} remaining={remaining} minusMax={minusMax} onScore={onScore} disabled={count === 0} undo={undo} onUndo={onUndo} />
     </div>
   )
 }
@@ -609,6 +785,7 @@ function StudentSheet({
   onTag,
   steps,
   remaining,
+  minusMax,
   cap,
   attendancePoints,
   onScore,
@@ -624,6 +801,7 @@ function StudentSheet({
   onTag: (t: PointTag | null) => void
   steps: number[]
   remaining: number
+  minusMax: number
   cap: number | null
   attendancePoints: number
   onScore: (d: number) => void
@@ -673,7 +851,7 @@ function StudentSheet({
           {cap !== null && remaining === 0 && (
             <p className="text-center text-sm font-semibold text-emerald-700">{t('classLive.cap.full', { cap })}</p>
           )}
-          <ScoreButtons steps={steps} remaining={remaining} onScore={onScore} undo={undo} onUndo={onUndo} />
+          <ScoreButtons steps={steps} remaining={remaining} minusMax={minusMax} onScore={onScore} undo={undo} onUndo={onUndo} />
         </div>
       </div>
     </div>
@@ -1130,7 +1308,8 @@ function SessionDialog({
             <h3 className="text-sm font-semibold text-navy/70">{t('classLive.session.pickFromPlan')}</h3>
             <ul className="space-y-1.5">
               {topics.map((tp, i) => {
-                const on = Number(n) === i + 1 && text.trim() === tp
+                // Đánh dấu theo số buổi (Buổi 8 và Buổi 10 trùng tên chủ đề)
+                const on = Number(n) === i + 1
                 return (
                   <li key={i}>
                     {/* Một chạm: chọn số buổi + chủ đề và lưu luôn */}

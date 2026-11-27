@@ -4714,8 +4714,9 @@
     "needOnline": "Việc này cần có mạng. Điểm chấm vẫn được lưu trên máy.",
     "fix": "Hoàn tác lần chấm gần nhất",
     "mode": {
-      "one": "Chấm từng bạn",
-      "team": "Chấm cả đội"
+      "one": "Từng bạn",
+      "team": "Cả đội",
+      "quick": "Chấm nhanh"
     },
     "card": {
       "today": "điểm hôm nay",
@@ -4725,7 +4726,9 @@
     "sync": {
       "saved": "Đã lưu",
       "pending": "Chờ gửi {{count}}",
-      "skipped": "Có {{count}} lần chấm không ghi được (ngoài lớp hoặc quá hạn)."
+      "skipped": "Có {{count}} lần chấm không ghi được (ngoài lớp hoặc quá hạn).",
+      "belowZero": "{{count}} lần trừ không ghi được: điểm của buổi không xuống dưới 0.",
+      "cap": "{{count}} lần cộng không ghi được: đã đủ điểm tối đa của buổi."
     },
     "tag": {
       "game": "Hoàn thành trò chơi",
@@ -4834,6 +4837,15 @@
       "full": "Đã đủ tối đa {{cap}} điểm của buổi",
       "short": "tối đa {{cap}}",
       "attendance": "Có mặt +{{points}} điểm"
+    },
+    "sign": {
+      "plus": "Cộng điểm",
+      "minus": "Trừ điểm"
+    },
+    "quick": {
+      "reason": "Lý do khi cộng (chạm để chọn, chạm lại để bỏ)",
+      "line": "Tổng {{total}} · Đổi quà {{available}}",
+      "hint": "Nút vàng cộng, nút đỏ trừ điểm. Chạm tên để điểm danh, nhận xét."
     }
   }
 }

@@ -37,6 +37,11 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 - `supabase/migrations/20261127000040_class_live_steps.sql`: mức điểm 5–50 (cài đặt mới, thay thân `class_live_board`, `class_live_sync`).
 - `supabase/migrations/20261127000050_class_live_attendance.sql`: điểm danh có điểm, trần mỗi buổi theo loại lớp; cộng điểm danh cho các buổi đã điểm danh trước đó.
 - `supabase/migrations/20261127000060_class_live_topics.sql`: giáo án 14 buổi (cài đặt `class_live.topics`); HLV chọn "Buổi N · chủ đề" một chạm, ô chủ đề tự điền theo số buổi.
+- `supabase/migrations/20261127000070_class_live_quick_penalty.sql`: mức +1 (`point_steps` = 1, 5, 10, 20, 30, 40, 50); lý do trừ `penalty` – "Trừ điểm" (khác `fix` – "Sửa nhầm"); số buổi = số buổi lớn nhất + 1.
+
+**Chấm nhanh (27/11/2026):** màn mặc định cho lớp ≤ 10 bạn. Mỗi bạn một hàng: ảnh, tên, điểm hôm nay, một hàng nút cộng và một hàng nút trừ theo `point_steps`. Bấm là gửi ngay (hàng đợi như cũ). Chạm tên để mở thẻ (điểm danh, nhận xét, hồ sơ). Ba cách chấm chuyển qua lại ở đầu màn: Chấm nhanh / Từng bạn / Cả đội; máy nhớ lựa chọn theo lớp. Ở Từng bạn và Cả đội có công tắc Cộng điểm / Trừ điểm.
+
+**Trừ điểm:** trừ đúng một mức, chỉ trong buổi hôm nay, điểm của buổi không xuống dưới 0 (nút vượt quá thì mờ; máy chủ từ chối `below_zero` và app báo rõ). Tổng tích luỹ = cộng dồn các buổi.
 - `supabase/tests/064_class_live.sql`: đạt trên PostgreSQL 16 dựng từ toàn bộ migration của repo (27/11/2026). Chưa chạy trên staging.
 
 ## Chưa làm

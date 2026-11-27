@@ -2,6 +2,8 @@
 // chưa gửi vào bảng điểm đang hiện. Máy chủ nhận lại nhiều lần vẫn chỉ ghi một lần (class_live_sync).
 
 export type PointTag = 'game' | 'rules' | 'listen' | 'fair_play' | 'team_win'
+/** Lý do khi trừ: sửa nhầm (hoàn tác) hoặc trừ điểm (phạt) */
+export type MinusTag = 'fix' | 'penalty'
 export type CommentTag = 'focused' | 'needs_reminder' | 'tech_progress' | 'fair_play'
 export type Attendance = 'present' | 'late' | 'absent'
 
@@ -9,7 +11,7 @@ export const POINT_TAGS: PointTag[] = ['game', 'rules', 'listen', 'fair_play', '
 export const COMMENT_TAGS: CommentTag[] = ['focused', 'needs_reminder', 'tech_progress', 'fair_play']
 
 export type LiveOp =
-  | { op: 'points'; id: string; class_id: string; date: string; student_id: string; delta: number; tag?: PointTag | null }
+  | { op: 'points'; id: string; class_id: string; date: string; student_id: string; delta: number; tag?: PointTag | MinusTag | null }
   | {
       op: 'mark'
       id: string
@@ -119,7 +121,8 @@ export function rollToDate(board: LiveBoard, date: string): LiveBoard {
     ...board,
     date,
     session: null,
-    next_session_no: board.next_session_no + (board.session ? 1 : 0),
+    // Buổi sau = số buổi lớn nhất + 1 (như máy chủ)
+    next_session_no: board.session ? (board.session.session_no ?? board.next_session_no) + 1 : board.next_session_no,
     last_topic: board.session?.topic ?? board.last_topic,
     students: board.students.map((s) => ({ ...s, today: 0, attendance: null, leave_count: 0, comment_tags: [], note: null })),
   }

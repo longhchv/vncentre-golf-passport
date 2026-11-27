@@ -4714,8 +4714,9 @@
     "needOnline": "This needs a connection. Scores are still saved on this phone.",
     "fix": "Undo the last score",
     "mode": {
-      "one": "One student",
-      "team": "Team scoring"
+      "one": "One by one",
+      "team": "Team",
+      "quick": "Quick"
     },
     "card": {
       "today": "today",
@@ -4725,7 +4726,9 @@
     "sync": {
       "saved": "Saved",
       "pending": "{{count}} waiting",
-      "skipped": "{{count}} scores could not be saved (not in class or too old)."
+      "skipped": "{{count}} scores could not be saved (not in class or too old).",
+      "belowZero": "{{count}} deductions not saved: session points cannot go below 0.",
+      "cap": "{{count}} additions not saved: session limit reached."
     },
     "tag": {
       "game": "Finished the game",
@@ -4834,6 +4837,15 @@
       "full": "Reached the {{cap}}-point session limit",
       "short": "max {{cap}}",
       "attendance": "Present +{{points}} points"
+    },
+    "sign": {
+      "plus": "Add points",
+      "minus": "Deduct"
+    },
+    "quick": {
+      "reason": "Reason when adding (tap to pick, tap again to clear)",
+      "line": "Total {{total}} · To spend {{available}}",
+      "hint": "Gold adds, red deducts. Tap a name for attendance and comments."
     }
   }
 }
