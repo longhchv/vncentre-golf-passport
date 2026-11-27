@@ -66,8 +66,11 @@ export function StudentDetailPage() {
   return <StudentDetail studentId={studentId} />
 }
 
-/** Mã VNC → id hồ sơ đang dùng (đi theo hồ sơ đích nếu đã gộp). */
+/** Mã VNC → id hồ sơ đang dùng (đi theo hồ sơ đích nếu đã gộp). Nhận cả mã phụ (vnc_codes, spec 12). */
 async function resolveAdmin(code: string): Promise<string | null> {
+  const viaCodes = await supabase!.rpc('admin_vnc_lookup', { p_code: code })
+  if (!viaCodes.error && viaCodes.data) return viaCodes.data as string
+  // Máy chủ chưa có sổ mã VNC (chưa chạy migration) hoặc không thấy mã: tra như cũ
   const { data, error } = await supabase!.from('students').select('id, merged_into_student_id').eq('student_code', code).maybeSingle()
   if (error) throw error
   let row = data as { id: string; merged_into_student_id: string | null } | null
