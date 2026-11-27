@@ -50,25 +50,39 @@ const EMAIL_COPY = {
     subject: (code: string) => `${code} là mã xác thực VN Centre Golf Passport`,
     intro: 'Mã xác thực của bạn là:',
     note: 'Mã có hiệu lực trong 5 phút. Không chia sẻ mã này với bất kỳ ai, kể cả người tự nhận là nhân viên VN Centre.',
+    ignore: 'Nếu bạn không yêu cầu mã này, hãy bỏ qua email.',
   },
   en: {
     subject: (code: string) => `${code} is your VN Centre Golf Passport verification code`,
     intro: 'Your verification code is:',
     note: 'The code is valid for 5 minutes. Do not share it with anyone, including people claiming to be VN Centre staff.',
+    ignore: 'If you did not request this code, you can ignore this email.',
   },
+}
+
+// Logo trong email: ảnh công khai của app (spec 12 mục 7c, giai đoạn 2)
+const EMAIL_LOGO = `${Deno.env.get('SITE_URL') ?? 'https://app.vncentre.net'}/logo.png`
+
+/** Nội dung email mã OTP 6 số: HTML có logo + bản chữ thuần (giúp không bị xếp vào thư rác). */
+export function otpEmailContent(code: string, lang: Lang, ttlMinutes: number) {
+  const c = EMAIL_COPY[lang]
+  const note = c.note.replace('5', String(ttlMinutes))
+  const html = `<div style="font-family:Arial,sans-serif;color:#080634;max-width:480px;margin:0 auto;padding:24px">
+  <img src="${EMAIL_LOGO}" width="96" height="96" alt="VN Centre Golf Passport" style="display:block;border-radius:16px;margin:0 0 16px">
+  <h2 style="margin:0 0 16px">VN Centre Golf Passport</h2>
+  <p>${c.intro}</p>
+  <p style="font-size:32px;font-weight:bold;letter-spacing:8px;margin:16px 0">${code}</p>
+  <p style="color:#555;font-size:14px">${note}</p>
+  <p style="color:#555;font-size:14px">${c.ignore}</p>
+</div>`
+  const text = `VN Centre Golf Passport\n\n${c.intro} ${code}\n\n${note}\n${c.ignore}`
+  return { subject: c.subject(code), html, text }
 }
 
 export async function sendEmailOtp(email: string, code: string, lang: Lang, ttlMinutes: number): Promise<SendResult> {
   const apiKey = Deno.env.get('BREVO_API_KEY')
   if (!apiKey) return { ok: false, provider: 'brevo', error: 'missing_BREVO_API_KEY' }
-  const c = EMAIL_COPY[lang]
-  const note = c.note.replace('5', String(ttlMinutes))
-  const html = `<div style="font-family:Arial,sans-serif;color:#080634;max-width:480px;margin:0 auto;padding:24px">
-  <h2 style="margin:0 0 16px">VN Centre Golf Passport</h2>
-  <p>${c.intro}</p>
-  <p style="font-size:32px;font-weight:bold;letter-spacing:8px;margin:16px 0">${code}</p>
-  <p style="color:#555;font-size:14px">${note}</p>
-</div>`
+  const content = otpEmailContent(code, lang, ttlMinutes)
   try {
     const res = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
@@ -76,8 +90,9 @@ export async function sendEmailOtp(email: string, code: string, lang: Lang, ttlM
       body: JSON.stringify({
         sender: { name: 'VN Centre Golf Passport', email: Deno.env.get('EMAIL_FROM') ?? 'no-reply@vncentre.net' },
         to: [{ email }],
-        subject: c.subject(code),
-        htmlContent: html,
+        subject: content.subject,
+        htmlContent: content.html,
+        textContent: content.text,
         tags: ['otp'],
       }),
     })
