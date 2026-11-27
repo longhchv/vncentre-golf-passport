@@ -4712,8 +4712,7 @@
     "loadFailed": "Could not load the class. Check the connection or your coach access.",
     "empty": "No students in this class yet. Create profiles right on your phone.",
     "needOnline": "This needs a connection. Scores are still saved on this phone.",
-    "fix": "Minus 1 point (correction)",
-    "fixShort": "undo",
+    "fix": "Undo the last score",
     "mode": {
       "one": "One student",
       "team": "Team scoring"
@@ -4825,6 +4824,8 @@
       "listen": "Signals",
       "fair_play": "Fair play",
       "team_win": "Team won"
-    }
+    },
+    "undo": "Undo",
+    "undoNone": "nothing yet"
   }
 }

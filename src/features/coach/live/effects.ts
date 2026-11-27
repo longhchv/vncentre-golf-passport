@@ -15,11 +15,16 @@ function ctx(): AudioContext | null {
   }
 }
 
-/** Cộng điểm: chuỗi nốt đi lên (càng nhiều điểm càng nhiều nốt). Trừ điểm: một nốt trầm ngắn. */
+/** Cộng điểm: chuỗi nốt đi lên (càng nhiều điểm càng nhiều nốt). Trừ điểm (hoàn tác): một nốt trầm ngắn. */
+/** Mức mạnh của hiệu ứng theo số điểm: 5–10 → 1, 20 → 2, 30 → 3, từ 40 → 4. */
+function level(delta: number) {
+  return Math.max(1, Math.min(4, Math.ceil(Math.abs(delta) / 10.5)))
+}
+
 export function playScore(delta: number) {
   const ac = ctx()
   if (!ac) return
-  const notes = delta < 0 ? [330] : [660, 880, 1175, 1568].slice(0, Math.min(4, delta + 1))
+  const notes = delta < 0 ? [330] : [660, 880, 1175, 1568].slice(0, level(delta) + 1)
   notes.forEach((freq, i) => {
     const t0 = ac.currentTime + i * 0.08
     const osc = ac.createOscillator()
@@ -73,7 +78,7 @@ export function burstAt(target: Element | null, delta: number) {
   ).onfinish = () => label.remove()
 
   if (delta <= 0 || reduce) return
-  const count = 14 + delta * 8
+  const count = 14 + level(delta) * 12
   for (let i = 0; i < count; i++) {
     const p = document.createElement('div')
     const size = 6 + Math.random() * 6
@@ -82,7 +87,7 @@ export function burstAt(target: Element | null, delta: number) {
       `background:${COLORS[i % COLORS.length]};border-radius:${Math.random() < 0.4 ? '50%' : '2px'}`
     root.appendChild(p)
     const angle = Math.random() * Math.PI * 2
-    const dist = 60 + Math.random() * (80 + delta * 30)
+    const dist = 60 + Math.random() * (80 + level(delta) * 30)
     const dx = Math.cos(angle) * dist
     const dy = Math.sin(angle) * dist - 40
     p.animate(

@@ -1,5 +1,5 @@
 -- Kiểm thử lớp học trực tiếp (migration 20261127000030): tạo hồ sơ, điểm khởi đầu, chấm điểm gửi lại nhiều lần,
--- sửa nhầm, điểm danh / nhận xét, quyền HLV theo lớp, tổng tích luỹ không trừ khi đổi quà.
+-- hoàn tác, mức điểm 5–50, điểm danh / nhận xét, quyền HLV theo lớp, tổng tích luỹ không trừ khi đổi quà.
 -- Quy ước: chạy trong một khối DO; thành công thì raise 'ALL_OK' để toàn bộ dữ liệu thử bị huỷ.
 
 do $$
@@ -58,16 +58,16 @@ begin
 
   -- 3. Chấm điểm: gửi lại cùng id chỉ ghi một lần; sửa nhầm không dưới 0; ngoài lớp bị bỏ qua
   r := public.class_live_sync(jsonb_build_array(
-    jsonb_build_object('op', 'points', 'id', op1, 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 3, 'tag', 'rules'),
-    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', -1),
-    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -1),
-    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', 5),
+    jsonb_build_object('op', 'points', 'id', op1, 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 20, 'tag', 'rules'),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', -10),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', -5),
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s2, 'delta', 7),
     jsonb_build_object('op', 'topic', 'class_id', class_x, 'date', d, 'session_no', 10, 'topic', 'Pitching + Luật golf'),
     jsonb_build_object('op', 'mark', 'class_id', class_x, 'date', d, 'student_id', s1, 'attendance', 'late', 'comment_tags', '["focused","fair_play"]'::jsonb),
     jsonb_build_object('op', 'mark', 'class_id', class_x, 'date', d, 'student_id', s1, 'leave_count', 2, 'note', 'Nghe hiệu lệnh tốt')));
   if (r ->> 'applied')::int <> 5 or jsonb_array_length(r -> 'skipped') <> 2 then raise exception 'FAIL: sync %', r; end if;
   r := public.class_live_sync(jsonb_build_array(
-    jsonb_build_object('op', 'points', 'id', op1, 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 3, 'tag', 'rules')));
+    jsonb_build_object('op', 'points', 'id', op1, 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 20, 'tag', 'rules')));
   execute 'reset role';
   if (select count(*) from public.reward_ledger where id = op1) <> 1 then raise exception 'FAIL: ghi trùng khi gửi lại'; end if;
   if (select note from public.reward_ledger where id = op1) <> 'Đúng luật golf' then raise exception 'FAIL: lý do'; end if;
@@ -75,22 +75,23 @@ begin
 
   b := public.class_live_board(class_x, d);
   select x into st from jsonb_array_elements(b -> 'students') x where (x ->> 'id')::uuid = s1;
-  if (st ->> 'today')::int <> 2 or (st ->> 'total')::int <> 102 or (st ->> 'available')::int <> 102 or (st ->> 'opening')::int <> 100
+  if (st ->> 'today')::int <> 10 or (st ->> 'total')::int <> 110 or (st ->> 'available')::int <> 110 or (st ->> 'opening')::int <> 100
      or st ->> 'attendance' <> 'late' or (st ->> 'leave_count')::int <> 2 or jsonb_array_length(st -> 'comment_tags') <> 2
      or st ->> 'note' <> 'Nghe hiệu lệnh tốt' then
     raise exception 'FAIL: bảng điểm %', st;
   end if;
+  if b -> 'steps' <> '[5, 10, 20, 30, 40, 50]'::jsonb then raise exception 'FAIL: mức điểm %', b -> 'steps'; end if;
   if (b -> 'session' ->> 'session_no')::int <> 10 or b -> 'session' ->> 'topic' <> 'Pitching + Luật golf' then raise exception 'FAIL: buổi %', b -> 'session'; end if;
 
   r := public.class_live_history(class_x, s1);
-  if jsonb_array_length(r -> 'sessions') <> 1 or (r -> 'sessions' -> 0 ->> 'points')::int <> 2 then raise exception 'FAIL: lịch sử %', r; end if;
+  if jsonb_array_length(r -> 'sessions') <> 1 or (r -> 'sessions' -> 0 ->> 'points')::int <> 10 then raise exception 'FAIL: lịch sử %', r; end if;
 
   -- Đổi quà không làm giảm tổng tích luỹ (chỉ giảm điểm đổi quà)
   execute 'reset role';
   insert into public.reward_ledger (student_id, delta, reason, source_type, source_id) values (s1, -50, 'gift_order', 'gift_order', gen_random_uuid());
   execute 'set local role authenticated';
   select x into st from jsonb_array_elements(public.class_live_board(class_x, d) -> 'students') x where (x ->> 'id')::uuid = s1;
-  if (st ->> 'total')::int <> 102 or (st ->> 'available')::int <> 52 then raise exception 'FAIL: sau đổi quà %', st; end if;
+  if (st ->> 'total')::int <> 110 or (st ->> 'available')::int <> 60 then raise exception 'FAIL: sau đổi quà %', st; end if;
 
   -- 4. HLV B không xem / chấm được lớp X
   perform set_config('request.jwt.claims', json_build_object('sub', coach_b, 'role', 'authenticated')::text, true);
@@ -100,7 +101,7 @@ begin
   exception when insufficient_privilege then ok := true; end;
   if not ok then raise exception 'FAIL: HLV B xem được lớp X'; end if;
   r := public.class_live_sync(jsonb_build_array(
-    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 3)));
+    jsonb_build_object('op', 'points', 'id', gen_random_uuid(), 'class_id', class_x, 'date', d, 'student_id', s1, 'delta', 5)));
   if (r ->> 'applied')::int <> 0 then raise exception 'FAIL: HLV B chấm được lớp X'; end if;
   ok := false;
   begin perform public.class_live_set_opening(class_x, s1, 999);

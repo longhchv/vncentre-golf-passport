@@ -183,6 +183,9 @@ export function LiveClassPage() {
   const [tag, setTag] = useState<PointTag | null>(null)
   const [adding, setAdding] = useState(false)
   const [editingSession, setEditingSession] = useState(false)
+  // Các lần chấm trong phiên này (mới nhất ở cuối) để hoàn tác đúng số điểm vừa bấm
+  const history = useRef<{ ids: string[]; delta: number }[]>([])
+  const [, setHistoryTick] = useState(0)
 
   const score = useCallback(
     (ids: string[], delta: number) => {
@@ -197,6 +200,10 @@ export function LiveClassPage() {
         tag: delta < 0 ? null : tag,
       }))
       queue.enqueue(ops)
+      if (delta > 0) {
+        history.current.push({ ids: [...ids], delta })
+        setHistoryTick((n) => n + 1)
+      }
       playScore(delta)
       buzz(delta > 0 ? 30 : 60)
       ids.forEach((sid, i) => {
@@ -207,6 +214,24 @@ export function LiveClassPage() {
     },
     [classId, queue, tag, today, view],
   )
+
+  /** Lần chấm gần nhất còn hoàn tác được của một bạn (null nếu không có). */
+  const lastFor = (sid: string) => {
+    for (let i = history.current.length - 1; i >= 0; i--) if (history.current[i].ids.includes(sid)) return i
+    return null
+  }
+  const undoOne = (sid: string) => {
+    const i = lastFor(sid)
+    if (i === null) return
+    const h = history.current[i]
+    h.ids = h.ids.filter((x) => x !== sid)
+    if (h.ids.length === 0) history.current.splice(i, 1)
+    score([sid], -h.delta)
+  }
+  const undoTeam = () => {
+    const h = history.current.pop()
+    if (h) score(h.ids, -h.delta)
+  }
 
   const mark = useCallback(
     (sid: string, patch: Omit<Extract<LiveOp, { op: 'mark' }>, 'op' | 'id' | 'class_id' | 'date' | 'student_id'>) =>
@@ -234,6 +259,7 @@ export function LiveClassPage() {
     )
   }
 
+  const steps = view.steps?.length ? view.steps : DEFAULT_STEPS
   const students = view.students
   const open = students.find((s) => s.id === openId) ?? null
   const sessionNo = view.session?.session_no ?? view.next_session_no
@@ -271,7 +297,7 @@ export function LiveClassPage() {
         </div>
       </header>
 
-      <main className={cn('px-3 pt-3', team ? 'pb-64' : 'pb-28')}>
+      <main className={cn('px-3 pt-3', team ? 'pb-80' : 'pb-28')}>
         {students.length === 0 ? (
           <Card className="space-y-3 p-6 text-center">
             <p>{t('classLive.empty')}</p>
@@ -324,7 +350,10 @@ export function LiveClassPage() {
           tag={tag}
           onTag={setTag}
           onAll={() => setPicked(picked.size === students.length ? new Set() : new Set(students.map((s) => s.id)))}
+          steps={steps}
           onScore={(d) => picked.size > 0 && score([...picked], d)}
+          undo={history.current.at(-1)?.delta ?? null}
+          onUndo={undoTeam}
         />
       )}
 
@@ -335,7 +364,13 @@ export function LiveClassPage() {
           classId={classId}
           tag={tag}
           onTag={setTag}
+          steps={steps}
           onScore={(d) => score([open.id], d)}
+          undo={(() => {
+            const i = lastFor(open.id)
+            return i === null ? null : history.current[i].delta
+          })()}
+          onUndo={() => undoOne(open.id)}
           onMark={(patch) => mark(open.id, patch)}
           onClose={() => setOpenId(null)}
           onChanged={refetch}
@@ -455,30 +490,48 @@ function TagChips({ tag, onTag }: { tag: PointTag | null; onTag: (t: PointTag | 
   )
 }
 
-function ScoreButtons({ onScore, disabled }: { onScore: (d: number) => void; disabled?: boolean }) {
+const DEFAULT_STEPS = [5, 10, 20, 30, 40, 50]
+
+/** Các mức điểm (cài đặt class_live.point_steps) và nút hoàn tác lần chấm gần nhất. */
+function ScoreButtons({
+  steps,
+  onScore,
+  undo,
+  onUndo,
+  disabled,
+}: {
+  steps: number[]
+  onScore: (d: number) => void
+  undo: number | null
+  onUndo: () => void
+  disabled?: boolean
+}) {
   const { t } = useTranslation()
   return (
-    <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2">
-      {[1, 2, 3].map((d) => (
+    <div className="grid grid-cols-4 gap-2">
+      {steps.map((d) => (
         <button
           key={d}
           type="button"
           disabled={disabled}
           onClick={() => onScore(d)}
-          className="h-20 rounded-2xl bg-linear-to-b from-gold to-bronze text-3xl font-extrabold text-navy shadow active:scale-95 disabled:opacity-40"
+          className="h-16 rounded-2xl bg-linear-to-b from-gold to-bronze text-2xl font-extrabold text-navy shadow active:scale-95 disabled:opacity-40"
         >
           +{d}
         </button>
       ))}
       <button
         type="button"
-        disabled={disabled}
-        onClick={() => onScore(-1)}
+        disabled={undo === null}
+        onClick={onUndo}
         aria-label={t('classLive.fix')}
-        className="flex h-20 w-16 flex-col items-center justify-center rounded-2xl bg-white text-lg font-bold text-red-700 ring-1 ring-red-200 active:scale-95 disabled:opacity-40"
+        className={cn(
+          'flex h-16 flex-col items-center justify-center rounded-2xl bg-white font-bold text-red-700 ring-1 ring-red-200 active:scale-95 disabled:opacity-40',
+          steps.length % 4 === 2 ? 'col-span-2' : steps.length % 4 === 0 ? 'col-span-4' : '',
+        )}
       >
-        −1
-        <span className="text-[10px] font-semibold">{t('classLive.fixShort')}</span>
+        <span className="text-lg">{undo === null ? t('classLive.undo') : `−${undo}`}</span>
+        <span className="text-[11px] font-semibold">{undo === null ? t('classLive.undoNone') : t('classLive.undo')}</span>
       </button>
     </div>
   )
@@ -490,14 +543,20 @@ function TeamBar({
   tag,
   onTag,
   onAll,
+  steps,
   onScore,
+  undo,
+  onUndo,
 }: {
   count: number
   total: number
   tag: PointTag | null
   onTag: (t: PointTag | null) => void
   onAll: () => void
+  steps: number[]
   onScore: (d: number) => void
+  undo: number | null
+  onUndo: () => void
 }) {
   const { t } = useTranslation()
   return (
@@ -509,7 +568,7 @@ function TeamBar({
         </button>
       </div>
       <TagChips tag={tag} onTag={onTag} />
-      <ScoreButtons onScore={onScore} disabled={count === 0} />
+      <ScoreButtons steps={steps} onScore={onScore} disabled={count === 0} undo={undo} onUndo={onUndo} />
     </div>
   )
 }
@@ -521,7 +580,10 @@ function StudentSheet({
   classId,
   tag,
   onTag,
+  steps,
   onScore,
+  undo,
+  onUndo,
   onMark,
   onClose,
   onChanged,
@@ -530,7 +592,10 @@ function StudentSheet({
   classId: string
   tag: PointTag | null
   onTag: (t: PointTag | null) => void
+  steps: number[]
   onScore: (d: number) => void
+  undo: number | null
+  onUndo: () => void
   onMark: (patch: MarkPatch) => void
   onClose: () => void
   onChanged: () => Promise<unknown>
@@ -572,7 +637,7 @@ function StudentSheet({
         {/* Vùng chấm điểm ở dưới cùng: ngón cái với tới khi cầm máy một tay */}
         <div className="space-y-2 border-t border-navy/10 bg-white px-4 pt-3" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}>
           <TagChips tag={tag} onTag={onTag} />
-          <ScoreButtons onScore={onScore} />
+          <ScoreButtons steps={steps} onScore={onScore} undo={undo} onUndo={onUndo} />
         </div>
       </div>
     </div>

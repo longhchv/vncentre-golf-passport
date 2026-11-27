@@ -4712,8 +4712,7 @@
     "loadFailed": "Chưa tải được lớp. Kiểm tra mạng hoặc quyền HLV của lớp này.",
     "empty": "Lớp chưa có bạn nào. Tạo hồ sơ cho các bạn ngay trên điện thoại.",
     "needOnline": "Việc này cần có mạng. Điểm chấm vẫn được lưu trên máy.",
-    "fix": "Trừ 1 điểm (sửa nhầm)",
-    "fixShort": "sửa nhầm",
+    "fix": "Hoàn tác lần chấm gần nhất",
     "mode": {
       "one": "Chấm từng bạn",
       "team": "Chấm cả đội"
@@ -4825,6 +4824,8 @@
       "listen": "Hiệu lệnh",
       "fair_play": "Fair play",
       "team_win": "Đội thắng"
-    }
+    },
+    "undo": "Hoàn tác",
+    "undoNone": "chưa chấm"
   }
 }

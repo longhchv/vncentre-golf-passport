@@ -8,13 +8,14 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 |---|---|---|
 | 1. Hồ sơ do HLV tạo | Màn lớp học → "Thêm bạn mới": họ tên (bắt buộc), ngày sinh, ảnh (không bắt buộc). Học viên vào lớp ngay | `students` (mã `VNC-xxxxxx` tự sinh, `claim_code` để phụ huynh liên kết bằng mã hoặc QR `/c/<mã>`), `enrollments` |
 | 2. Màn lớp học, điểm khởi đầu | `/coach/live/:classId`: mỗi bạn một thẻ lớn (ảnh, tên, điểm hôm nay, tổng, điểm đổi quà). Tab Hồ sơ có ô "Điểm khởi đầu" | Ví `reward_ledger`; điểm khởi đầu = dòng `opening_balance` / `opening_balance_adjust`, cùng quy tắc với nhập file của admin |
-| 3. Chấm điểm nhanh | +1 / +2 / +3 / −1 (sửa nhầm), chấm cả đội, 5 lý do một chạm, âm thanh, pháo hoa, số điểm bay lên. Nút ở cuối màn hình để bấm một tay | Mỗi lần bấm = một dòng `reward_ledger` (`reason = 'class_points'`, `source_type = 'class_session'`); nguồn điểm `class_points` trong `reward_rules` để ví phụ huynh hiện tên "Điểm trên lớp" |
+| 3. Chấm điểm nhanh | +5 / +10 / +20 / +30 / +40 / +50 (cài đặt `class_live.point_steps`, admin sửa ở trang Cài đặt), nút Hoàn tác trừ đúng số điểm vừa bấm, chấm cả đội, 5 lý do một chạm, âm thanh, pháo hoa, số điểm bay lên. Nút ở cuối màn hình để bấm một tay | Mỗi lần bấm = một dòng `reward_ledger` (`reason = 'class_points'`, `source_type = 'class_session'`); nguồn điểm `class_points` trong `reward_rules` để ví phụ huynh hiện tên "Điểm trên lớp" |
 | 5. Theo dõi, nhận xét | Chủ đề và số buổi; chuyên cần (có mặt / muộn / vắng, số lần rời hoạt động); 4 nhận xét mẫu, ghi chú, nói thành chữ (micro của trình duyệt, tiếng Việt); tab Lịch sử từng bạn | Bảng mới `class_sessions`, `class_session_students` |
 
 **Quy tắc điểm:**
 - Tổng tích luỹ = điểm khởi đầu + mọi điểm khác trong ví, **không trừ** phần đã đổi quà.
 - Điểm đổi quà = số dư khả dụng của ví (`reward_available`), giảm khi đổi quà.
-- Sửa nhầm không làm điểm hôm nay xuống dưới 0. Sổ không sửa, không xoá: sửa nhầm là một dòng −1.
+- Mức điểm (27/11/2026, anh Long): 5, 10, 20, 30, 40, 50. Máy chủ chỉ nhận các mức trong cài đặt.
+- Hoàn tác không làm điểm hôm nay xuống dưới 0. Sổ không sửa, không xoá: hoàn tác là một dòng âm bằng đúng mức đã bấm.
 
 **Mạng yếu:** mỗi lần bấm có id sinh trên máy, nằm trong hàng đợi (localStorage) và gửi qua `class_live_sync`. Gửi lại nhiều lần thì máy chủ vẫn chỉ ghi một lần. Tải lại trang khi mất mạng không mất điểm. Tạo hồ sơ, sửa điểm khởi đầu và xem lịch sử cần có mạng. Muốn dùng được khi mất mạng, HLV cần mở màn lớp học một lần lúc có mạng để app lưu trang lại.
 
@@ -25,6 +26,7 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 ## Migration và kiểm thử
 
 - `supabase/migrations/20261127000030_class_live.sql`: chỉ thêm bảng, hàm và giá trị `reason` / `code` mới.
+- `supabase/migrations/20261127000040_class_live_steps.sql`: mức điểm 5–50 (cài đặt mới, thay thân `class_live_board`, `class_live_sync`).
 - `supabase/tests/064_class_live.sql`: đạt trên PostgreSQL 16 dựng từ toàn bộ migration của repo (27/11/2026). Chưa chạy trên staging.
 
 ## Chưa làm
