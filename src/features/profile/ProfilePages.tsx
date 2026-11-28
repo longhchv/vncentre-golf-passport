@@ -16,6 +16,7 @@ import { AthleteProfileView, StudentProfileView } from './StudentProfileView'
 import type { StudentProfile } from './useStudentProfile'
 import { LeagueAchievements } from '@/features/league/LeagueAchievements'
 import { PartnerQrCard } from '@/features/partners/CustomerOffers'
+import { ClassReportCard } from '@/features/coach/live/ClassReportCard'
 import { RewardWallet } from '@/features/rewards/RewardWallet'
 
 function ProfileLoader({
@@ -82,6 +83,7 @@ export function ParentChildPage() {
           <>
             <PartnerQrCard studentId={p.student.id} />
             <RewardWallet studentId={p.student.id} />
+            <ClassReportCard studentId={p.student.id} />
           </>
         ) : null
       }

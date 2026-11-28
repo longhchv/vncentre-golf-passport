@@ -4760,7 +4760,8 @@
       "tab": {
         "comment": "Nhận xét",
         "profile": "Hồ sơ",
-        "history": "Lịch sử"
+        "history": "Lịch sử",
+        "gifts": "Đổi quà"
       }
     },
     "attendance": {
@@ -4848,6 +4849,53 @@
       "reason": "Lý do khi cộng (chạm để chọn, chạm lại để bỏ)",
       "line": "Tổng {{total}} · Đổi quà {{available}}",
       "hint": "Nút vàng cộng, nút đỏ trừ điểm. Chạm tên để điểm danh, nhận xét."
+    },
+    "show": {
+      "open": "Trình chiếu cho các con",
+      "people": "Cá nhân",
+      "teams": "Hai đội",
+      "hideTotal": "Ẩn tổng",
+      "showTotal": "Hiện tổng",
+      "total": "tổng {{n}}",
+      "arrange": "Chia đội",
+      "arrangeHint": "Chạm tên để đổi đội: A → B → chưa chia.",
+      "team": "Đội {{k}}"
+    },
+    "gifts": {
+      "nextGap": "Còn thiếu {{n}} điểm để đổi món kế tiếp",
+      "none": "Chưa có quà nào.",
+      "points": "{{n}} điểm",
+      "gap": "còn thiếu {{n}}",
+      "outOfStock": "hết quà",
+      "redeem": "Đổi",
+      "confirm": "Đổi \"{{gift}}\" ({{n}} điểm)? Điểm hiện có bị trừ, tổng tích luỹ giữ nguyên.",
+      "redeemed": "Đã đổi quà. Nhận quà tại trường.",
+      "history": "Đã đổi",
+      "add": "Thêm quà của lớp",
+      "addTitle": "Quà của lớp (chỉ các bạn trong lớp thấy)",
+      "name": "Tên quà",
+      "pointsLabel": "Số điểm",
+      "qty": "Số lượng",
+      "errors": {
+        "insufficient_points": "Chưa đủ điểm.",
+        "out_of_stock": "Quà đã hết.",
+        "limit_reached": "Đã đổi tối đa món này.",
+        "gift_unavailable": "Quà không còn.",
+        "name_required": "Nhập tên quà.",
+        "points_out_of_range": "Số điểm từ 1 đến 100.000.",
+        "invalid_qty": "Số lượng từ 1 đến 1.000."
+      }
+    },
+    "summary": {
+      "button": "Gửi tóm tắt cho phụ huynh",
+      "done": "Đã gửi tóm tắt",
+      "confirm": "Gửi tóm tắt buổi hôm nay (điểm, tổng điểm, nhận xét) cho phụ huynh các bạn? Mỗi buổi gửi một lần.",
+      "sent": "Đã gửi tóm tắt cho phụ huynh {{count}} bạn.",
+      "noSession": "Buổi hôm nay chưa có dữ liệu."
+    },
+    "report": {
+      "title": "Buổi học trên lớp",
+      "summary": "Tổng tích luỹ {{total}} điểm · Đổi quà {{available}} điểm"
     }
   },
   "signin": {

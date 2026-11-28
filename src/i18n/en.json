@@ -4760,7 +4760,8 @@
       "tab": {
         "comment": "Comments",
         "profile": "Profile",
-        "history": "History"
+        "history": "History",
+        "gifts": "Gifts"
       }
     },
     "attendance": {
@@ -4848,6 +4849,53 @@
       "reason": "Reason when adding (tap to pick, tap again to clear)",
       "line": "Total {{total}} · To spend {{available}}",
       "hint": "Gold adds, red deducts. Tap a name for attendance and comments."
+    },
+    "show": {
+      "open": "Show to students",
+      "people": "Individuals",
+      "teams": "Two teams",
+      "hideTotal": "Hide total",
+      "showTotal": "Show total",
+      "total": "total {{n}}",
+      "arrange": "Teams",
+      "arrangeHint": "Tap a name to change team: A → B → none.",
+      "team": "Team {{k}}"
+    },
+    "gifts": {
+      "nextGap": "{{n}} more points for the next gift",
+      "none": "No gifts yet.",
+      "points": "{{n}} points",
+      "gap": "{{n}} short",
+      "outOfStock": "out of stock",
+      "redeem": "Redeem",
+      "confirm": "Redeem \"{{gift}}\" ({{n}} points)? Points to spend go down; the total stays.",
+      "redeemed": "Gift redeemed. Pick up at school.",
+      "history": "Redeemed",
+      "add": "Add a class gift",
+      "addTitle": "Class gift (only this class sees it)",
+      "name": "Gift name",
+      "pointsLabel": "Points",
+      "qty": "Quantity",
+      "errors": {
+        "insufficient_points": "Not enough points.",
+        "out_of_stock": "Out of stock.",
+        "limit_reached": "Limit reached for this gift.",
+        "gift_unavailable": "Gift no longer available.",
+        "name_required": "Enter a gift name.",
+        "points_out_of_range": "Points must be 1 to 100,000.",
+        "invalid_qty": "Quantity must be 1 to 1,000."
+      }
+    },
+    "summary": {
+      "button": "Send summary to parents",
+      "done": "Summary sent",
+      "confirm": "Send today's summary (points, total, comments) to parents? Once per session.",
+      "sent": "Summary sent to parents of {{count}} students.",
+      "noSession": "No data for today yet."
+    },
+    "report": {
+      "title": "Class sessions",
+      "summary": "Total {{total}} points · To spend {{available}} points"
     }
   },
   "signin": {

@@ -250,7 +250,11 @@ export const router = createBrowserRouter([
       </RequireWorkspace>
     ),
     hydrateFallbackElement: <FullPageSpinner />,
-    children: [{ index: true, lazy: page(() => import('@/features/coach/live/LiveClassPage'), (m) => m.LiveClassPage) }],
+    children: [
+      { index: true, lazy: page(() => import('@/features/coach/live/LiveClassPage'), (m) => m.LiveClassPage) },
+      // Việc 4: trình chiếu bảng điểm cho các con
+      { path: 'show', lazy: page(() => import('@/features/coach/live/ShowPage'), (m) => m.ShowPage) },
+    ],
   },
   workspaceRoute('coach', '/coach', COACH_NAV, [
     { index: true, lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachHomePage) },
