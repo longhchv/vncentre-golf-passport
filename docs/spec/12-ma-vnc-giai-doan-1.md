@@ -47,9 +47,18 @@ Migration `20261128000002_vnc_wallet.sql`, kiểm thử `supabase/tests/068_vnc_
 | Tìm số | `vnc_search`: lọc hạng / nhóm; nhập số → đúng số (kể cả số năm sinh chưa có trong sổ), số trong kho chứa dãy đã nhập, số khác đúng một chữ số; chỉ số còn trống, có hạng |
 | Admin kho (`/admin/vnc`) | Bảng đếm theo trạng thái × hạng; lọc trạng thái / hạng / nhóm / số; khoá – mở (`reserved` ↔ `available`); tặng số (thành mã phụ của người nhận); bảng giá có lịch sử (`vnc_admin_set_price` đóng dòng cũ, thêm dòng mới); nhật ký `vnc_code_events` |
 
+## Mục 5, đợt B: mua số (28/11/2026)
+
+Migration `20261128000003_vnc_purchase.sql`, kiểm thử `supabase/tests/069_vnc_purchase.sql`.
+
+- `/vnc` → Tìm số → **Mua**: chọn người nhận (chính mình, con đang quản lý, hoặc người khác bằng **mã VNC** — hiện tên đã che để xác nhận; không tìm theo tên để không lộ danh sách học viên) → `vnc_order_place` giữ số (`reserved`) và tạo đơn sản phẩm `vnc_code` theo giá niêm yết hiện tại, hạn `vnc.order_minutes` (30) phút → trang đơn hàng `/app/orders/<id>` thanh toán payOS như đơn cấp lại sổ.
+- payOS báo đã trả (`mark_order_paid`) → trigger `vnc_orders_after_status` gắn số cho người nhận: mã phụ, `sold`, `acquired_by = 'mua'`; nhật ký `sell`; thông báo "Mã mới đã có trong mục Mã VNC của tôi".
+- Đơn hết hạn / huỷ → số đẹp về kho, số năm sinh bỏ khỏi sổ. Trả tiền sau hạn mà số còn trống → vẫn gắn; số đã thuộc người khác → đơn ghi chú cần hoàn tiền (`failed`).
+- Admin không mở khoá tay số đang chờ thanh toán. Không chuyển nhượng / bán lại giữa người dùng: chỉ mua từ kho.
+
 ## Còn mở
 
 | Việc | Ghi chú |
 |---|---|
-| Mua số cho mình / mua tặng (spec 12 mục 5) | Đợt B: sản phẩm `vnc_code`, đơn payOS, trả tiền xong thì gắn số |
+| Hoàn tiền đơn mua mã VNC | `refund_order` chỉ đổi trạng thái đơn; số đã bán giữ nguyên chủ (mã đã gắn không cấp lại). Đơn `failed` (trả tiền khi số đã thuộc người khác) admin hoàn tiền tay |
 | Chỗ khác trong app đọc thẳng `students.student_code` để hiển thị | Không cần sửa: `student_code` luôn là mã chính |

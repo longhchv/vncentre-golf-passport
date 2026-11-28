@@ -4938,7 +4938,7 @@
       "search": "Search",
       "none": "No matching free numbers.",
       "free": "free",
-      "buySoon": "Buying a number for yourself or as a gift: coming soon. Contact VN Centre to hold a number."
+      "buyHint": "Buy for yourself or as a gift; pay via payOS. Purchased codes cannot be transferred or resold."
     },
     "tier": {
       "kim_cuong": "Diamond",
@@ -4963,6 +4963,23 @@
       "dao_ganh_4": "4-digit palindrome",
       "tam_hoa": "Triple",
       "nam_sinh": "Birth year / date"
+    },
+    "buy": {
+      "button": "Buy",
+      "title": "Buy a VNC code",
+      "for": "Buy for",
+      "myself": "Myself",
+      "someoneElse": "Someone else (enter VNC code)",
+      "recipientCode": "Recipient VNC code",
+      "recipientHint": "A gifted number becomes a secondary code of the recipient, who can make it primary.",
+      "recipientFound": "Recipient: {{name}} · {{code}}",
+      "holdHint": "The number is held for you for 30 minutes while you pay. If unpaid, it returns to stock.",
+      "confirm": "Buy for {{price}}",
+      "errors": {
+        "code_not_available": "This number was just taken. Choose another.",
+        "recipient_not_found": "Recipient VNC code not found.",
+        "not_for_sale": "This number is not for sale."
+      }
     }
   },
   "vncAdmin": {

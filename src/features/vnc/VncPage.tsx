@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Search, Star } from 'lucide-react'
@@ -7,7 +7,8 @@ import { useAuth } from '@/auth/AuthProvider'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
 import { Button } from '@/components/ui/button'
 import { Badge, Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/form'
+import { Dialog } from '@/components/ui/dialog'
+import { Field, FormError, Input } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { cn } from '@/lib/utils'
 import { callRpc } from '@/features/partners/shared'
@@ -145,6 +146,7 @@ function FindCodes() {
   const [input, setInput] = useState('')
   const [query, setQuery] = useState('')
   const [tier, setTier] = useState<Tier | null>(null)
+  const [buying, setBuying] = useState<VncCode | null>(null)
   const results = useQuery({
     queryKey: ['vnc-search', query, tier],
     enabled: query.length > 0 || tier !== null,
@@ -191,15 +193,108 @@ function FindCodes() {
                 </p>
                 <Categories list={c.categories} />
               </div>
-              <div className="shrink-0 text-right">
-                <TierBadge tier={c.tier} />
-                <p className="mt-1 text-sm text-navy/70">{formatVnd(c.list_price, i18n.language)}</p>
+              <div className="flex shrink-0 items-center gap-2 text-right">
+                <div>
+                  <TierBadge tier={c.tier} />
+                  <p className="mt-1 text-sm text-navy/70">{formatVnd(c.list_price, i18n.language)}</p>
+                </div>
+                {c.list_price != null && (
+                  <Button size="sm" onClick={() => setBuying(c)}>
+                    {t('vnc.buy.button')}
+                  </Button>
+                )}
               </div>
             </li>
           ))}
         </ul>
       )}
-      <p className="text-sm text-navy/60">{t('vnc.find.buySoon')}</p>
+      <p className="text-sm text-navy/60">{t('vnc.find.buyHint')}</p>
+      <BuyDialog code={buying} onClose={() => setBuying(null)} />
     </Card>
+  )
+}
+
+interface Preview {
+  student_code: string
+  masked_name: string
+}
+
+/** Mua số (đợt B): chọn người nhận → giữ số và tạo đơn theo giá niêm yết → trang đơn hàng (payOS). */
+function BuyDialog({ code, onClose }: { code: VncCode | null; onClose: () => void }) {
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const people = useQuery({ queryKey: ['vnc-people'], queryFn: () => callRpc<Person[]>('vnc_my_people') })
+  const [target, setTarget] = useState<string>('')
+  const [other, setOther] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const otherDigits = other.replace(/\D/g, '')
+  const preview = useQuery({
+    queryKey: ['vnc-recipient', otherDigits],
+    enabled: target === 'other' && otherDigits.length === 6,
+    queryFn: () => callRpc<Preview | null>('vnc_recipient_preview', { p_code: other }),
+  })
+  useEffect(() => {
+    if (code) {
+      setTarget(people.data?.[0]?.student_id ?? '')
+      setOther('')
+      setError(null)
+    }
+  }, [code, people.data])
+
+  const place = useMutation({
+    mutationFn: () =>
+      callRpc<{ order_id: string }>('vnc_order_place', {
+        p_code: code!.code,
+        p_recipient: target === 'other' ? other : target || null,
+      }),
+    onSuccess: (r) => navigate(`/app/orders/${r.order_id}`),
+    onError: (e) => {
+      const m = (e as { message?: string }).message ?? ''
+      setError(['code_not_available', 'recipient_not_found', 'not_for_sale'].includes(m) ? t(`vnc.buy.errors.${m}`) : t('errors.generic'))
+    },
+  })
+  const ready = target === 'other' ? Boolean(preview.data) : Boolean(target)
+
+  return (
+    <Dialog open={Boolean(code)} onClose={onClose} title={t('vnc.buy.title')}>
+      {code && (
+        <div className="space-y-4">
+          <div className="text-center">
+            <p className="font-mono text-3xl font-bold tracking-wider">VNC-{formatCode(code.code)}</p>
+            <div className="mt-2 flex justify-center"><TierBadge tier={code.tier} /></div>
+            <Categories list={code.categories} />
+            <p className="mt-2 text-2xl font-bold">{formatVnd(code.list_price, i18n.language)}</p>
+          </div>
+          <fieldset className="space-y-2">
+            <legend className="mb-1 font-semibold">{t('vnc.buy.for')}</legend>
+            {(people.data ?? []).map((p) => (
+              <label key={p.student_id} className="flex items-center gap-3 rounded-xl bg-white px-3 py-2 ring-1 ring-navy/10">
+                <input type="radio" name="vnc-target" checked={target === p.student_id} onChange={() => setTarget(p.student_id)} />
+                <span>{p.is_self ? t('vnc.buy.myself') : p.full_name} <span className="text-sm text-navy/55">· {p.student_code}</span></span>
+              </label>
+            ))}
+            <label className="flex items-center gap-3 rounded-xl bg-white px-3 py-2 ring-1 ring-navy/10">
+              <input type="radio" name="vnc-target" checked={target === 'other'} onChange={() => setTarget('other')} />
+              <span>{t('vnc.buy.someoneElse')}</span>
+            </label>
+            {target === 'other' && (
+              <Field label={t('vnc.buy.recipientCode')} hint={t('vnc.buy.recipientHint')}>
+                <Input value={other} onChange={(e) => setOther(e.target.value)} placeholder="VNC-012467" className="font-mono" />
+              </Field>
+            )}
+            {target === 'other' && otherDigits.length === 6 && !preview.isFetching && (
+              <p className={cn('text-sm', preview.data ? 'text-emerald-700' : 'text-red-700')}>
+                {preview.data ? t('vnc.buy.recipientFound', { name: preview.data.masked_name, code: preview.data.student_code }) : t('vnc.buy.errors.recipient_not_found')}
+              </p>
+            )}
+          </fieldset>
+          <p className="text-sm text-navy/60">{t('vnc.buy.holdHint')}</p>
+          <FormError message={error} />
+          <Button size="full" disabled={!ready || place.isPending} onClick={() => place.mutate()}>
+            {place.isPending ? t('common.loading') : t('vnc.buy.confirm', { price: formatVnd(code.list_price, i18n.language) })}
+          </Button>
+        </div>
+      )}
+    </Dialog>
   )
 }

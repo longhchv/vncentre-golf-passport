@@ -34,6 +34,9 @@ export interface OrderDetail {
   note: string | null
   invoice: { buyer_type: 'individual' | 'company'; buyer_name: string; tax_code: string | null; address: string | null; email: string | null; status: 'requested' | 'issued'; issued_invoice_no: string | null } | null
   new_passport_code: string | null
+  /** Spec 12 mục 5: đơn mua mã VNC số đẹp */
+  product_code?: string
+  vnc_code?: string | null
 }
 
 // Mã BIN ngân hàng (VietQR) → tên ngắn
@@ -122,6 +125,7 @@ export function OrderPage() {
       </div>
       <Card className="space-y-1 p-4">
         <p className="font-semibold">{loc({ name_vi: o.product_vi, name_en: o.product_en }, 'name')}</p>
+        {o.vnc_code && <p className="font-mono text-2xl font-bold tracking-wider">VNC-{o.vnc_code.slice(0, 3)} {o.vnc_code.slice(3)}</p>}
         <p className="text-sm text-navy/65">{[o.student_name, o.passport_code ? t('orders.lostPassport', { code: formatCode(o.passport_code) }) : null].filter(Boolean).join(' · ')}</p>
         <p className="text-3xl font-bold">{formatVnd(o.amount_vnd, i18n.language)}</p>
       </Card>

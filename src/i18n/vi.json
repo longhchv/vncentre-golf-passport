@@ -4938,7 +4938,7 @@
       "search": "Tìm",
       "none": "Không có số phù hợp còn trống.",
       "free": "còn trống",
-      "buySoon": "Mua số cho mình hoặc mua tặng: sắp có. Liên hệ VN Centre nếu muốn giữ một số."
+      "buyHint": "Mua cho mình hoặc mua tặng; thanh toán qua payOS. Số đã mua không chuyển nhượng hay bán lại."
     },
     "tier": {
       "kim_cuong": "Kim cương",
@@ -4963,6 +4963,23 @@
       "dao_ganh_4": "Đảo gánh 4 cuối",
       "tam_hoa": "Tam hoa",
       "nam_sinh": "Năm sinh"
+    },
+    "buy": {
+      "button": "Mua",
+      "title": "Mua mã VNC",
+      "for": "Mua cho",
+      "myself": "Chính tôi",
+      "someoneElse": "Người khác (nhập mã VNC)",
+      "recipientCode": "Mã VNC người nhận",
+      "recipientHint": "Số mua tặng thành mã phụ của người nhận; người nhận tự đặt làm mã chính nếu muốn.",
+      "recipientFound": "Người nhận: {{name}} · {{code}}",
+      "holdHint": "Số được giữ cho bạn 30 phút trong lúc thanh toán. Quá hạn chưa trả thì số trở lại kho.",
+      "confirm": "Mua với giá {{price}}",
+      "errors": {
+        "code_not_available": "Số này vừa có người giữ hoặc đã có chủ. Chọn số khác.",
+        "recipient_not_found": "Không tìm thấy người nhận theo mã VNC.",
+        "not_for_sale": "Số này không bán."
+      }
     }
   },
   "vncAdmin": {
