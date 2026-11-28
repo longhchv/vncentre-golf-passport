@@ -233,7 +233,8 @@
       "partners": "Golf Passport partners",
       "grades": "Grades",
       "rewards": "Reward points",
-      "venues": "Ranges & simulators"
+      "venues": "Ranges & simulators",
+      "vnc": "VNC codes"
     },
     "years": {
       "current": "Current year",
@@ -4914,6 +4915,118 @@
       "apple": "Apple",
       "facebook": "Facebook",
       "azure": "Microsoft"
+    }
+  },
+  "vnc": {
+    "title": "My VNC codes",
+    "intro": "Your VNC code is used for lookups, QR scans and scoring. One person can have several codes; one is the primary code.",
+    "noProfile": "This account has no golfer profile yet.",
+    "me": "Me",
+    "primary": "Primary",
+    "alias": "Secondary",
+    "acquired": {
+      "tang": "Gifted",
+      "mua": "Purchased",
+      "cap": "Issued"
+    },
+    "listPrice": "Current list price: {{price}}",
+    "makePrimary": "Make primary",
+    "primaryChanged": "Primary code changed to {{code}}",
+    "aliasHint": "Secondary codes still work for lookups and QR scans; old QR codes on passports, certificates and scorecards keep working.",
+    "find": {
+      "title": "Find a special number",
+      "search": "Search",
+      "none": "No matching free numbers.",
+      "free": "free",
+      "buySoon": "Buying a number for yourself or as a gift: coming soon. Contact VN Centre to hold a number."
+    },
+    "tier": {
+      "kim_cuong": "Diamond",
+      "vang": "Gold",
+      "bac": "Silver",
+      "dong": "Bronze",
+      "nam_sinh": "Birth year",
+      "thuong": "Standard"
+    },
+    "category": {
+      "luc_quy": "Six of a kind",
+      "ngu_quy": "Five of a kind",
+      "sanh_6": "6-digit straight",
+      "so_tron": "Round number",
+      "tu_quy": "Four of a kind",
+      "taxi": "Taxi (repeating)",
+      "dao_ganh_6": "6-digit palindrome",
+      "so_golf": "Golf number",
+      "sanh_4": "4-digit straight",
+      "so_golf_duoi": "Golf ending",
+      "loc_phat": "Lucky ending",
+      "dao_ganh_4": "4-digit palindrome",
+      "tam_hoa": "Triple",
+      "nam_sinh": "Birth year / date"
+    }
+  },
+  "vncAdmin": {
+    "title": "VNC code stock",
+    "tab": {
+      "stock": "Stock",
+      "prices": "Prices",
+      "events": "Log"
+    },
+    "status": "Status",
+    "statusName": {
+      "available": "Free",
+      "reserved": "Locked",
+      "assigned": "Issued",
+      "gifted": "Gifted",
+      "sold": "Sold",
+      "retired_alias": "Secondary"
+    },
+    "allStatuses": "All statuses",
+    "allTiers": "All tiers",
+    "allCategories": "All groups",
+    "searchCode": "Search number",
+    "code": "Code",
+    "tier": "Tier",
+    "owner": "Owner",
+    "price": "List price",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "gift": "Gift",
+    "prev": "Previous",
+    "next": "Next",
+    "giftTitle": "Gift {{code}}",
+    "recipient": "Recipient (VNC code)",
+    "recipientHint": "The number becomes a secondary code of the recipient, who can make it primary.",
+    "note": "Note",
+    "notePlaceholder": "e.g. Outstanding student, stage 11",
+    "giftConfirm": "Gift number",
+    "gifted": "Gifted {{code}} to {{name}}",
+    "priceFrom": "Price from (VND)",
+    "priceTo": "Price to (VND)",
+    "validFrom": "Valid from",
+    "savePrice": "Save price",
+    "validRange": "Valid",
+    "now": "now",
+    "priceHint": "Changing a price adds a new row; old rows are kept as history. Current list price = \"price from\" of the active row.",
+    "time": "Time",
+    "action": "Action",
+    "by": "By",
+    "actionName": {
+      "assign": "Issue",
+      "gift": "Gift",
+      "sell": "Sell",
+      "set_primary": "Change primary",
+      "lock": "Lock",
+      "unlock": "Unlock",
+      "price": "Price change"
+    },
+    "errors": {
+      "code_not_available": "This number is not free.",
+      "code_not_locked": "This number is not locked.",
+      "recipient_not_found": "Recipient VNC code not found.",
+      "code_invalid": "The code must have 6 digits.",
+      "price_invalid": "Invalid price.",
+      "tier_invalid": "Invalid tier."
     }
   }
 }

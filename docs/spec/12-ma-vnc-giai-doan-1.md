@@ -36,9 +36,20 @@ Migration `20261128000001_vnc_alias_lookup.sql`: hàm `vnc_same_person(mã trên
 
 Kiểm thử `supabase/tests/067_vnc_alias_lookup.sql`. Toàn bộ kiểm thử SQL: 62/69 đạt, 7 còn lại cần dữ liệu staging (hỏng giống hệt trước khi có mã VNC).
 
+## Mục 5–7, đợt A (28/11/2026)
+
+Migration `20261128000002_vnc_wallet.sql`, kiểm thử `supabase/tests/068_vnc_wallet.sql`.
+
+| Việc | Cách làm |
+|---|---|
+| Mã VNC của tôi (`/vnc`, lối vào từ trang Tài khoản) | Chọn hồ sơ (của tôi / các con đang quản lý) → mã chính, mã phụ, hạng, nhóm, giá niêm yết hiện tại (`vnc_my_codes`). Không có lời hứa đầu tư hay sinh lời |
+| Đổi mã chính | `vnc_set_primary`: chỉ chọn trong các mã hồ sơ đã có; mã chính cũ thành mã phụ, vẫn tra cứu / quét QR được |
+| Tìm số | `vnc_search`: lọc hạng / nhóm; nhập số → đúng số (kể cả số năm sinh chưa có trong sổ), số trong kho chứa dãy đã nhập, số khác đúng một chữ số; chỉ số còn trống, có hạng |
+| Admin kho (`/admin/vnc`) | Bảng đếm theo trạng thái × hạng; lọc trạng thái / hạng / nhóm / số; khoá – mở (`reserved` ↔ `available`); tặng số (thành mã phụ của người nhận); bảng giá có lịch sử (`vnc_admin_set_price` đóng dòng cũ, thêm dòng mới); nhật ký `vnc_code_events` |
+
 ## Còn mở
 
 | Việc | Ghi chú |
 |---|---|
-| Đổi mã chính, mua / tặng số, trang "Mã VNC của tôi", trang admin kho số (spec 12 mục 5–7) | Chưa làm — chờ anh Long chốt thứ tự |
+| Mua số cho mình / mua tặng (spec 12 mục 5) | Đợt B: sản phẩm `vnc_code`, đơn payOS, trả tiền xong thì gắn số |
 | Chỗ khác trong app đọc thẳng `students.student_code` để hiển thị | Không cần sửa: `student_code` luôn là mã chính |
