@@ -18,6 +18,7 @@
     "notFound": "Page not found",
     "notFoundBody": "The link is incorrect or the page has moved.",
     "loading": "Loading…",
+    "updating": "Loading the new version…",
     "close": "Close",
     "menu": "Menu",
     "saved": "Saved",
