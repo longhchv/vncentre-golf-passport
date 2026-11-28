@@ -56,9 +56,13 @@ Migration `20261128000003_vnc_purchase.sql`, kiểm thử `supabase/tests/069_vn
 - Đơn hết hạn / huỷ → số đẹp về kho, số năm sinh bỏ khỏi sổ. Trả tiền sau hạn mà số còn trống → vẫn gắn; số đã thuộc người khác → đơn ghi chú cần hoàn tiền (`failed`).
 - Admin không mở khoá tay số đang chờ thanh toán. Không chuyển nhượng / bán lại giữa người dùng: chỉ mua từ kho.
 
+## Hoàn tiền thì thu hồi số (anh Long chốt 28/11/2026)
+
+Migration `20261128000005_vnc_refund_revoke.sql`, kiểm thử `supabase/tests/071_vnc_refund_revoke.sql`. Admin hoàn tiền (`refund_order`, trang Đơn hàng) đơn mua mã VNC → số rời khỏi hồ sơ người nhận; nếu đang là mã chính thì mã chính quay về mã khác của họ (ưu tiên mã cấp ban đầu); số về kho ở trạng thái **khoá**; nhật ký `revoke`; báo gia đình người nhận. Đơn `failed` (chưa gắn được số) hoàn tiền thì không có gì để thu hồi.
+
 ## Còn mở
 
 | Việc | Ghi chú |
 |---|---|
-| Hoàn tiền đơn mua mã VNC | `refund_order` chỉ đổi trạng thái đơn; số đã bán giữ nguyên chủ (mã đã gắn không cấp lại). Đơn `failed` (trả tiền khi số đã thuộc người khác) admin hoàn tiền tay |
+| Số bị thu hồi do hoàn tiền đang khoá trong kho | Admin tự quyết mở khoá để bán lại hay giữ (số có thể đã in trên QR của người cũ) |
 | Chỗ khác trong app đọc thẳng `students.student_code` để hiển thị | Không cần sửa: `student_code` luôn là mã chính |
