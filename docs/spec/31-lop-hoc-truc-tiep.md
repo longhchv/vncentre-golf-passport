@@ -44,11 +44,15 @@ Bản 1 · 27/11/2026 · Người yêu cầu: Vũ Anh Long · Lớp chạy đầ
 **Trừ điểm:** trừ đúng một mức, chỉ trong buổi hôm nay, điểm của buổi không xuống dưới 0 (nút vượt quá thì mờ; máy chủ từ chối `below_zero` và app báo rõ). Tổng tích luỹ = cộng dồn các buổi.
 - `supabase/tests/064_class_live.sql`: đạt trên PostgreSQL 16 dựng từ toàn bộ migration của repo (27/11/2026). Chưa chạy trên staging.
 
-## Chưa làm
+## Việc 4, 6, 7 (28/11/2026)
 
-- **4.** Chế độ trình chiếu: bảng điểm và xếp hạng cho các con xem, chia 2 đội hoặc theo cá nhân. Cần anh Long chốt cách hiện xếp hạng, vì nguyên tắc 7 của spec 19 không cho màn ví điểm của các con so sánh điểm giữa các con.
-- **6.** Đổi quà: kho quà và đổi quà đã có (spec 19 phần C, admin quản lý). Còn thiếu quyền cho HLV tạo danh mục quà và màn "còn thiếu bao nhiêu điểm để đổi món tiếp theo".
-- **7.** Tóm tắt cuối buổi gửi phụ huynh; phụ huynh xem nhận xét trong hồ sơ. Phụ huynh đã xem được điểm trong ví (dòng "Điểm trên lớp").
+Migration `20261128000004_class_live_more.sql`, kiểm thử `supabase/tests/070_class_live_more.sql`.
+
+| Việc | Cách làm |
+|---|---|
+| 4. Trình chiếu | Nút màn hình ở đầu màn lớp học → `/coach/live/<lớp>/show` (không logo): **Cá nhân** — xếp hạng theo điểm hôm nay, có nút ẩn / hiện tổng; **Hai đội** — tổng điểm hôm nay của đội A / B, nút "Chia đội" chạm tên để đổi đội (lưu theo buổi, `class_session_students.team`). Tự làm mới 4 giây một lần. Bạn vắng không hiện. Đây là màn HLV giơ cho cả lớp xem trong buổi, khác màn ví điểm của từng con (spec 19 nguyên tắc 7 vẫn giữ ở ví điểm) |
+| 6. Đổi quà | Thẻ từng bạn → tab **Đổi quà**: điểm hiện có, "còn thiếu N điểm để đổi món kế tiếp", danh sách quà (quà chung + quà riêng của lớp), nút Đổi (nhận tại trường). Đổi qua `gift_order_place` sẵn có: trừ điểm hiện có, tổng tích luỹ giữ nguyên. HLV lớp được đổi hộ (`gift_can_redeem`, công tắc `rewards.coach_can_redeem`). **Thêm quà của lớp**: tên, số điểm, số lượng — quà có `gift_items.class_id`, chỉ hiện cho các bạn trong lớp đó (danh mục quà của phụ huynh cũng lọc theo lớp) |
+| 7. Tóm tắt, phụ huynh xem | Nút **Gửi tóm tắt cho phụ huynh** (một lần mỗi buổi): thông báo trong app cho phụ huynh từng bạn có mặt / có điểm — chủ đề, điểm hôm nay, tổng, điểm nổi bật (lý do được cộng nhiều nhất), nhận xét, ghi chú HLV. Hồ sơ con trên app phụ huynh có mục **Buổi học trên lớp** (`class_live_student_report`) |
 
 ## Việc còn mở
 

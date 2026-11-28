@@ -13,7 +13,9 @@ import {
   Mic,
   MicOff,
   Minus,
+  MonitorPlay,
   Pencil,
+  Send,
   Plus,
   Undo2,
   UserPlus,
@@ -31,6 +33,7 @@ import { Field, FormError, Input, Textarea } from '@/components/ui/form'
 import { useToast } from '@/components/ui/toast'
 import { callRpc } from '@/features/partners/shared'
 import { buzz, burstAt, playScore } from './effects'
+import { GiftsPanel } from './GiftsPanel'
 import {
   COMMENT_TAGS,
   POINT_TAGS,
@@ -325,6 +328,9 @@ export function LiveClassPage() {
             <p className="text-sm text-navy/60">{formatDate(view.date, i18n.language)}</p>
           </div>
           <SyncPill state={queue.state} pending={queue.ops.length} onRetry={() => void queue.flush()} />
+          <Link to={`/coach/live/${classId}/show`} aria-label={t('classLive.show.open')} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white ring-1 ring-navy/10">
+            <MonitorPlay className="h-5 w-5 text-bronze" />
+          </Link>
         </div>
         <button
           type="button"
@@ -407,6 +413,26 @@ export function LiveClassPage() {
               onClick={() => unmarked.forEach((s) => mark(s.id, { attendance: 'present' }))}
             >
               <CheckCheck className="h-4 w-4" /> {t('classLive.attendance.allPresent', { count: unmarked.length })}
+            </Button>
+          )}
+          {students.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={Boolean(view.session?.summary_sent_at) || queue.ops.length > 0}
+              onClick={async () => {
+                if (!window.confirm(t('classLive.summary.confirm'))) return
+                try {
+                  const n = await callRpc<number>('class_live_send_summary', { p_class_id: classId, p_date: today })
+                  toast(t('classLive.summary.sent', { count: n }))
+                  await refetch()
+                } catch (e) {
+                  const m = (e as { message?: string }).message ?? ''
+                  toast(m === 'no_session' ? t('classLive.summary.noSession') : navigator.onLine ? t('errors.generic') : t('classLive.needOnline'), 'error')
+                }
+              }}
+            >
+              <Send className="h-4 w-4" /> {view.session?.summary_sent_at ? t('classLive.summary.done') : t('classLive.summary.button')}
             </Button>
           )}
         </div>
@@ -812,7 +838,7 @@ function StudentSheet({
   onChanged: () => Promise<unknown>
 }) {
   const { t } = useTranslation()
-  const [tab, setTab] = useState<'comment' | 'profile' | 'history'>('comment')
+  const [tab, setTab] = useState<'comment' | 'gifts' | 'profile' | 'history'>('comment')
   return (
     <div className="fixed inset-0 z-40 flex flex-col justify-end bg-navy/40" onClick={onClose}>
       <div
@@ -834,7 +860,7 @@ function StudentSheet({
           </button>
         </div>
         <div className="flex gap-2 px-4 pb-2">
-          {(['comment', 'profile', 'history'] as const).map((k) => (
+          {(['comment', 'gifts', 'profile', 'history'] as const).map((k) => (
             <button key={k} type="button" onClick={() => setTab(k)} className={segClass(tab === k)}>
               {t(`classLive.sheet.tab.${k}`)}
             </button>
@@ -844,6 +870,7 @@ function StudentSheet({
           {tab === 'comment' && <CommentPanel s={s} onMark={onMark} attendancePoints={attendancePoints} />}
           {tab === 'profile' && <ProfilePanel s={s} classId={classId} onChanged={onChanged} />}
           {tab === 'history' && <HistoryPanel s={s} classId={classId} />}
+          {tab === 'gifts' && <GiftsPanel classId={classId} studentId={s.id} onChanged={onChanged} />}
         </div>
         {/* Vùng chấm điểm ở dưới cùng: ngón cái với tới khi cầm máy một tay */}
         <div className="space-y-2 border-t border-navy/10 bg-white px-4 pt-3" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}>

@@ -233,7 +233,8 @@
       "partners": "Golf Passport partners",
       "grades": "Grades",
       "rewards": "Reward points",
-      "venues": "Ranges & simulators"
+      "venues": "Ranges & simulators",
+      "vnc": "VNC codes"
     },
     "years": {
       "current": "Current year",
@@ -739,7 +740,7 @@
   },
   "parent": {
     "hello": "Hello,",
-    "addEmailPrompt": "Add an email to receive notifications and download your child's PDF certificates.",
+    "addEmailPrompt": "Link an email or Google account to sign in more easily and keep access if you change your phone number.",
     "noChildren": "You have not activated a Golf Passport for your child yet.",
     "addChild": "Add child",
     "childProfiles": "Your child's golf profile",
@@ -4759,7 +4760,8 @@
       "tab": {
         "comment": "Comments",
         "profile": "Profile",
-        "history": "History"
+        "history": "History",
+        "gifts": "Gifts"
       }
     },
     "attendance": {
@@ -4847,6 +4849,249 @@
       "reason": "Reason when adding (tap to pick, tap again to clear)",
       "line": "Total {{total}} · To spend {{available}}",
       "hint": "Gold adds, red deducts. Tap a name for attendance and comments."
+    },
+    "show": {
+      "open": "Show to students",
+      "people": "Individuals",
+      "teams": "Two teams",
+      "hideTotal": "Hide total",
+      "showTotal": "Show total",
+      "total": "total {{n}}",
+      "arrange": "Teams",
+      "arrangeHint": "Tap a name to change team: A → B → none.",
+      "team": "Team {{k}}"
+    },
+    "gifts": {
+      "nextGap": "{{n}} more points for the next gift",
+      "none": "No gifts yet.",
+      "points": "{{n}} points",
+      "gap": "{{n}} short",
+      "outOfStock": "out of stock",
+      "redeem": "Redeem",
+      "confirm": "Redeem \"{{gift}}\" ({{n}} points)? Points to spend go down; the total stays.",
+      "redeemed": "Gift redeemed. Pick up at school.",
+      "history": "Redeemed",
+      "add": "Add a class gift",
+      "addTitle": "Class gift (only this class sees it)",
+      "name": "Gift name",
+      "pointsLabel": "Points",
+      "qty": "Quantity",
+      "errors": {
+        "insufficient_points": "Not enough points.",
+        "out_of_stock": "Out of stock.",
+        "limit_reached": "Limit reached for this gift.",
+        "gift_unavailable": "Gift no longer available.",
+        "name_required": "Enter a gift name.",
+        "points_out_of_range": "Points must be 1 to 100,000.",
+        "invalid_qty": "Quantity must be 1 to 1,000."
+      }
+    },
+    "summary": {
+      "button": "Send summary to parents",
+      "done": "Summary sent",
+      "confirm": "Send today's summary (points, total, comments) to parents? Once per session.",
+      "sent": "Summary sent to parents of {{count}} students.",
+      "noSession": "No data for today yet."
+    },
+    "report": {
+      "title": "Class sessions",
+      "summary": "Total {{total}} points · To spend {{available}} points"
+    }
+  },
+  "signin": {
+    "with": {
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "facebook": "Continue with Facebook",
+      "azure": "Continue with Microsoft"
+    },
+    "withEmailCode": "Get a sign-in code by email",
+    "emailHint": "An account is created automatically if you do not have one. Yahoo users can use this.",
+    "emailInvalid": "Invalid email.",
+    "sendCode": "Send code",
+    "codeSent": "A 6-digit code was sent to {{email}}.",
+    "checkSpam": "No email? Check Spam / Promotions.",
+    "code": "6-digit code",
+    "codeWrong": "Wrong or expired code.",
+    "resend": "Resend code",
+    "changeEmail": "Change email",
+    "sendFailed": "Could not send the code. Try again in a few minutes.",
+    "tooMany": "Too many codes requested. Wait a few minutes.",
+    "providerFailed": "Could not sign in this way. Try another method.",
+    "orPassword": "or sign in with password"
+  },
+  "welcome": {
+    "title": "Welcome to VN Centre Golf Passport",
+    "intro": "Tell us a few details to create your profile and VNC code.",
+    "name": "Full name",
+    "birthYear": "Year of birth",
+    "kind": "You are",
+    "kinds": {
+      "student": "Student",
+      "adult": "Parent / adult"
+    },
+    "kindsHint": {
+      "student": "I learn golf myself and use my own profile",
+      "adult": "Parent, coach, staff, adult golfer"
+    },
+    "kindRequired": "Choose student or parent / adult.",
+    "submit": "Create profile",
+    "doneTitle": "Profile created",
+    "yourCode": "Your VNC code",
+    "codeHint": "Use this code for lookups, QR scans and scoring. Each child gets their own VNC code when added.",
+    "continue": "Open the app",
+    "errors": {
+      "name_required": "Enter your full name (at least 2 characters).",
+      "birth_year_invalid": "Invalid year of birth.",
+      "kind_invalid": "Choose an account type."
+    }
+  },
+  "loginMethods": {
+    "title": "Sign-in methods",
+    "unlink": "Remove",
+    "onlyOne": "You have one sign-in method. Link another so you do not lose access.",
+    "linkWith": "Link {{method}}",
+    "confirmUnlink": "Remove {{method}} sign-in?",
+    "linkFailed": "Could not link. Try again later.",
+    "linkingDisabled": "Linking extra sign-in methods is not enabled yet. Contact an admin.",
+    "unlinkFailed": "Could not remove. At least one other method must remain.",
+    "addEmailBelow": "Add an email in the Email card below to sign in with an email code.",
+    "provider": {
+      "email": "Email",
+      "phone": "Phone",
+      "google": "Google",
+      "apple": "Apple",
+      "facebook": "Facebook",
+      "azure": "Microsoft"
+    }
+  },
+  "vnc": {
+    "title": "My VNC codes",
+    "intro": "Your VNC code is used for lookups, QR scans and scoring. One person can have several codes; one is the primary code.",
+    "noProfile": "This account has no golfer profile yet.",
+    "me": "Me",
+    "primary": "Primary",
+    "alias": "Secondary",
+    "acquired": {
+      "tang": "Gifted",
+      "mua": "Purchased",
+      "cap": "Issued"
+    },
+    "listPrice": "Current list price: {{price}}",
+    "makePrimary": "Make primary",
+    "primaryChanged": "Primary code changed to {{code}}",
+    "aliasHint": "Secondary codes still work for lookups and QR scans; old QR codes on passports, certificates and scorecards keep working.",
+    "find": {
+      "title": "Find a special number",
+      "search": "Search",
+      "none": "No matching free numbers.",
+      "free": "free",
+      "buyHint": "Buy for yourself or as a gift; pay via payOS. Purchased codes cannot be transferred or resold."
+    },
+    "tier": {
+      "kim_cuong": "Diamond",
+      "vang": "Gold",
+      "bac": "Silver",
+      "dong": "Bronze",
+      "nam_sinh": "Birth year",
+      "thuong": "Standard"
+    },
+    "category": {
+      "luc_quy": "Six of a kind",
+      "ngu_quy": "Five of a kind",
+      "sanh_6": "6-digit straight",
+      "so_tron": "Round number",
+      "tu_quy": "Four of a kind",
+      "taxi": "Taxi (repeating)",
+      "dao_ganh_6": "6-digit palindrome",
+      "so_golf": "Golf number",
+      "sanh_4": "4-digit straight",
+      "so_golf_duoi": "Golf ending",
+      "loc_phat": "Lucky ending",
+      "dao_ganh_4": "4-digit palindrome",
+      "tam_hoa": "Triple",
+      "nam_sinh": "Birth year / date"
+    },
+    "buy": {
+      "button": "Buy",
+      "title": "Buy a VNC code",
+      "for": "Buy for",
+      "myself": "Myself",
+      "someoneElse": "Someone else (enter VNC code)",
+      "recipientCode": "Recipient VNC code",
+      "recipientHint": "A gifted number becomes a secondary code of the recipient, who can make it primary.",
+      "recipientFound": "Recipient: {{name}} · {{code}}",
+      "holdHint": "The number is held for you for 30 minutes while you pay. If unpaid, it returns to stock.",
+      "confirm": "Buy for {{price}}",
+      "errors": {
+        "code_not_available": "This number was just taken. Choose another.",
+        "recipient_not_found": "Recipient VNC code not found.",
+        "not_for_sale": "This number is not for sale."
+      }
+    }
+  },
+  "vncAdmin": {
+    "title": "VNC code stock",
+    "tab": {
+      "stock": "Stock",
+      "prices": "Prices",
+      "events": "Log"
+    },
+    "status": "Status",
+    "statusName": {
+      "available": "Free",
+      "reserved": "Locked",
+      "assigned": "Issued",
+      "gifted": "Gifted",
+      "sold": "Sold",
+      "retired_alias": "Secondary"
+    },
+    "allStatuses": "All statuses",
+    "allTiers": "All tiers",
+    "allCategories": "All groups",
+    "searchCode": "Search number",
+    "code": "Code",
+    "tier": "Tier",
+    "owner": "Owner",
+    "price": "List price",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "gift": "Gift",
+    "prev": "Previous",
+    "next": "Next",
+    "giftTitle": "Gift {{code}}",
+    "recipient": "Recipient (VNC code)",
+    "recipientHint": "The number becomes a secondary code of the recipient, who can make it primary.",
+    "note": "Note",
+    "notePlaceholder": "e.g. Outstanding student, stage 11",
+    "giftConfirm": "Gift number",
+    "gifted": "Gifted {{code}} to {{name}}",
+    "priceFrom": "Price from (VND)",
+    "priceTo": "Price to (VND)",
+    "validFrom": "Valid from",
+    "savePrice": "Save price",
+    "validRange": "Valid",
+    "now": "now",
+    "priceHint": "Changing a price adds a new row; old rows are kept as history. Current list price = \"price from\" of the active row.",
+    "time": "Time",
+    "action": "Action",
+    "by": "By",
+    "actionName": {
+      "assign": "Issue",
+      "gift": "Gift",
+      "sell": "Sell",
+      "set_primary": "Change primary",
+      "lock": "Lock",
+      "unlock": "Unlock",
+      "price": "Price change"
+    },
+    "errors": {
+      "code_not_available": "This number is not free.",
+      "code_not_locked": "This number is not locked.",
+      "recipient_not_found": "Recipient VNC code not found.",
+      "code_invalid": "The code must have 6 digits.",
+      "price_invalid": "Invalid price.",
+      "tier_invalid": "Invalid tier."
     }
   }
 }

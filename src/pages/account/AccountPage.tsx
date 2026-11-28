@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle2, AlertCircle, ChevronRight, IdCard, LogOut } from 'lucide-react'
+import { AlertCircle, CheckCircle2, ChevronRight, Hash, IdCard, LogOut } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { getTheme, setTheme, THEMES, type Theme } from '@/lib/theme'
 import { useAuth } from '@/auth/AuthProvider'
@@ -15,6 +15,7 @@ import { MyOrders } from '@/features/orders/OrderPage'
 import { PhoneField } from '@/features/auth/PhoneField'
 import { OtpStep } from '@/features/auth/OtpStep'
 import { callOtp, otpErrorText, type OtpSent } from '@/features/auth/otp'
+import { LoginMethodsCard } from '@/features/auth/LoginMethodsCard'
 import { isVietnamese, toE164 } from '@/features/auth/phone'
 
 /**
@@ -33,6 +34,13 @@ export function AccountPage() {
     <div className="mx-auto max-w-lg space-y-5">
       <h1 className="text-2xl font-bold">{t('account.title')}</h1>
       <NameCard initial={profile?.full_name ?? ''} userId={user.id} />
+      <Link to="/vnc">
+        <Card className="flex items-center justify-between gap-2 p-4 hover:bg-navy/5">
+          <span className="flex items-center gap-2 font-bold"><Hash className="h-5 w-5 text-bronze" /> {t('vnc.title')}</span>
+          <ChevronRight className="h-5 w-5 text-navy/40" />
+        </Card>
+      </Link>
+      <LoginMethodsCard />
       {(profile?.cv_type || roles.length > 0) && (
         <Link to="/staff">
           <Card className="flex items-center justify-between gap-2 p-4 hover:bg-navy/5">

@@ -233,7 +233,8 @@
       "partners": "Đối tác Golf Passport",
       "grades": "Lớp & lên lớp",
       "rewards": "Điểm thưởng",
-      "venues": "Sân tập & phòng 3D"
+      "venues": "Sân tập & phòng 3D",
+      "vnc": "Mã VNC"
     },
     "years": {
       "current": "Năm hiện tại",
@@ -739,7 +740,7 @@
   },
   "parent": {
     "hello": "Xin chào,",
-    "addEmailPrompt": "Thêm email để nhận thông báo và tải chứng nhận PDF của con.",
+    "addEmailPrompt": "Liên kết thêm email hoặc Google để đăng nhập dễ hơn và không mất tài khoản khi đổi số điện thoại.",
     "noChildren": "Bạn chưa kích hoạt Golf Passport cho con.",
     "addChild": "Thêm con",
     "childProfiles": "Hồ sơ golf của con",
@@ -4759,7 +4760,8 @@
       "tab": {
         "comment": "Nhận xét",
         "profile": "Hồ sơ",
-        "history": "Lịch sử"
+        "history": "Lịch sử",
+        "gifts": "Đổi quà"
       }
     },
     "attendance": {
@@ -4847,6 +4849,249 @@
       "reason": "Lý do khi cộng (chạm để chọn, chạm lại để bỏ)",
       "line": "Tổng {{total}} · Đổi quà {{available}}",
       "hint": "Nút vàng cộng, nút đỏ trừ điểm. Chạm tên để điểm danh, nhận xét."
+    },
+    "show": {
+      "open": "Trình chiếu cho các con",
+      "people": "Cá nhân",
+      "teams": "Hai đội",
+      "hideTotal": "Ẩn tổng",
+      "showTotal": "Hiện tổng",
+      "total": "tổng {{n}}",
+      "arrange": "Chia đội",
+      "arrangeHint": "Chạm tên để đổi đội: A → B → chưa chia.",
+      "team": "Đội {{k}}"
+    },
+    "gifts": {
+      "nextGap": "Còn thiếu {{n}} điểm để đổi món kế tiếp",
+      "none": "Chưa có quà nào.",
+      "points": "{{n}} điểm",
+      "gap": "còn thiếu {{n}}",
+      "outOfStock": "hết quà",
+      "redeem": "Đổi",
+      "confirm": "Đổi \"{{gift}}\" ({{n}} điểm)? Điểm hiện có bị trừ, tổng tích luỹ giữ nguyên.",
+      "redeemed": "Đã đổi quà. Nhận quà tại trường.",
+      "history": "Đã đổi",
+      "add": "Thêm quà của lớp",
+      "addTitle": "Quà của lớp (chỉ các bạn trong lớp thấy)",
+      "name": "Tên quà",
+      "pointsLabel": "Số điểm",
+      "qty": "Số lượng",
+      "errors": {
+        "insufficient_points": "Chưa đủ điểm.",
+        "out_of_stock": "Quà đã hết.",
+        "limit_reached": "Đã đổi tối đa món này.",
+        "gift_unavailable": "Quà không còn.",
+        "name_required": "Nhập tên quà.",
+        "points_out_of_range": "Số điểm từ 1 đến 100.000.",
+        "invalid_qty": "Số lượng từ 1 đến 1.000."
+      }
+    },
+    "summary": {
+      "button": "Gửi tóm tắt cho phụ huynh",
+      "done": "Đã gửi tóm tắt",
+      "confirm": "Gửi tóm tắt buổi hôm nay (điểm, tổng điểm, nhận xét) cho phụ huynh các bạn? Mỗi buổi gửi một lần.",
+      "sent": "Đã gửi tóm tắt cho phụ huynh {{count}} bạn.",
+      "noSession": "Buổi hôm nay chưa có dữ liệu."
+    },
+    "report": {
+      "title": "Buổi học trên lớp",
+      "summary": "Tổng tích luỹ {{total}} điểm · Đổi quà {{available}} điểm"
+    }
+  },
+  "signin": {
+    "with": {
+      "google": "Tiếp tục với Google",
+      "apple": "Tiếp tục với Apple",
+      "facebook": "Tiếp tục với Facebook",
+      "azure": "Tiếp tục với Microsoft"
+    },
+    "withEmailCode": "Nhận mã đăng nhập qua email",
+    "emailHint": "Chưa có tài khoản thì hệ thống tự tạo. Người dùng Yahoo dùng cách này.",
+    "emailInvalid": "Email chưa đúng.",
+    "sendCode": "Gửi mã",
+    "codeSent": "Đã gửi mã 6 số tới {{email}}.",
+    "checkSpam": "Không thấy thư? Kiểm tra mục Thư rác / Quảng cáo.",
+    "code": "Mã 6 số",
+    "codeWrong": "Mã sai hoặc đã hết hạn.",
+    "resend": "Gửi lại mã",
+    "changeEmail": "Đổi email",
+    "sendFailed": "Chưa gửi được mã. Thử lại sau ít phút.",
+    "tooMany": "Gửi mã quá nhiều lần. Đợi ít phút rồi thử lại.",
+    "providerFailed": "Chưa đăng nhập được bằng cách này. Thử cách khác.",
+    "orPassword": "hoặc đăng nhập bằng mật khẩu"
+  },
+  "welcome": {
+    "title": "Chào mừng bạn đến VN Centre Golf Passport",
+    "intro": "Cho chúng tôi biết vài thông tin để tạo hồ sơ và mã VNC của bạn.",
+    "name": "Họ và tên",
+    "birthYear": "Năm sinh",
+    "kind": "Bạn là",
+    "kinds": {
+      "student": "Học viên",
+      "adult": "Phụ huynh / người lớn"
+    },
+    "kindsHint": {
+      "student": "Tôi tự học golf, dùng hồ sơ của chính mình",
+      "adult": "Phụ huynh của các con, HLV, nhân sự, golfer người lớn"
+    },
+    "kindRequired": "Chọn bạn là học viên hay phụ huynh / người lớn.",
+    "submit": "Tạo hồ sơ",
+    "doneTitle": "Đã tạo hồ sơ",
+    "yourCode": "Mã VNC của bạn",
+    "codeHint": "Mã này dùng để tra cứu, quét QR và nhập điểm. Mỗi con có mã VNC riêng khi được thêm vào tài khoản.",
+    "continue": "Vào app",
+    "errors": {
+      "name_required": "Nhập họ và tên (ít nhất 2 ký tự).",
+      "birth_year_invalid": "Năm sinh chưa đúng.",
+      "kind_invalid": "Chọn loại tài khoản."
+    }
+  },
+  "loginMethods": {
+    "title": "Cách đăng nhập",
+    "unlink": "Gỡ",
+    "onlyOne": "Bạn đang có một cách đăng nhập. Liên kết thêm một cách để không bị mất tài khoản.",
+    "linkWith": "Liên kết {{method}}",
+    "confirmUnlink": "Gỡ cách đăng nhập {{method}}?",
+    "linkFailed": "Chưa liên kết được. Thử lại sau.",
+    "linkingDisabled": "Liên kết thêm cách đăng nhập chưa được bật. Báo admin.",
+    "unlinkFailed": "Chưa gỡ được. Cần còn ít nhất một cách đăng nhập khác.",
+    "addEmailBelow": "Thêm email ở thẻ Email bên dưới để đăng nhập bằng mã qua email.",
+    "provider": {
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "google": "Google",
+      "apple": "Apple",
+      "facebook": "Facebook",
+      "azure": "Microsoft"
+    }
+  },
+  "vnc": {
+    "title": "Mã VNC của tôi",
+    "intro": "Mã VNC dùng để tra cứu, quét QR và nhập điểm. Một người có thể có nhiều mã, một mã là mã chính.",
+    "noProfile": "Tài khoản chưa có hồ sơ golfer.",
+    "me": "Của tôi",
+    "primary": "Mã chính",
+    "alias": "Mã phụ",
+    "acquired": {
+      "tang": "Được tặng",
+      "mua": "Đã mua",
+      "cap": "Được cấp"
+    },
+    "listPrice": "Giá niêm yết hiện tại: {{price}}",
+    "makePrimary": "Đặt làm mã chính",
+    "primaryChanged": "Đã đổi mã chính thành {{code}}",
+    "aliasHint": "Mã phụ vẫn tra cứu, quét QR được như mã chính; QR cũ trên sổ, chứng nhận, thẻ điểm vẫn dùng được.",
+    "find": {
+      "title": "Tìm số đẹp",
+      "search": "Tìm",
+      "none": "Không có số phù hợp còn trống.",
+      "free": "còn trống",
+      "buyHint": "Mua cho mình hoặc mua tặng; thanh toán qua payOS. Số đã mua không chuyển nhượng hay bán lại."
+    },
+    "tier": {
+      "kim_cuong": "Kim cương",
+      "vang": "Vàng",
+      "bac": "Bạc",
+      "dong": "Đồng",
+      "nam_sinh": "Năm sinh",
+      "thuong": "Thường"
+    },
+    "category": {
+      "luc_quy": "Lục quý",
+      "ngu_quy": "Ngũ quý",
+      "sanh_6": "Sảnh 6",
+      "so_tron": "Số tròn",
+      "tu_quy": "Tứ quý",
+      "taxi": "Taxi",
+      "dao_ganh_6": "Đảo gánh 6 số",
+      "so_golf": "Số golf",
+      "sanh_4": "Sảnh 4 cuối",
+      "so_golf_duoi": "Đuôi số golf",
+      "loc_phat": "Lộc phát / thần tài",
+      "dao_ganh_4": "Đảo gánh 4 cuối",
+      "tam_hoa": "Tam hoa",
+      "nam_sinh": "Năm sinh"
+    },
+    "buy": {
+      "button": "Mua",
+      "title": "Mua mã VNC",
+      "for": "Mua cho",
+      "myself": "Chính tôi",
+      "someoneElse": "Người khác (nhập mã VNC)",
+      "recipientCode": "Mã VNC người nhận",
+      "recipientHint": "Số mua tặng thành mã phụ của người nhận; người nhận tự đặt làm mã chính nếu muốn.",
+      "recipientFound": "Người nhận: {{name}} · {{code}}",
+      "holdHint": "Số được giữ cho bạn 30 phút trong lúc thanh toán. Quá hạn chưa trả thì số trở lại kho.",
+      "confirm": "Mua với giá {{price}}",
+      "errors": {
+        "code_not_available": "Số này vừa có người giữ hoặc đã có chủ. Chọn số khác.",
+        "recipient_not_found": "Không tìm thấy người nhận theo mã VNC.",
+        "not_for_sale": "Số này không bán."
+      }
+    }
+  },
+  "vncAdmin": {
+    "title": "Kho mã VNC",
+    "tab": {
+      "stock": "Kho số",
+      "prices": "Bảng giá",
+      "events": "Nhật ký"
+    },
+    "status": "Trạng thái",
+    "statusName": {
+      "available": "Còn trống",
+      "reserved": "Đang khoá",
+      "assigned": "Đã cấp",
+      "gifted": "Đã tặng",
+      "sold": "Đã bán",
+      "retired_alias": "Mã phụ"
+    },
+    "allStatuses": "Mọi trạng thái",
+    "allTiers": "Mọi hạng",
+    "allCategories": "Mọi nhóm",
+    "searchCode": "Tìm số",
+    "code": "Mã",
+    "tier": "Hạng",
+    "owner": "Chủ mã",
+    "price": "Giá niêm yết",
+    "lock": "Khoá",
+    "unlock": "Mở",
+    "gift": "Tặng",
+    "prev": "Trang trước",
+    "next": "Trang sau",
+    "giftTitle": "Tặng số {{code}}",
+    "recipient": "Người nhận (mã VNC)",
+    "recipientHint": "Số được tặng thành mã phụ của người nhận; người nhận tự đặt làm mã chính nếu muốn.",
+    "note": "Ghi chú",
+    "notePlaceholder": "Ví dụ: Học viên xuất sắc chặng 11",
+    "giftConfirm": "Tặng số",
+    "gifted": "Đã tặng {{code}} cho {{name}}",
+    "priceFrom": "Giá từ (đ)",
+    "priceTo": "Giá đến (đ)",
+    "validFrom": "Hiệu lực từ",
+    "savePrice": "Lưu giá",
+    "validRange": "Hiệu lực",
+    "now": "nay",
+    "priceHint": "Đổi giá = thêm dòng mới, dòng cũ giữ lại làm lịch sử. Giá niêm yết hiện tại = giá từ của dòng đang hiệu lực.",
+    "time": "Thời điểm",
+    "action": "Thao tác",
+    "by": "Người làm",
+    "actionName": {
+      "assign": "Cấp",
+      "gift": "Tặng",
+      "sell": "Bán",
+      "set_primary": "Đổi mã chính",
+      "lock": "Khoá",
+      "unlock": "Mở khoá",
+      "price": "Đổi giá"
+    },
+    "errors": {
+      "code_not_available": "Số này không còn trống.",
+      "code_not_locked": "Số này không đang khoá.",
+      "recipient_not_found": "Không tìm thấy người nhận theo mã VNC.",
+      "code_invalid": "Mã phải có 6 chữ số.",
+      "price_invalid": "Giá chưa đúng.",
+      "tier_invalid": "Hạng chưa đúng."
     }
   }
 }

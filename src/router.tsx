@@ -13,6 +13,7 @@ import { SignupPage } from '@/pages/auth/SignupPage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage'
 import { ChooseWorkspacePage } from '@/pages/auth/ChooseWorkspacePage'
+import { WelcomePage } from '@/pages/auth/WelcomePage'
 import { AccountPage } from '@/pages/account/AccountPage'
 import { ComingSoon } from '@/components/ComingSoon'
 import { ReconsentGate } from '@/features/consents/Consents'
@@ -53,6 +54,8 @@ const ADMIN_NAV: (NavItem & { lazy?: Loader })[] = [
   { to: '/admin/venues', labelKey: 'admin.nav.venues', lazy: page(() => import('@/features/venues/VenuesPage'), (m) => m.VenuesPage) },
   { to: '/admin/events', labelKey: 'events.title', lazy: page(() => import('@/features/events/EventsAdmin'), (m) => m.EventsPage) },
   { to: '/admin/league-queue', labelKey: 'admin.nav.leagueQueue', lazy: page(() => import('@/features/league/LeagueQueuePage'), (m) => m.LeagueQueuePage) },
+  // Spec 12 mục 7: kho mã VNC (số đẹp, tặng số, bảng giá, nhật ký)
+  { to: '/admin/vnc', labelKey: 'admin.nav.vnc', lazy: page(() => import('@/features/vnc/AdminVncPage'), (m) => m.AdminVncPage) },
   // Spec 19: ghi điểm thưởng, sổ điểm, nguồn điểm
   { to: '/admin/rewards', labelKey: 'admin.nav.rewards', lazy: page(() => import('@/features/rewards/RewardRecordPage'), (m) => m.AdminRewardsPage) },
   { to: '/admin/partners', labelKey: 'admin.nav.partners', lazy: page(() => import('@/features/admin/PartnersAdmin'), (m) => m.PartnersAdminPage) },
@@ -159,6 +162,10 @@ export const router = createBrowserRouter([
       { path: '/forgot-password', element: <ForgotPasswordPage /> },
       { path: '/reset-password', element: <ResetPasswordPage /> },
       { path: '/choose', element: <ChooseWorkspacePage /> },
+      // Spec 12 mục 7b: sau lần đăng nhập đầu — họ tên, năm sinh, loại tài khoản, sinh mã VNC
+      { path: '/welcome', element: <WelcomePage /> },
+      // Spec 12 mục 5–6: Mã VNC của tôi (mọi tài khoản đăng nhập)
+      { path: '/vnc', lazy: page(() => import('@/features/vnc/VncPage'), (m) => m.VncPage) },
       { path: '/account', element: <AccountPage /> },
       // Hồ sơ nhân sự (11-module-ho-so-nhan-su): mọi tài khoản đăng nhập, không phụ thuộc không gian
       { path: '/staff', lazy: page(() => import('@/features/staff/StaffProfilePage'), (m) => m.StaffProfilePage) },
@@ -243,7 +250,11 @@ export const router = createBrowserRouter([
       </RequireWorkspace>
     ),
     hydrateFallbackElement: <FullPageSpinner />,
-    children: [{ index: true, lazy: page(() => import('@/features/coach/live/LiveClassPage'), (m) => m.LiveClassPage) }],
+    children: [
+      { index: true, lazy: page(() => import('@/features/coach/live/LiveClassPage'), (m) => m.LiveClassPage) },
+      // Việc 4: trình chiếu bảng điểm cho các con
+      { path: 'show', lazy: page(() => import('@/features/coach/live/ShowPage'), (m) => m.ShowPage) },
+    ],
   },
   workspaceRoute('coach', '/coach', COACH_NAV, [
     { index: true, lazy: page(() => import('@/features/coach/CoachPages'), (m) => m.CoachHomePage) },

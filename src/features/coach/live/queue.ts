@@ -22,6 +22,7 @@ export type LiveOp =
       leave_count?: number
       comment_tags?: CommentTag[]
       note?: string | null
+      team?: 'A' | 'B' | null
     }
   | { op: 'topic'; id: string; class_id: string; date: string; session_no?: number | null; topic?: string | null }
 
@@ -42,6 +43,8 @@ export interface LiveStudent {
   leave_count: number
   comment_tags: CommentTag[]
   note: string | null
+  /** Đội trong buổi (trình chiếu theo đội) */
+  team?: 'A' | 'B' | null
 }
 
 export interface LiveBoard {
@@ -53,7 +56,7 @@ export interface LiveBoard {
   /** Giáo án: phần tử thứ N là chủ đề Buổi N */
   topics?: string[]
   rules?: { kind: 'club' | 'public_school'; attendance_points: number; session_cap: number }
-  session: { id: string; session_no: number | null; topic: string | null } | null
+  session: { id: string; session_no: number | null; topic: string | null; summary_sent_at?: string | null } | null
   next_session_no: number
   last_topic: string | null
   students: LiveStudent[]
@@ -109,6 +112,7 @@ export function applyPending(board: LiveBoard, ops: LiveOp[]): LiveBoard {
       if (o.leave_count !== undefined) s.leave_count = o.leave_count
       if (o.comment_tags !== undefined) s.comment_tags = o.comment_tags
       if (o.note !== undefined) s.note = o.note
+      if (o.team !== undefined) s.team = o.team
     }
   }
   return { ...board, session, students }

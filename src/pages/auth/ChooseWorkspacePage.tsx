@@ -5,14 +5,17 @@ import { useAuth, WORKSPACE_PATH } from '@/auth/AuthProvider'
 import { Button } from '@/components/ui/button'
 import { Mascot } from '@/components/Mascot'
 import { FullPageSpinner } from '@/auth/RequireWorkspace'
+import { useMyIdentity } from '@/features/auth/providers'
 
 /** Người có nhiều vai trò chọn không gian làm việc (F1). */
 export function ChooseWorkspacePage() {
   const { t } = useTranslation()
   const { session, loading, workspaces, profile, signOut } = useAuth()
+  const identity = useMyIdentity(session?.user.id)
 
-  if (loading) return <FullPageSpinner />
+  if (loading || (session && identity.isPending)) return <FullPageSpinner />
   if (!session) return <Navigate to="/login" replace />
+  if (identity.data?.needs_onboarding) return <Navigate to="/welcome" replace />
   if (workspaces.length === 1) return <Navigate to={WORKSPACE_PATH[workspaces[0]]} replace />
 
   return (
